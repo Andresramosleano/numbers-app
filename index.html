@@ -5,555 +5,173 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080510">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="description" content="NUMBERS — Inspiración numerológica personalizada. Tu número energético del día.">
+<meta name="description" content="NUMBERS — Inspiración numerológica personalizada.">
 <title>NUMBERS ✦</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* ─── TOKENS ─── */
 :root{
-  --bg:       #080510;
-  --bg2:      #0f0a1e;
-  --bg3:      #161028;
-  --bg4:      #1e1632;
-  --gold:     #c9a84c;
-  --gold2:    #e8c97a;
-  --gold3:    #f5e4b0;
-  --golddim:  #7a5f28;
-  --violet:   #7c5cbf;
-  --violet2:  #a07ae0;
-  --teal:     #3dbfa8;
-  --rose:     #bf5c7c;
-  --text:     #e8dfc8;
-  --muted:    #8a7f6a;
-  --faint:    #4a4438;
-  --border:   rgba(201,168,76,0.14);
-  --border2:  rgba(201,168,76,0.28);
-  --glow:     rgba(201,168,76,0.06);
-  --r:        10px;
-  --rr:       16px;
+  --bg:#080510; --bg2:#0f0a1e; --bg3:#161028; --bg4:#1e1632;
+  --gold:#c9a84c; --gold2:#e8c97a; --gold3:#f5e4b0; --golddim:#7a5f28;
+  --violet:#7c5cbf; --violet2:#a07ae0;
+  --teal:#3dbfa8; --rose:#bf5c7c;
+  --text:#e8dfc8; --muted:#8a7f6a; --faint:#4a4438;
+  --border:rgba(201,168,76,0.14); --border2:rgba(201,168,76,0.28);
+  --r:10px; --rr:16px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Cormorant Garamond',Georgia,serif;
-  min-height:100dvh;
-  overflow-x:hidden;
-}
-
-/* ─── STARFIELD ─── */
-.starfield{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 10%,rgba(124,92,191,0.10) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 35% at 80% 85%,rgba(61,191,168,0.06) 0%,transparent 55%);
-}
-.starfield::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    radial-gradient(1.2px 1.2px at 8%  12%, rgba(245,228,176,.55) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 22% 5%,  rgba(245,228,176,.35) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 38% 28%, rgba(201,168,76,.50)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 55% 8%,  rgba(245,228,176,.30) 0%,transparent 100%),
-    radial-gradient(1.2px 1.2px at 70% 18%, rgba(245,228,176,.42) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 85% 35%, rgba(201,168,76,.38) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 12% 55%, rgba(245,228,176,.28) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 92% 62%, rgba(245,228,176,.32) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 48% 75%, rgba(201,168,76,.30)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 30% 88%, rgba(245,228,176,.25) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 75% 90%, rgba(245,228,176,.28) 0%,transparent 100%),
-    radial-gradient(1.2px 1.2px at 62% 42%, rgba(201,168,76,.22)  0%,transparent 100%);
-  animation:twinkle 7s ease-in-out infinite alternate;
-}
+html{font-size:16px;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;min-height:100dvh;overflow-x:hidden}
+.starfield{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(124,92,191,.1) 0%,transparent 60%),radial-gradient(ellipse 50% 35% at 80% 85%,rgba(61,191,168,.06) 0%,transparent 55%)}
+.starfield::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1.2px 1.2px at 8% 12%,rgba(245,228,176,.55) 0%,transparent 100%),radial-gradient(1px 1px at 22% 5%,rgba(245,228,176,.35) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 38% 28%,rgba(201,168,76,.5) 0%,transparent 100%),radial-gradient(1px 1px at 55% 8%,rgba(245,228,176,.3) 0%,transparent 100%),radial-gradient(1.2px 1.2px at 70% 18%,rgba(245,228,176,.42) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 85% 35%,rgba(201,168,76,.38) 0%,transparent 100%),radial-gradient(1px 1px at 12% 55%,rgba(245,228,176,.28) 0%,transparent 100%),radial-gradient(1px 1px at 92% 62%,rgba(245,228,176,.32) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 48% 75%,rgba(201,168,76,.3) 0%,transparent 100%),radial-gradient(1px 1px at 30% 88%,rgba(245,228,176,.25) 0%,transparent 100%);animation:twinkle 7s ease-in-out infinite alternate}
 @keyframes twinkle{0%{opacity:.7}100%{opacity:1}}
-
-/* ─── APP SHELL ─── */
-#app{
-  position:relative;z-index:1;
-  max-width:480px;margin:0 auto;
-  min-height:100dvh;
-  display:flex;flex-direction:column;
-}
-
-/* ─── SCREENS ─── */
+#app{position:relative;z-index:1;max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
 .screen{display:none;flex-direction:column;flex:1;animation:fadeUp .4s ease both}
 .screen.active{display:flex}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-
-/* ─── LANDING ─── */
-.landing{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  min-height:100dvh;padding:2rem 1.5rem 3rem;
-  text-align:center;gap:0;
-}
-.landing-eyebrow{
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;color:var(--gold);
-  letter-spacing:.3em;text-transform:uppercase;
-  margin-bottom:1.2rem;
-  animation:fadeUp .6s .1s both;
-}
-.landing-logo{
-  font-family:'Cinzel Decorative',serif;
-  font-size:clamp(2.8rem,12vw,4.2rem);
-  font-weight:900;
-  color:var(--gold2);
-  letter-spacing:.1em;
-  line-height:1;
-  margin-bottom:.6rem;
-  animation:fadeUp .6s .2s both;
-}
-.landing-tagline{
-  font-size:clamp(14px,3.5vw,17px);
-  color:var(--muted);
-  font-style:italic;
-  letter-spacing:.03em;
-  margin-bottom:3rem;
-  animation:fadeUp .6s .3s both;
-}
-.engines-preview{
-  display:flex;gap:1.2rem;justify-content:center;
-  margin-bottom:3rem;
-  animation:fadeUp .6s .4s both;
-}
+.landing{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:2rem 1.5rem 3rem;text-align:center}
+.landing-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
+.landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(2.8rem,12vw,4.2rem);font-weight:900;color:var(--gold2);letter-spacing:.1em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both}
+.landing-tagline{font-size:clamp(14px,3.5vw,17px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin-bottom:3rem;animation:fadeUp .6s .3s both}
+.engines-preview{display:flex;gap:1.2rem;justify-content:center;margin-bottom:3rem;animation:fadeUp .6s .4s both}
 .ep-item{display:flex;flex-direction:column;align-items:center;gap:5px}
-.ep-orb{
-  width:44px;height:44px;border-radius:50%;
-  border:0.5px solid var(--border2);
-  background:var(--bg2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;
-  transition:all .3s;
-}
+.ep-orb{width:44px;height:44px;border-radius:50%;border:.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:18px}
 .ep-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faint)}
-.btn-primary{
-  width:100%;max-width:320px;
-  padding:15px 24px;
-  background:transparent;
-  border:1px solid var(--gold);
-  border-radius:var(--r);
-  cursor:pointer;
-  font-family:'Cinzel Decorative',serif;
-  font-size:13px;color:var(--gold2);
-  letter-spacing:.1em;
-  transition:all .3s;
-  position:relative;overflow:hidden;
-  animation:fadeUp .6s .5s both;
-}
-.btn-primary:hover{background:rgba(201,168,76,.10);box-shadow:0 0 28px rgba(201,168,76,.12)}
-.btn-primary::before{
-  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.08),transparent);
-  transition:left .5s;
-}
-.btn-primary:hover::before{left:100%}
-.btn-secondary{
-  background:transparent;border:0.5px solid var(--border);
-  border-radius:var(--r);padding:11px 20px;
-  cursor:pointer;color:var(--muted);
-  font-family:'JetBrains Mono',monospace;font-size:11px;
-  letter-spacing:.06em;transition:all .2s;
-  animation:fadeUp .6s .6s both;margin-top:.75rem;
-}
+.btn-primary{width:100%;max-width:320px;padding:15px 24px;background:transparent;border:1px solid var(--gold);border-radius:var(--r);cursor:pointer;font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.1em;transition:all .3s;position:relative;overflow:hidden;animation:fadeUp .6s .5s both}
+.btn-primary:hover{background:rgba(201,168,76,.1);box-shadow:0 0 28px rgba(201,168,76,.12)}
+.btn-primary:disabled{opacity:.5;cursor:wait}
+.btn-secondary{background:transparent;border:.5px solid var(--border);border-radius:var(--r);padding:11px 20px;cursor:pointer;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;transition:all .2s;animation:fadeUp .6s .6s both;margin-top:.75rem}
 .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
-.landing-disclaimer{
-  font-size:10px;color:var(--faint);
-  font-family:'JetBrains Mono',monospace;
-  margin-top:2rem;line-height:1.6;
-  animation:fadeUp .6s .7s both;
-}
-
-/* ─── HEADER ─── */
-.app-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1rem 1.25rem .75rem;
-  border-bottom:0.5px solid var(--border);
-}
-.header-logo{
-  font-family:'Cinzel Decorative',serif;
-  font-size:16px;color:var(--gold2);letter-spacing:.12em;
-}
+.landing-disclaimer{font-size:10px;color:var(--faint);font-family:'JetBrains Mono',monospace;margin-top:2rem;line-height:1.6;animation:fadeUp .6s .7s both}
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem .75rem;border-bottom:.5px solid var(--border)}
+.header-logo{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);letter-spacing:.12em}
 .header-right{display:flex;align-items:center;gap:.75rem}
 .lang-switcher{display:flex;gap:4px}
-.lang-btn{
-  background:transparent;border:0.5px solid var(--border);
-  border-radius:99px;padding:3px 9px;
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  color:var(--muted);cursor:pointer;transition:all .2s;
-}
+.lang-btn{background:transparent;border:.5px solid var(--border);border-radius:99px;padding:3px 9px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer}
 .lang-btn.active{border-color:var(--gold);color:var(--gold)}
-.user-avatar{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--bg3);border:0.5px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;color:var(--gold);cursor:pointer;
-  font-family:'Cinzel Decorative',serif;
-}
-
-/* ─── ENGINES STRIP ─── */
-.engines-strip{
-  display:flex;justify-content:space-around;
-  padding:.75rem 1rem;
-  border-bottom:0.5px solid var(--border);
-  background:var(--bg2);
-}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--bg3);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gold);cursor:pointer;font-family:'Cinzel Decorative',serif}
+.engines-strip{display:flex;justify-content:space-around;padding:.75rem 1rem;border-bottom:.5px solid var(--border);background:var(--bg2)}
 .eng-item{display:flex;flex-direction:column;align-items:center;gap:3px}
-.eng-icon{
-  width:32px;height:32px;border-radius:50%;
-  border:0.5px solid var(--border);background:var(--bg);
-  display:flex;align-items:center;justify-content:center;font-size:14px;
-  transition:all .3s;
-}
+.eng-icon{width:32px;height:32px;border-radius:50%;border:.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px}
 .eng-item.lit .eng-icon{border-color:var(--gold);box-shadow:0 0 10px rgba(201,168,76,.2)}
 .eng-val{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);min-height:11px}
 .eng-name{font-size:8px;color:var(--faint);font-family:'JetBrains Mono',monospace}
-
-/* ─── FORM SCREEN ─── */
-.form-screen{padding:1.25rem 1.25rem 2rem;flex:1;overflow-y:auto}
-.form-title{
-  font-family:'Cinzel Decorative',serif;
-  font-size:13px;color:var(--gold);
-  letter-spacing:.1em;text-align:center;
-  margin-bottom:1.5rem;
-}
+.form-screen{padding:1.25rem;flex:1;overflow-y:auto}
+.form-title{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold);letter-spacing:.1em;text-align:center;margin-bottom:1.5rem}
 .field{margin-bottom:1.1rem}
-.field label{
-  display:block;font-size:10px;color:var(--muted);
-  letter-spacing:.1em;text-transform:uppercase;
-  font-family:'JetBrains Mono',monospace;
-  margin-bottom:5px;
-}
-.field input,.field select{
-  width:100%;background:var(--bg2);
-  border:0.5px solid var(--border);border-radius:var(--r);
-  color:var(--text);padding:10px 13px;
-  font-family:'Cormorant Garamond',serif;font-size:16px;
-  outline:none;transition:border-color .2s;
-  -webkit-appearance:none;
-}
+.field label{display:block;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:5px}
+.field input,.field select{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);color:var(--text);padding:10px 13px;font-family:'Cormorant Garamond',serif;font-size:16px;outline:none;-webkit-appearance:none}
 .field input:focus,.field select:focus{border-color:var(--gold)}
 .field input::placeholder{color:var(--faint);font-style:italic}
 .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
-.game-card{
-  background:var(--bg2);border:0.5px solid var(--border);
-  border-radius:var(--r);padding:10px 8px;
-  cursor:pointer;transition:all .2s;text-align:center;
-}
+.game-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);padding:10px 8px;cursor:pointer;text-align:center}
 .game-card.sel{border-color:var(--gold);background:rgba(201,168,76,.08)}
 .game-card .gi{font-size:22px;margin-bottom:3px}
-.game-card .gl{
-  font-size:10px;color:var(--muted);
-  font-family:'JetBrains Mono',monospace;letter-spacing:.04em;
-}
+.game-card .gl{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
 .game-card.sel .gl{color:var(--gold)}
-.freemium-bar{
-  background:rgba(201,168,76,.06);
-  border:0.5px solid rgba(201,168,76,.18);
-  border-radius:var(--r);padding:9px 13px;
-  font-size:11px;color:var(--muted);
-  text-align:center;margin-bottom:1.25rem;font-style:italic;
-}
+.freemium-bar{background:rgba(201,168,76,.06);border:.5px solid rgba(201,168,76,.18);border-radius:var(--r);padding:9px 13px;font-size:11px;color:var(--muted);text-align:center;margin-bottom:1.25rem;font-style:italic}
 .freemium-bar strong{color:var(--gold);font-style:normal}
-.error-toast{
-  background:rgba(191,92,124,.12);border:0.5px solid rgba(191,92,124,.3);
-  border-radius:var(--r);padding:9px 13px;
-  font-size:12px;color:var(--rose);
-  margin-bottom:1rem;text-align:center;
-  display:none;
-}
+.freemium-bar.locked{background:rgba(191,92,124,.08);border-color:rgba(191,92,124,.25);color:var(--rose)}
+.freemium-bar.locked strong{color:var(--rose)}
+.error-toast{background:rgba(191,92,124,.12);border:.5px solid rgba(191,92,124,.3);border-radius:var(--r);padding:9px 13px;font-size:12px;color:var(--rose);margin-bottom:1rem;text-align:center;display:none}
 .error-toast.show{display:block}
-
-/* ─── LOADING SCREEN ─── */
-.loading-screen{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:2rem;
-}
-.loading-mandala{
-  width:100px;height:100px;border-radius:50%;
-  border:1px solid rgba(201,168,76,.25);
-  border-top-color:var(--gold);
-  animation:spin 1.8s linear infinite;
-  display:flex;align-items:center;justify-content:center;
-  font-size:32px;margin-bottom:1.5rem;
-}
+.success-toast{background:rgba(61,191,168,.1);border:.5px solid rgba(61,191,168,.3);border-radius:var(--r);padding:9px 13px;font-size:12px;color:var(--teal);margin-bottom:1rem;text-align:center;display:none}
+.success-toast.show{display:block}
+.loading-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.loading-mandala{width:100px;height:100px;border-radius:50%;border:1px solid rgba(201,168,76,.25);border-top-color:var(--gold);animation:spin 1.8s linear infinite;display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:1.5rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-dots{display:flex;gap:6px;margin-bottom:1.5rem}
-.loading-dot{
-  width:7px;height:7px;border-radius:50%;background:var(--gold);
-  animation:dotpulse 1.6s ease-in-out infinite;
-}
-.loading-dot:nth-child(2){animation-delay:.2s}
-.loading-dot:nth-child(3){animation-delay:.4s}
-.loading-dot:nth-child(4){animation-delay:.6s}
-.loading-dot:nth-child(5){animation-delay:.8s}
+.loading-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:dotpulse 1.6s ease-in-out infinite}
+.loading-dot:nth-child(2){animation-delay:.2s}.loading-dot:nth-child(3){animation-delay:.4s}.loading-dot:nth-child(4){animation-delay:.6s}.loading-dot:nth-child(5){animation-delay:.8s}
 @keyframes dotpulse{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
 .loading-msg{font-style:italic;color:var(--muted);font-size:14px;text-align:center}
-
-/* ─── RESULT SCREEN ─── */
 .result-screen{flex:1;overflow-y:auto;padding:1.25rem}
 .result-header{text-align:center;margin-bottom:1.5rem}
-.result-for{
-  font-family:'JetBrains Mono',monospace;font-size:9px;
-  color:var(--muted);letter-spacing:.15em;text-transform:uppercase;
-  margin-bottom:.4rem;
-}
-.result-game{
-  font-family:'Cinzel Decorative',serif;
-  font-size:15px;color:var(--gold);letter-spacing:.1em;
-}
+.result-for{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
+.result-game{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold);letter-spacing:.1em}
 .result-user{font-size:12px;color:var(--muted);font-style:italic;margin-top:.3rem}
-.numbers-row{
-  display:flex;flex-wrap:wrap;justify-content:center;
-  gap:10px;margin:1.5rem 0;
-}
-.nball{
-  width:52px;height:52px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Cinzel Decorative',serif;font-size:15px;font-weight:700;
-  border:1px solid var(--gold);color:var(--gold2);
-  background:radial-gradient(circle at 35% 35%,rgba(201,168,76,.14),var(--bg2));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-  animation:ballin .5s ease both;
-}
-.nball.special{border-color:var(--teal);color:var(--teal);
-  background:radial-gradient(circle at 35% 35%,rgba(61,191,168,.14),var(--bg2))}
+.numbers-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:1.5rem 0}
+.nball{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:15px;font-weight:700;border:1px solid var(--gold);color:var(--gold2);background:radial-gradient(circle at 35% 35%,rgba(201,168,76,.14),var(--bg2));animation:ballin .5s ease both}
 @keyframes ballin{from{opacity:0;transform:scale(.4) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
-.motors-row{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:6px;
-  margin-bottom:1.25rem;
-}
-.motor-chip{
-  background:var(--bg2);border:0.5px solid var(--border);
-  border-radius:6px;padding:7px 4px;text-align:center;
-}
+.motors-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:1.25rem}
+.motor-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:6px;padding:7px 4px;text-align:center}
 .motor-icon{font-size:14px;margin-bottom:2px}
 .motor-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold)}
 .motor-name{font-size:8px;color:var(--faint);font-family:'JetBrains Mono',monospace}
-.interpretation{
-  background:var(--bg2);border:0.5px solid var(--border);
-  border-radius:var(--rr);padding:1.1rem 1.3rem;
-  margin-bottom:1.25rem;
-}
+.interpretation{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.1rem 1.3rem;margin-bottom:1.25rem}
 .interp-text{font-size:14px;color:var(--text);line-height:1.85;font-style:italic}
 .interp-text strong{color:var(--gold);font-style:normal}
-.disclaimer-text{
-  font-size:10px;color:var(--faint);text-align:center;
-  font-family:'JetBrains Mono',monospace;
-  line-height:1.6;margin-bottom:1.25rem;padding:0 .5rem;
-}
+.disclaimer-text{font-size:10px;color:var(--faint);text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem}
 .action-row{display:flex;gap:8px;margin-bottom:1rem}
-.btn-whatsapp{
-  flex:1;padding:11px;
-  background:rgba(37,211,102,.1);
-  border:0.5px solid rgba(37,211,102,.35);
-  border-radius:var(--r);cursor:pointer;
-  color:#25d366;font-size:11px;
-  font-family:'JetBrains Mono',monospace;letter-spacing:.04em;
-  transition:all .2s;
-}
-.btn-whatsapp:hover{background:rgba(37,211,102,.18)}
-.btn-new{
-  flex:1;padding:11px;background:transparent;
-  border:0.5px solid var(--border);border-radius:var(--r);
-  cursor:pointer;color:var(--muted);font-size:11px;
-  font-family:'JetBrains Mono',monospace;letter-spacing:.04em;
-  transition:all .2s;
-}
+.btn-whatsapp{flex:1;padding:11px;background:rgba(37,211,102,.1);border:.5px solid rgba(37,211,102,.35);border-radius:var(--r);cursor:pointer;color:#25d366;font-size:11px;font-family:'JetBrains Mono',monospace}
+.btn-new{flex:1;padding:11px;background:transparent;border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace}
 .btn-new:hover{border-color:var(--gold);color:var(--gold)}
-
-/* ─── PRO BANNER ─── */
-.pro-banner{
-  background:linear-gradient(135deg,rgba(124,92,191,.14),rgba(201,168,76,.07));
-  border:0.5px solid rgba(124,92,191,.3);
-  border-radius:var(--rr);padding:1.1rem 1.25rem;
-  text-align:center;margin-bottom:1rem;
-}
-.pro-title{
-  font-family:'Cinzel Decorative',serif;
-  font-size:12px;color:var(--gold2);margin-bottom:.4rem;letter-spacing:.08em;
-}
-.pro-perks{font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:.75rem}
-.btn-pro{
-  background:var(--violet);border:none;border-radius:6px;
-  padding:9px 22px;cursor:pointer;color:#fff;
-  font-size:11px;font-family:'JetBrains Mono',monospace;
-  letter-spacing:.06em;transition:all .2s;
-}
-.btn-pro:hover{background:var(--violet2)}
-
-/* ─── AUTH SCREEN ─── */
-.auth-screen{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:2rem 1.5rem;
-}
-.auth-logo{
-  font-family:'Cinzel Decorative',serif;
-  font-size:22px;color:var(--gold2);
-  letter-spacing:.12em;margin-bottom:.5rem;
-}
+.pro-banner{background:linear-gradient(135deg,rgba(124,92,191,.14),rgba(201,168,76,.07));border:.5px solid rgba(124,92,191,.3);border-radius:var(--rr);padding:1.1rem 1.25rem;text-align:center;margin-bottom:1rem}
+.pro-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold2);margin-bottom:.4rem;letter-spacing:.08em}
+.pro-perks{font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:.75rem;white-space:pre-line}
+.btn-pro{background:var(--violet);border:none;border-radius:6px;padding:9px 22px;cursor:pointer;color:#fff;font-size:11px;font-family:'JetBrains Mono',monospace}
+.auth-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem}
+.auth-logo{font-family:'Cinzel Decorative',serif;font-size:22px;color:var(--gold2);letter-spacing:.12em;margin-bottom:.5rem}
 .auth-sub{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:2rem}
 .auth-form{width:100%;max-width:340px}
 .auth-field{margin-bottom:1rem}
-.auth-field label{
-  display:block;font-size:10px;color:var(--muted);
-  letter-spacing:.1em;text-transform:uppercase;
-  font-family:'JetBrains Mono',monospace;margin-bottom:5px;
-}
-.auth-field input{
-  width:100%;background:var(--bg2);
-  border:0.5px solid var(--border);border-radius:var(--r);
-  color:var(--text);padding:10px 13px;
-  font-family:'Cormorant Garamond',serif;font-size:16px;
-  outline:none;transition:border-color .2s;
-}
+.auth-field label{display:block;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:5px}
+.auth-field input{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);color:var(--text);padding:10px 13px;font-family:'Cormorant Garamond',serif;font-size:16px;outline:none}
 .auth-field input:focus{border-color:var(--gold)}
-.auth-or{
-  text-align:center;margin:1rem 0;
-  font-size:11px;color:var(--faint);
-  font-family:'JetBrains Mono',monospace;
-  position:relative;
-}
-.auth-or::before,.auth-or::after{
-  content:'';position:absolute;top:50%;
-  width:42%;height:0.5px;background:var(--border);
-}
-.auth-or::before{left:0}
-.auth-or::after{right:0}
-.btn-google{
-  width:100%;padding:11px;
-  background:var(--bg2);border:0.5px solid var(--border);
-  border-radius:var(--r);cursor:pointer;
-  color:var(--text);font-size:13px;
-  font-family:'Cormorant Garamond',serif;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:all .2s;margin-bottom:.75rem;
-}
+.auth-or{text-align:center;margin:1rem 0;font-size:11px;color:var(--faint);font-family:'JetBrains Mono',monospace;position:relative}
+.auth-or::before,.auth-or::after{content:'';position:absolute;top:50%;width:42%;height:.5px;background:var(--border)}
+.auth-or::before{left:0}.auth-or::after{right:0}
+.btn-google{width:100%;padding:11px;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--text);font-size:13px;font-family:'Cormorant Garamond',serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:.75rem}
 .btn-google:hover{border-color:var(--gold)}
-.auth-toggle{
-  text-align:center;font-size:12px;color:var(--muted);
-  margin-top:1rem;cursor:pointer;
-}
+.auth-toggle{text-align:center;font-size:12px;color:var(--muted);margin-top:1rem}
 .auth-toggle span{color:var(--gold);text-decoration:underline;cursor:pointer}
-
-/* ─── PROFILE SCREEN ─── */
 .profile-screen{flex:1;overflow-y:auto;padding:1.25rem}
-.profile-card{
-  background:var(--bg2);border:0.5px solid var(--border);
-  border-radius:var(--rr);padding:1.25rem;
-  margin-bottom:1rem;
-}
-.profile-avatar{
-  width:56px;height:56px;border-radius:50%;
-  background:var(--bg3);border:1px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);
-  margin:0 auto 1rem;
-}
-.profile-name{
-  font-family:'Cinzel Decorative',serif;font-size:14px;
-  color:var(--gold2);text-align:center;margin-bottom:.25rem;
-}
-.profile-plan{
-  text-align:center;font-size:11px;
-  font-family:'JetBrains Mono',monospace;
-  margin-bottom:1rem;
-}
-.plan-free{color:var(--muted)}
-.plan-pro{color:var(--teal)}
-.profile-stats{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;
-}
-.stat-box{
-  background:var(--bg3);border-radius:var(--r);
-  padding:.75rem;text-align:center;
-}
+.profile-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.25rem;margin-bottom:1rem}
+.profile-avatar{width:56px;height:56px;border-radius:50%;background:var(--bg3);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);margin:0 auto 1rem}
+.profile-name{font-family:'Cinzel Decorative',serif;font-size:14px;color:var(--gold2);text-align:center;margin-bottom:.25rem}
+.profile-email{text-align:center;font-size:11px;color:var(--muted);margin-bottom:.5rem}
+.profile-plan{text-align:center;font-size:11px;font-family:'JetBrains Mono',monospace;margin-bottom:1rem}
+.plan-free{color:var(--muted)}.plan-pro{color:var(--teal)}
+.profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.stat-box{background:var(--bg3);border-radius:var(--r);padding:.75rem;text-align:center}
 .stat-val{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--gold)}
 .stat-label{font-size:10px;color:var(--muted);margin-top:3px}
-.history-title{
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
-  margin-bottom:.75rem;
-}
-.history-item{
-  display:flex;align-items:center;gap:10px;
-  padding:8px 0;border-bottom:0.5px solid var(--border);
-}
+.history-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.history-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:.5px solid var(--border)}
 .history-item:last-child{border-bottom:none}
 .history-date{font-size:10px;color:var(--faint);font-family:'JetBrains Mono',monospace;min-width:70px}
 .history-game{font-size:11px;color:var(--muted)}
 .history-nums{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto}
-
-/* ─── BOTTOM NAV ─── */
-.bottom-nav{
-  display:flex;border-top:0.5px solid var(--border);
-  background:var(--bg2);padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom));
-}
-.nav-btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  gap:3px;background:transparent;border:none;cursor:pointer;
-  padding:.4rem;transition:all .2s;
-}
+.bottom-nav{display:flex;border-top:.5px solid var(--border);background:var(--bg2);padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;cursor:pointer;padding:.4rem}
 .nav-icon{font-size:18px;line-height:1}
-.nav-label{font-size:9px;color:var(--faint);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+.nav-label{font-size:9px;color:var(--faint);font-family:'JetBrains Mono',monospace}
 .nav-btn.active .nav-label{color:var(--gold)}
-.nav-btn.active .nav-icon{filter:drop-shadow(0 0 4px rgba(201,168,76,.5))}
-
-/* ─── INSTALL BANNER ─── */
-.install-banner{
-  display:none;position:fixed;bottom:0;left:0;right:0;
-  background:var(--bg2);border-top:0.5px solid var(--gold);
-  padding:1rem 1.25rem;z-index:100;text-align:center;
-}
-.install-banner.show{display:block}
-.install-banner p{font-size:12px;color:var(--text);margin-bottom:.5rem;font-style:italic}
-.btn-install{
-  background:var(--gold);border:none;border-radius:6px;
-  padding:7px 18px;cursor:pointer;color:var(--bg);
-  font-size:11px;font-family:'JetBrains Mono',monospace;
-  font-weight:700;letter-spacing:.06em;margin-right:8px;
-}
-.btn-dismiss{
-  background:transparent;border:none;color:var(--muted);
-  font-size:11px;cursor:pointer;font-family:'JetBrains Mono',monospace;
-}
-
-/* ─── UTILS ─── */
-.pad{padding:1.25rem}
 .hidden{display:none!important}
-@media(max-width:360px){
-  .nball{width:44px;height:44px;font-size:13px}
-  .motors-row{grid-template-columns:repeat(3,1fr)}
-}
+.spinner-mini{display:inline-block;width:12px;height:12px;border:2px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
+@media(max-width:360px){.nball{width:44px;height:44px;font-size:13px}.motors-row{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
 <div class="starfield"></div>
-
 <div id="app">
-
   <!-- LANDING -->
   <div class="screen active" id="screen-landing">
     <div class="landing">
       <div class="landing-eyebrow">✦ oráculo numérico ✦</div>
-      <div class="landing-logo" id="ll-logo">NUMBERS</div>
+      <div class="landing-logo">NUMBERS</div>
       <div class="landing-tagline" id="ll-tag">Inspiración numerológica personalizada</div>
       <div class="engines-preview">
-        <div class="ep-item"><div class="ep-orb">☿</div><div class="ep-label" id="ep1">Num.</div></div>
-        <div class="ep-item"><div class="ep-orb">♈</div><div class="ep-label" id="ep2">Astro.</div></div>
-        <div class="ep-item"><div class="ep-orb">🌙</div><div class="ep-label" id="ep3">Luna</div></div>
-        <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label" id="ep4">Chino</div></div>
-        <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label" id="ep5">Geo.</div></div>
+        <div class="ep-item"><div class="ep-orb">☿</div><div class="ep-label">Num.</div></div>
+        <div class="ep-item"><div class="ep-orb">♈</div><div class="ep-label">Astro.</div></div>
+        <div class="ep-item"><div class="ep-orb">🌙</div><div class="ep-label">Luna</div></div>
+        <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">Chino</div></div>
+        <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">Geo.</div></div>
       </div>
-      <button class="btn-primary" onclick="goTo('screen-form')" id="ll-cta">✦ Revelar mi número ✦</button>
-      <button class="btn-secondary" onclick="goTo('screen-auth')" id="ll-login">Iniciar sesión</button>
-      <div class="landing-disclaimer" id="ll-disc">
-        Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar
-      </div>
+      <button class="btn-primary" onclick="goAuth('register')" id="ll-cta">✦ Crear cuenta ✦</button>
+      <button class="btn-secondary" onclick="goAuth('login')" id="ll-login">Iniciar sesión</button>
+      <div class="landing-disclaimer" id="ll-disc">Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar</div>
     </div>
   </div>
 
@@ -563,34 +181,25 @@ body{
       <div class="auth-logo">NUMBERS</div>
       <div class="auth-sub" id="auth-sub">Accede a tu oráculo personal</div>
       <div class="auth-form">
-        <div class="auth-field">
-          <label id="auth-lbl-email">Correo electrónico</label>
-          <input type="email" id="auth-email" placeholder="tu@correo.com">
-        </div>
-        <div class="auth-field" id="auth-name-field">
-          <label id="auth-lbl-name">Nombre (para registro)</label>
-          <input type="text" id="auth-name" placeholder="Tu nombre completo">
-        </div>
-        <div class="auth-field">
-          <label id="auth-lbl-pass">Contraseña</label>
-          <input type="password" id="auth-pass" placeholder="••••••••">
-        </div>
-        <button class="btn-primary" onclick="doAuth()" id="auth-btn-main" style="margin-bottom:0;max-width:100%">Crear cuenta</button>
-        <div class="auth-or" id="auth-or">o</div>
-        <button class="btn-google" onclick="doGoogleAuth()">
+        <div class="error-toast" id="auth-error"></div>
+        <div class="success-toast" id="auth-success"></div>
+        <button class="btn-google" onclick="loginWithGoogle()">
           <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-          <span id="auth-google-txt">Continuar con Google</span>
+          <span>Continuar con Google</span>
         </button>
-        <div class="auth-toggle" id="auth-toggle">
-          ¿Ya tienes cuenta? <span onclick="toggleAuth()" id="auth-toggle-link">Inicia sesión</span>
-        </div>
+        <div class="auth-or">o con email</div>
+        <div class="auth-field" id="auth-name-field"><label>Nombre completo</label><input type="text" id="auth-name" placeholder="Tu nombre completo"></div>
+        <div class="auth-field"><label>Correo electrónico</label><input type="email" id="auth-email" placeholder="tu@correo.com"></div>
+        <div class="auth-field"><label>Contraseña (mínimo 6 caracteres)</label><input type="password" id="auth-pass" placeholder="••••••••"></div>
+        <button class="btn-primary" style="max-width:100%" onclick="doAuth()" id="auth-btn-main">Crear cuenta</button>
+        <div class="auth-toggle" id="auth-toggle">¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span></div>
+        <button class="btn-secondary" style="width:100%;margin-top:1rem" onclick="goTo('screen-landing')">← Volver</button>
       </div>
     </div>
   </div>
 
-  <!-- MAIN APP (header + content) -->
+  <!-- MAIN APP -->
   <div class="screen" id="screen-main">
-    <!-- HEADER -->
     <div class="app-header">
       <div class="header-logo">NUMBERS</div>
       <div class="header-right">
@@ -602,663 +211,304 @@ body{
         <div class="user-avatar" id="user-avatar" onclick="showTab('profile')">A</div>
       </div>
     </div>
-
-    <!-- ENGINES STRIP -->
     <div class="engines-strip">
-      <div class="eng-item" id="eng-num"><div class="eng-icon">☿</div><div class="eng-val" id="ev-num">—</div><div class="eng-name" id="en-num">Num.</div></div>
-      <div class="eng-item" id="eng-ast"><div class="eng-icon">♈</div><div class="eng-val" id="ev-ast">—</div><div class="eng-name" id="en-ast">Astro.</div></div>
-      <div class="eng-item" id="eng-moon"><div class="eng-icon">🌙</div><div class="eng-val" id="ev-moon">—</div><div class="eng-name" id="en-moon">Luna</div></div>
-      <div class="eng-item" id="eng-chi"><div class="eng-icon">🐉</div><div class="eng-val" id="ev-chi">—</div><div class="eng-name" id="en-chi">Chino</div></div>
-      <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name" id="en-geo">Geo.</div></div>
+      <div class="eng-item" id="eng-num"><div class="eng-icon">☿</div><div class="eng-val" id="ev-num">—</div><div class="eng-name">Num.</div></div>
+      <div class="eng-item" id="eng-ast"><div class="eng-icon">♈</div><div class="eng-val" id="ev-ast">—</div><div class="eng-name">Astro.</div></div>
+      <div class="eng-item" id="eng-moon"><div class="eng-icon">🌙</div><div class="eng-val" id="ev-moon">—</div><div class="eng-name">Luna</div></div>
+      <div class="eng-item" id="eng-chi"><div class="eng-icon">🐉</div><div class="eng-val" id="ev-chi">—</div><div class="eng-name">Chino</div></div>
+      <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name">Geo.</div></div>
     </div>
 
-    <!-- TAB: FORM -->
     <div class="form-screen" id="tab-form">
-      <div class="form-title" id="form-title">✦ Ingresa tu energía ✦</div>
+      <div class="form-title">✦ Ingresa tu energía ✦</div>
       <div class="error-toast" id="error-toast"></div>
-      <div class="field"><label id="lbl-name">Nombre completo</label>
-        <input type="text" id="inp-name" placeholder="Como aparece en tu documento"></div>
-      <div class="field"><label id="lbl-birth">Fecha de nacimiento</label>
-        <input type="date" id="inp-birth"></div>
-      <div class="field"><label id="lbl-cityb">Ciudad de nacimiento</label>
-        <input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"></div>
-      <div class="field"><label id="lbl-cityn">Ciudad actual</label>
-        <input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"></div>
-      <div class="field"><label id="lbl-game">Tipo de juego</label></div>
+      <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento"></div>
+      <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth"></div>
+      <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"></div>
+      <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"></div>
+      <div class="field"><label>Tipo de juego</label></div>
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="selGame(this)"><div class="gi">🎰</div><div class="gl" id="gl-lot">Lotería</div></div>
-        <div class="game-card" data-game="chance"  onclick="selGame(this)"><div class="gi">🎲</div><div class="gl" id="gl-cha">Chance</div></div>
-        <div class="game-card" data-game="casino"  onclick="selGame(this)"><div class="gi">🃏</div><div class="gl" id="gl-cas">Casino</div></div>
-        <div class="game-card" data-game="sports"  onclick="selGame(this)"><div class="gi">⚽</div><div class="gl" id="gl-spo">Deportes</div></div>
+        <div class="game-card sel" data-game="lottery" onclick="selGame(this)"><div class="gi">🎰</div><div class="gl">Lotería</div></div>
+        <div class="game-card" data-game="chance" onclick="selGame(this)"><div class="gi">🎲</div><div class="gl">Chance</div></div>
+        <div class="game-card" data-game="casino" onclick="selGame(this)"><div class="gi">🃏</div><div class="gl">Casino</div></div>
+        <div class="game-card" data-game="sports" onclick="selGame(this)"><div class="gi">⚽</div><div class="gl">Deportes</div></div>
       </div>
-      <div class="freemium-bar"><strong id="fn-free">Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
+      <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
       <button class="btn-primary" style="max-width:100%" onclick="generate()" id="btn-gen">✦ Revelar mis números ✦</button>
     </div>
 
-    <!-- TAB: LOADING -->
     <div class="loading-screen hidden" id="tab-loading">
       <div class="loading-mandala" id="loading-orb">✦</div>
-      <div class="loading-dots">
-        <div class="loading-dot"></div><div class="loading-dot"></div>
-        <div class="loading-dot"></div><div class="loading-dot"></div>
-        <div class="loading-dot"></div>
-      </div>
+      <div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>
       <div class="loading-msg" id="loading-msg">Calculando tu vibración...</div>
     </div>
 
-    <!-- TAB: RESULT -->
     <div class="result-screen hidden" id="tab-result">
       <div class="result-header">
-        <div class="result-for" id="rl-for">Tu combinación para</div>
+        <div class="result-for">Tu combinación para</div>
         <div class="result-game" id="result-game"></div>
         <div class="result-user" id="result-user"></div>
       </div>
       <div class="numbers-row" id="numbers-display"></div>
       <div class="motors-row">
-        <div class="motor-chip"><div class="motor-icon">☿</div><div class="motor-val" id="mv-num">—</div><div class="motor-name" id="mn-num">Num.</div></div>
-        <div class="motor-chip"><div class="motor-icon">♈</div><div class="motor-val" id="mv-ast">—</div><div class="motor-name" id="mn-ast">Astro.</div></div>
-        <div class="motor-chip"><div class="motor-icon">🌙</div><div class="motor-val" id="mv-moon">—</div><div class="motor-name" id="mn-moon">Luna</div></div>
-        <div class="motor-chip"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name" id="mn-chi">Chino</div></div>
-        <div class="motor-chip"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name" id="mn-geo">Geo.</div></div>
+        <div class="motor-chip"><div class="motor-icon">☿</div><div class="motor-val" id="mv-num">—</div><div class="motor-name">Num.</div></div>
+        <div class="motor-chip"><div class="motor-icon">♈</div><div class="motor-val" id="mv-ast">—</div><div class="motor-name">Astro.</div></div>
+        <div class="motor-chip"><div class="motor-icon">🌙</div><div class="motor-val" id="mv-moon">—</div><div class="motor-name">Luna</div></div>
+        <div class="motor-chip"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">Chino</div></div>
+        <div class="motor-chip"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">Geo.</div></div>
       </div>
       <div class="interpretation"><div class="interp-text" id="interp-text"></div></div>
-      <div class="disclaimer-text" id="disclaimer-text">Numbers es entretenimiento e inspiración personal. No garantiza resultados en juegos de azar.</div>
+      <div class="disclaimer-text">Numbers es entretenimiento e inspiración personal. No garantiza resultados en juegos de azar.</div>
       <div class="action-row">
-        <button class="btn-whatsapp" onclick="shareWA()" id="btn-wa">📱 WhatsApp</button>
-        <button class="btn-new" onclick="newConsult()" id="btn-new">↺ Nueva consulta</button>
+        <button class="btn-whatsapp" onclick="shareWA()">📱 WhatsApp</button>
+        <button class="btn-new" onclick="newConsult()">↺ Nueva consulta</button>
       </div>
       <div class="pro-banner">
-        <div class="pro-title" id="pro-title">✦ NUMBERS PRO ✦</div>
-        <div class="pro-perks" id="pro-perks">Consultas ilimitadas · Historial 30 días<br>Todos los juegos · 3 idiomas · $4.99/mes</div>
-        <button class="btn-pro" id="btn-pro">Activar Pro →</button>
+        <div class="pro-title">✦ NUMBERS PRO ✦</div>
+        <div class="pro-perks">Consultas ilimitadas · Historial 30 días
+Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
+        <button class="btn-pro">Activar Pro →</button>
       </div>
     </div>
 
-    <!-- TAB: PROFILE -->
     <div class="profile-screen hidden" id="tab-profile">
       <div class="profile-card">
         <div class="profile-avatar" id="profile-avatar">A</div>
-        <div class="profile-name" id="profile-name">Andrés</div>
+        <div class="profile-name" id="profile-name">Usuario</div>
+        <div class="profile-email" id="profile-email">—</div>
         <div class="profile-plan plan-free" id="profile-plan">Plan Freemium · 1 consulta/día</div>
         <div class="profile-stats">
-          <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label" id="stat-lbl1">Consultas hoy</div></div>
-          <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label" id="stat-lbl2">Total historial</div></div>
+          <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label">Consultas hoy</div></div>
+          <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total historial</div></div>
         </div>
-        <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem" id="btn-upgrade">⬆ Activar Pro — $4.99/mes</button>
-        <button class="btn-secondary" style="width:100%;margin-top:0" onclick="logout()" id="btn-logout">Cerrar sesión</button>
+        <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem">⬆ Activar Pro — $12.900 COP/mes</button>
+        <button class="btn-secondary" style="width:100%;margin-top:0" onclick="logout()">Cerrar sesión</button>
       </div>
       <div class="profile-card">
-        <div class="history-title" id="hist-title">Historial de consultas</div>
+        <div class="history-title">Historial de consultas</div>
         <div id="history-list"></div>
       </div>
     </div>
 
-    <!-- BOTTOM NAV -->
-    <div class="bottom-nav" id="bottom-nav">
-      <button class="nav-btn active" onclick="showTab('form')" id="nav-home">
-        <div class="nav-icon">✦</div><div class="nav-label" id="nl-home">Inicio</div>
-      </button>
-      <button class="nav-btn" onclick="showTab('result')" id="nav-result">
-        <div class="nav-icon">🔮</div><div class="nav-label" id="nl-result">Números</div>
-      </button>
-      <button class="nav-btn" onclick="showTab('profile')" id="nav-profile">
-        <div class="nav-icon">👤</div><div class="nav-label" id="nl-profile">Perfil</div>
-      </button>
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="showTab('form')" id="nav-home"><div class="nav-icon">✦</div><div class="nav-label">Inicio</div></button>
+      <button class="nav-btn" onclick="showTab('result')" id="nav-result"><div class="nav-icon">🔮</div><div class="nav-label">Números</div></button>
+      <button class="nav-btn" onclick="showTab('profile')" id="nav-profile"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></button>
     </div>
   </div>
-
-</div>
-
-<!-- INSTALL BANNER -->
-<div class="install-banner" id="install-banner">
-  <p id="install-txt">Instala NUMBERS en tu dispositivo para acceso rápido</p>
-  <button class="btn-install" onclick="installPWA()" id="btn-install">Instalar app</button>
-  <button class="btn-dismiss" onclick="dismissInstall()">Ahora no</button>
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════
-const STATE = {
-  lang: 'es',
-  user: null,
-  game: 'lottery',
-  lastResult: null,
-  history: [],
-  consultsToday: 0,
-  isAuthMode: 'register',
-};
+// ════════════════════════════════════════
+// SUPABASE CONFIG
+// ════════════════════════════════════════
+const SUPABASE_URL = 'https://thtuzvhzwcoifgdyzrsz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_oTbjnp0Rp3GDgt66EBxhWA_DWTDWNKo';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ══════════════════════════════════════════
-// TRANSLATIONS
-// ══════════════════════════════════════════
-const T = {
-  es: {
-    logoSub:'Inspiración numerológica personalizada',
-    epLabels:['Num.','Astro.','Luna','Chino','Geo.'],
-    cta:'✦ Revelar mi número ✦', loginBtn:'Iniciar sesión',
-    disc:'Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar',
-    formTitle:'✦ Ingresa tu energía ✦',
-    lblName:'Nombre completo', lblBirth:'Fecha de nacimiento',
-    lblCityB:'Ciudad de nacimiento', lblCityN:'Ciudad actual', lblGame:'Tipo de juego',
-    games:['Lotería','Chance','Casino','Deportes'],
-    fnFree:'Consulta gratuita del día', fnTxt:'Actualiza a Pro para ilimitadas',
-    btnGen:'✦ Revelar mis números ✦',
-    loadMsgs:['Calculando tu vibración numerológica...','Consultando los astros...','Sincronizando con la luna...','Leyendo el calendario chino...','Fusionando geoenergías...','Revelando tu combinación...'],
-    rlFor:'Tu combinación para',
-    mNames:['Num.','Astro.','Luna','Chino','Geo.'],
-    disclaimer:'Numbers es entretenimiento e inspiración personal. No garantiza resultados en juegos de azar.',
-    btnWA:'📱 WhatsApp', btnNew:'↺ Nueva consulta',
-    proTitle:'✦ NUMBERS PRO ✦',
-    proPerks:'Consultas ilimitadas · Historial 30 días\nTodos los juegos · 3 idiomas · $4.99/mes',
-    navLabels:['Inicio','Números','Perfil'],
-    installTxt:'Instala NUMBERS en tu dispositivo para acceso rápido',
-    authSub:'Accede a tu oráculo personal',
-    authLblEmail:'Correo electrónico', authLblName:'Nombre (para registro)', authLblPass:'Contraseña',
-    authBtnMain:'Crear cuenta', authGoogle:'Continuar con Google',
-    authToggle:'¿Ya tienes cuenta?', authToggleLink:'Inicia sesión',
-    histTitle:'Historial de consultas',
-    statLbl1:'Consultas hoy', statLbl2:'Total historial',
-    btnUpgrade:'⬆ Activar Pro — $4.99/mes', btnLogout:'Cerrar sesión',
-    planFree:'Plan Freemium · 1 consulta/día', planPro:'Plan Pro · Ilimitadas',
-    errName:'Ingresa tu nombre completo', errBirth:'Ingresa tu fecha de nacimiento',
-    errCityB:'Ingresa tu ciudad de nacimiento', errCityN:'Ingresa tu ciudad actual',
-    gameNames:{lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'},
-    shareText:(name,nums,game)=>`✦ NUMBERS reveló mi combinación de ${game} 🌙\n\n${nums}\n\n¡Obtén la tuya en numbers.app`,
-    interp:(d)=>`Tu número de vida <strong>${d.lp}</strong> vibra con <strong>${d.planet}</strong>, regente de <strong>${d.sign}</strong>. La luna <strong>${d.moonName}</strong> amplifica tu energía al día ${d.moonDay} del ciclo lunar. El <strong>${d.animal}</strong> chino y la geoenergía de tus ciudades (resonancia ${d.geo}) crean un vector de atracción único hacia estos números.`,
-  },
-  en: {
-    logoSub:'Personalized numerological inspiration',
-    epLabels:['Num.','Astro.','Moon','Chinese','Geo.'],
-    cta:'✦ Reveal my number ✦', loginBtn:'Sign in',
-    disc:'Entertainment and personal inspiration · Does not guarantee game outcomes',
-    formTitle:'✦ Enter your energy ✦',
-    lblName:'Full name', lblBirth:'Date of birth',
-    lblCityB:'Birth city', lblCityN:'Current city', lblGame:'Game type',
-    games:['Lottery','Pick 4','Casino','Sports'],
-    fnFree:'Free daily reading', fnTxt:'Upgrade to Pro for unlimited',
-    btnGen:'✦ Reveal my numbers ✦',
-    loadMsgs:['Calculating your numerological vibration...','Consulting the stars...','Synchronizing with the moon...','Reading the Chinese calendar...','Merging geoenergies...','Revealing your combination...'],
-    rlFor:'Your combination for',
-    mNames:['Num.','Astro.','Moon','Chinese','Geo.'],
-    disclaimer:'Numbers is entertainment and personal inspiration. It does not guarantee outcomes in games of chance.',
-    btnWA:'📱 WhatsApp', btnNew:'↺ New reading',
-    proTitle:'✦ NUMBERS PRO ✦',
-    proPerks:'Unlimited readings · 30-day history\nAll games · 3 languages · $4.99/mo',
-    navLabels:['Home','Numbers','Profile'],
-    installTxt:'Install NUMBERS on your device for quick access',
-    authSub:'Access your personal oracle',
-    authLblEmail:'Email address', authLblName:'Name (for registration)', authLblPass:'Password',
-    authBtnMain:'Create account', authGoogle:'Continue with Google',
-    authToggle:'Already have an account?', authToggleLink:'Sign in',
-    histTitle:'Reading history',
-    statLbl1:'Readings today', statLbl2:'Total history',
-    btnUpgrade:'⬆ Activate Pro — $4.99/mo', btnLogout:'Sign out',
-    planFree:'Freemium · 1 reading/day', planPro:'Pro · Unlimited',
-    errName:'Enter your full name', errBirth:'Enter your date of birth',
-    errCityB:'Enter your birth city', errCityN:'Enter your current city',
-    gameNames:{lottery:'Lottery',chance:'Pick 4',casino:'Casino',sports:'Sports'},
-    shareText:(name,nums,game)=>`✦ NUMBERS revealed my ${game} combination 🌙\n\n${nums}\n\nGet yours at numbers.app`,
-    interp:(d)=>`Your life path number <strong>${d.lp}</strong> resonates with <strong>${d.planet}</strong>, ruler of <strong>${d.sign}</strong>. The <strong>${d.moonName}</strong> moon amplifies your energy on day ${d.moonDay} of the lunar cycle. The <strong>${d.animal}</strong> and the geoenergetic frequency of your cities (resonance ${d.geo}) create a unique attraction vector toward these numbers.`,
-  },
-  zh: {
-    logoSub:'个性化数字灵感',
-    epLabels:['数字','星座','月相','生肖','地气'],
-    cta:'✦ 揭示我的数字 ✦', loginBtn:'登录',
-    disc:'娱乐和个人灵感 · 不保证博彩结果',
-    formTitle:'✦ 输入您的能量 ✦',
-    lblName:'全名', lblBirth:'出生日期',
-    lblCityB:'出生城市', lblCityN:'当前城市', lblGame:'游戏类型',
-    games:['彩票','幸运数','赌场','体育'],
-    fnFree:'每日免费咨询', fnTxt:'升级到Pro享无限咨询',
-    btnGen:'✦ 揭示我的幸运数 ✦',
-    loadMsgs:['计算您的数字振动...','咨询星座...','与月相同步...','阅读中国历法...','融合地理能量...','揭示您的宇宙组合...'],
-    rlFor:'您今天的幸运组合',
-    mNames:['数字','星座','月相','生肖','地气'],
-    disclaimer:'NUMBERS是娱乐和个人灵感应用，不保证博彩结果。',
-    btnWA:'📱 微信分享', btnNew:'↺ 新的咨询',
-    proTitle:'✦ NUMBERS PRO ✦',
-    proPerks:'无限咨询 · 30天历史\n所有游戏 · 3种语言 · ¥35/月',
-    navLabels:['主页','数字','个人'],
-    installTxt:'安装NUMBERS到您的设备以便快速访问',
-    authSub:'访问您的个人神谕',
-    authLblEmail:'电子邮件', authLblName:'姓名（注册用）', authLblPass:'密码',
-    authBtnMain:'创建账户', authGoogle:'使用Google继续',
-    authToggle:'已有账户？', authToggleLink:'登录',
-    histTitle:'咨询历史',
-    statLbl1:'今日咨询', statLbl2:'总历史',
-    btnUpgrade:'⬆ 激活Pro — ¥35/月', btnLogout:'退出登录',
-    planFree:'免费版 · 每日1次', planPro:'Pro版 · 无限次',
-    errName:'请输入您的全名', errBirth:'请输入您的出生日期',
-    errCityB:'请输入您的出生城市', errCityN:'请输入您当前的城市',
-    gameNames:{lottery:'彩票',chance:'幸运数',casino:'赌场',sports:'体育'},
-    shareText:(name,nums,game)=>`✦ NUMBERS揭示了我的${game}幸运号码 🌙\n\n${nums}\n\n在numbers.app获取您的`,
-    interp:(d)=>`您的生命路径数 <strong>${d.lp}</strong> 与 <strong>${d.sign}</strong> 的守护星 <strong>${d.planet}</strong> 产生共鸣。今天是农历第${d.moonDay}天，<strong>${d.moonName}</strong>增强了您的能量场。<strong>${d.animal}</strong>和您城市的地理能量（共鸣${d.geo}）共同为这些数字创造了独特的吸引力。`,
-  },
-};
+const STATE = { lang:'es', user:null, profile:null, game:'lottery', lastResult:null, history:[], consultsToday:0, authMode:'register' };
 
-// ══════════════════════════════════════════
-// LANGUAGE
-// ══════════════════════════════════════════
-function setLang(lang, btn) {
-  STATE.lang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  applyTranslations();
-}
-
-function applyTranslations() {
-  const t = T[STATE.lang];
-  const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-  const html = (id, val) => { const el=document.getElementById(id); if(el) el.innerHTML=val; };
-
-  set('ll-tag', t.logoSub);
-  ['ep1','ep2','ep3','ep4','ep5'].forEach((id,i)=>set(id,t.epLabels[i]));
-  set('ll-cta', t.cta); set('ll-login', t.loginBtn); set('ll-disc', t.disc);
-  set('form-title', t.formTitle);
-  set('lbl-name', t.lblName); set('lbl-birth', t.lblBirth);
-  set('lbl-cityb', t.lblCityB); set('lbl-cityn', t.lblCityN); set('lbl-game', t.lblGame);
-  ['gl-lot','gl-cha','gl-cas','gl-spo'].forEach((id,i)=>set(id,t.games[i]));
-  set('fn-free', t.fnFree); set('fn-txt', t.fnTxt);
-  set('btn-gen', t.btnGen);
-  ['en-num','en-ast','en-moon','en-chi','en-geo'].forEach((id,i)=>set(id,t.epLabels[i]));
-  ['mn-num','mn-ast','mn-moon','mn-chi','mn-geo'].forEach((id,i)=>set(id,t.mNames[i]));
-  set('rl-for', t.rlFor);
-  set('disclaimer-text', t.disclaimer);
-  set('btn-wa', t.btnWA); set('btn-new', t.btnNew);
-  set('pro-title', t.proTitle); set('pro-perks', t.proPerks);
-  ['nl-home','nl-result','nl-profile'].forEach((id,i)=>set(id,t.navLabels[i]));
-  set('install-txt', t.installTxt);
-  set('auth-sub', t.authSub);
-  set('auth-lbl-email', t.authLblEmail); set('auth-lbl-name', t.authLblName);
-  set('auth-lbl-pass', t.authLblPass); set('auth-btn-main', t.authBtnMain);
-  set('auth-google-txt', t.authGoogle);
-  set('auth-toggle', t.authToggle); set('auth-toggle-link', t.authToggleLink);
-  set('hist-title', t.histTitle);
-  set('stat-lbl1', t.statLbl1); set('stat-lbl2', t.statLbl2);
-  set('btn-upgrade', t.btnUpgrade); set('btn-logout', t.btnLogout);
-}
-
-// ══════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════
-function goTo(screenId) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
-}
-
-function showTab(tab) {
-  ['form','loading','result','profile'].forEach(t=>{
-    const el = document.getElementById('tab-'+t);
-    if(el){ el.classList.add('hidden'); el.classList.remove('active'); }
-  });
-  const target = document.getElementById('tab-'+tab);
-  if(target){ target.classList.remove('hidden'); }
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const navMap = {form:'nav-home', result:'nav-result', profile:'nav-profile'};
-  if(navMap[tab]){ const nb=document.getElementById(navMap[tab]); if(nb) nb.classList.add('active'); }
-}
-
-// ══════════════════════════════════════════
-// ALGORITHM
-// ══════════════════════════════════════════
-function numReduce(n){
-  if(n===11||n===22||n===33) return n;
-  while(n>9){ n=String(n).split('').reduce((a,b)=>a+parseInt(b),0); if(n===11||n===22||n===33)return n; }
-  return n;
-}
-function nameNum(name){
-  const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};
-  return numReduce(name.toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0));
-}
-function birthNum(d){ return numReduce(d.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0)); }
-function lifePath(name,birth){ return numReduce(nameNum(name)+birthNum(birth)); }
-
-const ZODIAC=[
-  {sign:'Capricorno',dates:[[1,1],[1,19]],planet:'Saturno',num:8},
-  {sign:'Acuario',dates:[[1,20],[2,18]],planet:'Urano',num:4},
-  {sign:'Piscis',dates:[[2,19],[3,20]],planet:'Neptuno',num:7},
-  {sign:'Aries',dates:[[3,21],[4,19]],planet:'Marte',num:9},
-  {sign:'Tauro',dates:[[4,20],[5,20]],planet:'Venus',num:6},
-  {sign:'Géminis',dates:[[5,21],[6,20]],planet:'Mercurio',num:5},
-  {sign:'Cáncer',dates:[[6,21],[7,22]],planet:'Luna',num:2},
-  {sign:'Leo',dates:[[7,23],[8,22]],planet:'Sol',num:1},
-  {sign:'Virgo',dates:[[8,23],[9,22]],planet:'Mercurio',num:5},
-  {sign:'Libra',dates:[[9,23],[10,22]],planet:'Venus',num:6},
-  {sign:'Escorpio',dates:[[10,23],[11,21]],planet:'Plutón',num:9},
-  {sign:'Sagitario',dates:[[11,22],[12,21]],planet:'Júpiter',num:3},
-  {sign:'Capricorno',dates:[[12,22],[12,31]],planet:'Saturno',num:8},
-];
-function getZodiac(d){
-  const dt=new Date(d), m=dt.getMonth()+1, day=dt.getDate();
-  for(const z of ZODIAC){ if((m===z.dates[0][0]&&day>=z.dates[0][1])||(m===z.dates[1][0]&&day<=z.dates[1][1]))return z; }
-  return ZODIAC[0];
-}
-
-const CHINESE=[
-  {animal:'Rata',num:1},{animal:'Buey',num:2},{animal:'Tigre',num:3},
-  {animal:'Conejo',num:4},{animal:'Dragón',num:5},{animal:'Serpiente',num:6},
-  {animal:'Caballo',num:7},{animal:'Cabra',num:8},{animal:'Mono',num:9},
-  {animal:'Gallo',num:1},{animal:'Perro',num:2},{animal:'Cerdo',num:3},
-];
-function getChinese(year){ return CHINESE[(year-1900)%12]; }
-
-function getMoon(dateStr){
-  const known=new Date('2000-01-06'), d=new Date(dateStr);
-  const phase=(((d-known)/(1000*60*60*24))%29.5306+29.5306)%29.5306;
-  const day=Math.round(phase);
-  let name,mult;
-  if(phase<1.85){name='Nueva';mult=.8;}
-  else if(phase<7.38){name='Creciente';mult=1.0;}
-  else if(phase<11.08){name='Cuarto creciente';mult=1.2;}
-  else if(phase<14.77){name='Gibosa creciente';mult=1.3;}
-  else if(phase<18.46){name='Llena';mult=1.5;}
-  else if(phase<22.15){name='Gibosa menguante';mult=1.3;}
-  else if(phase<25.85){name='Cuarto menguante';mult=1.1;}
-  else{name='Menguante';mult:.9;}
-  return{name,day,mult};
-}
-
-function cityEnergy(c){
-  let h=0; for(let i=0;i<c.length;i++) h=((h<<5)-h+c.charCodeAt(i))|0;
-  return numReduce(Math.abs(h%90)+1);
-}
-
-function seededRand(seed){
-  let s=seed>>>0;
-  return()=>{ s^=s<<13;s^=s>>17;s^=s<<5; return(s>>>0)/0xFFFFFFFF; };
-}
-
+// ════════════════════════════════════════
+// ALGORITHM (5 ENGINES)
+// ════════════════════════════════════════
+function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
+function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
+function birthNum(d){return numReduce(d.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0))}
+function lifePath(n,b){return numReduce(nameNum(n)+birthNum(b))}
+const ZODIAC=[{sign:'Capricorno',dates:[[1,1],[1,19]],planet:'Saturno',num:8},{sign:'Acuario',dates:[[1,20],[2,18]],planet:'Urano',num:4},{sign:'Piscis',dates:[[2,19],[3,20]],planet:'Neptuno',num:7},{sign:'Aries',dates:[[3,21],[4,19]],planet:'Marte',num:9},{sign:'Tauro',dates:[[4,20],[5,20]],planet:'Venus',num:6},{sign:'Géminis',dates:[[5,21],[6,20]],planet:'Mercurio',num:5},{sign:'Cáncer',dates:[[6,21],[7,22]],planet:'Luna',num:2},{sign:'Leo',dates:[[7,23],[8,22]],planet:'Sol',num:1},{sign:'Virgo',dates:[[8,23],[9,22]],planet:'Mercurio',num:5},{sign:'Libra',dates:[[9,23],[10,22]],planet:'Venus',num:6},{sign:'Escorpio',dates:[[10,23],[11,21]],planet:'Plutón',num:9},{sign:'Sagitario',dates:[[11,22],[12,21]],planet:'Júpiter',num:3},{sign:'Capricorno',dates:[[12,22],[12,31]],planet:'Saturno',num:8}];
+function getZodiac(d){const dt=new Date(d),m=dt.getMonth()+1,day=dt.getDate();for(const z of ZODIAC){if((m===z.dates[0][0]&&day>=z.dates[0][1])||(m===z.dates[1][0]&&day<=z.dates[1][1]))return z}return ZODIAC[0]}
+const CHINESE=[{animal:'Rata',num:1},{animal:'Buey',num:2},{animal:'Tigre',num:3},{animal:'Conejo',num:4},{animal:'Dragón',num:5},{animal:'Serpiente',num:6},{animal:'Caballo',num:7},{animal:'Cabra',num:8},{animal:'Mono',num:9},{animal:'Gallo',num:1},{animal:'Perro',num:2},{animal:'Cerdo',num:3}];
+function getChinese(y){return CHINESE[(y-1900)%12]}
+function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
+function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
+function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
 const GAME_CFG={lottery:{count:6,max:45},chance:{count:4,max:9},casino:{count:5,max:36},sports:{count:3,max:9}};
-
-function getCulturalRules(lang){
-  if(lang==='zh') return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};
-  if(lang==='en') return{blocked:[13],boost:[7,3,11],reduce:[]};
-  return{blocked:[],boost:[7,3,11,22],reduce:[13]};
-}
-
+function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
 function computeNumbers(name,birth,cityB,cityN,game,lang,today){
-  const lp=lifePath(name,birth);
-  const zodiac=getZodiac(birth);
-  const chinese=getChinese(new Date(birth).getFullYear());
-  const moon=getMoon(today);
-  const eB=cityEnergy(cityB), eN=cityEnergy(cityN);
-  const geo=numReduce(eB+eN);
-  const todayNum=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
-
-  const seed=Math.abs(lp*137+zodiac.num*29+chinese.num*53+Math.round(moon.mult*100)*17+geo*41+todayNum*73+nameNum(name)*61+eB*19+eN*31);
-  const rules=getCulturalRules(lang);
-  const cfg=GAME_CFG[game];
-  const rand=seededRand(seed);
-  const pool=[];
-  for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){
-    if(rules.blocked.includes(i))continue;
-    const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;
-    for(let j=0;j<w;j++) pool.push(i);
-  }
-  for(let i=pool.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
-  const seen=new Set(), nums=[];
-  for(const n of pool){ if(!seen.has(n)){seen.add(n);nums.push(n);} if(nums.length>=cfg.count)break; }
+  const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear()),moon=getMoon(today),eB=cityEnergy(cityB),eN=cityEnergy(cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+  const seed=Math.abs(lp*137+zodiac.num*29+chinese.num*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
+  const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
+  for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=cfg.count)break}
   nums.sort((a,b)=>a-b);
   return{nums,lp,zodiac,chinese,moon,geo,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo}};
 }
 
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function showTab(t){['form','loading','result','profile'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile()}
+function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
+function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta'}
+function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
+function selGame(el){document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');STATE.game=el.dataset.game}
+
+// ════════════════════════════════════════
+// TOASTS
+// ════════════════════════════════════════
+function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
+function showSuccess(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
+
+// ════════════════════════════════════════
+// AUTH WITH SUPABASE
+// ════════════════════════════════════════
+async function doAuth(){
+  const email=document.getElementById('auth-email').value.trim();
+  const pass=document.getElementById('auth-pass').value;
+  const name=document.getElementById('auth-name').value.trim();
+  const btn=document.getElementById('auth-btn-main');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Procesando...';
+  try{
+    if(STATE.authMode==='register'){
+      if(!name)throw new Error('Ingresa tu nombre completo');
+      if(!email)throw new Error('Ingresa tu correo electrónico');
+      if(!pass||pass.length<6)throw new Error('La contraseña debe tener al menos 6 caracteres');
+      const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
+      if(error)throw error;
+      if(data.user){showSuccess('auth-success','¡Cuenta creada! Revisa tu correo para confirmar. Mientras tanto puedes iniciar sesión.');setTimeout(()=>toggleAuth(),3000)}
+    }else{
+      const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
+      if(error)throw error;
+      await afterLogin(data.user);
+    }
+  }catch(e){showError('auth-error',e.message||'Error en la autenticación')}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?'Crear cuenta':'Iniciar sesión'}
+}
+
+async function loginWithGoogle(){
+  try{
+    const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});
+    if(error)throw error;
+  }catch(e){showError('auth-error',e.message||'Error con Google')}
+}
+
+async function afterLogin(user){
+  STATE.user=user;
+  const{data:profile}=await sb.from('profiles').select('*').eq('id',user.id).single();
+  STATE.profile=profile;
+  if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;
+  if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;
+  if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;
+  if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;
+  await loadHistory();await loadQuota();
+  goTo('screen-main');showTab('form');updateUI();
+}
+
+async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];goTo('screen-landing')}
+
+// ════════════════════════════════════════
+// DATA OPS
+// ════════════════════════════════════════
+async function loadHistory(){
+  if(!STATE.user)return;
+  const{data}=await sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30);
+  STATE.history=data||[];
+}
+async function loadQuota(){
+  if(!STATE.user)return;
+  const today=new Date().toISOString().split('T')[0];
+  const{data}=await sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single();
+  STATE.consultsToday=data?.count||0;
+  updateFreemiumBar();
+}
+async function incrementQuota(){
+  const today=new Date().toISOString().split('T')[0];
+  await sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1});
+  STATE.consultsToday++;
+}
+async function saveConsultation(result,name){
+  await sb.from('consultations').insert({
+    user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,
+    life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,
+    chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang
+  });
+  await sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id);
+}
+
+function updateFreemiumBar(){
+  const bar=document.getElementById('freemium-bar');
+  const isPro=STATE.profile?.plan==='pro';
+  if(isPro){bar.innerHTML='<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked')}
+  else if(STATE.consultsToday>=1){bar.innerHTML='<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}
+  else{bar.innerHTML='<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}
+}
+
+// ════════════════════════════════════════
 // GENERATE
-// ══════════════════════════════════════════
-function selGame(el){
-  document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-  STATE.game=el.dataset.game;
-}
-
-function showError(msg){
-  const el=document.getElementById('error-toast');
-  el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),3500);
-}
-
+// ════════════════════════════════════════
 async function generate(){
-  const t=T[STATE.lang];
   const name=document.getElementById('inp-name').value.trim();
   const birth=document.getElementById('inp-birth').value;
   const cityB=document.getElementById('inp-cityb').value.trim();
   const cityN=document.getElementById('inp-cityn').value.trim();
-
-  if(!name) return showError(t.errName);
-  if(!birth) return showError(t.errBirth);
-  if(!cityB) return showError(t.errCityB);
-  if(!cityN) return showError(t.errCityN);
+  if(!name)return showError('error-toast','Ingresa tu nombre completo');
+  if(!birth)return showError('error-toast','Ingresa tu fecha de nacimiento');
+  if(!cityB)return showError('error-toast','Ingresa tu ciudad de nacimiento');
+  if(!cityN)return showError('error-toast','Ingresa tu ciudad actual');
+  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast','Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.');
 
   showTab('loading');
-  document.getElementById('btn-gen').disabled=true;
-
-  const msgs=t.loadMsgs;
+  const msgs=['Calculando tu vibración numerológica...','Consultando los astros...','Sincronizando con la luna...','Leyendo el calendario chino...','Fusionando geoenergías...','Revelando tu combinación...'];
   const orbs=['☿','♈','🌕','🐉','🌎','✦'];
-  let mi=0;
-  const iv=setInterval(()=>{
-    document.getElementById('loading-msg').textContent=msgs[mi%msgs.length];
-    document.getElementById('loading-orb').textContent=orbs[mi%orbs.length];
-    mi++;
-  },900);
-
-  await new Promise(r=>setTimeout(r,5400));
-  clearInterval(iv);
+  let mi=0;const iv=setInterval(()=>{document.getElementById('loading-msg').textContent=msgs[mi%msgs.length];document.getElementById('loading-orb').textContent=orbs[mi%orbs.length];mi++},900);
+  await new Promise(r=>setTimeout(r,5400));clearInterval(iv);
 
   const today=new Date().toISOString().split('T')[0];
   const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);
   STATE.lastResult={result,name,game:STATE.game};
-
-  // Save to history
-  STATE.history.unshift({
-    date:today,game:STATE.game,
-    nums:result.nums.join(' · '),
-    gameName:t.gameNames[STATE.game]
-  });
-  STATE.consultsToday++;
-  saveLocal();
-
-  renderResult(result,name,t);
-  updateEngines(result.engines,result.moon);
-  showTab('result');
-  document.getElementById('btn-gen').disabled=false;
+  await saveConsultation(result,name);await incrementQuota();await loadHistory();
+  renderResult(result,name);updateEngines(result.engines,result.moon);showTab('result');updateFreemiumBar();
 }
 
-function updateEngines(engines,moon){
-  document.getElementById('ev-num').textContent=engines.num;
-  document.getElementById('ev-ast').textContent=engines.ast;
-  document.getElementById('ev-moon').textContent=moon.day+'d';
-  document.getElementById('ev-chi').textContent=engines.chi;
-  document.getElementById('ev-geo').textContent=engines.geo;
-  document.querySelectorAll('.eng-item').forEach(e=>e.classList.add('lit'));
-  document.getElementById('mv-num').textContent=engines.num;
-  document.getElementById('mv-ast').textContent=engines.ast;
-  document.getElementById('mv-moon').textContent=moon.day+'d';
-  document.getElementById('mv-chi').textContent=engines.chi;
-  document.getElementById('mv-geo').textContent=engines.geo;
-}
+function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
 
-function renderResult(result,name,t){
+function renderResult(r,name){
   const cfg=GAME_CFG[STATE.game];
-  document.getElementById('result-game').textContent=t.gameNames[STATE.game];
+  const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};
+  document.getElementById('result-game').textContent=games[STATE.game];
   document.getElementById('result-user').textContent=name;
-  const disp=document.getElementById('numbers-display');
-  disp.innerHTML='';
-  result.nums.forEach((n,i)=>{
-    const ball=document.createElement('div');
-    ball.className='nball';
-    ball.textContent=n<10&&cfg.max>9?'0'+n:n;
-    ball.style.animationDelay=(i*.13)+'s';
-    disp.appendChild(ball);
-  });
-  document.getElementById('interp-text').innerHTML=t.interp({
-    lp:result.lp, planet:result.zodiac.planet,
-    sign:result.zodiac.sign, moonName:result.moon.name,
-    moonDay:result.moon.day, animal:result.chinese.animal, geo:result.geo
-  });
+  const d=document.getElementById('numbers-display');d.innerHTML='';
+  r.nums.forEach((n,i)=>{const b=document.createElement('div');b.className='nball';b.textContent=n<10&&cfg.max>9?'0'+n:n;b.style.animationDelay=(i*.13)+'s';d.appendChild(b)});
+  document.getElementById('interp-text').innerHTML=`Tu número de vida <strong>${r.lp}</strong> vibra con <strong>${r.zodiac.planet}</strong>, regente de <strong>${r.zodiac.sign}</strong>. La luna <strong>${r.moon.name}</strong> amplifica tu energía al día ${r.moon.day} del ciclo lunar. El <strong>${r.chinese.animal}</strong> chino y la geoenergía de tus ciudades (resonancia ${r.geo}) crean un vector de atracción único hacia estos números.`;
 }
 
-function newConsult(){ showTab('form'); }
+function newConsult(){showTab('form')}
+function shareWA(){if(!STATE.lastResult)return;const{result,name,game}=STATE.lastResult;const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};const text=`✦ NUMBERS reveló mi combinación de ${games[game]} 🌙\n\n${result.nums.join(' · ')}\n\n¡Obtén la tuya en numbers-app-chi.vercel.app`;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank')}
 
-function shareWA(){
-  if(!STATE.lastResult)return;
-  const t=T[STATE.lang];
-  const{result,name,game}=STATE.lastResult;
-  const nums=result.nums.join(' · ');
-  const text=t.shareText(name,nums,t.gameNames[game]);
-  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+function updateUI(){
+  if(!STATE.profile)return;
+  const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();
+  document.getElementById('user-avatar').textContent=initials;
+  document.getElementById('profile-avatar').textContent=initials;
 }
 
-// ══════════════════════════════════════════
-// AUTH (SIMULATED)
-// ══════════════════════════════════════════
-let authMode='register';
-function toggleAuth(){
-  authMode=authMode==='register'?'login':'register';
-  const t=T[STATE.lang];
-  const nameField=document.getElementById('auth-name-field');
-  const btnMain=document.getElementById('auth-btn-main');
-  const toggle=document.getElementById('auth-toggle');
-  const toggleLink=document.getElementById('auth-toggle-link');
-  if(authMode==='login'){
-    nameField.style.display='none';
-    btnMain.textContent='Iniciar sesión';
-    toggle.innerHTML='¿No tienes cuenta? <span onclick="toggleAuth()" style="color:var(--gold);text-decoration:underline;cursor:pointer">Regístrate</span>';
-  } else {
-    nameField.style.display='block';
-    btnMain.textContent=t.authBtnMain;
-    toggle.innerHTML=t.authToggle+' <span onclick="toggleAuth()" style="color:var(--gold);text-decoration:underline;cursor:pointer">'+t.authToggleLink+'</span>';
-  }
-}
-
-function doAuth(){
-  const email=document.getElementById('auth-email').value.trim();
-  const name=authMode==='register'?document.getElementById('auth-name').value.trim():'Usuario';
-  if(!email) return;
-  STATE.user={name:name||email.split('@')[0],email,plan:'free'};
-  document.getElementById('inp-name').value=STATE.user.name;
-  loadUserState();
-  goTo('screen-main');
-  showTab('form');
-}
-
-function doGoogleAuth(){
-  STATE.user={name:'Andrés',email:'andres@gmail.com',plan:'free'};
-  loadUserState();
-  goTo('screen-main');
-  showTab('form');
-}
-
-function logout(){
-  STATE.user=null;
-  STATE.history=[];
-  STATE.consultsToday=0;
-  goTo('screen-landing');
-}
-
-// ══════════════════════════════════════════
-// PROFILE
-// ══════════════════════════════════════════
-function loadUserState(){
-  const saved=localStorage.getItem('numbers_state');
-  if(saved){
-    const s=JSON.parse(saved);
-    STATE.history=s.history||[];
-    STATE.consultsToday=s.consultsToday||0;
-  }
-  updateProfile();
-}
-
-function updateProfile(){
-  if(!STATE.user)return;
-  const initials=STATE.user.name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2);
-  document.getElementById('user-avatar').textContent=initials||'A';
-  document.getElementById('profile-avatar').textContent=initials||'A';
-  document.getElementById('profile-name').textContent=STATE.user.name;
-  const t=T[STATE.lang];
-  document.getElementById('profile-plan').textContent=
-    STATE.user.plan==='pro'?t.planPro:t.planFree;
-  document.getElementById('profile-plan').className=
-    'profile-plan '+(STATE.user.plan==='pro'?'plan-pro':'plan-free');
+function renderProfile(){
+  if(!STATE.profile)return;
+  document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';
+  document.getElementById('profile-email').textContent=STATE.profile.email;
+  const isPro=STATE.profile.plan==='pro';
+  document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';
+  document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');
   document.getElementById('stat-consults').textContent=STATE.consultsToday;
   document.getElementById('stat-total').textContent=STATE.history.length;
-  renderHistory();
-}
-
-function renderHistory(){
   const el=document.getElementById('history-list');
-  if(!STATE.history.length){
-    el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';
-    return;
-  }
-  el.innerHTML=STATE.history.slice(0,10).map(h=>`
-    <div class="history-item">
-      <div class="history-date">${h.date}</div>
-      <div class="history-game">${h.gameName}</div>
-      <div class="history-nums">${h.nums}</div>
-    </div>`).join('');
+  if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}
+  const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};
+  el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('');
 }
 
-function saveLocal(){
-  try{
-    localStorage.setItem('numbers_state',JSON.stringify({
-      history:STATE.history.slice(0,30),
-      consultsToday:STATE.consultsToday
-    }));
-  }catch(e){}
-  updateProfile();
-}
-
-// ══════════════════════════════════════════
-// PWA INSTALL
-// ══════════════════════════════════════════
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault(); deferredPrompt=e;
-  if(!localStorage.getItem('install-dismissed'))
-    setTimeout(()=>document.getElementById('install-banner').classList.add('show'),4000);
-});
-function installPWA(){
-  if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{deferredPrompt=null;}); }
-  document.getElementById('install-banner').classList.remove('show');
-}
-function dismissInstall(){
-  document.getElementById('install-banner').classList.remove('show');
-  localStorage.setItem('install-dismissed','1');
-}
-
-// Service Worker
-if('serviceWorker' in navigator){
-  const swCode=`const C='numbers-v2';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))));self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))))});`;
-  const swUrl=URL.createObjectURL(new Blob([swCode],{type:'application/javascript'}));
-  navigator.serviceWorker.register(swUrl).catch(()=>{});
-}
-
-// Manifest
-const mf={name:'NUMBERS — Oráculo Numérico',short_name:'NUMBERS',start_url:'/',display:'standalone',background_color:'#080510',theme_color:'#080510',icons:[{src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" fill="%23080510"/><text x="50%" y="55%" font-size="110" text-anchor="middle" dominant-baseline="middle" fill="%23c9a84c">✦</text></svg>',sizes:'192x192',type:'image/svg+xml'}]};
-const mfBlob=new Blob([JSON.stringify(mf)],{type:'application/json'});
-const mfLink=document.createElement('link');
-mfLink.rel='manifest';mfLink.href=URL.createObjectURL(mfBlob);
-document.head.appendChild(mfLink);
-
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-applyTranslations();
-// Auto-detect language
-const nav=navigator.language||'es';
-if(nav.startsWith('zh')){setLang('zh');document.querySelectorAll('.lang-btn')[2].classList.add('active');document.querySelectorAll('.lang-btn')[0].classList.remove('active');}
-else if(nav.startsWith('en')){setLang('en');document.querySelectorAll('.lang-btn')[1].classList.add('active');document.querySelectorAll('.lang-btn')[0].classList.remove('active');}
-
-// Show main if returning user
-const savedUser=localStorage.getItem('numbers_user');
-if(savedUser){
-  STATE.user=JSON.parse(savedUser);
-  loadUserState();
-  goTo('screen-main');
-  showTab('form');
-}
+// ════════════════════════════════════════
+// INIT — check existing session
+// ════════════════════════════════════════
+(async()=>{
+  const{data:{session}}=await sb.auth.getSession();
+  if(session?.user){await afterLogin(session.user)}
+  sb.auth.onAuthStateChange(async(event,session)=>{
+    if(event==='SIGNED_IN'&&session?.user&&!STATE.user){await afterLogin(session.user)}
+    if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;goTo('screen-landing')}
+  });
+})();
 </script>
 </body>
 </html>
