@@ -352,6 +352,13 @@ Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
 const SUPABASE_URL='https://thtuzvhzwcoifgdyzrsz.supabase.co';
 const SUPABASE_KEY='sb_publishable_oTbjnp0Rp3GDgt66EBxhWA_DWTDWNKo';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+// Envoltura con timeout: si Supabase no responde (ej. Edge bloquea storage), continúa igual
+function withTimeout(promise,ms,fallback){
+  return Promise.race([
+    Promise.resolve(promise).catch(e=>{console.warn('Supabase call failed:',e);return fallback}),
+    new Promise(resolve=>setTimeout(()=>{console.warn('Supabase call timed out after',ms,'ms');resolve(fallback)},ms))
+  ]);
+}
 const STATE={lang:'es',user:null,profile:null,game:'lottery',lastResult:null,history:[],consultsToday:0,authMode:'register'};
 
 function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
@@ -413,15 +420,15 @@ async function doAuth(){
 }
 async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Error con Google')}}
 async function afterLogin(user){
-  STATE.user=user;const{data:profile}=await sb.from('profiles').select('*').eq('id',user.id).single();STATE.profile=profile;
+  STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
   if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;
   await loadHistory();await loadQuota();goTo('screen-main');showTab('form');updateUI();
 }
 async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];goTo('screen-landing')}
-async function loadHistory(){if(!STATE.user)return;const{data}=await sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30);STATE.history=data||[]}
-async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const{data}=await sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single();STATE.consultsToday=data?.count||0;updateFreemiumBar()}
-async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1});STATE.consultsToday++}
-async function saveConsultation(result,name){await sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang});await sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id)}
+async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30),5000,{data:[]});STATE.history=res?.data||[]}
+async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
+async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
+async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}
 function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';if(isPro){bar.innerHTML='<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML='<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML='<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
