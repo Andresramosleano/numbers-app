@@ -183,6 +183,46 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .hidden{display:none!important}
 .spinner-mini{display:inline-block;width:12px;height:12px;border:2px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
 @media(max-width:380px){.nball{width:52px;height:52px;font-size:16px}.motors-row{grid-template-columns:repeat(5,1fr)}.eng-icon{width:40px;height:40px;font-size:18px}.engines-preview{gap:1rem}.ep-orb{width:50px;height:50px;font-size:22px}}
+
+/* ─── UPGRADE SCREEN ─── */
+.upgrade-screen{flex:1;overflow-y:auto;padding:1.5rem;width:100%;max-width:560px;margin:0 auto}
+.upgrade-hero{text-align:center;margin-bottom:2rem;padding:2rem 1rem}
+.upgrade-crown{font-size:52px;margin-bottom:1rem;display:block;animation:crownGlow 3s ease-in-out infinite alternate}
+@keyframes crownGlow{0%{filter:drop-shadow(0 0 8px rgba(201,168,76,.4))}100%{filter:drop-shadow(0 0 24px rgba(201,168,76,.9))}}
+.upgrade-title{font-family:'Cinzel Decorative',serif;font-size:clamp(20px,5vw,28px);color:var(--gold2);letter-spacing:.1em;margin-bottom:.5rem}
+.upgrade-sub{font-size:16px;color:var(--muted);font-style:italic;line-height:1.6}
+.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:2rem}
+@media(max-width:420px){.plans-grid{grid-template-columns:1fr}}
+.plan-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.4rem 1.2rem;position:relative}
+.plan-card.featured{border:2px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(124,92,191,.06))}
+.plan-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 14px;border-radius:99px;white-space:nowrap}
+.plan-name{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em}
+.plan-features{list-style:none;padding:0;margin:0 0 1.5rem}
+.plan-features li{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:.5px solid var(--border);font-size:13px;color:var(--text);line-height:1.5}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li .check{color:var(--teal);font-size:14px;margin-top:1px;flex-shrink:0}
+.plan-features li .cross{color:var(--faint);font-size:14px;margin-top:1px;flex-shrink:0}
+.plan-cta{width:100%;padding:13px;border-radius:var(--r);cursor:pointer;font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:.08em;transition:all .3s;border:none}
+.plan-cta.free{background:transparent;border:.5px solid var(--border);color:var(--muted)}
+.plan-cta.pro{background:linear-gradient(135deg,var(--gold),var(--golddim));color:var(--bg);font-weight:700}
+.plan-cta.pro:hover{box-shadow:0 0 28px rgba(201,168,76,.35)}
+.plan-cta.soon{background:rgba(124,92,191,.2);border:.5px solid rgba(124,92,191,.4);color:var(--violet2)}
+.upgrade-perks{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.4rem 1.5rem;margin-bottom:1.5rem}
+.perks-title{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em}
+.perk-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:.5px solid var(--border)}
+.perk-row:last-child{border-bottom:none}
+.perk-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.perk-text{flex:1}
+.perk-name{font-size:14px;color:var(--gold3);font-weight:500;margin-bottom:3px}
+.perk-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.upgrade-notify{background:rgba(124,92,191,.08);border:.5px solid rgba(124,92,191,.25);border-radius:var(--rr);padding:1.2rem 1.4rem;text-align:center;margin-bottom:1rem}
+.notify-title{font-size:14px;color:var(--violet2);margin-bottom:.5rem;font-family:'Cinzel Decorative',serif;letter-spacing:.06em}
+.notify-sub{font-size:12px;color:var(--muted);margin-bottom:1rem;font-style:italic}
+.btn-notify{background:var(--violet);border:none;border-radius:var(--r);padding:10px 24px;cursor:pointer;color:#fff;font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;transition:all .2s}
+.btn-notify:hover{background:var(--violet2)}
+
+/* ─── WHATSAPP CANVAS SHARE ─── */
+#wa-canvas{display:none}
 </style>
 </head>
 <body>
@@ -317,7 +357,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
         <div class="pro-perks">Consultas ilimitadas · Historial 30 días
 Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
-        <button class="btn-pro">Activar Pro →</button>
+        <button class="btn-pro" onclick="showTab('upgrade')">Ver plan Pro →</button>
       </div>
     </div>
 
@@ -340,9 +380,95 @@ Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
       </div>
     </div>
 
+    <!-- UPGRADE SCREEN -->
+    <div class="upgrade-screen hidden" id="tab-upgrade">
+      <div class="upgrade-hero">
+        <span class="upgrade-crown">👑</span>
+        <div class="upgrade-title">NUMBERS PRO</div>
+        <div class="upgrade-sub">Desbloquea el poder completo de los cinco motores cósmicos. Sin límites. Sin restricciones.</div>
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-name">✦ Freemium</div>
+          <ul class="plan-features">
+            <li><span class="check">✓</span>1 consulta gratuita al día</li>
+            <li><span class="check">✓</span>Los 4 tipos de juego</li>
+            <li><span class="check">✓</span>Número de Oro del día</li>
+            <li><span class="check">✓</span>3 idiomas</li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">Sin historial</span></li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">Límite diario activo</span></li>
+          </ul>
+          <button class="plan-cta free" onclick="showTab('form')">Plan actual →</button>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-badge">✦ PRÓXIMAMENTE</div>
+          <div class="plan-name">✦ Pro</div>
+          <ul class="plan-features">
+            <li><span class="check">✓</span>Consultas ilimitadas</li>
+            <li><span class="check">✓</span>Los 4 tipos de juego</li>
+            <li><span class="check">✓</span>Número de Oro del día</li>
+            <li><span class="check">✓</span>3 idiomas</li>
+            <li><span class="check">✓</span>Historial 30 días</li>
+            <li><span class="check">✓</span>Sin límite diario</li>
+          </ul>
+          <button class="plan-cta soon" onclick="showNotifyModal()">Notificarme →</button>
+        </div>
+      </div>
+
+      <div class="upgrade-perks">
+        <div class="perks-title">✦ Por qué vale la pena el Pro ✦</div>
+        <div class="perk-row">
+          <div class="perk-icon">🔮</div>
+          <div class="perk-text">
+            <div class="perk-name">Consultas ilimitadas</div>
+            <div class="perk-desc">Consulta cuantas veces quieras al día. Prueba diferentes juegos, diferentes energías. Sin restricciones.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">📜</div>
+          <div class="perk-text">
+            <div class="perk-name">Historial completo de 30 días</div>
+            <div class="perk-desc">Revisa cada combinación que el cosmos te ha revelado. Encuentra patrones en tus números de la suerte.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">🌙</div>
+          <div class="perk-text">
+            <div class="perk-name">Número de Oro cada día</div>
+            <div class="perk-desc">Tu número en proporción áurea calculado fresh cada día, integrado en tu combinación de juego.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">🌍</div>
+          <div class="perk-text">
+            <div class="perk-name">Los 3 idiomas y todos los juegos</div>
+            <div class="perk-desc">Lotería, Chance, Casino y Deportes. En español, inglés o chino mandarín. Con reglas culturales activas.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">✦</div>
+          <div class="perk-text">
+            <div class="perk-name">Prioridad en nuevas funciones</div>
+            <div class="perk-desc">Los usuarios Pro acceden primero a cada nueva capacidad del oráculo antes que el resto.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="upgrade-notify">
+        <div class="notify-title">🔔 Próximamente disponible</div>
+        <div class="notify-sub">Estamos activando los pagos. Déjanos tu email y serás el primero en saber cuándo puedes suscribirte.</div>
+        <button class="btn-notify" onclick="showNotifyModal()">Avisarme cuando esté listo</button>
+      </div>
+    </div>
+
+    <!-- hidden canvas for WhatsApp image generation -->
+    <canvas id="wa-canvas" width="800" height="420"></canvas>
+
     <div class="bottom-nav">
       <button class="nav-btn active" onclick="showTab('form')" id="nav-home"><div class="nav-icon">✦</div><div class="nav-label">Inicio</div></button>
       <button class="nav-btn" onclick="showTab('result')" id="nav-result"><div class="nav-icon">🔮</div><div class="nav-label">Números</div></button>
+      <button class="nav-btn" onclick="showTab('upgrade')" id="nav-upgrade"><div class="nav-icon">👑</div><div class="nav-label">Pro</div></button>
       <button class="nav-btn" onclick="showTab('profile')" id="nav-profile"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></button>
     </div>
   </div>
@@ -399,7 +525,7 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 }
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile()}
+function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile()}
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta'}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
@@ -474,7 +600,170 @@ function renderResult(r,name){
   document.getElementById('seal-text').textContent=seals[STATE.game]||'COMBINACIÓN SELLADA';
 }
 function newConsult(){showTab('form')}
-function shareWA(){if(!STATE.lastResult)return;const{result,name,game}=STATE.lastResult;const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};const text=`✦ NUMBERS reveló mi Número de Oro del día: ${result.golden} 🌟\n\nMi combinación cósmica de ${games[game]}: ${result.nums.join(' · ')}\n\nCinco fuerzas se alinearon solo para mí hoy, en proporción áurea. Descubre la tuya en numbers-app-chi.vercel.app`;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank')}
+
+// ═══════════════════════════════════════
+// WHATSAPP IMAGE SHARE (Canvas API)
+// ═══════════════════════════════════════
+function shareWA(){
+  if(!STATE.lastResult) return;
+  const{result,name,game}=STATE.lastResult;
+  const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};
+  const gameName=games[game]||game;
+
+  try{
+    const canvas=document.getElementById('wa-canvas');
+    const ctx=canvas.getContext('2d');
+    const W=800,H=420;
+    canvas.width=W;canvas.height=H;
+
+    // Background gradient — dark mystic
+    const bg=ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#080510');bg.addColorStop(.5,'#0f0a1e');bg.addColorStop(1,'#080510');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+    // Star particles
+    ctx.fillStyle='rgba(245,228,176,0.6)';
+    [[60,40],[180,25],[340,18],[520,30],[700,20],[90,85],[260,90],[450,80],[650,88],[780,55],[30,200],[150,220],[420,210],[700,205],[780,230],[50,340],[200,360],[500,350],[720,345],[380,400]].forEach(([x,y])=>{
+      ctx.beginPath();ctx.arc(x,y,1.2,0,Math.PI*2);ctx.fill();
+    });
+
+    // Decorative top border line
+    const line=ctx.createLinearGradient(0,0,W,0);
+    line.addColorStop(0,'transparent');line.addColorStop(.5,'#c9a84c');line.addColorStop(1,'transparent');
+    ctx.strokeStyle=line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,1);ctx.lineTo(W,1);ctx.stroke();
+
+    // NUMBERS logo top left
+    ctx.font='bold 13px Arial';ctx.fillStyle='#e8c97a';ctx.letterSpacing='3px';
+    ctx.fillText('NUMBERS  ✦  ORÁCULO NUMÉRICO',40,38);
+
+    // Divider
+    ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
+    ctx.beginPath();ctx.moveTo(40,50);ctx.lineTo(W-40,50);ctx.stroke();
+
+    // Golden number (big hero)
+    const goldenX=130,goldenY=220;
+    const goldenGrad=ctx.createRadialGradient(goldenX,goldenY,10,goldenX,goldenY,70);
+    goldenGrad.addColorStop(0,'rgba(245,228,176,0.25)');
+    goldenGrad.addColorStop(.6,'rgba(201,168,76,0.12)');
+    goldenGrad.addColorStop(1,'rgba(201,168,76,0)');
+    ctx.fillStyle=goldenGrad;ctx.beginPath();ctx.arc(goldenX,goldenY,70,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.arc(goldenX,goldenY,62,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle='rgba(201,168,76,0.25)';ctx.lineWidth=.5;
+    ctx.beginPath();ctx.arc(goldenX,goldenY,74,0,Math.PI*2);ctx.stroke();
+    ctx.font='bold 48px Georgia';ctx.fillStyle='#fff7e0';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(String(result.golden),goldenX,goldenY);
+    ctx.font='10px Arial';ctx.fillStyle='#c9a84c';ctx.letterSpacing='2px';
+    ctx.fillText('NÚMERO DE ORO',goldenX,goldenY+82);
+    ctx.textAlign='left';ctx.textBaseline='alphabetic';
+
+    // User name + game
+    ctx.font='italic 15px Georgia';ctx.fillStyle='#b8a888';
+    ctx.fillText(name.split(' ')[0]+' — '+gameName,240,90);
+
+    // Numbers display
+    const numStartX=240,numY=185;const ballR=34;const gap=82;
+    result.nums.forEach((n,i)=>{
+      const cx=numStartX+(i*gap);const cy=numY;
+      const isGolden=(n===result.golden&&result.goldenInPlay);
+      if(isGolden){
+        const g=ctx.createRadialGradient(cx,cy,5,cx,cy,ballR);
+        g.addColorStop(0,'rgba(245,228,176,0.35)');g.addColorStop(1,'rgba(201,168,76,0.1)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,ballR,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='#e8c97a';ctx.lineWidth=2;
+      }else{
+        ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=1;
+      }
+      ctx.beginPath();ctx.arc(cx,cy,ballR,0,Math.PI*2);ctx.stroke();
+      ctx.font=`bold ${n<10?22:20}px Georgia`;
+      ctx.fillStyle=isGolden?'#fff7e0':'#e8c97a';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      const label=n<10&&result.nums.some(x=>x>=10)?'0'+n:String(n);
+      ctx.fillText(label,cx,cy);
+    });
+    ctx.textAlign='left';ctx.textBaseline='alphabetic';
+
+    // Motors row
+    const engines=[
+      {icon:'☿',val:result.engines.num,name:'Num.'},
+      {icon:'♈',val:result.engines.ast,name:'Astro.'},
+      {icon:'🌙',val:result.moon?result.moon.day+'d':result.engines.moon+'d',name:'Luna'},
+      {icon:'🐉',val:result.engines.chi,name:'Chino'},
+      {icon:'🌎',val:result.engines.geo,name:'Geo.'},
+    ];
+    engines.forEach((e,i)=>{
+      const ex=240+(i*100),ey=270;
+      ctx.font='12px Arial';ctx.fillStyle='rgba(201,168,76,0.5)';
+      ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
+      ctx.strokeRect(ex,ey,88,44);
+      ctx.font='18px serif';ctx.textAlign='center';
+      ctx.fillText(e.icon,ex+20,ey+24);
+      ctx.font='bold 12px Arial';ctx.fillStyle='#c9a84c';
+      ctx.fillText(String(e.val),ex+52,ey+18);
+      ctx.font='9px Arial';ctx.fillStyle='#7a6a54';
+      ctx.fillText(e.name,ex+52,ey+32);
+    });
+    ctx.textAlign='left';
+
+    // Interpretation snippet
+    ctx.font='italic 12px Georgia';ctx.fillStyle='#8a7a60';
+    const snippet=`Vida ${result.lp} · ${result.zodiac.sign} · Luna ${result.moon?result.moon.name:'llena'} · ${result.chinese.animal}`;
+    ctx.fillText(snippet,240,335);
+
+    // Bottom tagline
+    ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
+    ctx.beginPath();ctx.moveTo(40,370);ctx.lineTo(W-40,370);ctx.stroke();
+    ctx.font='11px Arial';ctx.fillStyle='rgba(201,168,76,0.6)';ctx.textAlign='center';
+    ctx.fillText('Cinco fuerzas cósmicas convergieron para revelar esta combinación  ✦  numbers-app-chi.vercel.app',W/2,392);
+    ctx.font='9px Arial';ctx.fillStyle='rgba(138,122,96,0.6)';
+    ctx.fillText('Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar',W/2,410);
+    ctx.textAlign='left';
+
+    // Share
+    canvas.toBlob(blob=>{
+      if(!blob){shareWAFallback(name,gameName,result);return;}
+      const file=new File([blob],'numbers-combinacion.png',{type:'image/png'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){
+        navigator.share({
+          title:'Mi combinación cósmica — NUMBERS',
+          text:`✦ NUMBERS reveló mi Número de Oro: ${result.golden}
+
+Mi combinación de ${gameName}: ${result.nums.join(' · ')}
+
+numbers-app-chi.vercel.app`,
+          files:[file]
+        }).catch(()=>shareWAFallback(name,gameName,result));
+      }else{
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='numbers-combinacion.png';a.click();
+        setTimeout(()=>URL.revokeObjectURL(url),3000);
+        shareWAFallback(name,gameName,result);
+      }
+    },'image/png');
+  }catch(e){
+    console.warn('Canvas share error:',e);
+    shareWAFallback(name,gameName||game,result);
+  }
+}
+
+function shareWAFallback(name,gameName,result){
+  const text=`✦ NUMBERS reveló mi Número de Oro del día: ${result.golden} 🌟
+
+Mi combinación cósmica de ${gameName}: ${result.nums.join(' · ')}
+
+Cinco fuerzas se alinearon solo para mí hoy, en proporción áurea.
+
+✦ Descubre la tuya en numbers-app-chi.vercel.app`;
+  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+
+// Notify modal
+function showNotifyModal(){
+  const email=STATE.profile?.email||'';
+  const msg=email?`¡Perfecto, ${STATE.profile?.full_name?.split(' ')[0]||''}! Te avisaremos a ${email} cuando el plan Pro esté disponible.`:`Cuando el plan Pro esté listo serás el primero en saberlo. Mantente atento a tu correo registrado.`;
+  alert(msg);
+}
+
 function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
 function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user){await afterLogin(session.user)}sb.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_IN'&&session?.user&&!STATE.user){await afterLogin(session.user)}if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;goTo('screen-landing')}})})();
