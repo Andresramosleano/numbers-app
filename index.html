@@ -455,50 +455,25 @@ Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
         </div>
       </div>
 
-      <!-- OPCIONES DE PAGO DETALLADAS -->
-      <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rr);padding:1.3rem 1.4rem;margin-bottom:1.25rem">
+      <!-- PRECIO DETECTADO AUTOMÁTICAMENTE -->
+      <div id="region-pricing" style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rr);padding:1.3rem 1.4rem;margin-bottom:1.25rem">
         <div style="font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ Elige cómo quieres acceder ✦</div>
+        <!-- Opción 1: Mensual -->
         <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
           <div style="position:absolute;top:-10px;right:12px;background:var(--gold);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:99px">POPULAR</div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
             <div style="font-size:14px;color:var(--gold3);font-weight:500">Suscripción mensual</div>
-            <div style="font-size:20px;font-weight:500;color:var(--gold2)">$2.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span></div>
+            <div style="font-size:20px;font-weight:500;color:var(--gold2)" id="price-monthly">$2.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span></div>
           </div>
           <div style="font-size:12px;color:var(--muted);line-height:1.6">Acceso ilimitado durante 30 días. Se renueva automáticamente. Cancela cuando quieras.</div>
         </div>
+        <!-- Opción 2: Por consulta -->
         <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
             <div style="font-size:14px;color:var(--text);font-weight:500">Pago por consulta</div>
-            <div style="font-size:20px;font-weight:500;color:var(--text)">$0.99 <span style="font-size:12px;color:var(--muted)">USD</span></div>
+            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">$0.99 <span style="font-size:12px;color:var(--muted)">USD</span></div>
           </div>
           <div style="font-size:12px;color:var(--muted);line-height:1.6">Una sola consulta, sin compromiso. Ideal si quieres probar antes de suscribirte.</div>
-        </div>
-      </div>
-
-      <!-- PRECIOS POR REGIÓN -->
-      <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rr);padding:1.3rem 1.4rem;margin-bottom:1.25rem">
-        <div style="font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);text-align:center;margin-bottom:1.1rem;letter-spacing:.08em">✦ Precios por región ✦</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="background:var(--bg3);border-radius:var(--r);padding:.85rem 1rem">
-            <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:5px">🌎 LATAM</div>
-            <div style="font-size:15px;color:var(--gold2);font-weight:500">$2.99 USD/mes</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:2px">o $0.99 / consulta</div>
-          </div>
-          <div style="background:var(--bg3);border-radius:var(--r);padding:.85rem 1rem">
-            <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:5px">🇺🇸 EE.UU. / Europa</div>
-            <div style="font-size:15px;color:var(--gold2);font-weight:500">$4.99 USD/mes</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:2px">o $1.49 / consulta</div>
-          </div>
-          <div style="background:var(--bg3);border-radius:var(--r);padding:.85rem 1rem">
-            <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:5px">🌏 Asia / SEA</div>
-            <div style="font-size:15px;color:var(--gold2);font-weight:500">$1.49 USD</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:2px">por consulta</div>
-          </div>
-          <div style="background:var(--bg3);border-radius:var(--r);padding:.85rem 1rem">
-            <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:5px">🇪🇺 Europa del Este</div>
-            <div style="font-size:15px;color:var(--gold2);font-weight:500">$2.99 USD/mes</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:2px">o $0.99 / consulta</div>
-          </div>
         </div>
       </div>
 
@@ -572,7 +547,7 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 }
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile()}
+function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing()}
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta'}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
@@ -802,6 +777,32 @@ Cinco fuerzas se alinearon solo para mí hoy, en proporción áurea.
 
 ✦ Descubre la tuya en numbers-app-chi.vercel.app`;
   window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+
+// ═══════════════════════════════════════
+// REGION PRICING DETECTION
+// ═══════════════════════════════════════
+function detectRegionPricing(){
+  const lang=navigator.language||navigator.languages?.[0]||'es';
+  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+  let monthly='$2.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span>';
+  let consult='$0.99 <span style="font-size:12px;color:var(--muted)">USD</span>';
+
+  if(lang.startsWith('zh')||tz.includes('Shanghai')||tz.includes('Hong_Kong')||tz.includes('Taipei')){
+    monthly='¥35 <span style="font-size:12px;color:var(--muted)">CNY/mes</span>';
+    consult='¥10 <span style="font-size:12px;color:var(--muted)">CNY/consulta</span>';
+  } else if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe/London')||tz.includes('Europe/Paris')||tz.includes('Europe/Berlin')||tz.includes('Australia'))){
+    monthly='$4.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span>';
+    consult='$1.49 <span style="font-size:12px;color:var(--muted)">USD/consulta</span>';
+  } else if(tz.includes('Asia')){
+    monthly='$3.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span>';
+    consult='$1.49 <span style="font-size:12px;color:var(--muted)">USD/consulta</span>';
+  }
+  // Default: Latam $2.99 / $0.99
+  const pm=document.getElementById('price-monthly');
+  const pc=document.getElementById('price-consult');
+  if(pm) pm.innerHTML=monthly;
+  if(pc) pc.innerHTML=consult;
 }
 
 // Notify modal
