@@ -5,8 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080510">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="description" content="NUMBERS — Inspiración numerológica personalizada.">
-<title>NUMBERS ✦</title>
+<meta name="description" content="NUMBERS ORACLE — Tu Número de Oro del Día. Cinco fuerzas cósmicas: numerología, astrología, ciclos lunares, calendario chino y geoenergía.">
+<meta property="og:title" content="NUMBERS ORACLE — Tu Número de Oro del Día">
+<meta property="og:description" content="Cinco fuerzas cósmicas calculan tu número de la suerte único para hoy: numerología, astrología, ciclos lunares, calendario chino y geoenergía.">
+<meta property="og:image" content="https://numbersoracle.com/og-image.png">
+<meta property="og:url" content="https://numbersoracle.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NUMBERS ORACLE — Tu Número de Oro del Día">
+<meta name="twitter:description" content="Cinco fuerzas cósmicas calculan tu número de la suerte único para hoy.">
+<title>NUMBERS ORACLE ✦ — Tu Número de Oro del Día</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -134,7 +142,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .interp-text strong{color:var(--gold);font-style:normal}
 .interp-divider{height:.5px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:1rem 0}
 .interp-closer{font-size:16px;color:var(--gold3);line-height:1.85;font-style:italic;text-align:center}
-.disclaimer-text{font-size:11px;color:var(--faint);text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem}
+.disclaimer-text{font-size:12px;color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem;background:rgba(201,168,76,.04);border:.5px solid var(--border);border-radius:var(--r);padding:10px 14px}
 .action-row{display:flex;gap:10px;margin-bottom:1rem}
 .btn-whatsapp{flex:1;padding:13px;background:rgba(37,211,102,.1);border:.5px solid rgba(37,211,102,.35);border-radius:var(--r);cursor:pointer;color:#25d366;font-size:12px;font-family:'JetBrains Mono',monospace}
 .btn-new{flex:1;padding:13px;background:transparent;border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace}
@@ -182,6 +190,16 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nav-btn.active .nav-label{color:var(--gold)}
 .hidden{display:none!important}
 .spinner-mini{display:inline-block;width:12px;height:12px;border:2px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
+
+/* ─── NOTIFY MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(8,5,16,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;animation:fadeUp .25s ease both}
+.modal-box{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rr);padding:2rem 1.8rem;max-width:380px;width:100%;text-align:center;box-shadow:0 0 80px rgba(201,168,76,.15)}
+.modal-icon{font-size:40px;margin-bottom:1rem}
+.modal-title{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);letter-spacing:.08em;margin-bottom:.75rem}
+.modal-body{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;font-style:italic}
+.modal-close{background:var(--gold);border:none;border-radius:6px;padding:10px 28px;cursor:pointer;color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.05em}
+.modal-close:hover{opacity:.9}
+
 @media(max-width:380px){.nball{width:52px;height:52px;font-size:16px}.motors-row{grid-template-columns:repeat(5,1fr)}.eng-icon{width:40px;height:40px;font-size:18px}.engines-preview{gap:1rem}.ep-orb{width:50px;height:50px;font-size:22px}}
 
 /* ─── UPGRADE SCREEN ─── */
@@ -242,7 +260,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       </div>
       <button class="btn-primary" onclick="goAuth('register')">✦ Crear cuenta ✦</button>
       <button class="btn-secondary" onclick="goAuth('login')">Iniciar sesión</button>
-      <div class="landing-disclaimer">Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar</div>
+      <div class="landing-disclaimer">ℹ️ Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar</div>
     </div>
   </div>
 
@@ -297,9 +315,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"></div>
       <div class="field"><label>Tipo de juego</label></div>
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="selGame(this)"><div class="gi">🎰</div><div class="gl">Lotería</div></div>
-        <div class="game-card" data-game="chance" onclick="selGame(this)"><div class="gi">🎲</div><div class="gl">Chance</div></div>
-        <div class="game-card" data-game="casino" onclick="selGame(this)"><div class="gi">🃏</div><div class="gl">Casino</div></div>
+        <div class="game-card sel" data-game="lottery" onclick="selGame(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div></div>
+        <div class="game-card" data-game="chance" onclick="selGame(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div></div>
+        <div class="game-card" data-game="casino" onclick="selGame(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div></div>
         <div class="game-card" data-game="sports" onclick="selGame(this)"><div class="gi">⚽</div><div class="gl">Deportes</div></div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
@@ -348,7 +366,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="interp-divider"></div>
         <div class="interp-closer" id="interp-closer"></div>
       </div>
-      <div class="disclaimer-text">Numbers es entretenimiento e inspiración personal. No garantiza resultados en juegos de azar.</div>
+      <div class="disclaimer-text">ℹ️ Numbers es entretenimiento e inspiración personal. No garantiza resultados en ningún juego de azar.</div>
       <div class="action-row">
         <button class="btn-whatsapp" onclick="shareWA()">📱 WhatsApp</button>
         <button class="btn-new" onclick="newConsult()">↺ Nueva consulta</button>
@@ -443,7 +461,7 @@ Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
           <div class="perk-icon">🌍</div>
           <div class="perk-text">
             <div class="perk-name">Los 3 idiomas y todos los juegos</div>
-            <div class="perk-desc">Lotería, Chance, Casino y Deportes. En español, inglés o chino mandarín. Con reglas culturales activas.</div>
+            <div class="perk-desc">Números del Día, Números Rápidos, Destino y Deportivos. En español, inglés o chino mandarín. Con reglas culturales activas.</div>
           </div>
         </div>
         <div class="perk-row">
@@ -481,6 +499,17 @@ Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
         <div class="notify-title">🔔 Próximamente disponible</div>
         <div class="notify-sub">Estamos activando los pagos. Déjanos tu email y serás el primero en saber cuándo puedes suscribirte.</div>
         <button class="btn-notify" onclick="showNotifyModal()">Avisarme cuando esté listo</button>
+      </div>
+    </div>
+
+
+    <!-- NOTIFY MODAL -->
+    <div id="notify-modal" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div class="modal-icon">✦</div>
+        <div class="modal-title" id="modal-title">Próximamente disponible</div>
+        <div class="modal-body" id="modal-body">Estamos activando los pagos. Serás el primero en saber cuando el Plan Pro esté disponible.</div>
+        <button class="modal-close" onclick="closeModal()">Entendido →</button>
       </div>
     </div>
 
@@ -584,7 +613,15 @@ async function generate(){
   if(!name)return showError('error-toast','Ingresa tu nombre completo');if(!birth)return showError('error-toast','Ingresa tu fecha de nacimiento');if(!cityB)return showError('error-toast','Ingresa tu ciudad de nacimiento');if(!cityN)return showError('error-toast','Ingresa tu ciudad actual');
   if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast','Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.');
   showTab('loading');
-  const msgs=['Calculando tu vibración numerológica...','Alineando los astros con tu signo...','Sincronizando con la fase lunar...','Consultando el calendario chino milenario...','Fusionando las energías de tus ciudades...','Sellando tu combinación cósmica única...'];
+  const firstName=name.split(' ')[0];
+  const msgs=[
+    `Calculando la vibración numerológica de ${firstName}...`,
+    `Alineando los astros con tu signo, ${firstName}...`,
+    `Sincronizando con la fase lunar de hoy...`,
+    `Consultando el calendario chino milenario...`,
+    `Fusionando las energías de tus ciudades, ${firstName}...`,
+    `Sellando tu combinación cósmica única...`
+  ];
   const orbs=['☿','♈','🌕','🐉','🌎','✦'];let mi=0;const iv=setInterval(()=>{document.getElementById('loading-msg').textContent=msgs[mi%msgs.length];document.getElementById('loading-orb').textContent=orbs[mi%orbs.length];mi++},900);
   await new Promise(r=>setTimeout(r,5400));clearInterval(iv);
   const today=new Date().toISOString().split('T')[0];
@@ -603,7 +640,7 @@ async function generate(){
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
 
 function renderResult(r,name){
-  const cfg=GAME_CFG[STATE.game];const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};
+  const cfg=GAME_CFG[STATE.game];const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos'};
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   // NÚMERO DE ORO
   document.getElementById('golden-orb').textContent=r.golden;
@@ -618,7 +655,7 @@ function renderResult(r,name){
   document.getElementById('interp-text').innerHTML=`${firstName}, tu <strong>número de vida ${r.lp}</strong> no es casualidad: nace de la vibración exacta de tu nombre y tu fecha de nacimiento. Este número resuena con <strong>${r.zodiac.planet}</strong>, el planeta regente de <strong>${r.zodiac.sign}</strong>, cuya energía de elemento <strong>${r.zodiac.element}</strong> rige tu carta. Hoy, la <strong>luna ${r.moon.name}</strong> se encuentra en el día ${r.moon.day} de su ciclo, amplificando tu campo magnético personal con una fuerza que no se repetirá igual mañana. El <strong>${r.chinese.animal}</strong> de tu año chino aporta su número sagrado, y la geoenergía fusionada de tus ciudades vibra en <strong>resonancia ${r.geo}</strong>. Cuando estas cinco fuerzas se alinean en una sola semilla, emergen estos números, y solo estos.`;
   document.getElementById('interp-closer').innerHTML=`Ningún otro ser en el mundo comparte esta combinación exacta hoy. Es tuya, sellada por el cosmos para este día.`;
   // SELLO según juego
-  const seals={lottery:'COMBINACIÓN SELLADA',chance:'CIFRAS REVELADAS',casino:'NÚMEROS ALINEADOS',sports:'MARCADOR CÓSMICO'};
+  const seals={lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
   document.getElementById('seal-text').textContent=seals[STATE.game]||'COMBINACIÓN SELLADA';
 }
 function newConsult(){showTab('form')}
@@ -629,7 +666,7 @@ function newConsult(){showTab('form')}
 function shareWA(){
   if(!STATE.lastResult) return;
   const{result,name,game}=STATE.lastResult;
-  const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};
+  const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos'};
   const gameName=games[game]||game;
 
   try{
@@ -736,7 +773,7 @@ function shareWA(){
     ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
     ctx.beginPath();ctx.moveTo(40,370);ctx.lineTo(W-40,370);ctx.stroke();
     ctx.font='11px Arial';ctx.fillStyle='rgba(201,168,76,0.6)';ctx.textAlign='center';
-    ctx.fillText('Cinco fuerzas cósmicas convergieron para revelar esta combinación  ✦  numbers-app-chi.vercel.app',W/2,392);
+    ctx.fillText('Cinco fuerzas cósmicas convergieron para revelar esta combinación  ✦  numbersoracle.com',W/2,392);
     ctx.font='9px Arial';ctx.fillStyle='rgba(138,122,96,0.6)';
     ctx.fillText('Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar',W/2,410);
     ctx.textAlign='left';
@@ -752,7 +789,7 @@ function shareWA(){
 
 Mi combinación de ${gameName}: ${result.nums.join(' · ')}
 
-numbers-app-chi.vercel.app`,
+numbersoracle.com`,
           files:[file]
         }).catch(()=>shareWAFallback(name,gameName,result));
       }else{
@@ -775,7 +812,7 @@ Mi combinación cósmica de ${gameName}: ${result.nums.join(' · ')}
 
 Cinco fuerzas se alinearon solo para mí hoy, en proporción áurea.
 
-✦ Descubre la tuya en numbers-app-chi.vercel.app`;
+✦ Descubre la tuya en numbersoracle.com`;
   window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
 }
 
@@ -807,13 +844,22 @@ function detectRegionPricing(){
 
 // Notify modal
 function showNotifyModal(){
+  const name=STATE.profile?.full_name?.split(' ')[0]||'';
   const email=STATE.profile?.email||'';
-  const msg=email?`¡Perfecto, ${STATE.profile?.full_name?.split(' ')[0]||''}! Te avisaremos a ${email} cuando el plan Pro esté disponible.`:`Cuando el plan Pro esté listo serás el primero en saberlo. Mantente atento a tu correo registrado.`;
-  alert(msg);
+  const title='✦ Próximamente disponible';
+  const body=email
+    ? `¡Perfecto${name?', '+name:''}! Te avisaremos a <strong>${email}</strong> cuando el Plan Pro esté disponible. Estamos activando los pagos.`
+    : `Cuando el Plan Pro esté listo serás el primero en saberlo. Mantente atento a tu correo registrado.`;
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-body').innerHTML=body;
+  document.getElementById('notify-modal').classList.remove('hidden');
+}
+function closeModal(){
+  document.getElementById('notify-modal').classList.add('hidden');
 }
 
 function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
-function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}const games={lottery:'Lotería',chance:'Chance',casino:'Casino',sports:'Deportes'};el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
+function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos'};el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user){await afterLogin(session.user)}sb.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_IN'&&session?.user&&!STATE.user){await afterLogin(session.user)}if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;goTo('screen-landing')}})})();
 </script>
 </body>
