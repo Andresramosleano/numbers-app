@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.numbersoracle.twa",
+    "sha256_cert_fingerprints": ["19:8A:41:75:73:EB:76:BF:FA:BD:0F:86:1C:48:0F:07:CB:9C:F9:74:9C:D5:CF:AD:0E:43:2E:2F:55:EA:CA:B2"]
+  }
+}]
