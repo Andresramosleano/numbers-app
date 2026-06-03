@@ -15,6 +15,9 @@
 <meta name="twitter:title" content="NUMBERS ORACLE — Tu Número de Oro del Día">
 <meta name="twitter:description" content="Cinco fuerzas cósmicas calculan tu número de la suerte único para hoy.">
 <title>NUMBERS ORACLE ✦ — Tu Número de Oro del Día</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -862,6 +865,16 @@ function closeModal(){
 function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
 function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos'};el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user){await afterLogin(session.user)}sb.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_IN'&&session?.user&&!STATE.user){await afterLogin(session.user)}if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;goTo('screen-landing')}})})();
+</script>
+<!-- Service Worker Registration -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('[SW] Registered:', reg.scope))
+      .catch(err => console.warn('[SW] Error:', err));
+  });
+}
 </script>
 </body>
 </html>
