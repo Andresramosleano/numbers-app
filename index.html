@@ -80,9 +80,16 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
 .game-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);padding:13px 8px;cursor:pointer;text-align:center;transition:all .2s}
 .game-card.sel{border-color:var(--gold);background:rgba(201,168,76,.08)}
-.game-card .gi{font-size:26px;margin-bottom:5px}
-.game-card .gl{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
-.game-card.sel .gl{color:var(--gold2)}
+.game-card .gi{font-size:28px;margin-bottom:6px}
+.game-card .gl{font-size:14px;color:var(--text);font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
+.game-card.sel .gl{color:var(--gold2);font-weight:700}
+.sacred-banner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.1rem 1.2rem 1rem;margin-bottom:1.25rem;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.08));border:.5px solid rgba(201,168,76,.30);border-radius:var(--rr);position:relative;overflow:hidden}
+.sacred-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.08),transparent);pointer-events:none}
+.sacred-banner-icon{font-size:28px;margin-bottom:.45rem;animation:floatOrb 4s ease-in-out infinite}
+@keyframes floatOrb{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.sacred-banner-text{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);line-height:1.5;margin-bottom:.3rem}
+.sacred-banner-text strong{color:var(--gold2);font-style:italic}
+.sacred-banner-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 .freemium-bar{background:rgba(201,168,76,.06);border:.5px solid rgba(201,168,76,.18);border-radius:var(--r);padding:11px 15px;font-size:12px;color:var(--muted);text-align:center;margin-bottom:1.5rem;font-style:italic}
 .freemium-bar strong{color:var(--gold);font-style:normal}
 .freemium-bar.locked{background:rgba(191,92,124,.08);border-color:rgba(191,92,124,.25);color:var(--rose)}
@@ -266,8 +273,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes fieldShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 @keyframes fieldGlow{0%,100%{border-color:rgba(191,92,124,.3)}50%{border-color:var(--rose);box-shadow:0 0 14px rgba(191,92,124,.2)}}
 .field-missing input,.field-missing select{animation:fieldGlow 1s ease 3;border-color:rgba(191,92,124,.5)!important}
-.card-hint{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);text-align:center;padding:.6rem .5rem;background:rgba(201,168,76,.06);border:.5px solid rgba(201,168,76,.2);border-radius:var(--r);margin-bottom:.75rem;display:none;animation:fadeUp .3s ease both}
+.card-hint{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold2);text-align:center;padding:.85rem .75rem;background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.35);border-radius:var(--r);margin-bottom:.75rem;display:none;animation:fadeUp .3s ease both;letter-spacing:.03em}
 .card-hint.show{display:block}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.0)}50%{box-shadow:0 0 0 8px rgba(201,168,76,.25)}}
+.btn-pulse{animation:btnPulse .7s ease 3}
 .duel-vs-container{display:flex;align-items:center;justify-content:space-around;margin:1.25rem 0;gap:8px}
 .duel-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .duel-team-name{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.04em;line-height:1.4;min-height:2.8em;display:flex;align-items:center;justify-content:center}
@@ -379,6 +388,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     </div>
 
     <div class="form-screen" id="tab-form">
+      <div class="sacred-banner">
+        <div class="sacred-banner-icon">🔮</div>
+        <div class="sacred-banner-text">Completa el formulario para descubrir tus <strong>números sagrados</strong></div>
+        <div class="sacred-banner-sub">El universo calcula tu vibración única</div>
+      </div>
       <div class="form-title">✦ Ingresa tu energía ✦</div>
       <div class="error-toast" id="error-toast"></div>
       <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento"></div>
@@ -838,12 +852,19 @@ function quickLaunch(el){
     if(missing.length>0){
       const personalMissing=missing.filter(m=>!['Equipo A','Equipo B'].includes(m));
       hint.textContent=personalMissing.length>0
-        ?'↑ Completa primero: '+personalMissing.join(', ')
-        :'↑ Ingresa los dos '+(isDuel&&STATE.game==='sports'?'equipos/jugadores':'equipos')+' del partido';
+        ?'✦ Completa primero: '+personalMissing.join(', ')
+        :'✦ Ingresa los dos '+(isDuel&&STATE.game==='sports'?'equipos/jugadores':'equipos')+' del partido';
       hint.classList.add('show');
       setTimeout(()=>hint.classList.remove('show'),4000);
     }
-    if(firstEmpty){firstEmpty.focus();firstEmpty.scrollIntoView({behavior:'smooth',block:'center'});}
+    // Pulsar el botón generar para que el usuario sepa que debe completar y presionar
+    const btnGen=document.getElementById('btn-gen');
+    btnGen.classList.remove('btn-pulse');
+    void btnGen.offsetWidth; // reflow para reiniciar animación
+    btnGen.classList.add('btn-pulse');
+    setTimeout(()=>btnGen.classList.remove('btn-pulse'),2200);
+    btnGen.scrollIntoView({behavior:'smooth',block:'center'});
+    if(firstEmpty){setTimeout(()=>{firstEmpty.focus();},400);}
   }
 }
 function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
