@@ -257,6 +257,17 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 
 /* ─── DUEL / PREDICTOR DEPORTIVO ─── */
 .duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
+/* ─── SPORT SELECTOR ─── */
+.sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
+.sport-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:99px;padding:7px 13px;cursor:pointer;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all .2s;white-space:nowrap}
+.sport-chip.sel{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,.08)}
+.sport-chip:hover{border-color:var(--golddim);color:var(--text)}
+/* ─── MISSING DATA FEEDBACK ─── */
+@keyframes fieldShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes fieldGlow{0%,100%{border-color:rgba(191,92,124,.3)}50%{border-color:var(--rose);box-shadow:0 0 14px rgba(191,92,124,.2)}}
+.field-missing input,.field-missing select{animation:fieldGlow 1s ease 3;border-color:rgba(191,92,124,.5)!important}
+.card-hint{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);text-align:center;padding:.6rem .5rem;background:rgba(201,168,76,.06);border:.5px solid rgba(201,168,76,.2);border-radius:var(--r);margin-bottom:.75rem;display:none;animation:fadeUp .3s ease both}
+.card-hint.show{display:block}
 .duel-vs-container{display:flex;align-items:center;justify-content:space-around;margin:1.25rem 0;gap:8px}
 .duel-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .duel-team-name{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.04em;line-height:1.4;min-height:2.8em;display:flex;align-items:center;justify-content:center}
@@ -382,10 +393,28 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026 — Predice quién gana el partido</div></div>
       </div>
+      <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="duel-fields" class="hidden">
-        <div class="duel-fields-intro">⚔️ Ingresa los dos equipos — el cosmos predecirá quién tiene más energía hoy</div>
-        <div class="field"><label>🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
-        <div class="field"><label>🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
+        <!-- Selector de deporte (solo para modo Deportes, no Mundial) -->
+        <div id="sport-selector-wrap" class="hidden">
+          <div class="duel-fields-intro">🏆 Selecciona el deporte y los dos rivales</div>
+          <div class="sport-selector" id="sport-selector">
+            <div class="sport-chip sel" data-sport="football" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚽ Fútbol</div>
+            <div class="sport-chip" data-sport="basketball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏀 Básquet</div>
+            <div class="sport-chip" data-sport="tennis" data-label-a="🔵 Jugador A" data-label-b="🔴 Jugador B" onclick="selSport(this)">🎾 Tenis</div>
+            <div class="sport-chip" data-sport="baseball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚾ Béisbol</div>
+            <div class="sport-chip" data-sport="volleyball" data-label-a="🔵 Equipo A" data-label-b="🔴 Equipo B" onclick="selSport(this)">🏐 Voleibol</div>
+            <div class="sport-chip" data-sport="boxing" data-label-a="🔵 Boxeador A" data-label-b="🔴 Boxeador B" onclick="selSport(this)">🥊 Boxeo</div>
+            <div class="sport-chip" data-sport="americanfootball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏈 F. Americano</div>
+            <div class="sport-chip" data-sport="other" data-label-a="🔵 Opción A" data-label-b="🔴 Opción B" onclick="selSport(this)">🏆 Otro</div>
+          </div>
+        </div>
+        <!-- Intro para Mundial -->
+        <div id="mundial-duel-intro" class="hidden">
+          <div class="duel-fields-intro">🏆 Elige los dos equipos del partido a predecir</div>
+        </div>
+        <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
+        <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
         <datalist id="wc-teams-list"></datalist>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
@@ -627,7 +656,7 @@ function withTimeout(promise,ms,fallback){
     new Promise(resolve=>setTimeout(()=>{console.warn('Supabase call timed out after',ms,'ms');resolve(fallback)},ms))
   ]);
 }
-const STATE={lang:'es',user:null,profile:null,game:'lottery',lastResult:null,history:[],consultsToday:0,authMode:'register'};
+const STATE={lang:'es',user:null,profile:null,game:'lottery',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register'};
 
 function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
 function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
@@ -699,19 +728,47 @@ function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEac
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
+function selSport(el){
+  document.querySelectorAll('.sport-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  STATE.sport=el.dataset.sport;
+  // Update team labels dynamically
+  document.getElementById('label-team-a').textContent=el.dataset.labelA||'🔵 Equipo A / Local';
+  document.getElementById('label-team-b').textContent=el.dataset.labelB||'🔴 Equipo B / Visitante';
+  // Clear team inputs when sport changes
+  document.getElementById('inp-team-a').value='';
+  document.getElementById('inp-team-b').value='';
+  const isIndividual=STATE.sport==='tennis'||STATE.sport==='boxing';
+  document.getElementById('inp-team-a').placeholder=isIndividual?'Ej: Djokovic, Alcaraz, Canelo...':'Ej: Real Madrid, Lakers, Colombia...';
+  document.getElementById('inp-team-b').placeholder=isIndividual?'Ej: Federer, Sinner, GGG...':'Ej: Barcelona, Celtics, Argentina...';
+}
 function selGame(el){
   document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');STATE.game=el.dataset.game;
   const isDuel=STATE.game==='sports'||STATE.game==='mundial';
+  const isSports=STATE.game==='sports';
+  const isMundial=STATE.game==='mundial';
   document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
+  document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
+  document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
+  // Reset labels for mundial
+  if(isMundial){
+    document.getElementById('label-team-a').textContent='🔵 Equipo A / Local';
+    document.getElementById('label-team-b').textContent='🔴 Equipo B / Visitante';
+    document.getElementById('inp-team-a').placeholder='Ej: Argentina, Brasil, México...';
+    document.getElementById('inp-team-b').placeholder='Ej: Francia, España, Alemania...';
+  }
   if(isDuel){
     const dl=document.getElementById('wc-teams-list');
     if(dl.children.length===0){MUNDIAL_TEAMS.forEach(t=>{const o=document.createElement('option');o.value=t;dl.appendChild(o)});}
   }
+  // Hide hint when a card is selected
+  document.getElementById('card-hint').classList.remove('show');
 }
 function renderDuelResult(duel,name){
-  const games={sports:'Predicción Deportiva',mundial:'Mundial 2026'};
-  document.getElementById('result-game').textContent=games[STATE.game]||'Predicción';
+  const sportNames={football:'⚽ Fútbol',basketball:'🏀 Básquet',tennis:'🎾 Tenis',baseball:'⚾ Béisbol',volleyball:'🏐 Voleibol',boxing:'🥊 Boxeo',americanfootball:'🏈 Fútbol Americano',other:'🏆 Deporte'};
+  const gameLabel=STATE.game==='mundial'?'🏆 Mundial 2026':(sportNames[STATE.sport]||'⚽ Deportes');
+  document.getElementById('result-game').textContent=gameLabel;
   document.getElementById('result-user').textContent=name;
   document.getElementById('seal-text').textContent='PREDICCIÓN CÓSMICA';
   document.getElementById('seal-sub').textContent='Los cinco motores calcularon la energía de cada equipo hoy';
@@ -754,13 +811,38 @@ function quickLaunch(el){
     generate();
   }else{
     showTab('form');
+    // Determinar qué falta y dar feedback visual claro
+    const missing=[];
+    const fields=[
+      {id:'inp-name',val:name,label:'Nombre'},
+      {id:'inp-birth',val:birth,label:'Fecha de nacimiento'},
+      {id:'inp-cityb',val:cityB,label:'Ciudad de nacimiento'},
+      {id:'inp-cityn',val:cityN,label:'Ciudad actual'}
+    ];
+    if(isDuel){
+      fields.push({id:'inp-team-a',val:teamA,label:'Equipo A'});
+      fields.push({id:'inp-team-b',val:teamB,label:'Equipo B'});
+    }
     let firstEmpty=null;
-    if(!name)firstEmpty=document.getElementById('inp-name');
-    else if(!birth)firstEmpty=document.getElementById('inp-birth');
-    else if(!cityB)firstEmpty=document.getElementById('inp-cityb');
-    else if(!cityN)firstEmpty=document.getElementById('inp-cityn');
-    else if(isDuel&&!teamA)firstEmpty=document.getElementById('inp-team-a');
-    else if(isDuel&&!teamB)firstEmpty=document.getElementById('inp-team-b');
+    fields.forEach(f=>{
+      const el=document.getElementById(f.id);
+      if(!f.val){
+        missing.push(f.label);
+        el.closest('.field')?.classList.add('field-missing');
+        setTimeout(()=>el.closest('.field')?.classList.remove('field-missing'),3200);
+        if(!firstEmpty)firstEmpty=el;
+      }
+    });
+    // Mostrar hint en los cards
+    const hint=document.getElementById('card-hint');
+    if(missing.length>0){
+      const personalMissing=missing.filter(m=>!['Equipo A','Equipo B'].includes(m));
+      hint.textContent=personalMissing.length>0
+        ?'↑ Completa primero: '+personalMissing.join(', ')
+        :'↑ Ingresa los dos '+(isDuel&&STATE.game==='sports'?'equipos/jugadores':'equipos')+' del partido';
+      hint.classList.add('show');
+      setTimeout(()=>hint.classList.remove('show'),4000);
+    }
     if(firstEmpty){firstEmpty.focus();firstEmpty.scrollIntoView({behavior:'smooth',block:'center'});}
   }
 }
