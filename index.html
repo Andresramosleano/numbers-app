@@ -244,6 +244,30 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 
 /* ─── WHATSAPP CANVAS SHARE ─── */
 #wa-canvas{display:none}
+
+/* ─── CARD MUNDIAL (ancho completo) ─── */
+.game-card-full{grid-column:1/-1;flex-direction:row;gap:12px;padding:14px 20px;justify-content:center;border-color:rgba(201,168,76,.35);background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(124,92,191,.04))}
+.game-card-full .gi{font-size:28px;margin:0}
+.game-card-full .gl{font-size:13px;color:var(--muted)}
+.game-card-full.sel{border-color:var(--gold);background:rgba(201,168,76,.1)}
+.game-card-full.sel .gl{color:var(--gold2)}
+
+/* ─── DUEL / PREDICTOR DEPORTIVO ─── */
+.duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
+.duel-vs-container{display:flex;align-items:center;justify-content:space-around;margin:1.25rem 0;gap:8px}
+.duel-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.duel-team-name{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.04em;line-height:1.4;min-height:2.8em;display:flex;align-items:center;justify-content:center}
+.duel-orb{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:30px;font-weight:900;transition:all .5s}
+.duel-orb.winner-orb{border:2px solid var(--gold2);color:#fff7e0;background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.35),rgba(201,168,76,.18),var(--bg2));box-shadow:0 0 50px rgba(201,168,76,.45),0 0 90px rgba(201,168,76,.18),inset 0 2px 8px rgba(255,247,224,.2)}
+.duel-orb.loser-orb{border:1px solid var(--border);color:var(--muted);background:var(--bg2);box-shadow:none;opacity:.55}
+.duel-orb.neutral-orb{border:1px solid var(--gold);color:var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(201,168,76,.16),var(--bg2));box-shadow:0 0 22px rgba(201,168,76,.13)}
+.duel-score-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.duel-vs-center{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;padding:0 4px}
+.duel-vs-text{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold);opacity:.6;letter-spacing:.08em}
+.duel-winner-banner{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(124,92,191,.07));border:1px solid var(--gold);border-radius:var(--rr);padding:1.2rem 1.4rem;text-align:center;margin:.5rem 0 1.5rem;animation:sealIn 1s ease both}
+.duel-winner-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem}
+.duel-winner-name{font-family:'Cinzel Decorative',serif;font-size:21px;color:var(--gold2);letter-spacing:.06em;margin-bottom:.4rem}
+.duel-confidence{font-size:13px;color:var(--muted);font-style:italic;line-height:1.5}
 </style>
 </head>
 <body>
@@ -318,10 +342,17 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"></div>
       <div class="field"><label>Tipo de juego</label></div>
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="selGame(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div></div>
-        <div class="game-card" data-game="chance" onclick="selGame(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div></div>
-        <div class="game-card" data-game="casino" onclick="selGame(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div></div>
-        <div class="game-card" data-game="sports" onclick="selGame(this)"><div class="gi">⚽</div><div class="gl">Deportes</div></div>
+        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div></div>
+        <div class="game-card" data-game="casino" onclick="quickLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div></div>
+        <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026 — Predice quién gana el partido</div></div>
+      </div>
+      <div id="duel-fields" class="hidden">
+        <div class="duel-fields-intro">⚔️ Ingresa los dos equipos — el cosmos predecirá quién tiene más energía hoy</div>
+        <div class="field"><label>🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
+        <div class="field"><label>🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
+        <datalist id="wc-teams-list"></datalist>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
       <button class="btn-primary" style="max-width:100%" onclick="generate()" id="btn-gen">✦ Revelar mis números ✦</button>
@@ -342,6 +373,28 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="power-seal">
         <div class="power-seal-line"><span class="power-seal-text" id="seal-text">COMBINACIÓN SELLADA</span></div>
         <div class="power-seal-sub" id="seal-sub">Cinco fuerzas cósmicas convergen en tus números</div>
+      </div>
+      <div id="duel-result-section" class="hidden">
+        <div class="duel-vs-container">
+          <div class="duel-team">
+            <div class="duel-team-name" id="duel-name-a">Equipo A</div>
+            <div class="duel-orb neutral-orb" id="duel-orb-a">—</div>
+            <div class="duel-score-label">Energía Cósmica</div>
+          </div>
+          <div class="duel-vs-center">
+            <div class="duel-vs-text">VS</div>
+          </div>
+          <div class="duel-team">
+            <div class="duel-team-name" id="duel-name-b">Equipo B</div>
+            <div class="duel-orb neutral-orb" id="duel-orb-b">—</div>
+            <div class="duel-score-label">Energía Cósmica</div>
+          </div>
+        </div>
+        <div class="duel-winner-banner">
+          <div class="duel-winner-label">✦ El Cosmos Favorece A ✦</div>
+          <div class="duel-winner-name" id="duel-winner-name">—</div>
+          <div class="duel-confidence" id="duel-confidence">—</div>
+        </div>
       </div>
       <div class="golden-section" id="golden-section">
         <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
@@ -553,7 +606,34 @@ function getChinese(y){return CHINESE[(y-1900)%12]}
 function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
 function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
-const GAME_CFG={lottery:{count:6,max:45},chance:{count:4,max:9},casino:{count:5,max:36},sports:{count:3,max:9}};
+const GAME_CFG={lottery:{count:6,max:45},chance:{count:4,max:9},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true}};
+const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
+const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
+function computeDuel(teamA,teamB,name,birth,cityB,cityN,today){
+  const lp=lifePath(name,birth),moon=getMoon(today),geoB=cityEnergy(cityB),geoN=cityEnergy(cityN),geo=numReduce(geoB+geoN);
+  const todayN=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+  const zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear());
+  function teamScore(teamName){
+    const tn=nameNum(teamName);
+    const seed=Math.abs((tn*137+lp*53+todayN*97+moon.day*31+geo*71)&0x7fffffff);
+    const rand=seededRand(seed);
+    let raw=tn+todayN+Math.round(moon.mult*2);
+    raw+=Math.floor(rand()*3);
+    return numReduce(raw);
+  }
+  const scoreA=teamScore(teamA),scoreB=teamScore(teamB);
+  let winner,loser;
+  if(scoreA>scoreB){winner=teamA;loser=teamB;}
+  else if(scoreB>scoreA){winner=teamB;loser=teamA;}
+  else{winner=nameNum(teamA)>=nameNum(teamB)?teamA:teamB;loser=winner===teamA?teamB:teamA;}
+  const diff=Math.abs(scoreA-scoreB);
+  let confidence;
+  if(diff===0)confidence='⚡ Energías idénticas — partido extremadamente cerrado, posibles penales';
+  else if(diff<=2)confidence='⚡ Ventaja cósmica leve — partido muy parejo, cualquiera puede ganar';
+  else if(diff<=4)confidence='⚡ Ventaja moderada — la energía inclina la balanza';
+  else confidence='⚡ Ventaja cósmica clara — los cinco motores apuntan en una dirección';
+  return{teamA,teamB,scoreA,scoreB,winner,loser,confidence,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo},moon,lp,zodiac,chinese,geo};
+}
 function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
 function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear()),moon=getMoon(today),eB=cityEnergy(cityB),eN=cityEnergy(cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
@@ -584,7 +664,71 @@ function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta'}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
-function selGame(el){document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');STATE.game=el.dataset.game}
+function selGame(el){
+  document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');STATE.game=el.dataset.game;
+  const isDuel=STATE.game==='sports'||STATE.game==='mundial';
+  document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
+  if(isDuel){
+    const dl=document.getElementById('wc-teams-list');
+    if(dl.children.length===0){MUNDIAL_TEAMS.forEach(t=>{const o=document.createElement('option');o.value=t;dl.appendChild(o)});}
+  }
+}
+function renderDuelResult(duel,name){
+  const games={sports:'Predicción Deportiva',mundial:'Mundial 2026'};
+  document.getElementById('result-game').textContent=games[STATE.game]||'Predicción';
+  document.getElementById('result-user').textContent=name;
+  document.getElementById('seal-text').textContent='PREDICCIÓN CÓSMICA';
+  document.getElementById('seal-sub').textContent='Los cinco motores calcularon la energía de cada equipo hoy';
+  // Duel orbs
+  document.getElementById('duel-name-a').textContent=duel.teamA;
+  document.getElementById('duel-name-b').textContent=duel.teamB;
+  document.getElementById('duel-orb-a').textContent=duel.scoreA;
+  document.getElementById('duel-orb-b').textContent=duel.scoreB;
+  const isAWinner=duel.winner===duel.teamA;
+  document.getElementById('duel-orb-a').className='duel-orb '+(isAWinner?'winner-orb':'loser-orb');
+  document.getElementById('duel-orb-b').className='duel-orb '+(isAWinner?'loser-orb':'winner-orb');
+  document.getElementById('duel-winner-name').textContent=duel.winner;
+  document.getElementById('duel-confidence').textContent=duel.confidence;
+  // Show duel, hide regular numbers
+  document.getElementById('duel-result-section').classList.remove('hidden');
+  document.getElementById('numbers-display').classList.add('hidden');
+  // Golden section = energía del ganador
+  document.getElementById('golden-label').textContent='✦ Energía del Favorecido ✦';
+  document.getElementById('golden-sublabel').textContent='Número de poder del equipo con mayor vibración hoy';
+  const winScore=isAWinner?duel.scoreA:duel.scoreB;
+  document.getElementById('golden-orb').textContent=winScore;
+  document.getElementById('golden-phi').innerHTML=`El cosmos calculó la vibración numerológica de <strong>${duel.teamA}</strong> y <strong>${duel.teamB}</strong> bajo la <strong>luna ${duel.moon.name}</strong> (día ${duel.moon.day}), tu número de vida <strong>${duel.lp}</strong>, el signo <strong>${duel.zodiac.sign}</strong> y la geoenergía de tus ciudades. La fusión de estas cinco fuerzas inclina la energía hacia <strong>${duel.winner}</strong> en este momento.`;
+  document.getElementById('golden-inplay').textContent=`⚡ ${duel.winner}: ${winScore} vs ${duel.loser}: ${isAWinner?duel.scoreB:duel.scoreA}`;
+  document.getElementById('golden-inplay').style.color='var(--teal)';
+  document.getElementById('golden-inplay').style.borderColor='rgba(61,191,168,.3)';
+  const firstName=name.split(' ')[0];
+  document.getElementById('interp-text').innerHTML=`${firstName}, los motores cósmicos analizaron la vibración de ambos equipos hoy. <strong>${duel.teamA}</strong> resuena en el número cósmico <strong>${duel.scoreA}</strong>, mientras <strong>${duel.teamB}</strong> vibra en el <strong>${duel.scoreB}</strong>. Bajo la influencia de la <strong>luna ${duel.moon.name}</strong> y tu signo <strong>${duel.zodiac.sign}</strong>, la energía universal se alinea con <strong>${duel.winner}</strong> en esta fecha.`;
+  document.getElementById('interp-closer').innerHTML=`Esta lectura refleja las energías del cosmos hoy — el fútbol, como la vida, siempre puede sorprender. Numbers es entretenimiento e inspiración.`;
+}
+function quickLaunch(el){
+  selGame(el);
+  const name=document.getElementById('inp-name').value.trim();
+  const birth=document.getElementById('inp-birth').value;
+  const cityB=document.getElementById('inp-cityb').value.trim();
+  const cityN=document.getElementById('inp-cityn').value.trim();
+  const isDuel=GAME_CFG[STATE.game]?.duel;
+  const teamA=isDuel?document.getElementById('inp-team-a').value.trim():'ok';
+  const teamB=isDuel?document.getElementById('inp-team-b').value.trim():'ok';
+  if(name&&birth&&cityB&&cityN&&teamA&&teamB){
+    generate();
+  }else{
+    showTab('form');
+    let firstEmpty=null;
+    if(!name)firstEmpty=document.getElementById('inp-name');
+    else if(!birth)firstEmpty=document.getElementById('inp-birth');
+    else if(!cityB)firstEmpty=document.getElementById('inp-cityb');
+    else if(!cityN)firstEmpty=document.getElementById('inp-cityn');
+    else if(isDuel&&!teamA)firstEmpty=document.getElementById('inp-team-a');
+    else if(isDuel&&!teamB)firstEmpty=document.getElementById('inp-team-b');
+    if(firstEmpty){firstEmpty.focus();firstEmpty.scrollIntoView({behavior:'smooth',block:'center'});}
+  }
+}
 function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
 function showSuccess(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
 
@@ -615,6 +759,13 @@ function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');c
 async function generate(){
   const name=document.getElementById('inp-name').value.trim();const birth=document.getElementById('inp-birth').value;const cityB=document.getElementById('inp-cityb').value.trim();const cityN=document.getElementById('inp-cityn').value.trim();
   if(!name)return showError('error-toast','Ingresa tu nombre completo');if(!birth)return showError('error-toast','Ingresa tu fecha de nacimiento');if(!cityB)return showError('error-toast','Ingresa tu ciudad de nacimiento');if(!cityN)return showError('error-toast','Ingresa tu ciudad actual');
+  const isDuelMode=GAME_CFG[STATE.game]?.duel;
+  if(isDuelMode){
+    const tA=document.getElementById('inp-team-a').value.trim();
+    const tB=document.getElementById('inp-team-b').value.trim();
+    if(!tA)return showError('error-toast','Ingresa el nombre del Equipo A');
+    if(!tB)return showError('error-toast','Ingresa el nombre del Equipo B');
+  }
   if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast','Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.');
   showTab('loading');
   const firstName=name.split(' ')[0];
@@ -630,11 +781,22 @@ async function generate(){
   await new Promise(r=>setTimeout(r,5400));clearInterval(iv);
   const today=new Date().toISOString().split('T')[0];
   try{
-    const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);STATE.lastResult={result,name,game:STATE.game};
-    // Render PRIMERO para que el usuario siempre vea sus números
-    renderResult(result,name);updateEngines(result.engines,result.moon);showTab('result');
-    // Guardado en base de datos: si falla, no afecta lo que ve el usuario
-    try{await saveConsultation(result,name);await incrementQuota();await loadHistory();}catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
+    if(GAME_CFG[STATE.game]?.duel){
+      const teamA=document.getElementById('inp-team-a').value.trim();
+      const teamB=document.getElementById('inp-team-b').value.trim();
+      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today);
+      STATE.lastResult={duel,name,game:STATE.game,isDuel:true};
+      renderDuelResult(duel,name);updateEngines(duel.engines,duel.moon);showTab('result');
+      try{
+        await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:[duel.scoreA,duel.scoreB],life_path:duel.lp,zodiac_sign:duel.zodiac.sign,moon_phase:duel.moon.name,chinese_animal:duel.chinese.animal,geo_resonance:duel.geo,market:STATE.lang}),5000,null);
+        await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null);
+        await incrementQuota();await loadHistory();
+      }catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
+    }else{
+      const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);STATE.lastResult={result,name,game:STATE.game};
+      renderResult(result,name);updateEngines(result.engines,result.moon);showTab('result');
+      try{await saveConsultation(result,name);await incrementQuota();await loadHistory();}catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
+    }
     updateFreemiumBar();
   }catch(e){
     console.error('Error generando:',e);
@@ -644,7 +806,13 @@ async function generate(){
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
 
 function renderResult(r,name){
-  const cfg=GAME_CFG[STATE.game];const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos'};
+  // Ocultar sección duelo y mostrar numbers-display en modo normal
+  document.getElementById('duel-result-section').classList.add('hidden');
+  document.getElementById('numbers-display').classList.remove('hidden');
+  // Restaurar labels del golden section
+  document.getElementById('golden-label').textContent='✦ Número de Oro del Día ✦';
+  document.getElementById('golden-sublabel').textContent='(diferente a tu número de vida · cambia cada día)';
+  const cfg=GAME_CFG[STATE.game];const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   // NÚMERO DE ORO
   document.getElementById('golden-orb').textContent=r.golden;
@@ -863,7 +1031,7 @@ function closeModal(){
 }
 
 function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
-function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos'};el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
+function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user){await afterLogin(session.user)}sb.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_IN'&&session?.user&&!STATE.user){await afterLogin(session.user)}if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;goTo('screen-landing')}})})();
 </script>
 <!-- Service Worker Registration -->
