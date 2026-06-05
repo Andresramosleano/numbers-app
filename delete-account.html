@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080510">
+<meta name="description" content="Numbers Oracle — Solicitud de eliminación de cuenta y datos">
+<title>Eliminar Cuenta — Numbers Oracle</title>
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080510; --bg2:#0f0a1e; --bg3:#161028;
+  --gold:#c9a84c; --gold2:#e8c97a; --gold3:#f5e4b0; --golddim:#7a5f28;
+  --violet:#7c5cbf;
+  --text:#e8dfc8; --muted:#b8a888; --faint:#7a6a54;
+  --border:rgba(201,168,76,0.14); --border2:rgba(201,168,76,0.28);
+  --r:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh;line-height:1.7}
+
+.starfield{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(124,92,191,.1) 0%,transparent 60%)}
+.starfield::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1.2px 1.2px at 8% 12%,rgba(245,228,176,.55) 0%,transparent 100%),radial-gradient(1px 1px at 22% 5%,rgba(245,228,176,.35) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 38% 28%,rgba(201,168,76,.5) 0%,transparent 100%),radial-gradient(1px 1px at 70% 18%,rgba(245,228,176,.42) 0%,transparent 100%),radial-gradient(1px 1px at 92% 62%,rgba(245,228,176,.32) 0%,transparent 100%)}
+
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:3rem 1.5rem 5rem}
+
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;text-decoration:none;margin-bottom:2.5rem;opacity:.8;transition:opacity .2s}
+.back-link:hover{opacity:1}
+.back-link::before{content:'←'}
+
+header{margin-bottom:3rem}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.35em;text-transform:uppercase;margin-bottom:.8rem}
+h1{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:700;color:var(--gold2);letter-spacing:.05em;line-height:1.2;margin-bottom:1rem}
+.subtitle{font-size:1.1rem;color:var(--muted);font-style:italic}
+
+.divider{height:1px;background:var(--border);margin:2rem 0}
+
+section{margin-bottom:2.5rem}
+h2{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);letter-spacing:.08em;margin-bottom:1rem}
+p{color:var(--muted);font-size:1.05rem;margin-bottom:.8rem}
+p:last-child{margin-bottom:0}
+
+.steps{list-style:none;counter-reset:steps;display:flex;flex-direction:column;gap:1rem;margin-top:1rem}
+.steps li{counter-increment:steps;display:flex;gap:1rem;align-items:flex-start;padding:1rem 1.2rem;background:rgba(201,168,76,.04);border:1px solid var(--border);border-radius:var(--r)}
+.steps li::before{content:counter(steps);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);background:rgba(201,168,76,.1);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.steps li span{color:var(--text);font-size:1.05rem}
+
+.email-box{display:inline-flex;align-items:center;gap:.6rem;background:rgba(201,168,76,.06);border:1px solid var(--border2);border-radius:var(--r);padding:.6rem 1rem;margin:.5rem 0}
+.email-box a{color:var(--gold2);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.9rem}
+.email-box a:hover{text-decoration:underline}
+
+.data-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.95rem}
+.data-table th{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--border2)}
+.data-table td{color:var(--muted);padding:.7rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .5rem;border-radius:4px}
+.badge-deleted{background:rgba(191,92,124,.15);color:#e07a9a;border:1px solid rgba(191,92,124,.3)}
+.badge-retained{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid var(--border2)}
+
+.note{background:rgba(201,168,76,.05);border-left:2px solid var(--gold);padding:1rem 1.2rem;border-radius:0 var(--r) var(--r) 0;margin-top:1rem}
+.note p{font-size:.95rem}
+
+footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center}
+footer p{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:.15em}
+footer a{color:var(--gold);text-decoration:none}
+footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="starfield"></div>
+<div class="wrap">
+
+  <a href="/" class="back-link">Numbers Oracle</a>
+
+  <header>
+    <p class="eyebrow">Privacidad &amp; Control</p>
+    <h1>Eliminar Cuenta</h1>
+    <p class="subtitle">Cómo solicitar la eliminación de tu cuenta y datos personales en Numbers Oracle</p>
+  </header>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>¿Qué datos recopilamos?</h2>
+    <p>Numbers Oracle recopila únicamente los datos necesarios para ofrecer el servicio:</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Dato</th>
+          <th>Uso</th>
+          <th>Al eliminar cuenta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dirección de correo electrónico</td>
+          <td>Identificación y acceso a la cuenta</td>
+          <td><span class="badge badge-deleted">Eliminado</span></td>
+        </tr>
+        <tr>
+          <td>Nombre</td>
+          <td>Personalización y cálculos numerológicos</td>
+          <td><span class="badge badge-deleted">Eliminado</span></td>
+        </tr>
+        <tr>
+          <td>Fecha de nacimiento</td>
+          <td>Cálculos numerológicos y astrológicos</td>
+          <td><span class="badge badge-deleted">Eliminado</span></td>
+        </tr>
+        <tr>
+          <td>Historial de consultas</td>
+          <td>Registro de lecturas previas</td>
+          <td><span class="badge badge-deleted">Eliminado</span></td>
+        </tr>
+        <tr>
+          <td>Registros de transacciones</td>
+          <td>Cumplimiento legal y contable</td>
+          <td><span class="badge badge-retained">Conservado 7 años (obligación legal)</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <p>Los registros de transacciones se conservan por obligación legal (normativa fiscal internacional). No se usan para ningún fin comercial ni se comparten con terceros.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>Cómo solicitar la eliminación</h2>
+    <p>Puedes eliminar tu cuenta y todos tus datos personales en cualquier momento siguiendo estos pasos:</p>
+    <ol class="steps">
+      <li><span>Envía un correo electrónico a nuestra dirección de privacidad con el asunto: <strong>"Solicitud de eliminación de cuenta"</strong></span></li>
+      <li><span>Incluye la dirección de correo electrónico asociada a tu cuenta de Numbers Oracle</span></li>
+      <li><span>Recibirás una confirmación en un plazo de <strong>48 horas hábiles</strong></span></li>
+      <li><span>La eliminación completa de tus datos se completará en un plazo máximo de <strong>30 días</strong></span></li>
+    </ol>
+
+    <div style="margin-top:1.5rem">
+      <p>Escríbenos a:</p>
+      <div class="email-box">
+        <span>✉</span>
+        <a href="mailto:privacy@numbersoracle.com">privacy@numbersoracle.com</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>Desarrollado por</h2>
+    <p>Numbers Oracle es una aplicación desarrollada y operada por <strong>Drago Investment Corp.</strong>, empresa registrada en las Bahamas.</p>
+    <p>Para cualquier consulta sobre privacidad y datos, también puedes revisar nuestra <a href="/privacy.html" style="color:var(--gold2)">Política de Privacidad completa</a>.</p>
+  </section>
+
+  <footer>
+    <p>© 2026 Drago Investment Corp. · <a href="/privacy.html">Política de Privacidad</a> · <a href="/">Numbers Oracle</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
