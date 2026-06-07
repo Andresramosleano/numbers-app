@@ -422,11 +422,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"></div>
       <div class="field"><label>Tus números de la suerte</label></div>
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tu combinación cósmica personal para hoy</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div><div class="gd">Cifras del universo en segundos</div></div>
-        <div class="game-card" data-game="casino" onclick="quickLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">Tu camino numerológico profundo</div></div>
-        <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">Energía cósmica para tu equipo</div></div>
-        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div></div>
+        <div class="game-card sel" data-game="lottery" onclick="selGame(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tu combinación cósmica personal para hoy</div></div>
+        <div class="game-card" data-game="chance" onclick="selGame(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div><div class="gd">Cifras del universo en segundos</div></div>
+        <div class="game-card" data-game="casino" onclick="selGame(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">Tu camino numerológico profundo</div></div>
+        <div class="game-card" data-game="sports" onclick="selGame(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">Energía cósmica para tu equipo</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="selGame(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="duel-fields" class="hidden">
