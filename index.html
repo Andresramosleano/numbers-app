@@ -295,11 +295,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-pulse{animation:btnPulse .7s ease 3}
 @keyframes btnShimmer{0%{background-position:-250% center}100%{background-position:250% center}}
 @keyframes btnGlow{0%,100%{box-shadow:0 0 20px rgba(201,168,76,.5),0 0 45px rgba(201,168,76,.25),0 0 80px rgba(201,168,76,.1)}50%{box-shadow:0 0 40px rgba(201,168,76,.9),0 0 80px rgba(201,168,76,.5),0 0 140px rgba(201,168,76,.25),0 0 200px rgba(201,168,76,.08)}}
-@keyframes btnRing{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 @keyframes sparkleFloat{0%{transform:translateY(0) scale(.6) rotate(0deg);opacity:0}15%{opacity:1}85%{opacity:.7}100%{transform:translateY(-38px) scale(1.4) rotate(200deg);opacity:0}}
 .btn-ready{background:linear-gradient(90deg,rgba(201,168,76,.04) 0%,rgba(201,168,76,.25) 45%,rgba(245,228,176,.32) 50%,rgba(201,168,76,.25) 55%,rgba(201,168,76,.04) 100%)!important;background-size:250% auto!important;animation:btnShimmer 1.6s linear infinite,btnGlow 1.4s ease-in-out infinite!important;border-color:var(--gold2)!important;border-width:2px!important;color:var(--gold3)!important;transform:scale(1.03);transition:transform .3s}
-.btn-ring{position:absolute;inset:-4px;border-radius:14px;background:conic-gradient(from 0deg,transparent 0deg,rgba(201,168,76,.8) 60deg,rgba(245,228,176,1) 90deg,rgba(201,168,76,.8) 120deg,transparent 180deg,transparent 360deg);animation:btnRing 2s linear infinite;pointer-events:none;z-index:0}
-.btn-ring::after{content:'';position:absolute;inset:3px;border-radius:12px;background:var(--bg2)}
 #btn-gen-wrap{isolation:isolate}
 .btn-sparkle{position:absolute;pointer-events:none;color:var(--gold2);font-size:13px;animation:sparkleFloat var(--dur,1.6s) ease-out var(--delay,0s) infinite;z-index:10;line-height:1}
 .duel-vs-container{display:flex;align-items:center;justify-content:space-around;margin:1.25rem 0;gap:8px}
@@ -1021,8 +1018,6 @@ function newConsult(){goBackToForm()}
 function startSparkles(){
   stopSparkles();
   const wrap=document.getElementById('btn-gen-wrap');
-  // Anillo giratorio
-  const ring=document.createElement('div');ring.className='btn-ring';ring.id='btn-ring';wrap.appendChild(ring);
   // Partículas
   const pts=[
     {bottom:'calc(100% + 6px)',left:'8%',dur:'1.4s',delay:'0s'},
