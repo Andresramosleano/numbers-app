@@ -308,8 +308,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">Calendario Chino</div></div>
         <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">Geoenergía</div></div>
       </div>
-      <button class="btn-primary" onclick="goAuth('register')">✦ Crear cuenta ✦</button>
-      <button class="btn-secondary" onclick="goAuth('login')">Iniciar sesión</button>
+      <div id="landing-btns-guest">
+        <button class="btn-primary" onclick="goAuth('register')">✦ Crear cuenta ✦</button>
+        <button class="btn-secondary" onclick="goAuth('login')">Iniciar sesión</button>
+      </div>
+      <div id="landing-btns-user" style="display:none;width:100%;max-width:360px">
+        <button class="btn-primary" style="width:100%" onclick="enterApp()">✦ Entrar ✦</button>
+      </div>
       <div class="landing-disclaimer">ℹ️ Entretenimiento e inspiración personal · No garantiza resultados en juegos de azar</div>
     </div>
   </div>
@@ -919,7 +924,9 @@ async function afterLogin(user){
   if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;
   await loadHistory();await loadQuota();goTo('screen-main');showTab('form');updateUI();
 }
-async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];goTo('screen-landing')}
+function showLandingLoggedIn(){document.getElementById('landing-btns-guest').style.display='none';document.getElementById('landing-btns-user').style.display='block';}
+async function enterApp(){if(!STATE.user)return;await afterLogin(STATE.user);}
+async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
 async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30),5000,{data:[]});STATE.history=res?.data||[]}
 async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
 async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
@@ -1212,11 +1219,11 @@ function renderProfile(){if(!STATE.profile)return;document.getElementById('profi
     return;
   }
   const{data:{session}}=await sb.auth.getSession();
-  if(session?.user){await afterLogin(session.user)}
+  if(session?.user){STATE.user=session.user;showLandingLoggedIn()}
   sb.auth.onAuthStateChange(async(event,session)=>{
     if(event==='PASSWORD_RECOVERY'){goTo('screen-resetpw');return;}
-    if(event==='SIGNED_IN'&&session?.user&&!STATE.user){await afterLogin(session.user)}
-    if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;goTo('screen-landing')}
+    if(event==='SIGNED_IN'&&session?.user&&!STATE.user){STATE.user=session.user;showLandingLoggedIn()}
+    if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
   })
 })();
 </script>
