@@ -277,6 +277,16 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .game-card-full .gl{font-size:13px;color:var(--muted)}
 .game-card-full.sel{border-color:var(--gold);background:rgba(201,168,76,.1)}
 .game-card-full.sel .gl{color:var(--gold2)}
+/* ─── PRO LOCK en tarjetas ─── */
+.game-card.pro-locked{position:relative;opacity:.75}
+.game-card.pro-locked::after{content:'🔒 Pro';position:absolute;top:6px;right:7px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--gold2);background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.3);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
+.game-card.pro-locked:hover{opacity:1;border-color:rgba(201,168,76,.4)}
+/* ─── CTA Pro mid-results ─── */
+.pro-cta-mid{background:linear-gradient(135deg,rgba(124,92,191,.16),rgba(201,168,76,.09));border:.5px solid rgba(201,168,76,.35);border-radius:var(--rr);padding:1.2rem 1.3rem;text-align:center;margin:1.4rem 0}
+.pro-cta-mid .pct-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold2);letter-spacing:.1em;margin-bottom:.4rem}
+.pro-cta-mid .pct-urgency{font-size:13px;color:var(--text);font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:.9rem;line-height:1.5}
+.pro-cta-mid .pct-price{font-size:11px;color:var(--muted);margin-bottom:.75rem;font-family:'JetBrains Mono',monospace}
+.pro-cta-mid .btn-pct{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;border:none;border-radius:99px;padding:10px 28px;cursor:pointer;width:100%}
 
 /* ─── DUEL / PREDICTOR DEPORTIVO ─── */
 .duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
@@ -430,9 +440,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="game-grid">
         <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tu combinación cósmica personal para hoy</div></div>
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div><div class="gd">Cifras del universo en segundos</div></div>
-        <div class="game-card" data-game="casino" onclick="quickLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">Tu camino numerológico profundo</div></div>
-        <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">Energía cósmica para tu equipo</div></div>
-        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div></div>
+        <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">Tu camino numerológico profundo</div></div>
+        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">Energía cósmica para tu equipo</div></div>
+        <div class="game-card game-card-full pro-locked" data-game="mundial" onclick="proLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="duel-fields" class="hidden">
@@ -515,6 +525,12 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="golden-phi" id="golden-phi"></div>
         <div class="golden-inplay" id="golden-inplay">✓ Incluido en tu jugada</div>
       </div>
+      <div class="pro-cta-mid" id="pro-cta-mid" style="display:none">
+        <div class="pct-title">✦ NUMBERS PRO ✦</div>
+        <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Deportes y Mundial · Sin límite diario.</div>
+        <div class="pct-price">desde $2.99 USD/mes · Próximamente disponible</div>
+        <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
+      </div>
       <div class="combo-title-wrap"><div class="combo-title" id="golden-div-text">✦ Tu Combinación Completa ✦</div></div>
       <div class="numbers-row" id="numbers-display"></div>
       <div class="motors-row">
@@ -537,10 +553,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <button class="btn-whatsapp" onclick="shareWA()">📱 WhatsApp</button>
         <button class="btn-new" onclick="newConsult()">↺ Nueva consulta</button>
       </div>
-      <div class="pro-banner">
+      <div class="pro-banner" id="pro-banner-bottom" style="display:none">
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
-        <div class="pro-perks">Consultas ilimitadas · Historial 30 días
-Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
+        <div class="pro-perks">Consultas ilimitadas · Historial 30 días · Todos los juegos · desde $2.99 USD/mes</div>
         <button class="btn-pro" onclick="showTab('upgrade')">Ver plan Pro →</button>
       </div>
     </div>
@@ -555,7 +570,7 @@ Todos los juegos · 3 idiomas · $12.900 COP/mes</div>
           <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label">Consultas hoy</div></div>
           <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total historial</div></div>
         </div>
-        <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem">⬆ Activar Pro — $12.900 COP/mes</button>
+        <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem" onclick="showTab('upgrade')">⬆ Activar Pro — desde $2.99 USD/mes</button>
         <button class="btn-secondary" style="width:100%;margin-top:0" onclick="logout()">Cerrar sesión</button>
       </div>
       <div class="profile-card">
@@ -806,6 +821,8 @@ function selGame(el){
   document.getElementById('card-hint').classList.remove('show');
 }
 function renderDuelResult(duel,name){
+  const proCta=document.getElementById('pro-cta-mid');
+  if(proCta) proCta.style.display='none'; // en modo duelo no mostrar (ya son Pro para llegar aquí)
   const sportNames={football:'⚽ Fútbol',basketball:'🏀 Básquet',tennis:'🎾 Tenis',baseball:'⚾ Béisbol',volleyball:'🏐 Voleibol',boxing:'🥊 Boxeo',americanfootball:'🏈 Fútbol Americano',other:'🏆 Deporte'};
   const gameLabel=STATE.game==='mundial'?'🏆 Mundial 2026':(sportNames[STATE.sport]||'⚽ Deportes');
   document.getElementById('result-game').textContent=gameLabel;
@@ -837,6 +854,12 @@ function renderDuelResult(duel,name){
   const firstName=name.split(' ')[0];
   document.getElementById('interp-text').innerHTML=`${firstName}, los motores cósmicos analizaron la vibración de ambos equipos hoy. <strong>${duel.teamA}</strong> resuena en el número cósmico <strong>${duel.scoreA}</strong>, mientras <strong>${duel.teamB}</strong> vibra en el <strong>${duel.scoreB}</strong>. Bajo la influencia de la <strong>luna ${duel.moon.name}</strong> y tu signo <strong>${duel.zodiac.sign}</strong>, la energía universal se alinea con <strong>${duel.winner}</strong> en esta fecha.`;
   document.getElementById('interp-closer').innerHTML=`Esta lectura refleja las energías del cosmos hoy — el fútbol, como la vida, siempre puede sorprender. Numbers es entretenimiento e inspiración.`;
+}
+function isPro(){return STATE.profile?.plan==='pro'}
+function proLaunch(el){
+  if(isPro()){quickLaunch(el);return;}
+  showTab('upgrade');
+  setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
 }
 function quickLaunch(el){
   selGame(el);
@@ -979,6 +1002,11 @@ async function generate(){
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
 
 function renderResult(r,name){
+  // Mostrar/ocultar CTA Pro según plan
+  const proCta=document.getElementById('pro-cta-mid');
+  const proBannerBottom=document.getElementById('pro-banner-bottom');
+  if(proCta) proCta.style.display=isPro()?'none':'block';
+  if(proBannerBottom) proBannerBottom.style.display='none'; // siempre oculto, CTA mid es suficiente
   // Ocultar sección duelo y mostrar numbers-display en modo normal
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
