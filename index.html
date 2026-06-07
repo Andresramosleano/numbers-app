@@ -293,6 +293,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .card-hint.show{display:block}
 @keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.0)}50%{box-shadow:0 0 0 8px rgba(201,168,76,.25)}}
 .btn-pulse{animation:btnPulse .7s ease 3}
+@keyframes btnShimmer{0%{background-position:-250% center}100%{background-position:250% center}}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 14px rgba(201,168,76,.35),0 0 30px rgba(201,168,76,.15),inset 0 0 20px rgba(201,168,76,.05)}50%{box-shadow:0 0 28px rgba(201,168,76,.65),0 0 55px rgba(201,168,76,.3),0 0 90px rgba(201,168,76,.12),inset 0 0 30px rgba(201,168,76,.08)}}
+@keyframes btnTextPulse{0%,100%{letter-spacing:.12em}50%{letter-spacing:.18em}}
+.btn-ready{background:linear-gradient(90deg,rgba(201,168,76,.03) 0%,rgba(201,168,76,.22) 45%,rgba(232,201,122,.28) 50%,rgba(201,168,76,.22) 55%,rgba(201,168,76,.03) 100%)!important;background-size:250% auto!important;animation:btnShimmer 2s linear infinite,btnGlow 1.8s ease-in-out infinite!important;border-color:var(--gold2)!important;border-width:1.5px!important;color:var(--gold3)!important;transform:scale(1.025);transition:all .3s}
 .duel-vs-container{display:flex;align-items:center;justify-content:space-around;margin:1.25rem 0;gap:8px}
 .duel-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .duel-team-name{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.04em;line-height:1.4;min-height:2.8em;display:flex;align-items:center;justify-content:center}
@@ -841,9 +845,7 @@ function quickLaunch(el){
   const cityN=document.getElementById('inp-cityn').value.trim();
   const btnGen=document.getElementById('btn-gen');
   btnGen.classList.remove('btn-pulse');
-  void btnGen.offsetWidth;
-  btnGen.classList.add('btn-pulse');
-  setTimeout(()=>btnGen.classList.remove('btn-pulse'),2200);
+  btnGen.classList.add('btn-ready');
   btnGen.scrollIntoView({behavior:'smooth',block:'center'});
   // Si faltan datos personales, resaltar campos vacíos
   if(!name||!birth||!cityB||!cityN){
@@ -922,6 +924,7 @@ async function saveConsultation(result,name){await withTimeout(sb.from('consulta
 function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';if(isPro){bar.innerHTML='<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML='<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML='<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
+  document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');
   const name=document.getElementById('inp-name').value.trim();const birth=document.getElementById('inp-birth').value;const cityB=document.getElementById('inp-cityb').value.trim();const cityN=document.getElementById('inp-cityn').value.trim();
   if(!name)return showError('error-toast','Ingresa tu nombre completo');if(!birth)return showError('error-toast','Ingresa tu fecha de nacimiento');if(!cityB)return showError('error-toast','Ingresa tu ciudad de nacimiento');if(!cityN)return showError('error-toast','Ingresa tu ciudad actual');
   const isDuelMode=GAME_CFG[STATE.game]?.duel;
