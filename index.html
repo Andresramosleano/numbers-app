@@ -294,9 +294,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.0)}50%{box-shadow:0 0 0 8px rgba(201,168,76,.25)}}
 .btn-pulse{animation:btnPulse .7s ease 3}
 @keyframes btnShimmer{0%{background-position:-250% center}100%{background-position:250% center}}
-@keyframes btnGlow{0%,100%{box-shadow:0 0 14px rgba(201,168,76,.35),0 0 30px rgba(201,168,76,.15),inset 0 0 20px rgba(201,168,76,.05)}50%{box-shadow:0 0 28px rgba(201,168,76,.65),0 0 55px rgba(201,168,76,.3),0 0 90px rgba(201,168,76,.12),inset 0 0 30px rgba(201,168,76,.08)}}
-@keyframes btnTextPulse{0%,100%{letter-spacing:.12em}50%{letter-spacing:.18em}}
-.btn-ready{background:linear-gradient(90deg,rgba(201,168,76,.03) 0%,rgba(201,168,76,.22) 45%,rgba(232,201,122,.28) 50%,rgba(201,168,76,.22) 55%,rgba(201,168,76,.03) 100%)!important;background-size:250% auto!important;animation:btnShimmer 2s linear infinite,btnGlow 1.8s ease-in-out infinite!important;border-color:var(--gold2)!important;border-width:1.5px!important;color:var(--gold3)!important;transform:scale(1.025);transition:all .3s}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 20px rgba(201,168,76,.5),0 0 45px rgba(201,168,76,.25),0 0 80px rgba(201,168,76,.1)}50%{box-shadow:0 0 40px rgba(201,168,76,.9),0 0 80px rgba(201,168,76,.5),0 0 140px rgba(201,168,76,.25),0 0 200px rgba(201,168,76,.08)}}
+@keyframes btnRing{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes sparkleFloat{0%{transform:translateY(0) scale(.6) rotate(0deg);opacity:0}15%{opacity:1}85%{opacity:.7}100%{transform:translateY(-38px) scale(1.4) rotate(200deg);opacity:0}}
+.btn-ready{background:linear-gradient(90deg,rgba(201,168,76,.04) 0%,rgba(201,168,76,.25) 45%,rgba(245,228,176,.32) 50%,rgba(201,168,76,.25) 55%,rgba(201,168,76,.04) 100%)!important;background-size:250% auto!important;animation:btnShimmer 1.6s linear infinite,btnGlow 1.4s ease-in-out infinite!important;border-color:var(--gold2)!important;border-width:2px!important;color:var(--gold3)!important;transform:scale(1.03);transition:transform .3s}
+.btn-ring{position:absolute;inset:-4px;border-radius:14px;background:conic-gradient(from 0deg,transparent 0deg,rgba(201,168,76,.8) 60deg,rgba(245,228,176,1) 90deg,rgba(201,168,76,.8) 120deg,transparent 180deg,transparent 360deg);animation:btnRing 2s linear infinite;pointer-events:none;z-index:0}
+.btn-ring::after{content:'';position:absolute;inset:3px;border-radius:12px;background:var(--bg2)}
+#btn-gen-wrap{isolation:isolate}
+.btn-sparkle{position:absolute;pointer-events:none;color:var(--gold2);font-size:13px;animation:sparkleFloat var(--dur,1.6s) ease-out var(--delay,0s) infinite;z-index:10;line-height:1}
 .duel-vs-container{display:flex;align-items:center;justify-content:space-around;margin:1.25rem 0;gap:8px}
 .duel-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .duel-team-name{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.04em;line-height:1.4;min-height:2.8em;display:flex;align-items:center;justify-content:center}
@@ -457,7 +462,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <datalist id="wc-teams-list"></datalist>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
-      <button class="btn-primary" style="max-width:100%" onclick="generate()" id="btn-gen">✦ Revelar mis números ✦</button>
+      <div id="btn-gen-wrap" style="position:relative;width:100%;max-width:360px;margin:0 auto">
+        <button class="btn-primary" style="width:100%" onclick="generate()" id="btn-gen">✦ Revelar mis números ✦</button>
+      </div>
     </div>
 
     <div class="loading-screen hidden" id="tab-loading">
@@ -846,6 +853,7 @@ function quickLaunch(el){
   const btnGen=document.getElementById('btn-gen');
   btnGen.classList.remove('btn-pulse');
   btnGen.classList.add('btn-ready');
+  startSparkles();
   btnGen.scrollIntoView({behavior:'smooth',block:'center'});
   // Si faltan datos personales, resaltar campos vacíos
   if(!name||!birth||!cityB||!cityN){
@@ -924,7 +932,7 @@ async function saveConsultation(result,name){await withTimeout(sb.from('consulta
 function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';if(isPro){bar.innerHTML='<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML='<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML='<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
-  document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');
+  document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
   const name=document.getElementById('inp-name').value.trim();const birth=document.getElementById('inp-birth').value;const cityB=document.getElementById('inp-cityb').value.trim();const cityN=document.getElementById('inp-cityn').value.trim();
   if(!name)return showError('error-toast','Ingresa tu nombre completo');if(!birth)return showError('error-toast','Ingresa tu fecha de nacimiento');if(!cityB)return showError('error-toast','Ingresa tu ciudad de nacimiento');if(!cityN)return showError('error-toast','Ingresa tu ciudad actual');
   const isDuelMode=GAME_CFG[STATE.game]?.duel;
@@ -1010,6 +1018,31 @@ function renderResult(r,name){
   document.getElementById('seal-text').textContent=seals[STATE.game]||'COMBINACIÓN SELLADA';
 }
 function newConsult(){goBackToForm()}
+function startSparkles(){
+  stopSparkles();
+  const wrap=document.getElementById('btn-gen-wrap');
+  // Anillo giratorio
+  const ring=document.createElement('div');ring.className='btn-ring';ring.id='btn-ring';wrap.appendChild(ring);
+  // Partículas
+  const pts=[
+    {bottom:'calc(100% + 6px)',left:'8%',dur:'1.4s',delay:'0s'},
+    {bottom:'calc(100% + 6px)',left:'25%',dur:'1.8s',delay:'0.25s'},
+    {bottom:'calc(100% + 6px)',left:'48%',dur:'1.5s',delay:'0.5s'},
+    {bottom:'calc(100% + 6px)',left:'68%',dur:'1.7s',delay:'0.75s'},
+    {bottom:'calc(100% + 6px)',left:'85%',dur:'1.6s',delay:'1s'},
+    {bottom:'calc(100% + 6px)',left:'35%',dur:'1.9s',delay:'1.3s'},
+  ];
+  pts.forEach(p=>{
+    const s=document.createElement('span');
+    s.className='btn-sparkle';s.textContent='✦';
+    s.style.cssText=`bottom:${p.bottom};left:${p.left};--dur:${p.dur};--delay:${p.delay}`;
+    wrap.appendChild(s);
+  });
+}
+function stopSparkles(){
+  const wrap=document.getElementById('btn-gen-wrap');
+  wrap.querySelectorAll('.btn-sparkle,.btn-ring').forEach(el=>el.remove());
+}
 function goBackToForm(){showTab('form');history.pushState({tab:'form'},'','');}
 window.addEventListener('popstate',function(e){
   const activeResult=document.getElementById('tab-result')&&!document.getElementById('tab-result').classList.contains('hidden');
