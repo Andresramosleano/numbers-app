@@ -832,57 +832,32 @@ function renderDuelResult(duel,name){
 }
 function quickLaunch(el){
   selGame(el);
+  // Siempre: solo seleccionar la tarjeta y hacer pulsar el botón Revelar.
+  // El usuario elige libremente y presiona Revelar cuando quiera.
+  const isDuel=GAME_CFG[STATE.game]?.duel;
   const name=document.getElementById('inp-name').value.trim();
   const birth=document.getElementById('inp-birth').value;
   const cityB=document.getElementById('inp-cityb').value.trim();
   const cityN=document.getElementById('inp-cityn').value.trim();
-  const isDuel=GAME_CFG[STATE.game]?.duel;
-  const teamA=isDuel?document.getElementById('inp-team-a').value.trim():'ok';
-  const teamB=isDuel?document.getElementById('inp-team-b').value.trim():'ok';
-  if(name&&birth&&cityB&&cityN&&teamA&&teamB){
-    generate();
-  }else{
-    showTab('form');
-    // Determinar qué falta y dar feedback visual claro
-    const missing=[];
+  const btnGen=document.getElementById('btn-gen');
+  btnGen.classList.remove('btn-pulse');
+  void btnGen.offsetWidth;
+  btnGen.classList.add('btn-pulse');
+  setTimeout(()=>btnGen.classList.remove('btn-pulse'),2200);
+  btnGen.scrollIntoView({behavior:'smooth',block:'center'});
+  // Si faltan datos personales, resaltar campos vacíos
+  if(!name||!birth||!cityB||!cityN){
     const fields=[
-      {id:'inp-name',val:name,label:'Nombre'},
-      {id:'inp-birth',val:birth,label:'Fecha de nacimiento'},
-      {id:'inp-cityb',val:cityB,label:'Ciudad de nacimiento'},
-      {id:'inp-cityn',val:cityN,label:'Ciudad actual'}
+      {id:'inp-name',val:name},{id:'inp-birth',val:birth},
+      {id:'inp-cityb',val:cityB},{id:'inp-cityn',val:cityN}
     ];
-    if(isDuel){
-      fields.push({id:'inp-team-a',val:teamA,label:'Equipo A'});
-      fields.push({id:'inp-team-b',val:teamB,label:'Equipo B'});
-    }
-    let firstEmpty=null;
     fields.forEach(f=>{
-      const el=document.getElementById(f.id);
       if(!f.val){
-        missing.push(f.label);
+        const el=document.getElementById(f.id);
         el.closest('.field')?.classList.add('field-missing');
         setTimeout(()=>el.closest('.field')?.classList.remove('field-missing'),3200);
-        if(!firstEmpty)firstEmpty=el;
       }
     });
-    // Mostrar hint en los cards
-    const hint=document.getElementById('card-hint');
-    if(missing.length>0){
-      const personalMissing=missing.filter(m=>!['Equipo A','Equipo B'].includes(m));
-      hint.textContent=personalMissing.length>0
-        ?'✦ Completa primero: '+personalMissing.join(', ')
-        :'✦ Ingresa los dos '+(isDuel&&STATE.game==='sports'?'equipos/jugadores':'equipos')+' del partido';
-      hint.classList.add('show');
-      setTimeout(()=>hint.classList.remove('show'),4000);
-    }
-    // Pulsar el botón generar para que el usuario sepa que debe completar y presionar
-    const btnGen=document.getElementById('btn-gen');
-    btnGen.classList.remove('btn-pulse');
-    void btnGen.offsetWidth; // reflow para reiniciar animación
-    btnGen.classList.add('btn-pulse');
-    setTimeout(()=>btnGen.classList.remove('btn-pulse'),2200);
-    btnGen.scrollIntoView({behavior:'smooth',block:'center'});
-    if(firstEmpty){setTimeout(()=>{firstEmpty.focus();},400);}
   }
 }
 function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
