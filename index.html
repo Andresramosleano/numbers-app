@@ -160,6 +160,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .mexpl-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase}
 .mexpl-num{font-family:'Cinzel Decorative',serif;font-size:17px;color:var(--gold2);font-weight:700}
 .mexpl-text{font-size:13px;color:var(--muted);line-height:1.65;font-style:italic}
+.accordion-block{margin-bottom:.75rem}.accordion-toggle{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:10px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);letter-spacing:.08em;cursor:pointer;text-align:left;display:flex;justify-content:space-between;align-items:center;transition:background .2s}.accordion-toggle:hover{background:rgba(201,168,76,.08)}.acc-arrow{transition:transform .3s;display:inline-block}.accordion-body{max-height:0;overflow:hidden;transition:max-height .4s ease}.accordion-body.open{max-height:2000px}
 .combo-winner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(124,92,191,.07));border:.5px solid rgba(201,168,76,.25);border-radius:12px;padding:18px 20px;margin:0.5rem 0 1.5rem;text-align:center}
 .combo-winner-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
 .combo-winner-text{font-size:15px;color:var(--text);line-height:1.85;font-style:italic}
@@ -487,6 +488,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="result-game" id="result-game"></div>
         <div class="result-user" id="result-user"></div>
       </div>
+      <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
+      <div class="numbers-row" id="numbers-display"></div>
       <div class="power-seal">
         <div class="power-seal-line"><span class="power-seal-text" id="seal-text">COMBINACIÓN SELLADA</span></div>
         <div class="power-seal-sub" id="seal-sub">Cinco fuerzas cósmicas convergen en tus números</div>
@@ -531,8 +534,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="pct-price">desde $2.99 USD/mes · Próximamente disponible</div>
         <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
       </div>
-      <div class="combo-title-wrap"><div class="combo-title" id="golden-div-text">✦ Tu Combinación Completa ✦</div></div>
-      <div class="numbers-row" id="numbers-display"></div>
       <div class="motors-row">
         <div class="motor-chip"><div class="motor-icon">☿</div><div class="motor-val" id="mv-num">—</div><div class="motor-name">Num.</div></div>
         <div class="motor-chip"><div class="motor-icon">♈</div><div class="motor-val" id="mv-ast">—</div><div class="motor-name">Astro.</div></div>
@@ -540,19 +541,29 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="motor-chip"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">Chino</div></div>
         <div class="motor-chip"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">Geo.</div></div>
       </div>
-      <div class="motors-explain" id="motors-explain"></div>
-      <div class="combo-winner" id="combo-winner"></div>
-      <div class="interpretation">
-        <div class="interp-power" id="interp-power">✦ Por qué estos números son poderosos ✦</div>
-        <div class="interp-text" id="interp-text"></div>
-        <div class="interp-divider"></div>
-        <div class="interp-closer" id="interp-closer"></div>
-      </div>
-      <div class="disclaimer-text">ℹ️ Numbers es entretenimiento e inspiración personal. No garantiza resultados en ningún juego de azar.</div>
-      <div class="action-row">
+      <div class="action-row" style="margin:1.25rem 0 .5rem">
         <button class="btn-whatsapp" onclick="shareWA()">📱 WhatsApp</button>
         <button class="btn-new" onclick="newConsult()">↺ Nueva consulta</button>
       </div>
+      <div class="accordion-block">
+        <button class="accordion-toggle" onclick="toggleAccordion('acc-motors')">☿ ¿Por qué estos números? <span class="acc-arrow">↓</span></button>
+        <div class="accordion-body" id="acc-motors">
+          <div class="motors-explain" id="motors-explain"></div>
+          <div class="combo-winner" id="combo-winner"></div>
+        </div>
+      </div>
+      <div class="accordion-block">
+        <button class="accordion-toggle" onclick="toggleAccordion('acc-interp')">✦ Lectura numerológica completa <span class="acc-arrow">↓</span></button>
+        <div class="accordion-body" id="acc-interp">
+          <div class="interpretation">
+            <div class="interp-power" id="interp-power">✦ Por qué estos números son poderosos ✦</div>
+            <div class="interp-text" id="interp-text"></div>
+            <div class="interp-divider"></div>
+            <div class="interp-closer" id="interp-closer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="disclaimer-text">ℹ️ Numbers es entretenimiento e inspiración personal.</div>
       <div class="pro-banner" id="pro-banner-bottom" style="display:none">
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
         <div class="pro-perks">Consultas ilimitadas · Historial 30 días · Todos los juegos · desde $2.99 USD/mes</div>
@@ -1044,6 +1055,7 @@ function renderResult(r,name){
   document.getElementById('seal-text').textContent=seals[STATE.game]||'COMBINACIÓN SELLADA';
 }
 function newConsult(){goBackToForm()}
+function toggleAccordion(id){const body=document.getElementById(id);const btn=body.previousElementSibling;const arrow=btn.querySelector('.acc-arrow');const isOpen=body.classList.contains('open');body.classList.toggle('open');arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)'}
 function startSparkles(){
   stopSparkles();
   const wrap=document.getElementById('btn-gen-wrap');
