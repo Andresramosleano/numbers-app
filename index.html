@@ -83,6 +83,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .game-card .gi{font-size:28px;margin-bottom:6px}
 .game-card .gl{font-size:14px;color:var(--text);font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
 .game-card.sel .gl{color:var(--gold2);font-weight:700}
+.game-card .gd{font-size:11px;color:var(--faint);font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:5px;line-height:1.4}
+.game-card.sel .gd{color:var(--muted)}
 .sacred-banner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.1rem 1.2rem 1rem;margin-bottom:1.25rem;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.08));border:.5px solid rgba(201,168,76,.30);border-radius:var(--rr);position:relative;overflow:hidden}
 .sacred-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.08),transparent);pointer-events:none}
 .sacred-banner-icon{font-size:28px;margin-bottom:.45rem;animation:floatOrb 4s ease-in-out infinite}
@@ -418,13 +420,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth"></div>
       <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"></div>
       <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"></div>
-      <div class="field"><label>Tipo de juego</label></div>
+      <div class="field"><label>Tus números de la suerte</label></div>
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div></div>
-        <div class="game-card" data-game="casino" onclick="quickLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div></div>
-        <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div></div>
-        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026 — Predice quién gana el partido</div></div>
+        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tu combinación cósmica personal para hoy</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div><div class="gd">Cifras del universo en segundos</div></div>
+        <div class="game-card" data-game="casino" onclick="quickLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">Tu camino numerológico profundo</div></div>
+        <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">Energía cósmica para tu equipo</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="duel-fields" class="hidden">
@@ -461,6 +463,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     </div>
 
     <div class="result-screen hidden" id="tab-result">
+      <div style="padding:.75rem 1.5rem 0"><button onclick="showTab('form')" style="background:transparent;border:.5px solid var(--border);border-radius:99px;padding:7px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;letter-spacing:.06em">← Cambiar consulta</button></div>
       <div class="result-header">
         <div class="result-for">Tu combinación para</div>
         <div class="result-game" id="result-game"></div>
