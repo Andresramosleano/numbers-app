@@ -56,6 +56,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-secondary{background:transparent;border:.5px solid var(--border);border-radius:var(--r);padding:12px 22px;cursor:pointer;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;transition:all .2s;animation:fadeUp .6s .6s both;margin-top:.75rem}
 .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
 .landing-disclaimer{font-size:11px;color:var(--faint);font-family:'JetBrains Mono',monospace;margin-top:2rem;line-height:1.6;animation:fadeUp .6s .7s both}
+.landing-unique{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;opacity:.8;animation:fadeUp .6s .35s both;border:.5px solid rgba(201,168,76,.25);border-radius:20px;padding:6px 16px;display:inline-block}
+.landing-numbers-preview{position:relative;margin-bottom:2.2rem;animation:fadeUp .6s .45s both;width:100%;max-width:360px}
+.lnp-label{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;opacity:.7}
+.lnp-balls{display:flex;gap:10px;justify-content:center;filter:blur(7px);user-select:none;pointer-events:none}
+.lnp-ball{width:44px;height:44px;border-radius:50%;background:var(--bg2);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--text);font-weight:700}
+.lnp-gold{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold2)}
+.lnp-blur-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold2);font-style:italic;letter-spacing:.05em;pointer-events:none}
 .app-header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem .85rem;border-bottom:.5px solid var(--border)}
 .header-logo{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.12em}
 .header-right{display:flex;align-items:center;gap:.85rem}
@@ -77,6 +84,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .field input,.field select{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);color:var(--text);padding:12px 15px;font-family:'Cormorant Garamond',serif;font-size:17px;outline:none;-webkit-appearance:none}
 .field input:focus,.field select:focus{border-color:var(--gold)}
 .field input::placeholder{color:var(--faint);font-style:italic}
+.field-hint{font-size:11px;color:var(--gold2);opacity:.65;font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:6px;letter-spacing:.03em;line-height:1.5}
 .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
 .game-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);padding:13px 8px;cursor:pointer;text-align:center;transition:all .2s}
 .game-card.sel{border-color:var(--gold);background:rgba(201,168,76,.08)}
@@ -282,6 +290,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .game-card.pro-locked{position:relative;opacity:.75}
 .game-card.pro-locked::after{content:'🔒 Pro';position:absolute;top:6px;right:7px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--gold2);background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.3);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
 .game-card.pro-locked:hover{opacity:1;border-color:rgba(201,168,76,.4)}
+.pro-preview{font-family:'Cormorant Garamond',serif;font-size:10.5px;font-style:italic;color:var(--muted);line-height:1.5;margin-top:8px;padding-top:7px;border-top:.5px solid rgba(201,168,76,.15);filter:blur(2.5px);user-select:none;pointer-events:none;opacity:.8}
+.game-card.pro-locked:hover .pro-preview{filter:blur(1px);opacity:1;transition:filter .3s}
 /* ─── CTA Pro mid-results ─── */
 .pro-cta-mid{background:linear-gradient(135deg,rgba(124,92,191,.16),rgba(201,168,76,.09));border:.5px solid rgba(201,168,76,.35);border-radius:var(--rr);padding:1.2rem 1.3rem;text-align:center;margin:1.4rem 0}
 .pro-cta-mid .pct-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold2);letter-spacing:.1em;margin-bottom:.4rem}
@@ -333,20 +343,33 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     <div class="landing">
       <div class="landing-eyebrow">✦ oráculo numérico ✦</div>
       <div class="landing-logo">NUMBERS</div>
-      <div class="landing-tagline" id="ll-tag">Tus números de la suerte de hoy, calculados con 5 fuerzas cósmicas personales</div>
+      <div class="landing-tagline" id="ll-tag">Tus números del día, calculados con 5 fuerzas cósmicas que se alinean a tu nombre, fecha y lugar</div>
+      <div class="landing-unique">Ninguna otra app en el mundo hace este cruce</div>
       <div class="engines-preview">
         <div class="ep-item"><div class="ep-orb">☿</div><div class="ep-label">Numerología</div></div>
         <div class="ep-item"><div class="ep-orb">♈</div><div class="ep-label">Astrología</div></div>
         <div class="ep-item"><div class="ep-orb">🌙</div><div class="ep-label">Luna</div></div>
-        <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">Calendario Chino</div></div>
+        <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">Cal. Chino</div></div>
         <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">Geoenergía</div></div>
       </div>
+      <div class="landing-numbers-preview">
+        <div class="lnp-label">Así lucen tus números de hoy</div>
+        <div class="lnp-balls">
+          <div class="lnp-ball">07</div>
+          <div class="lnp-ball">14</div>
+          <div class="lnp-ball lnp-gold">33</div>
+          <div class="lnp-ball">41</div>
+          <div class="lnp-ball">08</div>
+          <div class="lnp-ball">22</div>
+        </div>
+        <div class="lnp-blur-overlay">Crea tu cuenta para revelarlos ✦</div>
+      </div>
       <div id="landing-btns-guest">
-        <button class="btn-primary" onclick="goAuth('register')">✦ Crear cuenta ✦</button>
-        <button class="btn-secondary" onclick="goAuth('login')">Iniciar sesión</button>
+        <button class="btn-primary" onclick="goAuth('register')">✦ Revelar mis números ✦</button>
+        <button class="btn-secondary" onclick="goAuth('login')">Ya tengo cuenta</button>
       </div>
       <div id="landing-btns-user" style="display:none;width:100%;max-width:360px">
-        <button class="btn-primary" style="width:100%" onclick="enterApp()">✦ Entrar ✦</button>
+        <button class="btn-primary" style="width:100%" onclick="enterApp()">✦ Ver mis números de hoy ✦</button>
       </div>
       <div class="landing-disclaimer">ℹ️ Entretenimiento · Inspiración personal · Autoconocimiento</div>
     </div>
@@ -433,17 +456,17 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       </div>
       <div class="form-title">✦ Ingresa tu energía ✦</div>
       <div class="error-toast" id="error-toast"></div>
-      <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento"></div>
-      <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth"></div>
-      <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"></div>
-      <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"></div>
+      <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento"><div class="field-hint">✦ Tu nombre contiene la frecuencia vibracional con la que el universo te reconoce</div></div>
+      <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth"><div class="field-hint">✦ Activa tu ciclo numerológico personal. Cada número tiene su origen en este día</div></div>
+      <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"><div class="field-hint">✦ Ancla tu energía de origen. Donde naciste define tu número de la tierra</div></div>
+      <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"><div class="field-hint">✦ Determina tu campo energético presente. El universo calcula desde donde estás hoy</div></div>
       <div class="field"><label>Tus números de la suerte</label></div>
       <div class="game-grid">
         <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Estos son tus 6 números hoy. Cambian mañana.</div></div>
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div><div class="gd">Tres números. Ahora. Sin pensarlo.</div></div>
-        <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div></div>
-        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div></div>
-        <div class="game-card game-card-full pro-locked" data-game="mundial" onclick="proLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div></div>
+        <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
+        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
+        <div class="game-card game-card-full pro-locked" data-game="mundial" onclick="proLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div><div class="pro-preview">"Los 5 motores convergen para revelar qué selección porta la vibración ganadora esta noche..."</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="duel-fields" class="hidden">
