@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080510">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="数字神谕 — 您今日的黄金数字。五大宇宙力量交汇：命理学、星象学、月相、中国历法与地能。">
+<meta property="og:title" content="数字神谕 — 您今日的黄金数字">
+<meta property="og:description" content="五大宇宙力量为您计算今日专属幸运数字：命理学、星象学、月相、中国历法与地能。">
+<meta property="og:image" content="https://numbersoracle.com/og-image.png">
+<meta property="og:url" content="https://numbersoracle.com/zh">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="数字神谕 — 您今日的黄金数字">
+<meta name="twitter:description" content="五大宇宙力量为您计算今日专属幸运数字。">
+<title>数字神谕 ✦ — 您今日的黄金数字</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#080510; --bg2:#0f0a1e; --bg3:#161028; --bg4:#1e1632;
+  --gold:#c9a84c; --gold2:#e8c97a; --gold3:#f5e4b0; --golddim:#7a5f28;
+  --violet:#7c5cbf; --violet2:#a07ae0;
+  --teal:#3dbfa8; --rose:#bf5c7c;
+  --text:#e8dfc8; --muted:#b8a888; --faint:#7a6a54;
+  --border:rgba(201,168,76,0.14); --border2:rgba(201,168,76,0.28);
+  --r:10px; --rr:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;min-height:100dvh;overflow-x:hidden}
+.starfield{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(124,92,191,.1) 0%,transparent 60%),radial-gradient(ellipse 50% 35% at 80% 85%,rgba(61,191,168,.06) 0%,transparent 55%)}
+.starfield::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1.2px 1.2px at 8% 12%,rgba(245,228,176,.55) 0%,transparent 100%),radial-gradient(1px 1px at 22% 5%,rgba(245,228,176,.35) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 38% 28%,rgba(201,168,76,.5) 0%,transparent 100%),radial-gradient(1px 1px at 55% 8%,rgba(245,228,176,.3) 0%,transparent 100%),radial-gradient(1.2px 1.2px at 70% 18%,rgba(245,228,176,.42) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 85% 35%,rgba(201,168,76,.38) 0%,transparent 100%),radial-gradient(1px 1px at 12% 55%,rgba(245,228,176,.28) 0%,transparent 100%),radial-gradient(1px 1px at 92% 62%,rgba(245,228,176,.32) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 48% 75%,rgba(201,168,76,.3) 0%,transparent 100%),radial-gradient(1px 1px at 30% 88%,rgba(245,228,176,.25) 0%,transparent 100%);animation:twinkle 7s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.7}100%{opacity:1}}
+/* OPCIÓN 1 — columna ancha centrada, responsive */
+#app{position:relative;z-index:1;max-width:640px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;flex:1;animation:fadeUp .4s ease both}
+.screen.active{display:flex}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.landing{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:2rem 1.5rem 3rem;text-align:center}
+.landing-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
+.landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(3rem,11vw,4.8rem);font-weight:900;color:var(--gold2);letter-spacing:.1em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both;text-shadow:0 0 80px rgba(201,168,76,.25)}
+.landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin-bottom:3rem;animation:fadeUp .6s .3s both}
+.engines-preview{display:flex;gap:1.6rem;justify-content:center;margin-bottom:3rem;animation:fadeUp .6s .4s both;flex-wrap:wrap}
+.ep-item{display:flex;flex-direction:column;align-items:center;gap:7px}
+.ep-orb{width:58px;height:58px;border-radius:50%;border:.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:26px}
+.ep-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.btn-primary{width:100%;max-width:360px;padding:17px 24px;background:transparent;border:1px solid var(--gold);border-radius:var(--r);cursor:pointer;font-family:'Cinzel Decorative',serif;font-size:14px;color:var(--gold2);letter-spacing:.1em;transition:all .3s;position:relative;overflow:hidden;animation:fadeUp .6s .5s both}
+.btn-primary:hover{background:rgba(201,168,76,.1);box-shadow:0 0 28px rgba(201,168,76,.12)}
+.btn-primary:disabled{opacity:.5;cursor:wait}
+.btn-secondary{background:transparent;border:.5px solid var(--border);border-radius:var(--r);padding:12px 22px;cursor:pointer;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;transition:all .2s;animation:fadeUp .6s .6s both;margin-top:.75rem}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.landing-disclaimer{font-size:11px;color:var(--faint);font-family:'JetBrains Mono',monospace;margin-top:2rem;line-height:1.6;animation:fadeUp .6s .7s both}
+.landing-unique{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;opacity:.8;animation:fadeUp .6s .35s both;border:.5px solid rgba(201,168,76,.25);border-radius:20px;padding:6px 16px;display:inline-block}
+.landing-numbers-preview{position:relative;margin-bottom:2.2rem;animation:fadeUp .6s .45s both;width:100%;max-width:360px}
+.lnp-label{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;opacity:.7}
+.lnp-balls{display:flex;gap:10px;justify-content:center;filter:blur(7px);user-select:none;pointer-events:none}
+.lnp-ball{width:44px;height:44px;border-radius:50%;background:var(--bg2);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--text);font-weight:700}
+.lnp-gold{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold2)}
+.lnp-blur-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold2);font-style:italic;letter-spacing:.05em;pointer-events:none}
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem .85rem;border-bottom:.5px solid var(--border)}
+.header-logo{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.12em}
+.header-right{display:flex;align-items:center;gap:.85rem}
+.lang-switcher{display:flex;gap:5px}
+.lang-btn{background:transparent;border:.5px solid var(--border);border-radius:99px;padding:4px 11px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer}
+.lang-btn.active{border-color:var(--gold);color:var(--gold)}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);cursor:pointer;font-family:'Cinzel Decorative',serif}
+/* MOTORES MÁS GRANDES */
+.engines-strip{display:flex;justify-content:space-around;padding:1.1rem 1rem;border-bottom:.5px solid var(--border);background:var(--bg2)}
+.eng-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+.eng-icon{width:46px;height:46px;border-radius:50%;border:.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:21px;transition:all .3s}
+.eng-item.lit .eng-icon{border-color:var(--gold);box-shadow:0 0 14px rgba(201,168,76,.25)}
+.eng-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);min-height:14px}
+.eng-name{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-weight:500}
+.form-screen{padding:1.5rem;flex:1;overflow-y:auto;width:100%;max-width:520px;margin:0 auto}
+.form-title{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold);letter-spacing:.1em;text-align:center;margin-bottom:1.5rem}
+.field{margin-bottom:1.2rem}
+.field label{display:block;font-size:13px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:8px}
+.field input,.field select{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);color:var(--text);padding:12px 15px;font-family:'Cormorant Garamond',serif;font-size:17px;outline:none;-webkit-appearance:none}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.field input::placeholder{color:var(--faint);font-style:italic}
+.field-hint{font-size:14px;color:var(--gold2);opacity:.75;font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:7px;letter-spacing:.03em;line-height:1.5}
+.game-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+.game-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);padding:13px 8px;cursor:pointer;text-align:center;transition:all .2s}
+.game-card.sel{border-color:var(--gold);background:rgba(201,168,76,.08)}
+.game-card .gi{font-size:28px;margin-bottom:6px}
+.game-card .gl{font-size:14px;color:var(--text);font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
+.game-card.sel .gl{color:var(--gold2);font-weight:700}
+.game-card .gd{font-size:13px;color:var(--muted);font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:6px;line-height:1.45}
+.game-card.sel .gd{color:var(--text)}
+.sacred-banner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.1rem 1.2rem 1rem;margin-bottom:1.25rem;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.08));border:.5px solid rgba(201,168,76,.30);border-radius:var(--rr);position:relative;overflow:hidden}
+.sacred-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.08),transparent);pointer-events:none}
+.sacred-banner-icon{font-size:28px;margin-bottom:.45rem;animation:floatOrb 4s ease-in-out infinite}
+@keyframes floatOrb{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.sacred-banner-text{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);line-height:1.5;margin-bottom:.3rem}
+.sacred-banner-text strong{color:var(--gold2);font-style:italic}
+.sacred-banner-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.freemium-bar{background:rgba(201,168,76,.06);border:.5px solid rgba(201,168,76,.18);border-radius:var(--r);padding:11px 15px;font-size:12px;color:var(--muted);text-align:center;margin-bottom:1.5rem;font-style:italic}
+.freemium-bar strong{color:var(--gold);font-style:normal}
+.freemium-bar.locked{background:rgba(191,92,124,.08);border-color:rgba(191,92,124,.25);color:var(--rose)}
+.freemium-bar.locked strong{color:var(--rose)}
+.error-toast{background:rgba(191,92,124,.12);border:.5px solid rgba(191,92,124,.3);border-radius:var(--r);padding:11px 15px;font-size:13px;color:var(--rose);margin-bottom:1rem;text-align:center;display:none}
+.error-toast.show{display:block}
+.success-toast{background:rgba(61,191,168,.1);border:.5px solid rgba(61,191,168,.3);border-radius:var(--r);padding:11px 15px;font-size:13px;color:var(--teal);margin-bottom:1rem;text-align:center;display:none}
+.success-toast.show{display:block}
+.loading-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.loading-mandala{width:120px;height:120px;border-radius:50%;border:1px solid rgba(201,168,76,.25);border-top-color:var(--gold);animation:spin 1.8s linear infinite;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:1.5rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-dots{display:flex;gap:7px;margin-bottom:1.5rem}
+.loading-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:dotpulse 1.6s ease-in-out infinite}
+.loading-dot:nth-child(2){animation-delay:.2s}.loading-dot:nth-child(3){animation-delay:.4s}.loading-dot:nth-child(4){animation-delay:.6s}.loading-dot:nth-child(5){animation-delay:.8s}
+@keyframes dotpulse{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
+.loading-msg{font-style:italic;color:var(--muted);font-size:16px;text-align:center;max-width:340px}
+.result-screen{flex:1;overflow-y:auto;padding:1.5rem;width:100%;max-width:560px;margin:0 auto}
+.result-header{text-align:center;margin-bottom:1rem}
+.result-for{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
+.result-game{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold);letter-spacing:.1em}
+.result-user{font-size:13px;color:var(--muted);font-style:italic;margin-top:.3rem}
+/* SELLO DE COMBINACIÓN PODEROSA */
+.power-seal{text-align:center;margin:1.25rem 0 .5rem;animation:sealIn 1s ease both}
+@keyframes sealIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.power-seal-line{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
+.power-seal-line::before,.power-seal-line::after{content:'';height:.5px;width:40px;background:linear-gradient(90deg,transparent,var(--gold))}
+.power-seal-line::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.power-seal-text{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.15em}
+.power-seal-sub{font-size:14px;color:var(--text);font-style:italic}
+/* NÚMERO DE ORO */
+.golden-section{text-align:center;margin:1.75rem 0 1.25rem;animation:goldIn 1.1s ease both}
+@keyframes goldIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.golden-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem}.golden-sublabel{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;margin-bottom:.5rem;font-style:italic}
+.golden-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.85rem}
+.golden-orb{width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:42px;font-weight:900;color:#fff7e0;border:2px solid var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.4),rgba(201,168,76,.16) 55%,var(--bg2));box-shadow:0 0 50px rgba(201,168,76,.4),0 0 90px rgba(201,168,76,.18),inset 0 2px 8px rgba(255,247,224,.2);position:relative;z-index:2}
+.golden-halo{position:absolute;inset:-14px;border-radius:50%;border:.5px solid rgba(201,168,76,.35);animation:halo 3.5s ease-in-out infinite}
+.golden-halo2{position:absolute;inset:-26px;border-radius:50%;border:.5px solid rgba(201,168,76,.18);animation:halo 3.5s ease-in-out infinite .4s}
+@keyframes halo{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.06);opacity:1}}
+.golden-rays{position:absolute;inset:-26px;z-index:1;animation:spin 30s linear infinite}
+.golden-name{font-family:'Cinzel Decorative',serif;font-size:17px;color:var(--gold3);letter-spacing:.08em;margin-bottom:.5rem}
+.golden-phi{font-size:15px;color:var(--text);font-style:italic;max-width:440px;margin:0 auto;line-height:1.8}
+.golden-phi strong{color:var(--gold);font-style:normal}
+.golden-inplay{display:inline-block;margin-top:.6rem;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);letter-spacing:.05em;border:.5px solid rgba(61,191,168,.3);border-radius:99px;padding:5px 16px}
+.golden-divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:1.5rem 0 .5rem}
+.golden-divider::before,.golden-divider::after{content:'';height:.5px;width:50px;background:linear-gradient(90deg,transparent,var(--border2))}
+.golden-divider::after{background:linear-gradient(90deg,var(--border2),transparent)}
+.golden-divider span{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faint);letter-spacing:.15em;text-transform:uppercase}
+.combo-title-wrap{text-align:center;margin:1.8rem 0 .6rem}
+.combo-title{font-family:'Cinzel Decorative',serif;font-size:clamp(16px,4vw,22px);color:var(--gold2);letter-spacing:.12em;text-transform:uppercase;text-shadow:0 0 30px rgba(201,168,76,.25)}
+.nball.is-golden{border:2px solid var(--gold2);color:#fff7e0;background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.35),rgba(201,168,76,.18),var(--bg2));box-shadow:0 0 26px rgba(201,168,76,.4),inset 0 1px 0 rgba(255,247,224,.15)}
+.numbers-row{display:flex;flex-wrap:wrap;justify-content:center;gap:13px;margin:1.5rem 0}
+.nball{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:18px;font-weight:700;border:1px solid var(--gold);color:var(--gold2);background:radial-gradient(circle at 35% 35%,rgba(201,168,76,.16),var(--bg2));box-shadow:0 0 22px rgba(201,168,76,.13),inset 0 1px 0 rgba(255,255,255,.05);animation:ballin .6s ease both}
+@keyframes ballin{from{opacity:0;transform:scale(.4) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.motors-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
+.motor-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:8px;padding:10px 4px;text-align:center}
+.motor-icon{font-size:19px;margin-bottom:3px}
+.motor-val{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold)}
+.motor-name{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-weight:500}
+.interpretation{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.4rem 1.5rem;margin-bottom:1.25rem}
+.interp-power{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold2);letter-spacing:.06em;margin-bottom:1rem;text-align:center}
+.motors-explain{display:flex;flex-direction:column;gap:10px;margin:1rem 0 1.5rem}
+.mexpl-row{display:flex;align-items:flex-start;gap:12px;background:var(--bg2);border:.5px solid var(--border);border-radius:10px;padding:12px 14px}
+.mexpl-icon{font-size:22px;min-width:28px;text-align:center;margin-top:2px}
+.mexpl-body{flex:1}
+.mexpl-head{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.mexpl-label{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase}
+.mexpl-num{font-family:'Cinzel Decorative',serif;font-size:19px;color:var(--gold2);font-weight:700}
+.mexpl-text{font-size:15px;color:var(--muted);line-height:1.75;font-style:italic}
+.accordion-block{margin-bottom:.75rem}.accordion-toggle{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:10px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);letter-spacing:.08em;cursor:pointer;text-align:left;display:flex;justify-content:space-between;align-items:center;transition:background .2s}.accordion-toggle:hover{background:rgba(201,168,76,.08)}.acc-arrow{transition:transform .3s;display:inline-block}.accordion-body{max-height:0;overflow:hidden;transition:max-height .4s ease}.accordion-body.open{max-height:2000px}
+.combo-winner{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(124,92,191,.07));border:.5px solid rgba(201,168,76,.25);border-radius:12px;padding:18px 20px;margin:0.5rem 0 1.5rem;text-align:center}
+.combo-winner-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
+.combo-winner-text{font-size:15px;color:var(--text);line-height:1.85;font-style:italic}
+.combo-winner-text strong{color:var(--gold);font-style:normal}
+.interp-text{font-size:17px;color:var(--text);line-height:1.95;font-style:italic}
+.interp-text strong{color:var(--gold);font-style:normal}
+.interp-divider{height:.5px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:1rem 0}
+.interp-closer{font-size:16px;color:var(--gold3);line-height:1.85;font-style:italic;text-align:center}
+.disclaimer-text{font-size:12px;color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem;background:rgba(201,168,76,.04);border:.5px solid var(--border);border-radius:var(--r);padding:10px 14px}
+.action-row{display:flex;gap:10px;margin-bottom:1rem}
+.btn-whatsapp{flex:1;padding:13px;background:rgba(37,211,102,.1);border:.5px solid rgba(37,211,102,.35);border-radius:var(--r);cursor:pointer;color:#25d366;font-size:12px;font-family:'JetBrains Mono',monospace}
+.btn-new{flex:1;padding:13px;background:transparent;border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace}
+.btn-new:hover{border-color:var(--gold);color:var(--gold)}
+.pro-banner{background:linear-gradient(135deg,rgba(124,92,191,.14),rgba(201,168,76,.07));border:.5px solid rgba(124,92,191,.3);border-radius:var(--rr);padding:1.3rem 1.4rem;text-align:center;margin-bottom:1rem}
+.pro-title{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);margin-bottom:.5rem;letter-spacing:.08em}
+.pro-perks{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:.85rem;white-space:pre-line}
+.btn-pro{background:var(--violet);border:none;border-radius:6px;padding:10px 26px;cursor:pointer;color:#fff;font-size:12px;font-family:'JetBrains Mono',monospace}
+.auth-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem}
+.auth-logo{font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--gold2);letter-spacing:.12em;margin-bottom:.5rem}
+.auth-sub{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:2rem}
+.auth-form{width:100%;max-width:380px}
+.auth-field{margin-bottom:1.1rem}
+.auth-field label{display:block;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+.auth-field input{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);color:var(--text);padding:12px 15px;font-family:'Cormorant Garamond',serif;font-size:17px;outline:none}
+.auth-field input:focus{border-color:var(--gold)}
+.auth-or{text-align:center;margin:1.1rem 0;font-size:12px;color:var(--faint);font-family:'JetBrains Mono',monospace;position:relative}
+.auth-or::before,.auth-or::after{content:'';position:absolute;top:50%;width:40%;height:.5px;background:var(--border)}
+.auth-or::before{left:0}.auth-or::after{right:0}
+.btn-google{width:100%;padding:13px;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--text);font-size:14px;font-family:'Cormorant Garamond',serif;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:.85rem}
+.btn-google:hover{border-color:var(--gold)}
+.auth-toggle{text-align:center;font-size:13px;color:var(--muted);margin-top:1.1rem}
+.auth-toggle span{color:var(--gold);text-decoration:underline;cursor:pointer}
+.auth-forgot{text-align:right;margin-top:.5rem;margin-bottom:.2rem}
+.auth-forgot span{font-size:12px;color:var(--muted);cursor:pointer;font-family:'JetBrains Mono',monospace;text-decoration:underline}
+.auth-forgot span:hover{color:var(--gold)}
+.profile-screen{flex:1;overflow-y:auto;padding:1.5rem;width:100%;max-width:520px;margin:0 auto}
+.profile-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.4rem;margin-bottom:1rem}
+.profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--bg3);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold2);margin:0 auto 1rem}
+.profile-name{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:.25rem}
+.profile-email{text-align:center;font-size:12px;color:var(--muted);margin-bottom:.5rem}
+.profile-plan{text-align:center;font-size:12px;font-family:'JetBrains Mono',monospace;margin-bottom:1rem}
+.plan-free{color:var(--muted)}.plan-pro{color:var(--teal)}
+.profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.stat-box{background:var(--bg3);border-radius:var(--r);padding:.85rem;text-align:center}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--gold)}
+.stat-label{font-size:11px;color:var(--muted);margin-top:3px}
+.history-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.history-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid var(--border)}
+.history-item:last-child{border-bottom:none}
+.history-date{font-size:11px;color:var(--faint);font-family:'JetBrains Mono',monospace;min-width:76px}
+.history-game{font-size:12px;color:var(--muted)}
+.history-nums{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);margin-left:auto}
+.bottom-nav{display:flex;border-top:.5px solid var(--border);background:var(--bg2);padding:.6rem 0 calc(.6rem + env(safe-area-inset-bottom));max-width:640px;margin:0 auto;width:100%}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:transparent;border:none;cursor:pointer;padding:.45rem}
+.nav-icon{font-size:21px;line-height:1}
+.nav-label{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.nav-btn.active .nav-label{color:var(--gold)}
+.hidden{display:none!important}
+.spinner-mini{display:inline-block;width:12px;height:12px;border:2px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
+
+/* ─── NOTIFY MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(8,5,16,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;animation:fadeUp .25s ease both}
+.modal-box{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rr);padding:2rem 1.8rem;max-width:380px;width:100%;text-align:center;box-shadow:0 0 80px rgba(201,168,76,.15)}
+.modal-icon{font-size:40px;margin-bottom:1rem}
+.modal-title{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);letter-spacing:.08em;margin-bottom:.75rem}
+.modal-body{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;font-style:italic}
+.modal-close{background:var(--gold);border:none;border-radius:6px;padding:10px 28px;cursor:pointer;color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.05em}
+.modal-close:hover{opacity:.9}
+
+@media(max-width:380px){.nball{width:52px;height:52px;font-size:16px}.motors-row{grid-template-columns:repeat(5,1fr)}.eng-icon{width:40px;height:40px;font-size:18px}.engines-preview{gap:1rem}.ep-orb{width:50px;height:50px;font-size:22px}}
+
+/* ─── UPGRADE SCREEN ─── */
+.upgrade-screen{flex:1;overflow-y:auto;padding:1.5rem;width:100%;max-width:560px;margin:0 auto}
+.upgrade-hero{text-align:center;margin-bottom:2rem;padding:2rem 1rem}
+.upgrade-crown{font-size:52px;margin-bottom:1rem;display:block;animation:crownGlow 3s ease-in-out infinite alternate}
+@keyframes crownGlow{0%{filter:drop-shadow(0 0 8px rgba(201,168,76,.4))}100%{filter:drop-shadow(0 0 24px rgba(201,168,76,.9))}}
+.upgrade-title{font-family:'Cinzel Decorative',serif;font-size:clamp(20px,5vw,28px);color:var(--gold2);letter-spacing:.1em;margin-bottom:.5rem}
+.upgrade-sub{font-size:16px;color:var(--muted);font-style:italic;line-height:1.6}
+.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:2rem}
+@media(max-width:420px){.plans-grid{grid-template-columns:1fr}}
+.plan-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.4rem 1.2rem;position:relative}
+.plan-card.featured{border:2px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(124,92,191,.06))}
+.plan-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 14px;border-radius:99px;white-space:nowrap}
+.plan-name{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em}
+.plan-features{list-style:none;padding:0;margin:0 0 1.5rem}
+.plan-features li{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:.5px solid var(--border);font-size:13px;color:var(--text);line-height:1.5}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li .check{color:var(--teal);font-size:14px;margin-top:1px;flex-shrink:0}
+.plan-features li .cross{color:var(--faint);font-size:14px;margin-top:1px;flex-shrink:0}
+.plan-cta{width:100%;padding:13px;border-radius:var(--r);cursor:pointer;font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:.08em;transition:all .3s;border:none}
+.plan-cta.free{background:transparent;border:.5px solid var(--border);color:var(--muted)}
+.plan-cta.pro{background:linear-gradient(135deg,var(--gold),var(--golddim));color:var(--bg);font-weight:700}
+.plan-cta.pro:hover{box-shadow:0 0 28px rgba(201,168,76,.35)}
+.plan-cta.soon{background:rgba(124,92,191,.2);border:.5px solid rgba(124,92,191,.4);color:var(--violet2)}
+.upgrade-perks{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--rr);padding:1.4rem 1.5rem;margin-bottom:1.5rem}
+.perks-title{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em}
+.perk-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:.5px solid var(--border)}
+.perk-row:last-child{border-bottom:none}
+.perk-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.perk-text{flex:1}
+.perk-name{font-size:14px;color:var(--gold3);font-weight:500;margin-bottom:3px}
+.perk-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.upgrade-notify{background:rgba(124,92,191,.08);border:.5px solid rgba(124,92,191,.25);border-radius:var(--rr);padding:1.2rem 1.4rem;text-align:center;margin-bottom:1rem}
+.notify-title{font-size:14px;color:var(--violet2);margin-bottom:.5rem;font-family:'Cinzel Decorative',serif;letter-spacing:.06em}
+.notify-sub{font-size:12px;color:var(--muted);margin-bottom:1rem;font-style:italic}
+.btn-notify{background:var(--violet);border:none;border-radius:var(--r);padding:10px 24px;cursor:pointer;color:#fff;font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;transition:all .2s}
+.btn-notify:hover{background:var(--violet2)}
+
+/* ─── WHATSAPP CANVAS SHARE ─── */
+#wa-canvas{display:none}
+
+/* ─── CARD MUNDIAL (ancho completo) ─── */
+.game-card-full{grid-column:1/-1;flex-direction:row;gap:12px;padding:14px 20px;justify-content:center;border-color:rgba(201,168,76,.35);background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(124,92,191,.04))}
+.game-card-full .gi{font-size:28px;margin:0}
+.game-card-full .gl{font-size:13px;color:var(--muted)}
+.game-card-full.sel{border-color:var(--gold);background:rgba(201,168,76,.1)}
+.game-card-full.sel .gl{color:var(--gold2)}
+/* ─── PRO LOCK en tarjetas ─── */
+.game-card.pro-locked{position:relative;opacity:.75}
+.game-card.pro-locked::after{content:'🔒 Pro';position:absolute;top:6px;right:7px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--gold2);background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.3);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
+.game-card.pro-locked:hover{opacity:1;border-color:rgba(201,168,76,.4)}
+.pro-preview{font-family:'Cormorant Garamond',serif;font-size:10.5px;font-style:italic;color:var(--muted);line-height:1.5;margin-top:8px;padding-top:7px;border-top:.5px solid rgba(201,168,76,.15);filter:blur(2.5px);user-select:none;pointer-events:none;opacity:.8}
+.game-card.pro-locked:hover .pro-preview{filter:blur(1px);opacity:1;transition:filter .3s}
+/* ─── CTA Pro mid-results ─── */
+.pro-cta-mid{background:linear-gradient(135deg,rgba(124,92,191,.16),rgba(201,168,76,.09));border:.5px solid rgba(201,168,76,.35);border-radius:var(--rr);padding:1.2rem 1.3rem;text-align:center;margin:1.4rem 0}
+.pro-cta-mid .pct-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold2);letter-spacing:.1em;margin-bottom:.4rem}
+.pro-cta-mid .pct-urgency{font-size:13px;color:var(--text);font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:.9rem;line-height:1.5}
+.pro-cta-mid .pct-price{font-size:11px;color:var(--muted);margin-bottom:.75rem;font-family:'JetBrains Mono',monospace}
+.pro-cta-mid .btn-pct{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;border:none;border-radius:99px;padding:10px 28px;cursor:pointer;width:100%}
+
+/* ─── DUEL / PREDICTOR DEPORTIVO ─── */
+.duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
+/* ─── SPORT SELECTOR ─── */
+.sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
+.sport-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:99px;padding:7px 13px;cursor:pointer;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all .2s;white-space:nowrap}
+.sport-chip.sel{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,.08)}
+.sport-chip:hover{border-color:var(--golddim);color:var(--text)}
+/* ─── MISSING DATA FEEDBACK ─── */
+@keyframes fieldShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes fieldGlow{0%,100%{border-color:rgba(191,92,124,.3)}50%{border-color:var(--rose);box-shadow:0 0 14px rgba(191,92,124,.2)}}
+.field-missing input,.field-missing select{animation:fieldGlow 1s ease 3;border-color:rgba(191,92,124,.5)!important}
+.card-hint{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold2);text-align:center;padding:.85rem .75rem;background:rgba(201,168,76,.10);border:1px solid rgba(201,168,76,.35);border-radius:var(--r);margin-bottom:.75rem;display:none;animation:fadeUp .3s ease both;letter-spacing:.03em}
+.card-hint.show{display:block}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.0)}50%{box-shadow:0 0 0 8px rgba(201,168,76,.25)}}
+.btn-pulse{animation:btnPulse .7s ease 3}
+@keyframes btnShimmer{0%{background-position:-250% center}100%{background-position:250% center}}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 20px rgba(201,168,76,.5),0 0 45px rgba(201,168,76,.25),0 0 80px rgba(201,168,76,.1)}50%{box-shadow:0 0 40px rgba(201,168,76,.9),0 0 80px rgba(201,168,76,.5),0 0 140px rgba(201,168,76,.25),0 0 200px rgba(201,168,76,.08)}}
+@keyframes sparkleFloat{0%{transform:translateY(0) scale(.6) rotate(0deg);opacity:0}15%{opacity:1}85%{opacity:.7}100%{transform:translateY(-38px) scale(1.4) rotate(200deg);opacity:0}}
+.btn-ready{background:linear-gradient(90deg,rgba(201,168,76,.04) 0%,rgba(201,168,76,.25) 45%,rgba(245,228,176,.32) 50%,rgba(201,168,76,.25) 55%,rgba(201,168,76,.04) 100%)!important;background-size:250% auto!important;animation:btnShimmer 1.6s linear infinite,btnGlow 1.4s ease-in-out infinite!important;border-color:var(--gold2)!important;border-width:2px!important;color:var(--gold3)!important;transform:scale(1.03);transition:transform .3s}
+#btn-gen-wrap{isolation:isolate}
+.btn-sparkle{position:absolute;pointer-events:none;color:var(--gold2);font-size:13px;animation:sparkleFloat var(--dur,1.6s) ease-out var(--delay,0s) infinite;z-index:10;line-height:1}
+.duel-vs-container{display:flex;align-items:center;justify-content:space-around;margin:1.25rem 0;gap:8px}
+.duel-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.duel-team-name{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.04em;line-height:1.4;min-height:2.8em;display:flex;align-items:center;justify-content:center}
+.duel-orb{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:30px;font-weight:900;transition:all .5s}
+.duel-orb.winner-orb{border:2px solid var(--gold2);color:#fff7e0;background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.35),rgba(201,168,76,.18),var(--bg2));box-shadow:0 0 50px rgba(201,168,76,.45),0 0 90px rgba(201,168,76,.18),inset 0 2px 8px rgba(255,247,224,.2)}
+.duel-orb.loser-orb{border:1px solid var(--border);color:var(--muted);background:var(--bg2);box-shadow:none;opacity:.55}
+.duel-orb.neutral-orb{border:1px solid var(--gold);color:var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(201,168,76,.16),var(--bg2));box-shadow:0 0 22px rgba(201,168,76,.13)}
+.duel-score-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.duel-vs-center{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;padding:0 4px}
+.duel-vs-text{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold);opacity:.6;letter-spacing:.08em}
+.duel-winner-banner{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(124,92,191,.07));border:1px solid var(--gold);border-radius:var(--rr);padding:1.2rem 1.4rem;text-align:center;margin:.5rem 0 1.5rem;animation:sealIn 1s ease both}
+.duel-winner-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem}
+.duel-winner-name{font-family:'Cinzel Decorative',serif;font-size:21px;color:var(--gold2);letter-spacing:.06em;margin-bottom:.4rem}
+.duel-confidence{font-size:13px;color:var(--muted);font-style:italic;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="starfield"></div>
+<div id="app">
+  <div class="screen active" id="screen-landing">
+    <div class="landing">
+      <div class="landing-eyebrow">✦ 数字神谕 ✦</div>
+      <div class="landing-logo">NUMBERS</div>
+      <div class="landing-tagline" id="ll-tag">您的每日数字，由五大宇宙力量结合您的姓名、出生日期与所在地推算而来</div>
+      <div class="landing-unique">世界上没有任何应用能做到这样的交叉推算</div>
+      <div class="engines-preview">
+        <div class="ep-item"><div class="ep-orb">☿</div><div class="ep-label">命理学</div></div>
+        <div class="ep-item"><div class="ep-orb">♈</div><div class="ep-label">星象学</div></div>
+        <div class="ep-item"><div class="ep-orb">🌙</div><div class="ep-label">月相</div></div>
+        <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">中国历法</div></div>
+        <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">地能</div></div>
+      </div>
+      <div class="landing-numbers-preview">
+        <div class="lnp-label">您的今日数字如此呈现</div>
+        <div class="lnp-balls">
+          <div class="lnp-ball">07</div>
+          <div class="lnp-ball">14</div>
+          <div class="lnp-ball lnp-gold">33</div>
+          <div class="lnp-ball">41</div>
+          <div class="lnp-ball">08</div>
+          <div class="lnp-ball">22</div>
+        </div>
+        <div class="lnp-blur-overlay">创建账户以揭示它们 ✦</div>
+      </div>
+      <div id="landing-btns-guest">
+        <button class="btn-primary" onclick="goAuth('register')">✦ 揭示我的数字 ✦</button>
+        <button class="btn-secondary" onclick="goAuth('login')">已有账户</button>
+      </div>
+      <div id="landing-btns-user" style="display:none;width:100%;max-width:360px">
+        <button class="btn-primary" style="width:100%" onclick="enterApp()">✦ 查看今日数字 ✦</button>
+      </div>
+      <div class="landing-disclaimer">ℹ️ 娱乐 · 个人启示 · 自我认知</div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-auth">
+    <div class="auth-screen">
+      <div class="auth-logo">NUMBERS</div>
+      <div class="auth-sub" id="auth-sub">Accede a tu oráculo personal</div>
+      <div class="auth-form">
+        <div class="error-toast" id="auth-error"></div>
+        <div class="success-toast" id="auth-success"></div>
+        <button class="btn-google" onclick="loginWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          <span>使用 Google 继续</span>
+        </button>
+        <div class="auth-or">或使用邮箱</div>
+        <div class="auth-field" id="auth-name-field"><label>全名</label><input type="text" id="auth-name" placeholder="您的全名"></div>
+        <div class="auth-field"><label>电子邮箱</label><input type="email" id="auth-email" placeholder="your@email.com"></div>
+        <div class="auth-field"><label>密码（至少6位）</label><input type="password" id="auth-pass" placeholder="••••••••"></div>
+        <div class="auth-forgot hidden" id="auth-forgot-link"><span onclick="showForgotPw()">忘记密码？</span></div>
+        <button class="btn-primary" style="max-width:100%" onclick="doAuth()" id="auth-btn-main">创建账户</button>
+        <div class="auth-toggle" id="auth-toggle">已有账户？ <span onclick="toggleAuth()">登录</span></div>
+        <button class="btn-secondary" style="width:100%;margin-top:1rem" onclick="goTo('screen-landing')">← 返回</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD SCREEN -->
+  <div class="screen" id="screen-forgot">
+    <div class="auth-screen">
+      <div class="auth-logo">NUMBERS</div>
+      <div class="auth-sub">恢复您的神谕访问权限</div>
+      <div class="auth-form">
+        <div class="error-toast" id="forgot-error"></div>
+        <div class="success-toast" id="forgot-success"></div>
+        <div class="auth-field"><label>电子邮箱</label><input type="email" id="forgot-email" placeholder="your@email.com"></div>
+        <button class="btn-primary" style="max-width:100%" onclick="doForgotPw()" id="forgot-btn">✦ 发送恢复链接 ✦</button>
+        <button class="btn-secondary" style="width:100%;margin-top:.75rem" onclick="goAuth('login')">← 返回登录</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET PASSWORD SCREEN (usuario llega desde email) -->
+  <div class="screen" id="screen-resetpw">
+    <div class="auth-screen">
+      <div class="auth-logo">NUMBERS</div>
+      <div class="auth-sub">创建新密码</div>
+      <div class="auth-form">
+        <div class="error-toast" id="resetpw-error"></div>
+        <div class="success-toast" id="resetpw-success"></div>
+        <div class="auth-field"><label>新密码（至少6位）</label><input type="password" id="resetpw-pass" placeholder="••••••••"></div>
+        <div class="auth-field"><label>确认密码</label><input type="password" id="resetpw-pass2" placeholder="••••••••"></div>
+        <button class="btn-primary" style="max-width:100%" onclick="doResetPw()" id="resetpw-btn">✦ 保存新密码 ✦</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-main">
+    <div class="app-header">
+      <div class="header-logo">NUMBERS</div>
+      <div class="header-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" style="pointer-events:none">中文</button>
+        </div>
+        <div class="user-avatar" id="user-avatar" onclick="showTab('profile')">A</div>
+      </div>
+    </div>
+    <div class="engines-strip">
+      <div class="eng-item" id="eng-num"><div class="eng-icon">☿</div><div class="eng-val" id="ev-num">—</div><div class="eng-name">命理学</div></div>
+      <div class="eng-item" id="eng-ast"><div class="eng-icon">♈</div><div class="eng-val" id="ev-ast">—</div><div class="eng-name">星象学</div></div>
+      <div class="eng-item" id="eng-moon"><div class="eng-icon">🌙</div><div class="eng-val" id="ev-moon">—</div><div class="eng-name">月相</div></div>
+      <div class="eng-item" id="eng-chi"><div class="eng-icon">🐉</div><div class="eng-val" id="ev-chi">—</div><div class="eng-name">中国历法</div></div>
+      <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name">地能</div></div>
+    </div>
+
+    <div class="form-screen" id="tab-form">
+      <div class="sacred-banner">
+        <div class="sacred-banner-icon">🔮</div>
+        <div class="sacred-banner-text">填写表格以发现您的<strong>神圣数字</strong></div>
+        <div class="sacred-banner-sub">宇宙正在计算您独特的振动</div>
+      </div>
+      <div class="form-title">✦ 输入您的能量 ✦</div>
+      <div class="error-toast" id="error-toast"></div>
+      <div class="field"><label>全名</label><input type="text" id="inp-name" placeholder="如证件上所示"><div class="field-hint">✦ 您的姓名包含宇宙识别您的振动频率</div></div>
+      <div class="field"><label>出生日期</label><input type="date" id="inp-birth"><div class="field-hint">✦ 激活您的个人命理周期。每个数字都源于这一天</div></div>
+      <div class="field"><label>出生城市</label><input type="text" id="inp-cityb" placeholder="您的出生城市"><div class="field-hint">✦ 锚定您的原始能量。出生地定义您的大地数字</div></div>
+      <div class="field"><label>当前城市</label><input type="text" id="inp-cityn" placeholder="您现在居住的城市"><div class="field-hint">✦ 确定您当前的能量场。宇宙从您今天所在之处计算</div></div>
+      <div class="field"><label>您的幸运数字</label></div>
+      <div class="game-grid">
+        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">今天的6个数字。明天会改变。</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">快速数字</div><div class="gd">三个数字。立即。无需思考。</div></div>
+        <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
+        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育预测</div><div class="gd">今天谁会赢？比赛的宇宙预测</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
+        <div class="game-card game-card-full pro-locked" data-game="mundial" onclick="proLaunch(this)"><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量预测比赛胜者</div><div class="pro-preview">"5大引擎汇聚，揭示今晚哪支球队携带胜利振动..."</div></div>
+      </div>
+      <div class="card-hint" id="card-hint">↑ 填写您的个人资料以揭示您的数字</div>
+      <div id="duel-fields" class="hidden">
+        <!-- Selector de deporte (solo para modo Deportes, no Mundial) -->
+        <div id="sport-selector-wrap" class="hidden">
+          <div class="duel-fields-intro">🏆 Selecciona el deporte y los dos rivales</div>
+          <div class="sport-selector" id="sport-selector">
+            <div class="sport-chip sel" data-sport="football" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚽ Fútbol</div>
+            <div class="sport-chip" data-sport="basketball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏀 Básquet</div>
+            <div class="sport-chip" data-sport="tennis" data-label-a="🔵 Jugador A" data-label-b="🔴 Jugador B" onclick="selSport(this)">🎾 Tenis</div>
+            <div class="sport-chip" data-sport="baseball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚾ Béisbol</div>
+            <div class="sport-chip" data-sport="volleyball" data-label-a="🔵 Equipo A" data-label-b="🔴 Equipo B" onclick="selSport(this)">🏐 Voleibol</div>
+            <div class="sport-chip" data-sport="boxing" data-label-a="🔵 Boxeador A" data-label-b="🔴 Boxeador B" onclick="selSport(this)">🥊 Boxeo</div>
+            <div class="sport-chip" data-sport="americanfootball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏈 F. Americano</div>
+            <div class="sport-chip" data-sport="other" data-label-a="🔵 Opción A" data-label-b="🔴 Opción B" onclick="selSport(this)">🏆 Otro</div>
+          </div>
+        </div>
+        <!-- Intro para Mundial -->
+        <div id="mundial-duel-intro" class="hidden">
+          <div class="duel-fields-intro">🏆 Elige los dos equipos del partido a predecir</div>
+        </div>
+        <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
+        <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
+        <datalist id="wc-teams-list"></datalist>
+      </div>
+      <div class="freemium-bar" id="freemium-bar"><strong>每日免费占卜</strong> — <span id="fn-txt">升级专业版可无限次占卜</span></div>
+      <div id="btn-gen-wrap" style="position:relative;width:100%;max-width:360px;margin:0 auto">
+        <button class="btn-primary" style="width:100%" onclick="generate()" id="btn-gen">✦ 揭示我的数字 ✦</button>
+      </div>
+    </div>
+
+    <div class="loading-screen hidden" id="tab-loading">
+      <div class="loading-mandala" id="loading-orb">✦</div>
+      <div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>
+      <div class="loading-msg" id="loading-msg">正在计算您的振动...</div>
+    </div>
+
+    <div class="result-screen hidden" id="tab-result">
+      <div style="padding:1rem 1.5rem .25rem;text-align:center"><button onclick="goBackToForm()" style="background:rgba(201,168,76,.08);border:1px solid var(--gold);border-radius:99px;padding:12px 32px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold2);cursor:pointer;letter-spacing:.08em;width:100%;max-width:340px">← 新占卜</button></div>
+      <div class="result-header">
+        <div class="result-for">您的组合用于</div>
+        <div class="result-game" id="result-game"></div>
+        <div class="result-user" id="result-user"></div>
+      </div>
+      <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
+      <div class="numbers-row" id="numbers-display"></div>
+      <div class="power-seal">
+        <div class="power-seal-line"><span class="power-seal-text" id="seal-text">COMBINACIÓN SELLADA</span></div>
+        <div class="power-seal-sub" id="seal-sub">Cinco fuerzas cósmicas convergen en tus números</div>
+      </div>
+      <div id="duel-result-section" class="hidden">
+        <div class="duel-vs-container">
+          <div class="duel-team">
+            <div class="duel-team-name" id="duel-name-a">Equipo A</div>
+            <div class="duel-orb neutral-orb" id="duel-orb-a">—</div>
+            <div class="duel-score-label">Energía Cósmica</div>
+          </div>
+          <div class="duel-vs-center">
+            <div class="duel-vs-text">VS</div>
+          </div>
+          <div class="duel-team">
+            <div class="duel-team-name" id="duel-name-b">Equipo B</div>
+            <div class="duel-orb neutral-orb" id="duel-orb-b">—</div>
+            <div class="duel-score-label">Energía Cósmica</div>
+          </div>
+        </div>
+        <div class="duel-winner-banner">
+          <div class="duel-winner-label">✦ El Cosmos Favorece A ✦</div>
+          <div class="duel-winner-name" id="duel-winner-name">—</div>
+          <div class="duel-confidence" id="duel-confidence">—</div>
+        </div>
+      </div>
+      <div class="golden-section" id="golden-section">
+        <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
+        <div class="golden-sublabel" id="golden-sublabel">(diferente a tu número de vida · cambia cada día)</div>
+        <div class="golden-orb-wrap">
+          <div class="golden-halo"></div>
+          <div class="golden-halo2"></div>
+          <div class="golden-orb" id="golden-orb">7</div>
+        </div>
+        <div class="golden-name" id="golden-name">Tu número en proporción divina</div>
+        <div class="golden-phi" id="golden-phi"></div>
+        <div class="golden-inplay" id="golden-inplay">✓ Incluido en tu jugada</div>
+      </div>
+      <div class="pro-cta-mid" id="pro-cta-mid" style="display:none">
+        <div class="pct-title">✦ NUMBERS PRO ✦</div>
+        <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Deportes y Mundial · Sin límite diario.</div>
+        <div class="pct-price">desde $2.99 USD/mes · Próximamente disponible</div>
+        <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
+      </div>
+      <div class="motors-row">
+        <div class="motor-chip"><div class="motor-icon">☿</div><div class="motor-val" id="mv-num">—</div><div class="motor-name">命理</div></div>
+        <div class="motor-chip"><div class="motor-icon">♈</div><div class="motor-val" id="mv-ast">—</div><div class="motor-name">星象</div></div>
+        <div class="motor-chip"><div class="motor-icon">🌙</div><div class="motor-val" id="mv-moon">—</div><div class="motor-name">月相</div></div>
+        <div class="motor-chip"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">历法</div></div>
+        <div class="motor-chip"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">地能</div></div>
+      </div>
+      <div class="action-row" style="margin:1.25rem 0 .5rem">
+        <button class="btn-whatsapp" onclick="shareWA()">📱 分享</button>
+        <button class="btn-new" onclick="newConsult()">↺ 新占卜</button>
+      </div>
+      <div class="accordion-block">
+        <button class="accordion-toggle" onclick="toggleAccordion('acc-motors')">☿ 为什么是这些数字？— 点击查看 <span class="acc-arrow">↓</span></button>
+        <div class="accordion-body" id="acc-motors">
+          <div class="motors-explain" id="motors-explain"></div>
+          <div class="combo-winner" id="combo-winner"></div>
+        </div>
+      </div>
+      <div class="accordion-block">
+        <button class="accordion-toggle" onclick="toggleAccordion('acc-interp')">✦ 揭示您数字的意义 — 点击查看 <span class="acc-arrow">↓</span></button>
+        <div class="accordion-body" id="acc-interp">
+          <div class="interpretation">
+            <div class="interp-power" id="interp-power">✦ Por qué estos números son poderosos ✦</div>
+            <div class="interp-text" id="interp-text"></div>
+            <div class="interp-divider"></div>
+            <div class="interp-closer" id="interp-closer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="disclaimer-text">ℹ️ 数字神谕是娱乐与个人启示工具。</div>
+      <div class="pro-banner" id="pro-banner-bottom" style="display:none">
+        <div class="pro-title">✦ NUMBERS PRO ✦</div>
+        <div class="pro-perks">Consultas ilimitadas · Historial 30 días · Todos los juegos · desde $2.99 USD/mes</div>
+        <button class="btn-pro" onclick="showTab('upgrade')">Ver plan Pro →</button>
+      </div>
+    </div>
+
+    <div class="profile-screen hidden" id="tab-profile">
+      <div class="profile-card">
+        <div class="profile-avatar" id="profile-avatar">A</div>
+        <div class="profile-name" id="profile-name">用户</div>
+        <div class="profile-email" id="profile-email">—</div>
+        <div class="profile-plan plan-free" id="profile-plan">免费版 · 每日1次占卜</div>
+        <div class="profile-stats">
+          <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label">今日占卜</div></div>
+          <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label">历史总计</div></div>
+        </div>
+        <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem" onclick="showTab('upgrade')">⬆ 升级专业版 — 每月¥45起</button>
+        <button class="btn-secondary" style="width:100%;margin-top:0" onclick="logout()">退出登录</button>
+      </div>
+      <div class="profile-card">
+        <div class="history-title">占卜历史</div>
+        <div id="history-list"></div>
+      </div>
+    </div>
+
+    <!-- UPGRADE SCREEN -->
+    <div class="upgrade-screen hidden" id="tab-upgrade">
+      <div class="upgrade-hero">
+        <span class="upgrade-crown">👑</span>
+        <div class="upgrade-title">NUMBERS PRO</div>
+        <div class="upgrade-sub">解锁五大宇宙引擎的完整力量。无限制。无约束。</div>
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-name">✦ Freemium</div>
+          <ul class="plan-features">
+            <li><span class="check">✓</span>每天1次免费占卜</li>
+            <li><span class="check">✓</span>2款游戏（今日 + 快速）</li>
+            <li><span class="check">✓</span>每日黄金数字</li>
+            <li><span class="check">✓</span>中文界面</li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">无历史记录</span></li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">每日限制</span></li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">命运 · 体育 · 世界杯 🔒</span></li>
+          </ul>
+          <button class="plan-cta free" onclick="showTab('form')">当前计划 →</button>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-badge">✦ PRÓXIMAMENTE</div>
+          <div class="plan-name">✦ Pro</div>
+          <ul class="plan-features">
+            <li><span class="check">✓</span>无限次占卜</li>
+            <li><span class="check">✓</span>5款游戏全部解锁</li>
+            <li><span class="check">✓</span>每日黄金数字</li>
+            <li><span class="check">✓</span>中文界面</li>
+            <li><span class="check">✓</span>30天历史记录</li>
+            <li><span class="check">✓</span>无每日限制</li>
+          </ul>
+          <button class="plan-cta soon" onclick="showNotifyModal()">通知我 →</button>
+        </div>
+      </div>
+
+      <div class="upgrade-perks">
+        <div class="perks-title">✦ 为什么专业版值得拥有 ✦</div>
+        <div class="perk-row">
+          <div class="perk-icon">🔮</div>
+          <div class="perk-text">
+            <div class="perk-name">无限次占卜</div>
+            <div class="perk-desc">每天想占卜多少次就占卜多少次。 Prueba diferentes juegos, diferentes energías. Sin restricciones.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">📜</div>
+          <div class="perk-text">
+            <div class="perk-name">Historial completo de 30 días</div>
+            <div class="perk-desc">Revisa cada combinación que el cosmos te ha revelado. Encuentra patrones en tus números de la suerte.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">🌙</div>
+          <div class="perk-text">
+            <div class="perk-name">Número de Oro cada día</div>
+            <div class="perk-desc">Tu número en proporción áurea calculado fresh cada día, integrado en tu combinación de juego.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">🌍</div>
+          <div class="perk-text">
+            <div class="perk-name">Los 3 idiomas y todos los juegos</div>
+            <div class="perk-desc">Números del Día, Números Rápidos, Destino y Deportivos. En español, inglés o chino mandarín. Con reglas culturales activas.</div>
+          </div>
+        </div>
+        <div class="perk-row">
+          <div class="perk-icon">✦</div>
+          <div class="perk-text">
+            <div class="perk-name">Prioridad en nuevas funciones</div>
+            <div class="perk-desc">Los usuarios Pro acceden primero a cada nueva capacidad del oráculo antes que el resto.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRECIO DETECTADO AUTOMÁTICAMENTE -->
+      <div id="region-pricing" style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rr);padding:1.3rem 1.4rem;margin-bottom:1.25rem">
+        <div style="font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择您的访问方式 ✦</div>
+        <!-- Opción 1: Mensual -->
+        <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
+          <div style="position:absolute;top:-10px;right:12px;background:var(--gold);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:99px">POPULAR</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+            <div style="font-size:14px;color:var(--gold3);font-weight:500">月度订阅</div>
+            <div style="font-size:20px;font-weight:500;color:var(--gold2)" id="price-monthly">$2.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">30天无限访问。自动续费。随时取消。</div>
+        </div>
+        <!-- Opción 2: Por consulta -->
+        <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+            <div style="font-size:14px;color:var(--text);font-weight:500">按次付费</div>
+            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">$0.99 <span style="font-size:12px;color:var(--muted)">USD</span></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">单次占卜，无需承诺。适合在订阅前体验。</div>
+        </div>
+      </div>
+
+      <div class="upgrade-notify">
+        <div class="notify-title">🔔 即将推出</div>
+        <div class="notify-sub">我们正在开通支付。留下您的邮箱，成为第一个知道订阅时间的人。</div>
+        <button class="btn-notify" onclick="showNotifyModal()">当准备好时通知我</button>
+      </div>
+    </div>
+
+
+    <!-- NOTIFY MODAL -->
+    <div id="notify-modal" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div class="modal-icon">✦</div>
+        <div class="modal-title" id="modal-title">Próximamente disponible</div>
+        <div class="modal-body" id="modal-body">我们正在开通支付。当专业版计划上线时，您将是第一个知道的人。</div>
+        <button class="modal-close" onclick="closeModal()">明白了 →</button>
+      </div>
+    </div>
+
+    <!-- hidden canvas for WhatsApp image generation -->
+    <canvas id="wa-canvas" width="800" height="420"></canvas>
+
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="showTab('form')" id="nav-home"><div class="nav-icon">✦</div><div class="nav-label">首页</div></button>
+      <button class="nav-btn" onclick="showTab('result')" id="nav-result"><div class="nav-icon">🔮</div><div class="nav-label">数字</div></button>
+      <button class="nav-btn" onclick="showTab('upgrade')" id="nav-upgrade"><div class="nav-icon">👑</div><div class="nav-label">专业版</div></button>
+      <button class="nav-btn" onclick="showTab('profile')" id="nav-profile"><div class="nav-icon">👤</div><div class="nav-label">档案</div></button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL='https://thtuzvhzwcoifgdyzrsz.supabase.co';
+const SUPABASE_KEY='sb_publishable_oTbjnp0Rp3GDgt66EBxhWA_DWTDWNKo';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+// Envoltura con timeout: si Supabase no responde (ej. Edge bloquea storage), continúa igual
+function withTimeout(promise,ms,fallback){
+  return Promise.race([
+    Promise.resolve(promise).catch(e=>{console.warn('Supabase call failed:',e);return fallback}),
+    new Promise(resolve=>setTimeout(()=>{console.warn('Supabase call timed out after',ms,'ms');resolve(fallback)},ms))
+  ]);
+}
+const STATE={lang:'zh',user:null,profile:null,game:'lottery',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register'};
+
+// ═══════════════════════════════════════
+// INTERNACIONALIZACIÓN (i18n) — CHINO MANDARÍN SIMPLIFICADO
+// ═══════════════════════════════════════
+const TRANSLATIONS={zh:{
+  eyebrow:'✦ 数字神谕 ✦',
+  tagline:'您的每日数字，由五大宇宙力量结合您的姓名、出生日期与所在地推算而来',
+  unique:'世界上没有任何应用能做到这样的交叉推算',
+  epLabels:['命理学','星象学','月相','中国历法','地能'],
+  lnpLabel:'这就是您今天的数字预览',
+  lnpOverlay:'创建账号以揭示您的数字 ✦',
+  btnReveal:'✦ 揭示我的数字 ✦',
+  btnHaveAccount:'已有账号',
+  btnViewToday:'✦ 查看我今天的数字 ✦',
+  disclaimer:'ℹ️ 娱乐 · 个人启示 · 自我了解',
+  authSubRegister:'创建您的个人神谕',
+  authSubLogin:'欢迎回来',
+  btnGoogle:'使用 Google 继续',
+  orEmail:'或使用邮箱',
+  labelName:'全名',
+  labelEmail:'电子邮件',
+  labelPassword:'密码（至少6个字符）',
+  forgotPw:'忘记密码？',
+  btnCreate:'创建账号',
+  btnLogin:'登录',
+  haveAccount:'已有账号？',
+  haveAccountLink:'登录',
+  noAccount:'还没有账号？',
+  noAccountLink:'注册',
+  btnBack:'← 返回',
+  forgotSub:'找回您的神谕入口',
+  btnSendLink:'✦ 发送找回链接 ✦',
+  btnBackLogin:'← 返回登录',
+  resetSub:'设置您的新密码',
+  labelNewPw:'新密码（至少6个字符）',
+  labelConfirmPw:'确认密码',
+  btnSavePw:'✦ 保存新密码 ✦',
+  bannerText:'填写表单，发现您的',
+  bannerBold:'神圣数字',
+  bannerSub:'宇宙正在计算您独特的振动频率',
+  formTitle:'✦ 输入您的能量 ✦',
+  fieldNameLabel:'全名',
+  fieldNamePlaceholder:'如证件上所示',
+  fieldNameHint:'✦ 您的姓名蕴含着宇宙识别您的振动频率',
+  fieldBirthLabel:'出生日期',
+  fieldBirthHint:'✦ 激活您的个人命理周期。每个数字都源于这一天',
+  fieldCityBLabel:'出生城市',
+  fieldCityBPlaceholder:'您出生的城市',
+  fieldCityBHint:'✦ 锚定您的根源能量。出生地决定您的大地数字',
+  fieldCityNLabel:'当前城市',
+  fieldCityNPlaceholder:'您现在居住的城市',
+  fieldCityNHint:'✦ 确定您当前的能量场。宇宙从您所在之处开始计算',
+  fieldLuckyLabel:'您的幸运数字',
+  gameLotteryName:'今日数字',
+  gameLotteryDesc:'这是您今天的6个数字。明天将会改变。',
+  gameChanceName:'快速数字',
+  gameChanceDesc:'三个数字。立即。无需思考。',
+  gameCasinoName:'命运数字',
+  gameCasinoDesc:'不会改变。是您的。与您一同诞生。',
+  gameCasinoPreview:'"您的主命数揭示了宇宙在您出生前为您书写的使命..."',
+  gameSportsName:'体育',
+  gameSportsDesc:'谁今天会赢？赛事宇宙预测',
+  gameSportsPreview:'"主队今天在振动频率上超越了客队..."',
+  gameMundialName:'世界杯 2026',
+  gameMundialDesc:'用宇宙能量预测比赛结果',
+  gameMundialPreview:'"五大引擎汇聚，揭示哪支球队今晚携带着获胜的振动..."',
+  cardHint:'↑ 填写您的个人信息以揭示数字',
+  freemiumFree:'今日免费咨询',
+  freemiumFreeUpgrade:'升级至 Pro 享无限咨询',
+  freemiumLimited:'今日已达限额',
+  freemiumLimitedUpgrade:'升级至 Pro 获取更多咨询',
+  freemiumProActive:'✦ Pro 计划已激活',
+  freemiumProUnlimited:'无限咨询',
+  btnGenerate:'✦ 揭示我的数字 ✦',
+  loadingMsgs:(n)=>[
+    `正在计算 ${n} 的命理振动...`,
+    `正在将星象与您的星座对齐...`,
+    `正在与今日月相同步...`,
+    `正在查询千年中国历法...`,
+    `正在融合您城市的能量，${n}...`,
+    `正在封印您独特的宇宙组合...`
+  ],
+  btnNewConsult:'← 新咨询',
+  resultFor:'您今天的组合',
+  comboTitle:'✦ 您的完整组合 ✦',
+  sealTextMap:{lottery:'振动已封印',chance:'数字已揭示',casino:'序列已揭示',sports:'宇宙预测',default:'组合已封印'},
+  sealSub:'五大宇宙力量在您的数字中汇聚',
+  goldenLabel:'✦ 今日黄金数字 ✦',
+  goldenSublabel:'（与您的生命数字不同 · 每天变化）',
+  goldenName:'您的神圣比例数字',
+  goldenInPlay:'✓ 已包含在您的组合中',
+  goldenCeremonial:'✦ 灵感仪式数字',
+  proCTATitle:'✦ NUMBERS PRO ✦',
+  proCTAUrgency:'您的组合明天会改变。<br>保存它 · 访问体育和世界杯 · 无每日限制。',
+  proCTAPrice:'每次咨询仅需 ¥12 · 即将推出',
+  proCTABtn:'我要成为首批用户 →',
+  motorShort:['命理','星象','月相','中历','地能'],
+  duelSealText:'宇宙预测',
+  duelSealSub:'五大引擎今天计算了每支球队的能量',
+  duelGoldenLabel:'✦ 被眷顾者的能量 ✦',
+  duelGoldenSublabel:'振动频率最高的球队的力量数字',
+  cosmicFavors:'✦ 宇宙眷顾 ✦',
+  accordionMotors:'☿ 为什么是这些数字？— 点击查看',
+  accordionInterp:'✦ 揭示您数字的含义 — 点击查看',
+  btnWA:'📱 WhatsApp',
+  btnNewSmall:'↺ 新咨询',
+  disclaimerResult:'ℹ️ Numbers 是娱乐与个人启示。',
+  profilePlanFree:'免费计划 · 每天1次咨询',
+  profilePlanPro:'Pro 计划 · 无限咨询',
+  statConsultsLabel:'今日咨询',
+  statTotalLabel:'历史总计',
+  btnActivatePro:'⬆ 激活 Pro — 每次咨询仅需 ¥12',
+  btnLogout:'退出登录',
+  historyTitle:'咨询历史',
+  historyEmpty:'暂无咨询记录',
+  defaultUser:'用户',
+  upgradeTitle:'NUMBERS PRO',
+  upgradeSub:'解锁五大宇宙引擎的全部力量。无限制。无约束。',
+  navHome:'首页',
+  navNumbers:'数字',
+  navPro:'Pro',
+  navProfile:'个人',
+  errName:'请输入您的全名',
+  errBirth:'请输入您的出生日期',
+  errCityB:'请输入您的出生城市',
+  errCityN:'请输入您的当前城市',
+  errTeamA:'请输入球队A的名称',
+  errTeamB:'请输入球队B的名称',
+  errLimit:'您已达到今日免费限额。请升级至 Pro。',
+  errGenerate:'生成时出现问题。请重试。',
+  errAuthName:'请输入您的全名',
+  errAuthEmail:'请输入您的电子邮件',
+  errAuthPwLength:'密码至少需要6个字符',
+  errForgotEmail:'请输入您的电子邮件',
+  errResetPwLength:'密码至少需要6个字符',
+  errResetPwMatch:'两次密码不一致',
+  successAccountCreated:'账号已创建！请检查您的邮箱以确认。您现在可以登录。',
+  successResetPw:'✦ 密码已更新！正在登录...',
+  successForgotSent:'✦ 链接已发送。请检查您的邮箱（包括垃圾邮件），点击链接设置新密码。',
+  gameLabels:{lottery:'今日数字',chance:'快速数字',casino:'命运数字',sports:'体育预测',mundial:'世界杯 2026'},
+  duelIntro:'🏆 选择运动项目和两支对手',
+  mundialIntro:'🏆 选择要预测比赛的两支球队',
+  sportChips:{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',volleyball:'🏐 排球',boxing:'🥊 拳击',americanfootball:'🏈 美式足球',other:'🏆 其他'},
+  sportLabelA:{football:'🔵 主队',basketball:'🔵 主队',tennis:'🔵 球员A',baseball:'🔵 主队',volleyball:'🔵 球队A',boxing:'🔵 拳手A',americanfootball:'🔵 主队',other:'🔵 选项A'},
+  sportLabelB:{football:'🔴 客队',basketball:'🔴 客队',tennis:'🔴 球员B',baseball:'🔴 客队',volleyball:'🔴 球队B',boxing:'🔴 拳手B',americanfootball:'🔴 客队',other:'🔴 选项B'},
+  cosmicEnergyLabel:'宇宙能量',
+  confidenceMap:{
+    identical:'⚡ 能量相同——比赛极为接近，可能需要点球决胜',
+    slight:'⚡ 轻微宇宙优势——比赛非常紧张，任何一方都可能获胜',
+    moderate:'⚡ 适度优势——能量使天平倾斜',
+    clear:'⚡ 明显宇宙优势——五大引擎指向同一方向'
+  },
+  modalTitle:'✦ 即将推出',
+  modalClose:'明白了 →',
+  comboWinnerTitle:'✦ 为什么这个组合属于您 ✦',
+  interpPower:'✦ 为什么这些数字如此强大 ✦',
+  interpCloser:'世界上没有其他人在今天拥有这个精确的组合。这是您的，由宇宙为这一天封印。',
+  duelInterpCloser:'这次解读反映了今天宇宙的能量——体育和生活一样，总能带来惊喜。Numbers 是娱乐与启示。',
+  pricingSubscriptionLabel:'月度订阅',
+  pricingSubscriptionDesc:'30天无限访问。自动续订。随时取消。',
+  pricingConsultLabel:'单次咨询',
+  pricingConsultDesc:'一次咨询，无需承诺。适合想先体验的用户。',
+  notifyTitle:'🔔 即将推出',
+  notifySub:'我们正在开通支付。留下您的邮箱，您将第一个知道何时可以订阅。',
+  btnNotifyMe:'有消息时通知我',
+}};
+
+// Traductores de términos astronómicos/numerológicos
+function tZodiac(s){if(STATE.lang!=='zh')return s;const m={'Capricornio':'摩羯座','Acuario':'水瓶座','Piscis':'双鱼座','Aries':'牡羊座','Tauro':'金牛座','Géminis':'双子座','Cáncer':'巨蟹座','Leo':'狮子座','Virgo':'处女座','Libra':'天秤座','Escorpio':'天蝎座','Sagitario':'射手座'};return m[s]||s}
+function tPlanet(s){if(STATE.lang!=='zh')return s;const m={'Saturno':'土星','Urano':'天王星','Neptuno':'海王星','Marte':'火星','Venus':'金星','Mercurio':'水星','Luna':'月亮','Sol':'太阳','Júpiter':'木星','Plutón':'冥王星'};return m[s]||s}
+function tMoon(s){if(STATE.lang!=='zh')return s;const m={'Nueva':'新月','Creciente':'蛾眉月','Cuarto creciente':'上弦月','Gibosa creciente':'盈凸月','Llena':'满月','Gibosa menguante':'亏凸月','Cuarto menguante':'下弦月','Menguante':'残月'};return m[s]||s}
+function tAnimal(s){if(STATE.lang!=='zh')return s;const m={'Rata':'鼠','Buey':'牛','Tigre':'虎','Conejo':'兔','Dragón':'龙','Serpiente':'蛇','Caballo':'马','Cabra':'羊','Mono':'猴','Gallo':'鸡','Perro':'狗','Cerdo':'猪'};return m[s]||s}
+function tElement(s){if(STATE.lang!=='zh')return s;const m={'Tierra':'土','Aire':'风','Agua':'水','Fuego':'火'};return m[s]||s}
+function tConfidence(c){
+  if(STATE.lang!=='zh')return c;
+  const zh=TRANSLATIONS.zh;
+  if(c.includes('idénticas'))return zh.confidenceMap.identical;
+  if(c.includes('leve'))return zh.confidenceMap.slight;
+  if(c.includes('moderada'))return zh.confidenceMap.moderate;
+  return zh.confidenceMap.clear;
+}
+
+function applyLang(lang){
+  if(lang!=='zh'){
+    // Restaurar ES si se cambia de ZH a ES
+    if(lang==='es'){
+      const ey=document.querySelector('.landing-eyebrow');if(ey)ey.textContent='✦ oráculo numérico ✦';
+      const tg=document.getElementById('ll-tag');if(tg)tg.textContent='您的每日数字，由五大宇宙力量结合您的姓名、出生日期与所在地推算而来';
+      const uq=document.querySelector('.landing-unique');if(uq)uq.textContent='世界上没有任何应用能做到这样的交叉推算';
+    }
+    return;
+  }
+  const zh=TRANSLATIONS.zh;
+  // ── Landing ──
+  const ey=document.querySelector('.landing-eyebrow');if(ey)ey.textContent=zh.eyebrow;
+  const tg=document.getElementById('ll-tag');if(tg)tg.textContent=zh.tagline;
+  const uq=document.querySelector('.landing-unique');if(uq)uq.textContent=zh.unique;
+  document.querySelectorAll('.ep-label').forEach((el,i)=>{if(zh.epLabels[i])el.textContent=zh.epLabels[i]});
+  const lnpL=document.querySelector('.lnp-label');if(lnpL)lnpL.textContent=zh.lnpLabel;
+  const lnpO=document.querySelector('.lnp-blur-overlay');if(lnpO)lnpO.textContent=zh.lnpOverlay;
+  const guestBtn=document.querySelector('#landing-btns-guest .btn-primary');if(guestBtn)guestBtn.textContent=zh.btnReveal;
+  const guestSec=document.querySelector('#landing-btns-guest .btn-secondary');if(guestSec)guestSec.textContent=zh.btnHaveAccount;
+  const userBtn=document.querySelector('#landing-btns-user .btn-primary');if(userBtn)userBtn.textContent=zh.btnViewToday;
+  const lDis=document.querySelector('.landing-disclaimer');if(lDis)lDis.textContent=zh.disclaimer;
+  // ── Auth ──
+  const authSub=document.getElementById('auth-sub');if(authSub)authSub.textContent=STATE.authMode==='register'?zh.authSubRegister:zh.authSubLogin;
+  const gBtn=document.querySelector('.btn-google span');if(gBtn)gBtn.textContent=zh.btnGoogle;
+  const orEl=document.querySelector('.auth-or');if(orEl)orEl.textContent=zh.orEmail;
+  const nameLbl=document.querySelector('#auth-name-field label');if(nameLbl)nameLbl.textContent=zh.labelName;
+  document.querySelectorAll('#screen-auth .auth-field label').forEach(el=>{
+    const t=el.textContent.trim();
+    if(t.includes('Correo')||t.includes('electrónico'))el.textContent=zh.labelEmail;
+    if(t.includes('Contraseña'))el.textContent=zh.labelPassword;
+  });
+  const forgotSpan=document.querySelector('#auth-forgot-link span');if(forgotSpan)forgotSpan.textContent=zh.forgotPw;
+  const authBtn=document.getElementById('auth-btn-main');if(authBtn)authBtn.textContent=STATE.authMode==='register'?zh.btnCreate:zh.btnLogin;
+  const authTgl=document.getElementById('auth-toggle');
+  if(authTgl)authTgl.innerHTML=STATE.authMode==='register'?`${zh.haveAccount} <span onclick="toggleAuth()">${zh.haveAccountLink}</span>`:`${zh.noAccount} <span onclick="toggleAuth()">${zh.noAccountLink}</span>`;
+  document.querySelectorAll('#screen-auth .btn-secondary').forEach(b=>{if(b.textContent.includes('Volver'))b.textContent=zh.btnBack});
+  // ── Form ──
+  const sbT=document.querySelector('.sacred-banner-text');if(sbT)sbT.innerHTML=`${zh.bannerText} <strong>${zh.bannerBold}</strong>`;
+  const sbS=document.querySelector('.sacred-banner-sub');if(sbS)sbS.textContent=zh.bannerSub;
+  const fmT=document.querySelector('.form-title');if(fmT)fmT.textContent=zh.formTitle;
+  document.querySelectorAll('.field').forEach(f=>{
+    const lbl=f.querySelector('label');const inp=f.querySelector('input');const hint=f.querySelector('.field-hint');
+    if(!lbl)return;const lt=lbl.textContent.trim();
+    if(lt==='Nombre completo'){lbl.textContent=zh.fieldNameLabel;if(inp)inp.placeholder=zh.fieldNamePlaceholder;if(hint)hint.textContent=zh.fieldNameHint;}
+    else if(lt==='出生日期'){lbl.textContent=zh.fieldBirthLabel;if(hint)hint.textContent=zh.fieldBirthHint;}
+    else if(lt==='Ciudad de nacimiento'){lbl.textContent=zh.fieldCityBLabel;if(inp)inp.placeholder=zh.fieldCityBPlaceholder;if(hint)hint.textContent=zh.fieldCityBHint;}
+    else if(lt==='Ciudad actual'){lbl.textContent=zh.fieldCityNLabel;if(inp)inp.placeholder=zh.fieldCityNPlaceholder;if(hint)hint.textContent=zh.fieldCityNHint;}
+    else if(lt==='您的幸运数字'){lbl.textContent=zh.fieldLuckyLabel;}
+  });
+  // ── Game cards ──
+  document.querySelectorAll('.game-card').forEach(card=>{
+    const g=card.dataset.game;const nameEl=card.querySelector('.gl');const descEl=card.querySelector('.gd');const prevEl=card.querySelector('.pro-preview');
+    if(!g||!nameEl)return;
+    const names={lottery:zh.gameLotteryName,chance:zh.gameChanceName,casino:zh.gameCasinoName,sports:zh.gameSportsName,mundial:zh.gameMundialName};
+    const descs={lottery:zh.gameLotteryDesc,chance:zh.gameChanceDesc,casino:zh.gameCasinoDesc,sports:zh.gameSportsDesc,mundial:zh.gameMundialDesc};
+    const prevs={casino:zh.gameCasinoPreview,sports:zh.gameSportsPreview,mundial:zh.gameMundialPreview};
+    if(names[g])nameEl.textContent=names[g];
+    if(descEl&&descs[g])descEl.textContent=descs[g];
+    if(prevEl&&prevs[g])prevEl.textContent=prevs[g];
+  });
+  const ch=document.getElementById('card-hint');if(ch)ch.textContent=zh.cardHint;
+  updateFreemiumBar();
+  const bgn=document.getElementById('btn-gen');if(bgn&&!bgn.disabled)bgn.textContent=zh.btnGenerate;
+  // ── Engine strip ──
+  const engNames=document.querySelectorAll('.eng-name');
+  ['命理学','星象学','月相','中国历法','地能'].forEach((n,i)=>{if(engNames[i])engNames[i].textContent=n});
+  // ── Nav ──
+  const navLabels=document.querySelectorAll('.nav-label');
+  [zh.navHome,zh.navNumbers,zh.navPro,zh.navProfile].forEach((n,i)=>{if(navLabels[i])navLabels[i].textContent=n});
+  // ── Sport chips ──
+  document.querySelectorAll('.sport-chip').forEach(chip=>{
+    const s=chip.dataset.sport;
+    if(s&&zh.sportChips[s])chip.textContent=zh.sportChips[s];
+    if(s&&zh.sportLabelA[s])chip.dataset.labelA=zh.sportLabelA[s];
+    if(s&&zh.sportLabelB[s])chip.dataset.labelB=zh.sportLabelB[s];
+  });
+  const duelIntroEl=document.querySelector('#sport-selector-wrap .duel-fields-intro');if(duelIntroEl)duelIntroEl.textContent=zh.duelIntro;
+  const mundialIntroEl=document.querySelector('#mundial-duel-intro .duel-fields-intro');if(mundialIntroEl)mundialIntroEl.textContent=zh.mundialIntro;
+  // ── Accordion buttons ──
+  const accM=document.querySelector('[onclick*="acc-motors"]');
+  if(accM){const arrow=accM.querySelector('.acc-arrow');accM.innerHTML=zh.accordionMotors+' <span class="acc-arrow">'+(arrow?arrow.textContent:'↓')+'</span>';}
+  const accI=document.querySelector('[onclick*="acc-interp"]');
+  if(accI){const arrow=accI.querySelector('.acc-arrow');accI.innerHTML=zh.accordionInterp+' <span class="acc-arrow">'+(arrow?arrow.textContent:'↓')+'</span>';}
+  // ── Static result texts ──
+  const rfr=document.querySelector('.result-for');if(rfr)rfr.textContent=zh.resultFor;
+  const ctt=document.querySelector('.combo-title');if(ctt)ctt.textContent=zh.comboTitle;
+  const gnm=document.getElementById('golden-name');if(gnm)gnm.textContent=zh.goldenName;
+  const dsr=document.querySelector('.disclaimer-text');if(dsr)dsr.textContent=zh.disclaimerResult;
+  // ── Duel result ──
+  const dcl=document.querySelectorAll('.duel-score-label');dcl.forEach(el=>el.textContent=zh.cosmicEnergyLabel);
+  // ── Buttons in result ──
+  const waBtn=document.querySelector('.btn-whatsapp');if(waBtn)waBtn.textContent=zh.btnWA;
+  const nwBtn=document.querySelector('.btn-new');if(nwBtn)nwBtn.textContent=zh.btnNewSmall;
+  // ── Pro CTA mid ──
+  const pctT=document.querySelector('.pct-title');if(pctT)pctT.textContent=zh.proCTATitle;
+  const pctU=document.querySelector('.pct-urgency');if(pctU)pctU.innerHTML=zh.proCTAUrgency;
+  const pctP=document.querySelector('.pct-price');if(pctP)pctP.textContent=zh.proCTAPrice;
+  const pctB=document.querySelector('.btn-pct');if(pctB)pctB.textContent=zh.proCTABtn;
+  // ── Profile ──
+  const logoutBtn=document.querySelector('.profile-screen .btn-secondary');if(logoutBtn)logoutBtn.textContent=zh.btnLogout;
+  const proBtn=document.querySelector('.profile-screen .btn-primary');if(proBtn)proBtn.textContent=zh.btnActivatePro;
+  const hTitle=document.querySelector('.history-title');if(hTitle)hTitle.textContent=zh.historyTitle;
+  const scL=document.querySelector('#stat-consults+.stat-label');if(scL)scL.textContent=zh.statConsultsLabel;
+  const stL=document.querySelector('#stat-total+.stat-label');if(stL)stL.textContent=zh.statTotalLabel;
+  // ── Upgrade ──
+  const upTitle=document.querySelector('.upgrade-title');if(upTitle)upTitle.textContent=zh.upgradeTitle;
+  const upSub=document.querySelector('.upgrade-sub');if(upSub)upSub.textContent=zh.upgradeSub;
+  // ── Notify section ──
+  const ntTitle=document.querySelector('.upgrade-notify .notify-title');if(ntTitle)ntTitle.textContent=zh.notifyTitle;
+  const ntSub=document.querySelector('.upgrade-notify .notify-sub');if(ntSub)ntSub.textContent=zh.notifySub;
+  const ntBtn=document.querySelector('.btn-notify');if(ntBtn)ntBtn.textContent=zh.btnNotifyMe;
+  // ── Modal ──
+  const mdClose=document.querySelector('.modal-close');if(mdClose)mdClose.textContent=zh.modalClose;
+}
+
+function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
+function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
+function birthNum(d){return numReduce(d.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0))}
+function lifePath(n,b){return numReduce(nameNum(n)+birthNum(b))}
+const ZODIAC=[{sign:'Capricornio',dates:[[1,1],[1,19]],planet:'Saturno',num:8,element:'Tierra'},{sign:'Acuario',dates:[[1,20],[2,18]],planet:'Urano',num:4,element:'Aire'},{sign:'Piscis',dates:[[2,19],[3,20]],planet:'Neptuno',num:7,element:'Agua'},{sign:'Aries',dates:[[3,21],[4,19]],planet:'Marte',num:9,element:'Fuego'},{sign:'Tauro',dates:[[4,20],[5,20]],planet:'Venus',num:6,element:'Tierra'},{sign:'Géminis',dates:[[5,21],[6,20]],planet:'Mercurio',num:5,element:'Aire'},{sign:'Cáncer',dates:[[6,21],[7,22]],planet:'Luna',num:2,element:'Agua'},{sign:'Leo',dates:[[7,23],[8,22]],planet:'Sol',num:1,element:'Fuego'},{sign:'Virgo',dates:[[8,23],[9,22]],planet:'Mercurio',num:5,element:'Tierra'},{sign:'Libra',dates:[[9,23],[10,22]],planet:'Venus',num:6,element:'Aire'},{sign:'Escorpio',dates:[[10,23],[11,21]],planet:'Plutón',num:9,element:'Agua'},{sign:'Sagitario',dates:[[11,22],[12,21]],planet:'Júpiter',num:3,element:'Fuego'},{sign:'Capricornio',dates:[[12,22],[12,31]],planet:'Saturno',num:8,element:'Tierra'}];
+function getZodiac(d){const dt=new Date(d),m=dt.getMonth()+1,day=dt.getDate();for(const z of ZODIAC){if((m===z.dates[0][0]&&day>=z.dates[0][1])||(m===z.dates[1][0]&&day<=z.dates[1][1]))return z}return ZODIAC[0]}
+const CHINESE=[{animal:'Rata',num:1},{animal:'Buey',num:2},{animal:'Tigre',num:3},{animal:'Conejo',num:4},{animal:'Dragón',num:5},{animal:'Serpiente',num:6},{animal:'Caballo',num:7},{animal:'Cabra',num:8},{animal:'Mono',num:9},{animal:'Gallo',num:1},{animal:'Perro',num:2},{animal:'Cerdo',num:3}];
+function getChinese(y){return CHINESE[(y-1900)%12]}
+function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
+function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
+function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
+const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:9},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true}};
+const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
+const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
+function computeDuel(teamA,teamB,name,birth,cityB,cityN,today){
+  const lp=lifePath(name,birth),moon=getMoon(today),geoB=cityEnergy(cityB),geoN=cityEnergy(cityN),geo=numReduce(geoB+geoN);
+  const todayN=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+  const zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear());
+  function teamScore(teamName){
+    const tn=nameNum(teamName);
+    const seed=Math.abs((tn*137+lp*53+todayN*97+moon.day*31+geo*71)&0x7fffffff);
+    const rand=seededRand(seed);
+    let raw=tn+todayN+Math.round(moon.mult*2);
+    raw+=Math.floor(rand()*3);
+    return numReduce(raw);
+  }
+  const scoreA=teamScore(teamA),scoreB=teamScore(teamB);
+  let winner,loser;
+  if(scoreA>scoreB){winner=teamA;loser=teamB;}
+  else if(scoreB>scoreA){winner=teamB;loser=teamA;}
+  else{winner=nameNum(teamA)>=nameNum(teamB)?teamA:teamB;loser=winner===teamA?teamB:teamA;}
+  const diff=Math.abs(scoreA-scoreB);
+  let confidence;
+  if(diff===0)confidence='⚡ Energías idénticas — partido extremadamente cerrado, posibles penales';
+  else if(diff<=2)confidence='⚡ Ventaja cósmica leve — partido muy parejo, cualquiera puede ganar';
+  else if(diff<=4)confidence='⚡ Ventaja moderada — la energía inclina la balanza';
+  else confidence='⚡ Ventaja cósmica clara — los cinco motores apuntan en una dirección';
+  return{teamA,teamB,scoreA,scoreB,winner,loser,confidence,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo},moon,lp,zodiac,chinese,geo};
+}
+function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
+function computeNumbers(name,birth,cityB,cityN,game,lang,today){
+  const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear()),moon=getMoon(today),eB=cityEnergy(cityB),eN=cityEnergy(cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+  const seed=Math.abs(lp*137+zodiac.num*29+chinese.num*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
+  const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
+  for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=cfg.count)break}
+  nums.sort((a,b)=>a-b);
+  // NÚMERO DE ORO: fusión de los 5 motores + día, reducido a dígito maestro
+  const goldenRaw=lp+zodiac.num+chinese.num+moon.day+geo+tn;
+  const golden=numReduce(goldenRaw);
+  // ¿Cabe en la jugada? (rango del juego)
+  const goldenFits=golden>=(cfg.max===9?0:1)&&golden<=cfg.max&&!rules.blocked.includes(golden);
+  // El número de oro se muestra arriba en su propio círculo — NO se incluye en la secuencia
+  let goldenInPlay=goldenFits;
+  return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo}};
+}
+
+function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing()}
+function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');applyLang(l)}
+function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
+function showForgotPw(){goTo('screen-forgot');}
+function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
+function selSport(el){
+  document.querySelectorAll('.sport-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  STATE.sport=el.dataset.sport;
+  // Update team labels dynamically
+  document.getElementById('label-team-a').textContent=el.dataset.labelA||'🔵 Equipo A / Local';
+  document.getElementById('label-team-b').textContent=el.dataset.labelB||'🔴 Equipo B / Visitante';
+  // Clear team inputs when sport changes
+  document.getElementById('inp-team-a').value='';
+  document.getElementById('inp-team-b').value='';
+  const isIndividual=STATE.sport==='tennis'||STATE.sport==='boxing';
+  document.getElementById('inp-team-a').placeholder=isIndividual?'Ej: Djokovic, Alcaraz, Canelo...':'Ej: Real Madrid, Lakers, Colombia...';
+  document.getElementById('inp-team-b').placeholder=isIndividual?'Ej: Federer, Sinner, GGG...':'Ej: Barcelona, Celtics, Argentina...';
+}
+function selGame(el){
+  document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');STATE.game=el.dataset.game;
+  const isDuel=STATE.game==='sports'||STATE.game==='mundial';
+  const isSports=STATE.game==='sports';
+  const isMundial=STATE.game==='mundial';
+  document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
+  document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
+  document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
+  // Reset labels for mundial
+  if(isMundial){
+    document.getElementById('label-team-a').textContent='🔵 Equipo A / Local';
+    document.getElementById('label-team-b').textContent='🔴 Equipo B / Visitante';
+    document.getElementById('inp-team-a').placeholder='Ej: Argentina, Brasil, México...';
+    document.getElementById('inp-team-b').placeholder='Ej: Francia, España, Alemania...';
+  }
+  if(isDuel){
+    const dl=document.getElementById('wc-teams-list');
+    if(dl.children.length===0){MUNDIAL_TEAMS.forEach(t=>{const o=document.createElement('option');o.value=t;dl.appendChild(o)});}
+  }
+  // Hide hint when a card is selected
+  document.getElementById('card-hint').classList.remove('show');
+}
+function renderDuelResult(duel,name){
+  const proCta=document.getElementById('pro-cta-mid');
+  if(proCta) proCta.style.display='none'; // en modo duelo no mostrar (ya son Pro para llegar aquí)
+  const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
+  const sportNames=zh
+    ?{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',volleyball:'🏐 排球',boxing:'🥊 拳击',americanfootball:'🏈 美式足球',other:'🏆 其他'}
+    :{football:'⚽ Fútbol',basketball:'🏀 Básquet',tennis:'🎾 Tenis',baseball:'⚾ Béisbol',volleyball:'🏐 Voleibol',boxing:'🥊 Boxeo',americanfootball:'🏈 Fútbol Americano',other:'🏆 Deporte'};
+  const gameLabel=STATE.game==='mundial'?(zh?'🏆 世界杯 2026':'🏆 Mundial 2026'):(sportNames[STATE.sport]||(zh?'⚽ 体育':'⚽ Deportes'));
+  document.getElementById('result-game').textContent=gameLabel;
+  document.getElementById('result-user').textContent=name;
+  document.getElementById('seal-text').textContent=zh?T.duelSealText:'PREDICCIÓN CÓSMICA';
+  document.getElementById('seal-sub').textContent=zh?T.duelSealSub:'Los cinco motores calcularon la energía de cada equipo hoy';
+  // Duel orbs
+  document.getElementById('duel-name-a').textContent=duel.teamA;
+  document.getElementById('duel-name-b').textContent=duel.teamB;
+  document.getElementById('duel-orb-a').textContent=duel.scoreA;
+  document.getElementById('duel-orb-b').textContent=duel.scoreB;
+  const isAWinner=duel.winner===duel.teamA;
+  document.getElementById('duel-orb-a').className='duel-orb '+(isAWinner?'winner-orb':'loser-orb');
+  document.getElementById('duel-orb-b').className='duel-orb '+(isAWinner?'loser-orb':'winner-orb');
+  document.getElementById('duel-winner-name').textContent=duel.winner;
+  document.getElementById('duel-confidence').textContent=tConfidence(duel.confidence);
+  // Show duel, hide regular numbers
+  document.getElementById('duel-result-section').classList.remove('hidden');
+  document.getElementById('numbers-display').classList.add('hidden');
+  // Golden section = energía del ganador
+  document.getElementById('golden-label').textContent=zh?T.duelGoldenLabel:'✦ Energía del Favorecido ✦';
+  document.getElementById('golden-sublabel').textContent=zh?T.duelGoldenSublabel:'Número de poder del equipo con mayor vibración hoy';
+  const winScore=isAWinner?duel.scoreA:duel.scoreB;
+  document.getElementById('golden-orb').textContent=winScore;
+  document.getElementById('golden-phi').innerHTML=zh
+    ?`宇宙计算了 <strong>${duel.teamA}</strong> 和 <strong>${duel.teamB}</strong> 在<strong>${tMoon(duel.moon.name)}</strong>（第 ${duel.moon.day} 天）、您的生命数字 <strong>${duel.lp}</strong>、星座 <strong>${tZodiac(duel.zodiac.sign)}</strong> 以及您双城地能下的振动频率。五大力量的融合在这一时刻将能量倾向 <strong>${duel.winner}</strong>。`
+    :`El cosmos calculó la vibración numerológica de <strong>${duel.teamA}</strong> y <strong>${duel.teamB}</strong> bajo la <strong>luna ${duel.moon.name}</strong> (día ${duel.moon.day}), tu número de vida <strong>${duel.lp}</strong>, el signo <strong>${duel.zodiac.sign}</strong> y la geoenergía de tus ciudades. La fusión de estas cinco fuerzas inclina la energía hacia <strong>${duel.winner}</strong> en este momento.`;
+  document.getElementById('golden-inplay').textContent=`⚡ ${duel.winner}: ${winScore} vs ${duel.loser}: ${isAWinner?duel.scoreB:duel.scoreA}`;
+  document.getElementById('golden-inplay').style.color='var(--teal)';
+  document.getElementById('golden-inplay').style.borderColor='rgba(61,191,168,.3)';
+  const firstName=name.split(' ')[0];
+  document.getElementById('interp-power').textContent=zh?T.interpPower:'✦ Por qué estos números son poderosos ✦';
+  document.getElementById('interp-text').innerHTML=zh
+    ?`${firstName}，宇宙引擎今天分析了两队的振动频率。<strong>${duel.teamA}</strong> 在宇宙数字 <strong>${duel.scoreA}</strong> 上产生共鸣，而 <strong>${duel.teamB}</strong> 在 <strong>${duel.scoreB}</strong> 上振动。在<strong>${tMoon(duel.moon.name)}</strong>的影响和您的星座 <strong>${tZodiac(duel.zodiac.sign)}</strong> 下，宇宙能量在这个日期与 <strong>${duel.winner}</strong> 对齐。`
+    :`${firstName}, los motores cósmicos analizaron la vibración de ambos equipos hoy. <strong>${duel.teamA}</strong> resuena en el número cósmico <strong>${duel.scoreA}</strong>, mientras <strong>${duel.teamB}</strong> vibra en el <strong>${duel.scoreB}</strong>. Bajo la influencia de la <strong>luna ${duel.moon.name}</strong> y tu signo <strong>${duel.zodiac.sign}</strong>, la energía universal se alinea con <strong>${duel.winner}</strong> en esta fecha.`;
+  document.getElementById('interp-closer').innerHTML=zh?T.duelInterpCloser:`Esta lectura refleja las energías del cosmos hoy — el fútbol, como la vida, siempre puede sorprender. Numbers es entretenimiento e inspiración.`;
+}
+function isPro(){return STATE.profile?.plan==='pro'}
+function proLaunch(el){
+  if(isPro()){quickLaunch(el);return;}
+  showTab('upgrade');
+  setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
+}
+function quickLaunch(el){
+  selGame(el);
+  // Siempre: solo seleccionar la tarjeta y hacer pulsar el botón Revelar.
+  // El usuario elige libremente y presiona Revelar cuando quiera.
+  const isDuel=GAME_CFG[STATE.game]?.duel;
+  const name=document.getElementById('inp-name').value.trim();
+  const birth=document.getElementById('inp-birth').value;
+  const cityB=document.getElementById('inp-cityb').value.trim();
+  const cityN=document.getElementById('inp-cityn').value.trim();
+  const btnGen=document.getElementById('btn-gen');
+  btnGen.classList.remove('btn-pulse');
+  btnGen.classList.add('btn-ready');
+  startSparkles();
+  btnGen.scrollIntoView({behavior:'smooth',block:'center'});
+  // Si faltan datos personales, resaltar campos vacíos
+  if(!name||!birth||!cityB||!cityN){
+    const fields=[
+      {id:'inp-name',val:name},{id:'inp-birth',val:birth},
+      {id:'inp-cityb',val:cityB},{id:'inp-cityn',val:cityN}
+    ];
+    fields.forEach(f=>{
+      if(!f.val){
+        const el=document.getElementById(f.id);
+        el.closest('.field')?.classList.add('field-missing');
+        setTimeout(()=>el.closest('.field')?.classList.remove('field-missing'),3200);
+      }
+    });
+  }
+}
+function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
+function showSuccess(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
+
+async function doForgotPw(){
+  const email=document.getElementById('forgot-email').value.trim();
+  if(!email)return showError('forgot-error','Ingresa tu correo electrónico');
+  const btn=document.getElementById('forgot-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Enviando...';
+  try{
+    const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://www.numbersoracle.com'});
+    if(error)throw error;
+    showSuccess('forgot-success','✦ Enlace enviado. Revisa tu correo (incluyendo spam) y haz clic en el enlace para crear tu nueva contraseña.');
+    btn.textContent='¡Enviado! Revisa tu correo';
+  }catch(e){
+    showError('forgot-error',e.message||'Error al enviar el enlace. Intenta de nuevo.');
+    btn.disabled=false;btn.innerHTML='✦ 发送恢复链接 ✦';
+  }
+}
+async function doResetPw(){
+  const pass=document.getElementById('resetpw-pass').value;
+  const pass2=document.getElementById('resetpw-pass2').value;
+  if(!pass||pass.length<6)return showError('resetpw-error','La contraseña debe tener al menos 6 caracteres');
+  if(pass!==pass2)return showError('resetpw-error','Las contraseñas no coinciden');
+  const btn=document.getElementById('resetpw-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Guardando...';
+  try{
+    const{error}=await sb.auth.updateUser({password:pass});
+    if(error)throw error;
+    showSuccess('resetpw-success','✦ ¡Contraseña actualizada! Iniciando sesión...');
+    setTimeout(async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user)await afterLogin(session.user);else goAuth('login');},2000);
+  }catch(e){
+    showError('resetpw-error',e.message||'Error al actualizar la contraseña. El enlace puede haber expirado.');
+    btn.disabled=false;btn.innerHTML='✦ 保存新密码 ✦';
+  }
+}
+async function doAuth(){
+  const email=document.getElementById('auth-email').value.trim();const pass=document.getElementById('auth-pass').value;const name=document.getElementById('auth-name').value.trim();const btn=document.getElementById('auth-btn-main');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Procesando...';
+  try{
+    if(STATE.authMode==='register'){
+      if(!name)throw new Error('Ingresa tu nombre completo');if(!email)throw new Error('Ingresa tu correo electrónico');if(!pass||pass.length<6)throw new Error('La contraseña debe tener al menos 6 caracteres');
+      const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});if(error)throw error;
+      if(data.user){showSuccess('auth-success','¡Cuenta creada! Revisa tu correo para confirmar. Mientras tanto puedes iniciar sesión.');setTimeout(()=>toggleAuth(),3000)}
+    }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
+  }catch(e){showError('auth-error',e.message||'Error en la autenticación')}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?'Crear cuenta':'Iniciar sesión'}
+}
+async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Error con Google')}}
+async function afterLogin(user){
+  STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
+  if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;
+  await loadHistory();await loadQuota();goTo('screen-main');showTab('form');updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
+  if(STATE.lang==='zh')applyLang('zh');
+}
+function showLandingLoggedIn(){document.getElementById('landing-btns-guest').style.display='none';document.getElementById('landing-btns-user').style.display='block';}
+async function enterApp(){if(!STATE.user)return;await afterLogin(STATE.user);}
+async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
+async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30),5000,{data:[]});STATE.history=res?.data||[]}
+async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
+async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
+async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}
+function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const zh=STATE.lang==='zh';if(isPro){bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumProActive}</strong> — ${TRANSLATIONS.zh.freemiumProUnlimited}`:'<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumLimited}</strong> — ${TRANSLATIONS.zh.freemiumLimitedUpgrade}`:'<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumFree}</strong> — ${TRANSLATIONS.zh.freemiumFreeUpgrade}`:'<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
+
+async function generate(){
+  document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
+  const name=document.getElementById('inp-name').value.trim();const birth=document.getElementById('inp-birth').value;const cityB=document.getElementById('inp-cityb').value.trim();const cityN=document.getElementById('inp-cityn').value.trim();
+  const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
+  if(!name)return showError('error-toast',zh?T.errName:'Ingresa tu nombre completo');if(!birth)return showError('error-toast',zh?T.errBirth:'Ingresa tu fecha de nacimiento');if(!cityB)return showError('error-toast',zh?T.errCityB:'Ingresa tu ciudad de nacimiento');if(!cityN)return showError('error-toast',zh?T.errCityN:'Ingresa tu ciudad actual');
+  const isDuelMode=GAME_CFG[STATE.game]?.duel;
+  if(isDuelMode){
+    const tA=document.getElementById('inp-team-a').value.trim();
+    const tB=document.getElementById('inp-team-b').value.trim();
+    if(!tA)return showError('error-toast',zh?T.errTeamA:'Ingresa el nombre del Equipo A');
+    if(!tB)return showError('error-toast',zh?T.errTeamB:'Ingresa el nombre del Equipo B');
+  }
+  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast',zh?T.errLimit:'Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.');
+  showTab('loading');
+  const firstName=name.split(' ')[0];
+  const msgs=STATE.lang==='zh'?TRANSLATIONS.zh.loadingMsgs(firstName):[
+    `Calculando la vibración numerológica de ${firstName}...`,
+    `Alineando los astros con tu signo, ${firstName}...`,
+    `Sincronizando con la fase lunar de hoy...`,
+    `Consultando el calendario chino milenario...`,
+    `Fusionando las energías de tus ciudades, ${firstName}...`,
+    `Sellando tu combinación cósmica única...`
+  ];
+  const orbs=['☿','♈','🌕','🐉','🌎','✦'];let mi=0;const iv=setInterval(()=>{document.getElementById('loading-msg').textContent=msgs[mi%msgs.length];document.getElementById('loading-orb').textContent=orbs[mi%orbs.length];mi++},900);
+  await new Promise(r=>setTimeout(r,5400));clearInterval(iv);
+  const today=new Date().toISOString().split('T')[0];
+  try{
+    if(GAME_CFG[STATE.game]?.duel){
+      const teamA=document.getElementById('inp-team-a').value.trim();
+      const teamB=document.getElementById('inp-team-b').value.trim();
+      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today);
+      STATE.lastResult={duel,name,game:STATE.game,isDuel:true};
+      renderDuelResult(duel,name);updateEngines(duel.engines,duel.moon);showTab('result');history.pushState({tab:'result'},'','');
+      try{
+        await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:[duel.scoreA,duel.scoreB],life_path:duel.lp,zodiac_sign:duel.zodiac.sign,moon_phase:duel.moon.name,chinese_animal:duel.chinese.animal,geo_resonance:duel.geo,market:STATE.lang}),5000,null);
+        await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null);
+        await incrementQuota();await loadHistory();
+      }catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
+    }else{
+      const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);STATE.lastResult={result,name,game:STATE.game};
+      renderResult(result,name);updateEngines(result.engines,result.moon);showTab('result');history.pushState({tab:'result'},'','');
+      try{await saveConsultation(result,name);await incrementQuota();await loadHistory();}catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
+    }
+    updateFreemiumBar();
+  }catch(e){
+    console.error('Error generando:',e);
+    showTab('form');showError('error-toast',STATE.lang==='zh'?TRANSLATIONS.zh.errGenerate:'Hubo un problema al generar. Intenta de nuevo.');
+  }
+}
+function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
+
+function renderResult(r,name){
+  const proCta=document.getElementById('pro-cta-mid');
+  const proBannerBottom=document.getElementById('pro-banner-bottom');
+  if(proCta) proCta.style.display=isPro()?'none':'block';
+  if(proBannerBottom) proBannerBottom.style.display='none';
+  document.getElementById('duel-result-section').classList.add('hidden');
+  document.getElementById('numbers-display').classList.remove('hidden');
+  const cfg=GAME_CFG[STATE.game];
+  const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
+  const games=zh?T.gameLabels:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
+  document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
+  document.getElementById('golden-label').textContent=zh?T.goldenLabel:'✦ Número de Oro del Día ✦';
+  document.getElementById('golden-sublabel').textContent=zh?T.goldenSublabel:'(diferente a tu número de vida · cambia cada día)';
+  document.getElementById('golden-orb').textContent=r.golden;
+  document.getElementById('golden-phi').innerHTML=zh
+    ?`这个数字<strong>不是您的生命数字</strong>——它不同且更强大：它诞生于<strong>您的五大力量与今日能量的融合</strong>。您的生命数字（${r.lp}）是永久的。黄金数字每天根据月相、中国历法和当日能量而变化。从这个融合中涌现出 <strong>${r.golden}</strong>，这是在这个精确时刻与您最为对齐的数字。`
+    :`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
+  const inplayEl=document.getElementById('golden-inplay');
+  if(r.goldenInPlay){inplayEl.textContent=zh?T.goldenInPlay:'✓ Incluido en tu jugada';inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
+  else{inplayEl.textContent=zh?T.goldenCeremonial:'✦ Número ceremonial de inspiración';inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
+  const d=document.getElementById('numbers-display');d.innerHTML='';
+  r.nums.forEach((n,i)=>{const b=document.createElement('div');b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
+  const motorData=zh?[
+    {icon:'☿',label:'命理学',val:r.lp,text:`您的个人振动。源于您全名和出生日期的归约。这是您在这个宇宙中独特的能量印记——定义您的数字。`},
+    {icon:'♈',label:'星象学',val:r.engines.ast,text:`今日天体位置，结合您的星座 <strong>${tZodiac(r.zodiac.sign)}</strong> 和行星 <strong>${tPlanet(r.zodiac.planet)}</strong>。今天的天空在您每个决定中烙下这一频率。`},
+    {icon:'🌙',label:'月相',val:r.moon.day+'d',text:`我们正处于月亮周期的第 <strong>${r.moon.day}</strong> 天——<strong>${tMoon(r.moon.name)}</strong>。自古以来，月亮引导着人类的直觉。今天，它的脉动与您合二为一。`},
+    {icon:'🐉',label:'中国历法',val:r.engines.chi,text:`千年中国历法为此刻赋予 <strong>${r.engines.chi}</strong>。五千年的宇宙观察汇聚于这个神圣数字。`},
+    {icon:'🌎',label:'地能',val:r.geo,text:`您<strong>出生地</strong>和<strong>现居地</strong>的地磁能量产生 <strong>${r.geo}</strong>。我们居住的地方塑造了我们命运的一部分。`}
+  ]:[
+    {icon:'☿',label:'Numerología',val:r.lp,text:`Tu vibración personal. Nace de la reducción de tu nombre completo y fecha de nacimiento. Es tu firma energética única en este universo — el número que te define.`},
+    {icon:'♈',label:'Astrología',val:r.engines.ast,text:`La posición de los astros hoy, combinada con tu signo <strong>${r.zodiac.sign}</strong> y el planeta <strong>${r.zodiac.planet}</strong>. Los cielos imprimen esta frecuencia en cada decisión que tomas hoy.`},
+    {icon:'🌙',label:'Luna',val:r.moon.day+'d',text:`Estamos en el día <strong>${r.moon.day}</strong> del ciclo lunar — luna <strong>${r.moon.name}</strong>. Desde el principio del tiempo la luna guía la intuición humana. Hoy su pulso se funde con el tuyo.`},
+    {icon:'🐉',label:'Cal. Chino',val:r.engines.chi,text:`El calendario milenario chino asigna el <strong>${r.engines.chi}</strong> a este momento. Cinco mil años de observación del cosmos convergen en este número sagrado.`},
+    {icon:'🌎',label:'Geoenergía',val:r.geo,text:`La energía geomagnética de <strong>donde naciste</strong> y <strong>donde vives hoy</strong> genera el <strong>${r.geo}</strong>. El lugar que habitamos moldea parte de nuestro destino.`}
+  ];
+  document.getElementById('motors-explain').innerHTML=motorData.map(m=>`<div class="mexpl-row"><div class="mexpl-icon">${m.icon}</div><div class="mexpl-body"><div class="mexpl-head"><span class="mexpl-label">${m.label}</span><span class="mexpl-num">${m.val}</span></div><div class="mexpl-text">${m.text}</div></div></div>`).join('');
+  document.getElementById('combo-winner').innerHTML=zh
+    ?`<div class="combo-winner-title">${T.comboWinnerTitle}</div><div class="combo-winner-text">宇宙不会两次赋予相同的组合。您的 <strong>${r.nums.length} 个数字</strong>诞生于<strong>五大宇宙力量</strong>的精确交汇——您的命理本质、今日星象、月亮周期、五千年中国智慧以及您所踏土地的能量。在这个精确的时刻，这些力量只为您一人对齐。<strong>这个组合不属于世界上任何其他人。</strong></div>`
+    :`<div class="combo-winner-title">✦ Por qué esta combinación es tuya ✦</div><div class="combo-winner-text">El cosmos no entrega dos veces la misma combinación. Tus <strong>${r.nums.length} números</strong> nacen de la intersección exacta de <strong>cinco fuerzas cósmicas</strong> — tu esencia numerológica, los astros de hoy, el ciclo lunar, cinco milenios de sabiduría china y la energía de la tierra que pisas. En este instante preciso, estas fuerzas se alinearon solo para ti. <strong>Esta combinación no le pertenece a nadie más en el mundo.</strong></div>`;
+  const firstName=name.split(' ')[0];
+  document.getElementById('interp-power').textContent=zh?T.interpPower:'✦ Por qué estos números son poderosos ✦';
+  document.getElementById('interp-text').innerHTML=zh
+    ?`${firstName}，您的<strong>生命数字是 ${r.lp}</strong>——永久的，源于您的姓名和出生日期。<strong>今日黄金数字是 ${r.golden}</strong>，不同之处在于：它源于将您的 ${r.lp} 与今日宇宙四大力量的融合。这个数字与<strong>${tPlanet(r.zodiac.planet)}</strong>产生共鸣，即<strong>${tZodiac(r.zodiac.sign)}</strong>的主宰行星，其<strong>${tElement(r.zodiac.element)}</strong>元素能量掌管您的星盘。今天，<strong>${tMoon(r.moon.name)}</strong>正处于月亮周期的第 ${r.moon.day} 天，以明日不会重复的力量放大您的个人磁场。您的中国年<strong>${tAnimal(r.chinese.animal)}</strong>贡献了它的神圣数字，而您双城融合的地能振动在<strong>共鸣 ${r.geo}</strong> 上产生回响。当这五大力量汇聚为一粒种子，便涌现出这些数字，唯有这些数字。`
+    :`${firstName}, tu <strong>número de vida es el ${r.lp}</strong> — permanente, nace de tu nombre y fecha de nacimiento. El <strong>Número de Oro de hoy es el ${r.golden}</strong>, diferente: emerge de fusionar tu ${r.lp} con las cuatro fuerzas del universo de hoy. Este número resuena con <strong>${r.zodiac.planet}</strong>, el planeta regente de <strong>${r.zodiac.sign}</strong>, cuya energía de elemento <strong>${r.zodiac.element}</strong> rige tu carta. Hoy, la <strong>luna ${r.moon.name}</strong> se encuentra en el día ${r.moon.day} de su ciclo, amplificando tu campo magnético personal con una fuerza que no se repetirá igual mañana. El <strong>${r.chinese.animal}</strong> de tu año chino aporta su número sagrado, y la geoenergía fusionada de tus ciudades vibra en <strong>resonancia ${r.geo}</strong>. Cuando estas cinco fuerzas se alinean en una sola semilla, emergen estos números, y solo estos.`;
+  document.getElementById('interp-closer').innerHTML=zh?T.interpCloser:`Ningún otro ser en el mundo comparte esta combinación exacta hoy. Es tuya, sellada por el cosmos para este día.`;
+  const seals=zh?T.sealTextMap:{lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
+  document.getElementById('seal-text').textContent=seals[STATE.game]||seals.default||'COMBINACIÓN SELLADA';
+  document.getElementById('seal-sub').textContent=zh?T.sealSub:'Cinco fuerzas cósmicas convergen en tus números';
+}
+function newConsult(){goBackToForm()}
+function toggleAccordion(id){const body=document.getElementById(id);const btn=body.previousElementSibling;const arrow=btn.querySelector('.acc-arrow');const isOpen=body.classList.contains('open');body.classList.toggle('open');arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)'}
+function startSparkles(){
+  stopSparkles();
+  const wrap=document.getElementById('btn-gen-wrap');
+  const pts=[
+    {bottom:'calc(100% + 6px)',left:'8%',dur:'1.4s',delay:'0s'},
+    {bottom:'calc(100% + 6px)',left:'25%',dur:'1.8s',delay:'0.25s'},
+    {bottom:'calc(100% + 6px)',left:'48%',dur:'1.5s',delay:'0.5s'},
+    {bottom:'calc(100% + 6px)',left:'68%',dur:'1.7s',delay:'0.75s'},
+    {bottom:'calc(100% + 6px)',left:'85%',dur:'1.6s',delay:'1s'},
+    {bottom:'calc(100% + 6px)',left:'35%',dur:'1.9s',delay:'1.3s'},
+  ];
+  pts.forEach(p=>{
+    const s=document.createElement('span');
+    s.className='btn-sparkle';s.textContent='✦';
+    s.style.cssText=`bottom:${p.bottom};left:${p.left};--dur:${p.dur};--delay:${p.delay}`;
+    wrap.appendChild(s);
+  });
+}
+function stopSparkles(){
+  const wrap=document.getElementById('btn-gen-wrap');
+  wrap.querySelectorAll('.btn-sparkle,.btn-ring').forEach(el=>el.remove());
+}
+function goBackToForm(){showTab('form');history.pushState({tab:'form'},'','');}
+window.addEventListener('popstate',function(e){
+  if(e.state&&e.state.screen==='landing'){goTo('screen-landing');return;}
+  const onMain=document.getElementById('screen-main').classList.contains('active');
+  const activeResult=document.getElementById('tab-result')&&!document.getElementById('tab-result').classList.contains('hidden');
+  if(activeResult){showTab('form');history.pushState({screen:'main',tab:'form'},'','');}
+  else if(onMain&&(!e.state||e.state.screen!=='main')){goTo('screen-landing');}
+});
+function shareWA(){
+  if(!STATE.lastResult) return;
+  const isDuel=STATE.lastResult.isDuel;
+  if(isDuel){
+    const{duel,name}=STATE.lastResult;
+    const zh=STATE.lang==='zh';
+    const text=zh
+      ?`✦ 数字神谕预测 🌟\n\n神谕揭示：${duel.winner}的宇宙能量更强！\n比分：${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ 探索您的神谕：numbersoracle.com`
+      :`✦ NUMBERS predijo el partido 🌟\n\nEl oráculo revela: ¡${duel.winner} tiene la energía cósmica más fuerte!\nScore: ${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ Descubre la tuya en numbersoracle.com`;
+    window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+    return;
+  }
+  const{result,name,game}=STATE.lastResult;
+  const zh=STATE.lang==='zh';
+  const games=zh?{lottery:'每日数字',chance:'快速数字',casino:'命运数字',sports:'体育预测',mundial:'世界杯2026'}:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
+  const gameName=games[game]||game;
+  const text=zh
+    ?`✦ 数字神谕今天揭示了我的黄金数字：${result.golden} 🌟\n\n我的${gameName}宇宙组合：${result.nums.join(' · ')}\n\n五大宇宙力量今天只为我对齐。\n\n✦ 探索您的数字：numbersoracle.com`
+    :`✦ NUMBERS reveló mi Número de Oro del día: ${result.golden} 🌟\n\nMi combinación cósmica de ${gameName}: ${result.nums.join(' · ')}\n\nCinco fuerzas se alinearon solo para mí hoy.\n\n✦ Descubre la tuya en numbersoracle.com`;
+  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+function detectRegionPricing(){
+  const lang=navigator.language||navigator.languages?.[0]||'es';
+  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+  let monthly='$3.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span>';
+  let consult='$1.29 <span style="font-size:12px;color:var(--muted)">USD</span>';
+  if(lang.startsWith('zh')||tz.includes('Shanghai')||tz.includes('Hong_Kong')||tz.includes('Taipei')||tz.includes('Chongqing')){
+    monthly='¥45 <span style="font-size:12px;color:var(--muted)">CNY/月</span>';
+    consult='¥12 <span style="font-size:12px;color:var(--muted)">CNY/次</span>';
+  }else if((lang.startsWith('en')&&(tz.includes('America/New_York')||tz.includes('America/Los_Angeles')||tz.includes('America/Chicago')||tz.includes('Europe/London')||tz.includes('Europe/Paris')||tz.includes('Europe/Berlin')||tz.includes('Australia')))){
+    monthly='$6.99 <span style="font-size:12px;color:var(--muted)">USD/month</span>';
+    consult='$1.99 <span style="font-size:12px;color:var(--muted)">USD</span>';
+  }else if(tz.includes('Asia')){
+    monthly='$4.99 <span style="font-size:12px;color:var(--muted)">USD/mo</span>';
+    consult='$1.49 <span style="font-size:12px;color:var(--muted)">USD</span>';
+  }
+  const pm=document.getElementById('price-monthly');const pc=document.getElementById('price-consult');
+  if(pm)pm.innerHTML=monthly;if(pc)pc.innerHTML=consult;
+}
+function showNotifyModal(){
+  const name=STATE.profile?.full_name?.split(' ')[0]||'';
+  const email=STATE.profile?.email||'';
+  const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
+  const title=zh?T.modalTitle:'✦ 即将推出';
+  const body=email
+    ?(zh?`非常好${name?'，'+name:''}！Pro 计划推出时我们会通知您 <strong>${email}</strong>。`:`¡Perfecto${name?', '+name:''}! Te avisaremos a <strong>${email}</strong> cuando el Plan Pro esté disponible.`)
+    :(zh?'当 Pro 计划准备好时，您将第一个知道。':'Cuando el Plan Pro esté listo serás el primero en saberlo.');
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-body').innerHTML=body;
+  document.getElementById('notify-modal').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('notify-modal').classList.add('hidden');}
+function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
+function renderProfile(){
+  if(!STATE.profile)return;
+  const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
+  document.getElementById('profile-name').textContent=STATE.profile.full_name||(zh?T.defaultUser:'Usuario');
+  document.getElementById('profile-email').textContent=STATE.profile.email;
+  const isProPlan=STATE.profile.plan==='pro';
+  document.getElementById('profile-plan').textContent=isProPlan?(zh?T.profilePlanPro:'Plan Pro · Ilimitadas'):(zh?T.profilePlanFree:'免费版 · 每日1次占卜');
+  document.getElementById('profile-plan').className='profile-plan '+(isProPlan?'plan-pro':'plan-free');
+  document.getElementById('stat-consults').textContent=STATE.consultsToday;
+  document.getElementById('stat-total').textContent=STATE.history.length;
+  const el=document.getElementById('history-list');
+  if(!STATE.history.length){el.innerHTML=`<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">${zh?T.historyEmpty:'Sin consultas aún'}</div>`;return}
+  const games=zh?T.gameLabels:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
+  el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return`<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')
+}
+(async()=>{
+  const hash=new URLSearchParams(window.location.hash.replace('#',''));
+  if(hash.get('type')==='recovery'){history.replaceState(null,'',window.location.pathname);goTo('screen-resetpw');return;}
+  // Chinese-only version — always apply Chinese UI
+  STATE.lang='zh';
+  applyLang('zh');
+  detectRegionPricing();
+  const{data:{session}}=await sb.auth.getSession();
+  if(session?.user){STATE.user=session.user;showLandingLoggedIn()}
+  sb.auth.onAuthStateChange(async(event,session)=>{
+    if(event==='PASSWORD_RECOVERY'){goTo('screen-resetpw');return;}
+    if(event==='SIGNED_IN'&&session?.user&&!STATE.user){STATE.user=session.user;showLandingLoggedIn()}
+    if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
+  })
+})();
+</script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').then(r=>console.log('[SW]',r.scope)).catch(e=>console.warn('[SW]',e));})}
+</script>
+</body>
+</html>
