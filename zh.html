@@ -326,6 +326,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .pro-cta-mid .btn-pct{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;border:none;border-radius:99px;padding:10px 28px;cursor:pointer;width:100%}
 
 /* ─── DUEL / PREDICTOR DEPORTIVO ─── */
+.field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;color:var(--text);font-family:inherit;font-size:15px;outline:none;cursor:pointer}.field select:focus{border-color:var(--gold)}.duel-match-info{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);letter-spacing:.06em;margin:.25rem 0 .75rem;line-height:1.6}.duel-rank-info{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:.5rem;line-height:1.6}
 .duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
 /* ─── SPORT SELECTOR ─── */
 .sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
@@ -511,6 +512,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <!-- Intro para Mundial -->
         <div id="mundial-duel-intro" class="hidden">
           <div class="duel-fields-intro">🏆 Elige los dos equipos del partido a predecir</div>
+          <div class="field" style="margin-top:.5rem"><label id="wc-match-label">📅 Partido oficial — Cronograma FIFA</label><select id="wc-match-select" onchange="selWcMatch()"></select><div class="field-hint" id="wc-match-hint">✦ La fecha y la sede del partido alimentan los 5 motores</div></div>
         </div>
         <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
@@ -542,6 +544,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="power-seal-sub" id="seal-sub">Cinco fuerzas cósmicas convergen en tus números</div>
       </div>
       <div id="duel-result-section" class="hidden">
+        <div class="duel-match-info" id="duel-match-info" style="display:none"></div>
         <div class="duel-vs-container">
           <div class="duel-team">
             <div class="duel-team-name" id="duel-name-a">Equipo A</div>
@@ -561,6 +564,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="duel-winner-label">✦ El Cosmos Favorece A ✦</div>
           <div class="duel-winner-name" id="duel-winner-name">—</div>
           <div class="duel-confidence" id="duel-confidence">—</div>
+          <div class="duel-rank-info" id="duel-rank-info" style="display:none"></div>
         </div>
       </div>
       <div class="golden-section" id="golden-section">
@@ -1105,30 +1109,106 @@ function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x
 const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:9},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true}};
 const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
 const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
-function computeDuel(teamA,teamB,name,birth,cityB,cityN,today){
-  const lp=lifePath(name,birth),moon=getMoon(today),geoB=cityEnergy(cityB),geoN=cityEnergy(cityN),geo=numReduce(geoB+geoN);
-  const todayN=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+// ═══ MUNDIAL 2026 · CRONOGRAMA OFICIAL FIFA + RANKING FIFA (corte: 10 jun 2026) ═══
+const WC_RANK={'Argentina':1,'España':2,'Francia':3,'Inglaterra':4,'Portugal':5,'Brasil':6,'Marruecos':7,'Países Bajos':8,'Bélgica':9,'Alemania':10,'Croacia':11,'Colombia':13,'México':14,'Senegal':15,'Uruguay':16,'USA':17,'Japón':18,'Suiza':19,'Irán':21,'Turquía':22,'Ecuador':23,'Austria':24,'Corea del Sur':25,'Australia':27,'Argelia':28,'Egipto':29,'Canadá':30,'Noruega':31,'Costa de Marfil':33,'Panamá':34,'Suecia':38,'Chequia':39,'Paraguay':40,'Escocia':42,'DR Congo':45,'Túnez':46,'Uzbekistán':50,'Irak':56,'Catar':57,'Sudáfrica':60,'Arabia Saudí':61,'Jordania':63,'Bosnia y Herzegovina':64,'Cabo Verde':67,'Ghana':73,'Curaçao':82,'Haití':83,'Nueva Zelanda':85};
+const WC_TEAM_EN={'México':'Mexico','Sudáfrica':'South Africa','Corea del Sur':'South Korea','Chequia':'Czechia','Canadá':'Canada','Bosnia y Herzegovina':'Bosnia and Herzegovina','Catar':'Qatar','Suiza':'Switzerland','Brasil':'Brazil','Marruecos':'Morocco','Haití':'Haiti','Escocia':'Scotland','Turquía':'Türkiye','Alemania':'Germany','Costa de Marfil':'Ivory Coast','Países Bajos':'Netherlands','Japón':'Japan','Suecia':'Sweden','Túnez':'Tunisia','Bélgica':'Belgium','Egipto':'Egypt','Irán':'Iran','Nueva Zelanda':'New Zealand','España':'Spain','Cabo Verde':'Cape Verde','Arabia Saudí':'Saudi Arabia','Francia':'France','Irak':'Iraq','Noruega':'Norway','Argelia':'Algeria','Jordania':'Jordan','Uzbekistán':'Uzbekistan','Inglaterra':'England','Croacia':'Croatia','Panamá':'Panama'};
+const WC_TEAM_ZH={'México':'墨西哥','Sudáfrica':'南非','Corea del Sur':'韩国','Chequia':'捷克','Canadá':'加拿大','Bosnia y Herzegovina':'波黑','Catar':'卡塔尔','Suiza':'瑞士','Brasil':'巴西','Marruecos':'摩洛哥','Haití':'海地','Escocia':'苏格兰','USA':'美国','Paraguay':'巴拉圭','Australia':'澳大利亚','Turquía':'土耳其','Alemania':'德国','Curaçao':'库拉索','Costa de Marfil':'科特迪瓦','Ecuador':'厄瓜多尔','Países Bajos':'荷兰','Japón':'日本','Suecia':'瑞典','Túnez':'突尼斯','Bélgica':'比利时','Egipto':'埃及','Irán':'伊朗','Nueva Zelanda':'新西兰','España':'西班牙','Cabo Verde':'佛得角','Arabia Saudí':'沙特阿拉伯','Uruguay':'乌拉圭','Francia':'法国','Senegal':'塞内加尔','Irak':'伊拉克','Noruega':'挪威','Argentina':'阿根廷','Argelia':'阿尔及利亚','Austria':'奥地利','Jordania':'约旦','Portugal':'葡萄牙','DR Congo':'刚果(金)','Uzbekistán':'乌兹别克斯坦','Colombia':'哥伦比亚','Inglaterra':'英格兰','Croacia':'克罗地亚','Ghana':'加纳','Panamá':'巴拿马'};
+const WC_VENUES={MEX:['Ciudad de México','Mexico City','墨西哥城'],GDL:['Guadalajara','Guadalajara','瓜达拉哈拉'],MTY:['Monterrey','Monterrey','蒙特雷'],TOR:['Toronto','Toronto','多伦多'],VAN:['Vancouver','Vancouver','温哥华'],SEA:['Seattle','Seattle','西雅图'],SFO:['San Francisco','San Francisco','旧金山'],LAX:['Los Ángeles','Los Angeles','洛杉矶'],KCY:['Kansas City','Kansas City','堪萨斯城'],DAL:['Dallas','Dallas','达拉斯'],HOU:['Houston','Houston','休斯顿'],ATL:['Atlanta','Atlanta','亚特兰大'],MIA:['Miami','Miami','迈阿密'],BOS:['Boston','Boston','波士顿'],PHI:['Filadelfia','Philadelphia','费城'],NYC:['Nueva York/NJ','New York/NJ','纽约/新泽西']};
+const WC_GS=[
+{d:'2026-06-11',a:'México',b:'Sudáfrica',v:'MEX'},{d:'2026-06-11',a:'Corea del Sur',b:'Chequia',v:'GDL'},
+{d:'2026-06-12',a:'Canadá',b:'Bosnia y Herzegovina',v:'TOR'},{d:'2026-06-12',a:'USA',b:'Paraguay',v:'LAX'},
+{d:'2026-06-13',a:'Catar',b:'Suiza',v:'SFO'},{d:'2026-06-13',a:'Brasil',b:'Marruecos',v:'NYC'},{d:'2026-06-13',a:'Haití',b:'Escocia',v:'BOS'},{d:'2026-06-13',a:'Australia',b:'Turquía',v:'VAN'},
+{d:'2026-06-14',a:'Alemania',b:'Curaçao',v:'HOU'},{d:'2026-06-14',a:'Países Bajos',b:'Japón',v:'DAL'},{d:'2026-06-14',a:'Costa de Marfil',b:'Ecuador',v:'PHI'},{d:'2026-06-14',a:'Suecia',b:'Túnez',v:'MTY'},
+{d:'2026-06-15',a:'España',b:'Cabo Verde',v:'ATL'},{d:'2026-06-15',a:'Bélgica',b:'Egipto',v:'SEA'},{d:'2026-06-15',a:'Arabia Saudí',b:'Uruguay',v:'MIA'},{d:'2026-06-15',a:'Irán',b:'Nueva Zelanda',v:'LAX'},
+{d:'2026-06-16',a:'Francia',b:'Senegal',v:'NYC'},{d:'2026-06-16',a:'Irak',b:'Noruega',v:'BOS'},{d:'2026-06-16',a:'Argentina',b:'Argelia',v:'KCY'},{d:'2026-06-16',a:'Austria',b:'Jordania',v:'SFO'},
+{d:'2026-06-17',a:'Portugal',b:'DR Congo',v:'HOU'},{d:'2026-06-17',a:'Inglaterra',b:'Croacia',v:'DAL'},{d:'2026-06-17',a:'Ghana',b:'Panamá',v:'TOR'},{d:'2026-06-17',a:'Uzbekistán',b:'Colombia',v:'MEX'},
+{d:'2026-06-18',a:'Chequia',b:'Sudáfrica',v:'ATL'},{d:'2026-06-18',a:'Suiza',b:'Bosnia y Herzegovina',v:'LAX'},{d:'2026-06-18',a:'Canadá',b:'Catar',v:'VAN'},{d:'2026-06-18',a:'México',b:'Corea del Sur',v:'GDL'},
+{d:'2026-06-19',a:'USA',b:'Australia',v:'SEA'},{d:'2026-06-19',a:'Escocia',b:'Marruecos',v:'BOS'},{d:'2026-06-19',a:'Brasil',b:'Haití',v:'PHI'},{d:'2026-06-19',a:'Turquía',b:'Paraguay',v:'SFO'},
+{d:'2026-06-20',a:'Países Bajos',b:'Suecia',v:'HOU'},{d:'2026-06-20',a:'Alemania',b:'Costa de Marfil',v:'TOR'},{d:'2026-06-20',a:'Ecuador',b:'Curaçao',v:'KCY'},{d:'2026-06-20',a:'Túnez',b:'Japón',v:'MTY'},
+{d:'2026-06-21',a:'España',b:'Arabia Saudí',v:'ATL'},{d:'2026-06-21',a:'Bélgica',b:'Irán',v:'LAX'},{d:'2026-06-21',a:'Uruguay',b:'Cabo Verde',v:'MIA'},{d:'2026-06-21',a:'Nueva Zelanda',b:'Egipto',v:'VAN'},
+{d:'2026-06-22',a:'Argentina',b:'Austria',v:'DAL'},{d:'2026-06-22',a:'Francia',b:'Irak',v:'PHI'},{d:'2026-06-22',a:'Noruega',b:'Senegal',v:'NYC'},{d:'2026-06-22',a:'Jordania',b:'Argelia',v:'SFO'},
+{d:'2026-06-23',a:'Portugal',b:'Uzbekistán',v:'HOU'},{d:'2026-06-23',a:'Inglaterra',b:'Ghana',v:'BOS'},{d:'2026-06-23',a:'Panamá',b:'Croacia',v:'TOR'},{d:'2026-06-23',a:'Colombia',b:'DR Congo',v:'GDL'},
+{d:'2026-06-24',a:'Suiza',b:'Canadá',v:'VAN'},{d:'2026-06-24',a:'Bosnia y Herzegovina',b:'Catar',v:'SEA'},{d:'2026-06-24',a:'Escocia',b:'Brasil',v:'MIA'},{d:'2026-06-24',a:'Marruecos',b:'Haití',v:'ATL'},{d:'2026-06-24',a:'Chequia',b:'México',v:'MEX'},{d:'2026-06-24',a:'Sudáfrica',b:'Corea del Sur',v:'MTY'},
+{d:'2026-06-25',a:'Ecuador',b:'Alemania',v:'NYC'},{d:'2026-06-25',a:'Curaçao',b:'Costa de Marfil',v:'PHI'},{d:'2026-06-25',a:'Japón',b:'Suecia',v:'DAL'},{d:'2026-06-25',a:'Túnez',b:'Países Bajos',v:'KCY'},{d:'2026-06-25',a:'Turquía',b:'USA',v:'LAX'},{d:'2026-06-25',a:'Paraguay',b:'Australia',v:'SFO'},
+{d:'2026-06-26',a:'Noruega',b:'Francia',v:'BOS'},{d:'2026-06-26',a:'Senegal',b:'Irak',v:'TOR'},{d:'2026-06-26',a:'Cabo Verde',b:'Arabia Saudí',v:'HOU'},{d:'2026-06-26',a:'Uruguay',b:'España',v:'GDL'},{d:'2026-06-26',a:'Egipto',b:'Irán',v:'SEA'},{d:'2026-06-26',a:'Nueva Zelanda',b:'Bélgica',v:'VAN'},
+{d:'2026-06-27',a:'Panamá',b:'Inglaterra',v:'NYC'},{d:'2026-06-27',a:'Croacia',b:'Ghana',v:'PHI'},{d:'2026-06-27',a:'Colombia',b:'Portugal',v:'MIA'},{d:'2026-06-27',a:'DR Congo',b:'Uzbekistán',v:'ATL'},{d:'2026-06-27',a:'Jordania',b:'Argentina',v:'DAL'},{d:'2026-06-27',a:'Argelia',b:'Austria',v:'KCY'}];
+const WC_KO=[{d:'2026-06-28',v:'LAX',r:'R32'},{d:'2026-06-29',v:'BOS',r:'R32'},{d:'2026-06-29',v:'MTY',r:'R32'},{d:'2026-06-29',v:'HOU',r:'R32'},{d:'2026-06-30',v:'NYC',r:'R32'},{d:'2026-06-30',v:'DAL',r:'R32'},{d:'2026-06-30',v:'MEX',r:'R32'},{d:'2026-07-01',v:'ATL',r:'R32'},{d:'2026-07-01',v:'SFO',r:'R32'},{d:'2026-07-01',v:'SEA',r:'R32'},{d:'2026-07-02',v:'TOR',r:'R32'},{d:'2026-07-02',v:'LAX',r:'R32'},{d:'2026-07-02',v:'VAN',r:'R32'},{d:'2026-07-03',v:'MIA',r:'R32'},{d:'2026-07-03',v:'KCY',r:'R32'},{d:'2026-07-03',v:'DAL',r:'R32'},{d:'2026-07-04',v:'PHI',r:'R16'},{d:'2026-07-04',v:'HOU',r:'R16'},{d:'2026-07-05',v:'NYC',r:'R16'},{d:'2026-07-05',v:'MEX',r:'R16'},{d:'2026-07-06',v:'DAL',r:'R16'},{d:'2026-07-06',v:'SEA',r:'R16'},{d:'2026-07-07',v:'ATL',r:'R16'},{d:'2026-07-07',v:'VAN',r:'R16'},{d:'2026-07-09',v:'BOS',r:'QF'},{d:'2026-07-10',v:'LAX',r:'QF'},{d:'2026-07-11',v:'MIA',r:'QF'},{d:'2026-07-11',v:'KCY',r:'QF'},{d:'2026-07-14',v:'DAL',r:'SF'},{d:'2026-07-15',v:'ATL',r:'SF'},{d:'2026-07-18',v:'MIA',r:'TP'},{d:'2026-07-19',v:'NYC',r:'F'}];
+const WC_KO_R={R32:['Dieciseisavos de final','Round of 32','32强赛'],R16:['Octavos de final','Round of 16','16强赛'],QF:['Cuartos de final','Quarter-final','四分之一决赛'],SF:['Semifinal','Semi-final','半决赛'],TP:['Tercer puesto','Third place','季军赛'],F:['LA GRAN FINAL','THE FINAL','总决赛']};
+const WC_I18N={
+es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan los 5 motores',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',numsTitle:'✦ Números de la Suerte del Partido ✦',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}'},
+en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',numsTitle:'✦ Lucky Numbers of the Match ✦',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}'},
+zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',numsTitle:'✦ 本场比赛的幸运数字 ✦',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位'}};
+function wcLang(){try{if(typeof uiLang==='function')return uiLang()}catch(e){}return(typeof STATE!=='undefined'&&STATE.lang==='zh')?'zh':'es'}
+function wcLi(){const l=wcLang();return l==='en'?1:l==='zh'?2:0}
+function wcTeamLabel(t){const l=wcLang();return l==='en'?(WC_TEAM_EN[t]||t):l==='zh'?(WC_TEAM_ZH[t]||t):t}
+function wcResolveTeam(s){if(!s)return s;const n=s.trim();if(WC_RANK[n]!==undefined)return n;const ln=n.toLowerCase();for(const k in WC_RANK){if(k.toLowerCase()===ln)return k;const en=WC_TEAM_EN[k];if(en&&en.toLowerCase()===ln)return k;if(WC_TEAM_ZH[k]===n)return k}return n}
+function wcVenueName(v){const x=WC_VENUES[v];return x?x[wcLi()]:''}
+function wcFmtDate(d){const l=wcLang();const p=d.split('-');const m=+p[1],day=+p[2];if(l==='zh')return m+'月'+day+'日';const mes=l==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return l==='en'?(mes[m-1]+' '+day):(day+' '+mes[m-1])}
+function wcRed9(n){n=numReduce(n);if(n>9)n=(n%9)||9;return n}
+function populateWcMatches(){
+  const sel=document.getElementById('wc-match-select');if(!sel)return;
+  const T=WC_I18N[wcLang()];
+  const lbl=document.getElementById('wc-match-label');if(lbl)lbl.textContent=T.matchLabel;
+  const hint=document.getElementById('wc-match-hint');if(hint)hint.textContent=T.matchHint;
+  sel.innerHTML='';
+  const today=new Date().toISOString().split('T')[0];
+  WC_GS.forEach(function(m,i){if(m.d>=today){const o=document.createElement('option');o.value='g'+i;o.textContent=wcFmtDate(m.d)+' · '+wcTeamLabel(m.a)+' vs '+wcTeamLabel(m.b)+' · '+wcVenueName(m.v);sel.appendChild(o)}});
+  WC_KO.forEach(function(m,i){if(m.d>=today){const o=document.createElement('option');o.value='k'+i;o.textContent=wcFmtDate(m.d)+' · '+WC_KO_R[m.r][wcLi()]+' · '+wcVenueName(m.v)+' — '+T.tbd;sel.appendChild(o)}});
+  const o=document.createElement('option');o.value='free';o.textContent=T.free;sel.appendChild(o);
+  selWcMatch();
+}
+function selWcMatch(){
+  const sel=document.getElementById('wc-match-select');if(!sel)return;
+  const v=sel.value;const a=document.getElementById('inp-team-a'),b=document.getElementById('inp-team-b');
+  if(v&&v.charAt(0)==='g'){const m=WC_GS[parseInt(v.slice(1))];STATE.wcMatch={d:m.d,v:m.v};if(a)a.value=wcTeamLabel(m.a);if(b)b.value=wcTeamLabel(m.b);}
+  else if(v&&v.charAt(0)==='k'){const m=WC_KO[parseInt(v.slice(1))];STATE.wcMatch={d:m.d,v:m.v};if(a)a.value='';if(b)b.value='';}
+  else{STATE.wcMatch=null;if(a)a.value='';if(b)b.value='';}
+}
+function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
+  // Motor del duelo: nombre del país + fecha del juego + sede + luna + tendencia ranking FIFA (65% cósmico / 35% ranking)
+  const cA=wcResolveTeam(teamA),cB=wcResolveTeam(teamB);
+  const effDate=(match&&match.d)?match.d:today;
+  const lp=lifePath(name,birth),moon=getMoon(effDate),geoB=cityEnergy(cityB),geoN=cityEnergy(cityN);
+  const venueGeo=(match&&match.v&&WC_VENUES[match.v])?cityEnergy(WC_VENUES[match.v][1]):0;
+  const geo=numReduce(geoB+geoN+venueGeo);
+  const todayN=numReduce(effDate.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
   const zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear());
-  function teamScore(teamName){
-    const tn=nameNum(teamName);
-    const seed=Math.abs((tn*137+lp*53+todayN*97+moon.day*31+geo*71)&0x7fffffff);
+  const rankA=WC_RANK[cA],rankB=WC_RANK[cB];
+  function cosmicScore(canon){
+    const tn=nameNum(canon);
+    const seed=Math.abs((tn*137+lp*53+todayN*97+moon.day*31+geo*71+venueGeo*43)&0x7fffffff);
     const rand=seededRand(seed);
-    let raw=tn+todayN+Math.round(moon.mult*2);
-    raw+=Math.floor(rand()*3);
-    return numReduce(raw);
+    let raw=tn+todayN+Math.round(moon.mult*2)+Math.floor(rand()*3);
+    return Math.max(1,wcRed9(raw));
   }
-  const scoreA=teamScore(teamA),scoreB=teamScore(teamB);
+  function teamScore(canon,rank){
+    const c=cosmicScore(canon);
+    if(rank===undefined)return c;
+    const rs=9-8*(rank-1)/84;
+    let s=Math.round(c*0.65+rs*0.35);
+    s=Math.min(9,Math.max(1,s));
+    if(wcLang()==='zh'&&s===4)s=5;
+    return s;
+  }
+  const scoreA=teamScore(cA,rankA),scoreB=teamScore(cB,rankB);
   let winner,loser;
   if(scoreA>scoreB){winner=teamA;loser=teamB;}
   else if(scoreB>scoreA){winner=teamB;loser=teamA;}
-  else{winner=nameNum(teamA)>=nameNum(teamB)?teamA:teamB;loser=winner===teamA?teamB:teamA;}
+  else if(rankA!==undefined&&rankB!==undefined&&rankA!==rankB){winner=rankA<rankB?teamA:teamB;loser=winner===teamA?teamB:teamA;}
+  else{winner=nameNum(cA)>=nameNum(cB)?teamA:teamB;loser=winner===teamA?teamB:teamA;}
   const diff=Math.abs(scoreA-scoreB);
   let confidence;
   if(diff===0)confidence='⚡ Energías idénticas — partido extremadamente cerrado, posibles penales';
   else if(diff<=2)confidence='⚡ Ventaja cósmica leve — partido muy parejo, cualquiera puede ganar';
   else if(diff<=4)confidence='⚡ Ventaja moderada — la energía inclina la balanza';
   else confidence='⚡ Ventaja cósmica clara — los cinco motores apuntan en una dirección';
-  return{teamA,teamB,scoreA,scoreB,winner,loser,confidence,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo},moon,lp,zodiac,chinese,geo};
+  // Números de la suerte del partido — los 5 motores generan la combinación (esencia de la app)
+  const seed2=Math.abs(nameNum(cA)*61+nameNum(cB)*89+lp*137+todayN*73+moon.day*17+geo*41+zodiac.num*29+chinese.num*53)&0x7fffffff;
+  const rules=getCulturalRules(STATE.lang),rand2=seededRand(seed2),pool=[];
+  for(let i=0;i<=9;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand2()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=4)break}
+  return{teamA,teamB,scoreA,scoreB,winner,loser,confidence,nums,match:match||null,rankA,rankB,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo},moon,lp,zodiac,chinese,geo};
 }
 function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
 function computeNumbers(name,birth,cityB,cityN,game,lang,today){
@@ -1178,6 +1258,7 @@ function selGame(el){
   document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
   document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
   document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
+  if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
   // Reset labels for mundial
   if(isMundial){
     document.getElementById('label-team-a').textContent='🔵 Equipo A / Local';
@@ -1234,6 +1315,18 @@ function renderDuelResult(duel,name){
     ?`${firstName}，宇宙引擎今天分析了两队的振动频率。<strong>${duel.teamA}</strong> 在宇宙数字 <strong>${duel.scoreA}</strong> 上产生共鸣，而 <strong>${duel.teamB}</strong> 在 <strong>${duel.scoreB}</strong> 上振动。在<strong>${tMoon(duel.moon.name)}</strong>的影响和您的星座 <strong>${tZodiac(duel.zodiac.sign)}</strong> 下，宇宙能量在这个日期与 <strong>${duel.winner}</strong> 对齐。`
     :`${firstName}, los motores cósmicos analizaron la vibración de ambos equipos hoy. <strong>${duel.teamA}</strong> resuena en el número cósmico <strong>${duel.scoreA}</strong>, mientras <strong>${duel.teamB}</strong> vibra en el <strong>${duel.scoreB}</strong>. Bajo la influencia de la <strong>luna ${duel.moon.name}</strong> y tu signo <strong>${duel.zodiac.sign}</strong>, la energía universal se alinea con <strong>${duel.winner}</strong> en esta fecha.`;
   document.getElementById('interp-closer').innerHTML=zh?T.duelInterpCloser:`Esta lectura refleja las energías del cosmos hoy — el fútbol, como la vida, siempre puede sorprender. Numbers es entretenimiento e inspiración.`;
+  // ═══ Mundial 2026: info del partido oficial + ranking + números del partido ═══
+  const mi=document.getElementById('duel-match-info');
+  if(mi){mi.textContent=duel.match?('📅 '+wcFmtDate(duel.match.d)+'  ·  🏟 '+wcVenueName(duel.match.v)):'';mi.style.display=duel.match?'block':'none';}
+  const ri=document.getElementById('duel-rank-info');
+  if(ri){if(duel.rankA!==undefined&&duel.rankB!==undefined){ri.textContent=WC_I18N[wcLang()].rankLine.replace('{a}',duel.teamA).replace('{ra}',duel.rankA).replace('{b}',duel.teamB).replace('{rb}',duel.rankB);ri.style.display='block';}else{ri.style.display='none';ri.textContent='';}}
+  if(duel.nums&&duel.nums.length){
+    const tt=document.getElementById('golden-div-text-top');
+    if(tt){if(!window.__wcDefTitle)window.__wcDefTitle=tt.textContent;tt.textContent=WC_I18N[wcLang()].numsTitle;}
+    const nd=document.getElementById('numbers-display');nd.innerHTML='';
+    duel.nums.forEach(function(n,i){const x=document.createElement('div');x.className='nball';x.textContent=n;x.style.animationDelay=(i*.14)+'s';nd.appendChild(x)});
+    nd.classList.remove('hidden');
+  }
 }
 function isPro(){return STATE.profile?.plan==='pro'}
 function proLaunch(el){
@@ -1362,7 +1455,7 @@ async function generate(){
     if(GAME_CFG[STATE.game]?.duel){
       const teamA=document.getElementById('inp-team-a').value.trim();
       const teamB=document.getElementById('inp-team-b').value.trim();
-      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today);
+      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today,STATE.game==='mundial'?STATE.wcMatch:null);
       STATE.lastResult={duel,name,game:STATE.game,isDuel:true};
       renderDuelResult(duel,name);updateEngines(duel.engines,duel.moon);showTab('result');history.pushState({tab:'result'},'','');
       try{
@@ -1390,6 +1483,7 @@ function renderResult(r,name){
   if(proBannerBottom) proBannerBottom.style.display='none';
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
+  (function(){const t=document.getElementById('golden-div-text-top');if(t&&window.__wcDefTitle)t.textContent=window.__wcDefTitle;})();
   const cfg=GAME_CFG[STATE.game];
   const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
   const games=zh?T.gameLabels:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
