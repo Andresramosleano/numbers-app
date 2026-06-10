@@ -180,6 +180,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .disclaimer-text{font-size:12px;color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem;background:rgba(201,168,76,.04);border:.5px solid var(--border);border-radius:var(--r);padding:10px 14px}
 .action-row{display:flex;gap:10px;margin-bottom:1rem}
 .btn-whatsapp{flex:1;padding:13px;background:rgba(37,211,102,.1);border:.5px solid rgba(37,211,102,.35);border-radius:var(--r);cursor:pointer;color:#25d366;font-size:12px;font-family:'JetBrains Mono',monospace}
+.btn-share-main{display:block;width:100%;padding:15px;margin:1.25rem 0 .4rem;background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.07));border:1px solid var(--gold2);border-radius:var(--r);color:var(--gold3);font-family:'Cinzel Decorative',serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.06em;animation:sharePulse 2.8s ease-in-out infinite;transition:transform .15s ease}
+.btn-share-main:active{transform:scale(.97)}
+@keyframes sharePulse{0%,100%{box-shadow:0 0 16px rgba(201,168,76,.15)}50%{box-shadow:0 0 34px rgba(201,168,76,.38)}}
+.share-hint{text-align:center;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:.6rem}
 .btn-new{flex:1;padding:13px;background:transparent;border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace}
 .btn-new:hover{border-color:var(--gold);color:var(--gold)}
 .pro-banner{background:linear-gradient(135deg,rgba(124,92,191,.14),rgba(201,168,76,.07));border:.5px solid rgba(124,92,191,.3);border-radius:var(--rr);padding:1.3rem 1.4rem;text-align:center;margin-bottom:1rem}
@@ -564,7 +568,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="motor-chip"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">Chino</div></div>
         <div class="motor-chip"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">Geo.</div></div>
       </div>
-      <div class="action-row" style="margin:1.25rem 0 .5rem">
+      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
+      <div class="share-hint" id="share-hint">Envíaselos a alguien que necesite suerte hoy 🍀</div>
+      <div class="action-row" style="margin:.5rem 0 .5rem">
         <button class="btn-whatsapp" onclick="shareWA()">📱 WhatsApp</button>
         <button class="btn-new" onclick="newConsult()">↺ Nueva consulta</button>
       </div>
@@ -1114,6 +1120,8 @@ window.addEventListener('popstate',function(e){
 // ═══════════════════════════════════════
 // WHATSAPP IMAGE SHARE (Canvas API)
 // ═══════════════════════════════════════
+const SHARE_URL='https://numbersoracle.com/?utm_source=share&utm_medium=social';
+const SHARE_URL_WA='https://numbersoracle.com/?utm_source=share&utm_medium=whatsapp';
 function shareWA(){
   if(!STATE.lastResult) return;
   const{result,name,game}=STATE.lastResult;
@@ -1240,7 +1248,7 @@ function shareWA(){
 
 Mi combinación de ${gameName}: ${result.nums.join(' · ')}
 
-numbersoracle.com`,
+Descubre la tuya gratis → ${SHARE_URL}`,
           files:[file]
         }).catch(()=>shareWAFallback(name,gameName,result));
       }else{
@@ -1263,7 +1271,7 @@ Mi combinación cósmica de ${gameName}: ${result.nums.join(' · ')}
 
 Cinco fuerzas se alinearon solo para mí hoy, en proporción áurea.
 
-✦ Descubre la tuya en numbersoracle.com`;
+✦ Descubre la tuya gratis → ${SHARE_URL_WA}`;
   window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
 }
 
