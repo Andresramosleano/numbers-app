@@ -326,7 +326,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .pro-cta-mid .btn-pct{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;border:none;border-radius:99px;padding:10px 28px;cursor:pointer;width:100%}
 
 /* ─── DUEL / PREDICTOR DEPORTIVO ─── */
-.field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;color:var(--text);font-family:inherit;font-size:15px;outline:none;cursor:pointer}.field select:focus{border-color:var(--gold)}.duel-match-info{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);letter-spacing:.06em;margin:.25rem 0 .75rem;line-height:1.6}.duel-rank-info{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:.5rem;line-height:1.6}
+.field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;color:var(--text);font-family:inherit;font-size:15px;outline:none;cursor:pointer}.field select:focus{border-color:var(--gold)}.wc-nums-hint{text-align:center;font-style:italic;font-size:13px;color:var(--gold2);opacity:.85;margin:.4rem 1.5rem 1rem;line-height:1.6}
+.duel-match-info{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);letter-spacing:.06em;margin:.25rem 0 .75rem;line-height:1.6}.duel-rank-info{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:.5rem;line-height:1.6}
 .duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
 /* ─── SPORT SELECTOR ─── */
 .sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
@@ -539,6 +540,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       </div>
       <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
       <div class="numbers-row" id="numbers-display"></div>
+      <div class="wc-nums-hint" id="wc-nums-hint" style="display:none"></div>
       <div class="power-seal">
         <div class="power-seal-line"><span class="power-seal-text" id="seal-text">COMBINACIÓN SELLADA</span></div>
         <div class="power-seal-sub" id="seal-sub">Cinco fuerzas cósmicas convergen en tus números</div>
@@ -1135,9 +1137,9 @@ const WC_GS=[
 const WC_KO=[{d:'2026-06-28',v:'LAX',r:'R32'},{d:'2026-06-29',v:'BOS',r:'R32'},{d:'2026-06-29',v:'MTY',r:'R32'},{d:'2026-06-29',v:'HOU',r:'R32'},{d:'2026-06-30',v:'NYC',r:'R32'},{d:'2026-06-30',v:'DAL',r:'R32'},{d:'2026-06-30',v:'MEX',r:'R32'},{d:'2026-07-01',v:'ATL',r:'R32'},{d:'2026-07-01',v:'SFO',r:'R32'},{d:'2026-07-01',v:'SEA',r:'R32'},{d:'2026-07-02',v:'TOR',r:'R32'},{d:'2026-07-02',v:'LAX',r:'R32'},{d:'2026-07-02',v:'VAN',r:'R32'},{d:'2026-07-03',v:'MIA',r:'R32'},{d:'2026-07-03',v:'KCY',r:'R32'},{d:'2026-07-03',v:'DAL',r:'R32'},{d:'2026-07-04',v:'PHI',r:'R16'},{d:'2026-07-04',v:'HOU',r:'R16'},{d:'2026-07-05',v:'NYC',r:'R16'},{d:'2026-07-05',v:'MEX',r:'R16'},{d:'2026-07-06',v:'DAL',r:'R16'},{d:'2026-07-06',v:'SEA',r:'R16'},{d:'2026-07-07',v:'ATL',r:'R16'},{d:'2026-07-07',v:'VAN',r:'R16'},{d:'2026-07-09',v:'BOS',r:'QF'},{d:'2026-07-10',v:'LAX',r:'QF'},{d:'2026-07-11',v:'MIA',r:'QF'},{d:'2026-07-11',v:'KCY',r:'QF'},{d:'2026-07-14',v:'DAL',r:'SF'},{d:'2026-07-15',v:'ATL',r:'SF'},{d:'2026-07-18',v:'MIA',r:'TP'},{d:'2026-07-19',v:'NYC',r:'F'}];
 const WC_KO_R={R32:['Dieciseisavos de final','Round of 32','32强赛'],R16:['Octavos de final','Round of 16','16强赛'],QF:['Cuartos de final','Quarter-final','四分之一决赛'],SF:['Semifinal','Semi-final','半决赛'],TP:['Tercer puesto','Third place','季军赛'],F:['LA GRAN FINAL','THE FINAL','总决赛']};
 const WC_I18N={
-es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan los 5 motores',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',numsTitle:'✦ Números de la Suerte del Partido ✦',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}'},
-en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',numsTitle:'✦ Lucky Numbers of the Match ✦',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}'},
-zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',numsTitle:'✦ 本场比赛的幸运数字 ✦',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位'}};
+es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan los 5 motores',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',numsTitle:'✦ Números de la Suerte del Partido ✦',numsHint:'✦ La vibración de este partido irradia estos números para ti hoy — úsalos como tus números de la suerte del día ✦',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}'},
+en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',numsTitle:'✦ Lucky Numbers of the Match ✦',numsHint:'✦ This match\'s vibration radiates these numbers for you today — use them as your lucky numbers of the day ✦',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}'},
+zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',numsTitle:'✦ 本场比赛的幸运数字 ✦',numsHint:'✦ 这场比赛的振动今天为您散发出这些数字 — 请将它们作为您今日的幸运数字 ✦',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位'}};
 function wcLang(){try{if(typeof uiLang==='function')return uiLang()}catch(e){}return(typeof STATE!=='undefined'&&STATE.lang==='zh')?'zh':'es'}
 function wcLi(){const l=wcLang();return l==='en'?1:l==='zh'?2:0}
 function wcTeamLabel(t){const l=wcLang();return l==='en'?(WC_TEAM_EN[t]||t):l==='zh'?(WC_TEAM_ZH[t]||t):t}
@@ -1326,6 +1328,7 @@ function renderDuelResult(duel,name){
     const nd=document.getElementById('numbers-display');nd.innerHTML='';
     duel.nums.forEach(function(n,i){const x=document.createElement('div');x.className='nball';x.textContent=n;x.style.animationDelay=(i*.14)+'s';nd.appendChild(x)});
     nd.classList.remove('hidden');
+    const nh=document.getElementById('wc-nums-hint');if(nh){nh.textContent=WC_I18N[wcLang()].numsHint;nh.style.display='block';}
   }
 }
 function isPro(){return STATE.profile?.plan==='pro'}
@@ -1484,6 +1487,7 @@ function renderResult(r,name){
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
   (function(){const t=document.getElementById('golden-div-text-top');if(t&&window.__wcDefTitle)t.textContent=window.__wcDefTitle;})();
+  (function(){const h=document.getElementById('wc-nums-hint');if(h)h.style.display='none';})();
   const cfg=GAME_CFG[STATE.game];
   const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
   const games=zh?T.gameLabels:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
