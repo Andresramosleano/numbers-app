@@ -8,12 +8,18 @@
 <meta name="description" content="数字神谕 — 您今日的黄金数字。五大宇宙力量交汇：命理学、星象学、月相、中国历法与地能。">
 <meta property="og:title" content="数字神谕 — 您今日的黄金数字">
 <meta property="og:description" content="五大宇宙力量为您计算今日专属幸运数字：命理学、星象学、月相、中国历法与地能。">
-<meta property="og:image" content="https://numbersoracle.com/og-image.png">
+<meta property="og:image" content="https://numbersoracle.com/og-image-zh.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="数字神谕 — 您今日的黄金数字">
+<meta property="og:site_name" content="数字神谕 NUMBERS ORACLE">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:url" content="https://numbersoracle.com/zh">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="数字神谕 — 您今日的黄金数字">
 <meta name="twitter:description" content="五大宇宙力量为您计算今日专属幸运数字。">
+<meta name="twitter:image" content="https://numbersoracle.com/og-image-zh.png">
 <title>数字神谕 ✦ — 您今日的黄金数字</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
@@ -180,6 +186,19 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .disclaimer-text{font-size:12px;color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem;background:rgba(201,168,76,.04);border:.5px solid var(--border);border-radius:var(--r);padding:10px 14px}
 .action-row{display:flex;gap:10px;margin-bottom:1rem}
 .btn-whatsapp{flex:1;padding:13px;background:rgba(37,211,102,.1);border:.5px solid rgba(37,211,102,.35);border-radius:var(--r);cursor:pointer;color:#25d366;font-size:12px;font-family:'JetBrains Mono',monospace}
+.btn-share-main{display:block;width:100%;padding:15px;margin:1.25rem 0 .4rem;background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.07));border:1px solid var(--gold2);border-radius:var(--r);color:var(--gold3);font-family:'Cinzel Decorative',serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.06em;animation:sharePulse 2.8s ease-in-out infinite;transition:transform .15s ease}
+.btn-share-main:active{transform:scale(.97)}
+@keyframes sharePulse{0%,100%{box-shadow:0 0 16px rgba(201,168,76,.15)}50%{box-shadow:0 0 34px rgba(201,168,76,.38)}}
+.share-hint{text-align:center;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:.6rem}
+.pwa-banner{position:fixed;left:12px;right:12px;bottom:84px;z-index:300;display:flex;align-items:center;gap:12px;padding:14px 40px 14px 14px;background:linear-gradient(135deg,#14112b,#0f0a1e);border:1px solid var(--gold2);border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 24px rgba(201,168,76,.15);animation:pwaUp .45s ease both}
+@keyframes pwaUp{from{transform:translateY(120%);opacity:0}to{transform:translateY(0);opacity:1}}
+.pwa-banner.hidden{display:none}
+.pwa-icon{font-size:30px;flex-shrink:0}
+.pwa-title{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold3);margin-bottom:3px}
+.pwa-sub{font-size:11.5px;color:var(--muted);line-height:1.45;font-family:'JetBrains Mono',monospace}
+.pwa-sub strong{color:var(--gold)}
+.pwa-install-btn{flex-shrink:0;padding:10px 16px;background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border:1px solid var(--gold2);border-radius:10px;color:var(--gold3);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer}
+.pwa-close{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:4px}
 .btn-new{flex:1;padding:13px;background:transparent;border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace}
 .btn-new:hover{border-color:var(--gold);color:var(--gold)}
 .pro-banner{background:linear-gradient(135deg,rgba(124,92,191,.14),rgba(201,168,76,.07));border:.5px solid rgba(124,92,191,.3);border-radius:var(--rr);padding:1.3rem 1.4rem;text-align:center;margin-bottom:1rem}
@@ -562,7 +581,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="motor-chip"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">历法</div></div>
         <div class="motor-chip"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">地能</div></div>
       </div>
-      <div class="action-row" style="margin:1.25rem 0 .5rem">
+      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ 分享我的数字 ✦</button>
+      <div class="share-hint" id="share-hint">送给今天需要好运的人 🍀</div>
+      <div class="action-row" style="margin:.5rem 0 .5rem">
         <button class="btn-whatsapp" onclick="shareWA()">📱 分享</button>
         <button class="btn-new" onclick="newConsult()">↺ 新占卜</button>
       </div>
@@ -728,6 +749,15 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     </div>
 
     <!-- hidden canvas for WhatsApp image generation -->
+    <div id="pwa-banner" class="pwa-banner hidden" style="position:fixed">
+      <button class="pwa-close" onclick="dismissPwaBanner()" aria-label="关闭">✕</button>
+      <div class="pwa-icon">🔮</div>
+      <div>
+        <div class="pwa-title">✦ 随身携带您的神谕 ✦</div>
+        <div class="pwa-sub" id="pwa-sub">将数字神谕安装到主屏幕。免费，无需应用商店。</div>
+      </div>
+      <button class="pwa-install-btn" id="pwa-install-btn" onclick="installPwa()">安装</button>
+    </div>
     <canvas id="wa-canvas" width="800" height="420"></canvas>
 
     <div class="bottom-nav">
@@ -1108,7 +1138,7 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 }
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing()}
+function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result')setTimeout(maybeShowInstallPrompt,6000)}
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');applyLang(l)}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
@@ -1422,6 +1452,44 @@ window.addEventListener('popstate',function(e){
   if(activeResult){showTab('form');history.pushState({screen:'main',tab:'form'},'','');}
   else if(onMain&&(!e.state||e.state.screen!=='main')){goTo('screen-landing');}
 });
+// ═══ PWA INSTALL PROMPT (中文) ═══
+let deferredInstall=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;});
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}
+function maybeShowInstallPrompt(){
+  try{
+    if(isStandalone()||window.__pwaShown)return;
+    if(Date.now()-(+localStorage.getItem('pwaPromptLast')||0)<7*24*3600*1000)return;
+    const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    if(!ios&&!deferredInstall)return;
+    if(ios){
+      document.getElementById('pwa-sub').innerHTML='点按 Safari 底部的<strong>分享</strong>，然后选择<strong>「添加到主屏幕」</strong>';
+      document.getElementById('pwa-install-btn').style.display='none';
+    }
+    document.getElementById('pwa-banner').classList.remove('hidden');
+    window.__pwaShown=true;
+  }catch(e){console.warn('PWA prompt:',e);}
+}
+function dismissPwaBanner(){document.getElementById('pwa-banner').classList.add('hidden');try{localStorage.setItem('pwaPromptLast',String(Date.now()))}catch(e){}}
+function installPwa(){
+  if(!deferredInstall){dismissPwaBanner();return;}
+  deferredInstall.prompt();
+  deferredInstall.userChoice.finally(()=>{deferredInstall=null;dismissPwaBanner();});
+}
+// ═══ COMPARTIR PARA CHINA: Web Share + portapapeles (WeChat) — NUNCA WhatsApp ═══
+function shareZh(text){
+  if(navigator.share){navigator.share({title:'数字神谕 ✦',text:text}).catch(()=>copyShareZh(text));}
+  else copyShareZh(text);
+}
+function copyShareZh(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>showToastZh('✦ 已复制！打开微信粘贴分享')).catch(()=>prompt('复制以下内容分享到微信：',t));}
+  else prompt('复制以下内容分享到微信：',t);
+}
+function showToastZh(msg){
+  let el=document.getElementById('zh-toast');
+  if(!el){el=document.createElement('div');el.id='zh-toast';el.style.cssText='position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#14112b;border:1px solid rgba(201,168,76,.6);color:#f5e4b0;padding:10px 18px;border-radius:10px;z-index:400;font-size:13px';document.body.appendChild(el);}
+  el.textContent=msg;el.style.display='block';setTimeout(()=>{el.style.display='none'},3000);
+}
 function shareWA(){
   if(!STATE.lastResult) return;
   const isDuel=STATE.lastResult.isDuel;
@@ -1429,9 +1497,9 @@ function shareWA(){
     const{duel,name}=STATE.lastResult;
     const zh=STATE.lang==='zh';
     const text=zh
-      ?`✦ 数字神谕预测 🌟\n\n神谕揭示：${duel.winner}的宇宙能量更强！\n比分：${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ 探索您的神谕：numbersoracle.com`
+      ?`✦ 数字神谕预测 🌟\n\n神谕揭示：${duel.winner}的宇宙能量更强！\n比分：${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ 探索您的神谕：numbersoracle.com/zh.html`
       :`✦ NUMBERS predijo el partido 🌟\n\nEl oráculo revela: ¡${duel.winner} tiene la energía cósmica más fuerte!\nScore: ${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ Descubre la tuya en numbersoracle.com`;
-    window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+    shareZh(text);
     return;
   }
   const{result,name,game}=STATE.lastResult;
@@ -1439,9 +1507,9 @@ function shareWA(){
   const games=zh?{lottery:'每日数字',chance:'快速数字',casino:'命运数字',sports:'体育预测',mundial:'世界杯2026'}:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
   const gameName=games[game]||game;
   const text=zh
-    ?`✦ 数字神谕今天揭示了我的黄金数字：${result.golden} 🌟\n\n我的${gameName}宇宙组合：${result.nums.join(' · ')}\n\n五大宇宙力量今天只为我对齐。\n\n✦ 探索您的数字：numbersoracle.com`
+    ?`✦ 数字神谕今天揭示了我的黄金数字：${result.golden} 🌟\n\n我的${gameName}宇宙组合：${result.nums.join(' · ')}\n\n五大宇宙力量今天只为我对齐。\n\n✦ 探索您的数字：numbersoracle.com/zh.html`
     :`✦ NUMBERS reveló mi Número de Oro del día: ${result.golden} 🌟\n\nMi combinación cósmica de ${gameName}: ${result.nums.join(' · ')}\n\nCinco fuerzas se alinearon solo para mí hoy.\n\n✦ Descubre la tuya en numbersoracle.com`;
-  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+  shareZh(text);
 }
 function detectRegionPricing(){
   const lang=navigator.language||navigator.languages?.[0]||'es';

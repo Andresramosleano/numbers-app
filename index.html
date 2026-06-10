@@ -845,7 +845,7 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 }
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result')setTimeout(maybeShowInstallPrompt,6000)}
+function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();setTimeout(maybeShowInstallPrompt,6000)}}
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
@@ -1156,10 +1156,11 @@ function maybeShowInstallPrompt(){
     if(Date.now()-(+localStorage.getItem('pwaPromptLast')||0)<7*24*3600*1000)return;
     const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
     if(!ios&&!deferredInstall)return;
-    if(ios){
-      document.getElementById('pwa-sub').innerHTML='Toca <strong>Compartir</strong> abajo en Safari y luego <strong>«Añadir a pantalla de inicio»</strong>';
-      document.getElementById('pwa-install-btn').style.display='none';
-    }
+    const T=I18N_NEW[uiLang()];
+    document.querySelector('#pwa-banner .pwa-title').textContent=T.pwaTitle;
+    document.getElementById('pwa-sub').innerHTML=ios?T.pwaIos:T.pwaSub;
+    document.getElementById('pwa-install-btn').textContent=T.pwaBtn;
+    if(ios){document.getElementById('pwa-install-btn').style.display='none';}
     document.getElementById('pwa-banner').classList.remove('hidden');
     window.__pwaShown=true;
   }catch(e){console.warn('PWA prompt:',e);}
@@ -1170,12 +1171,19 @@ function installPwa(){
   deferredInstall.prompt();
   deferredInstall.userChoice.finally(()=>{deferredInstall=null;dismissPwaBanner();});
 }
+function uiLang(){return STATE.lang==='en'?'en':STATE.lang==='zh'?'zh':'es'}
+const I18N_NEW={
+es:{shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Env\u00edaselos a alguien que necesite suerte hoy \ud83c\udf40',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{lottery:'N\u00fameros del D\u00eda',chance:'N\u00fameros R\u00e1pidos',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026'}},
+en:{shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Send them to someone who needs luck today \ud83c\udf40',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{lottery:'Numbers of the Day',chance:'Quick Numbers',casino:'Destiny Numbers',sports:'Sports Numbers',mundial:'World Cup 2026'}},
+zh:{shareBtn:'\u2726 \u5206\u4eab\u6211\u7684\u6570\u5b57 \u2726',shareHint:'\u9001\u7ed9\u4eca\u5929\u9700\u8981\u597d\u8fd0\u7684\u4eba \ud83c\udf40',pwaTitle:'\u2726 \u968f\u8eab\u643a\u5e26\u60a8\u7684\u795e\u8c15 \u2726',pwaSub:'\u5c06 NUMBERS \u5b89\u88c5\u5230\u4e3b\u5c4f\u5e55\u3002\u514d\u8d39\uff0c\u65e0\u9700\u5e94\u7528\u5546\u5e97\u3002',pwaIos:'\u70b9\u6309 Safari \u5e95\u90e8\u7684<strong>\u5206\u4eab</strong>\uff0c\u7136\u540e\u9009\u62e9<strong>\u300c\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\u300d</strong>',pwaBtn:'\u5b89\u88c5',shTitle:'\u6211\u7684\u5b87\u5b99\u7ec4\u5408 \u2014 \u6570\u5b57\u795e\u8c15',shGold:'\u6570\u5b57\u795e\u8c15\u63ed\u793a\u4e86\u6211\u7684\u9ec4\u91d1\u6570\u5b57',shCombo:'\u6211\u7684\u7ec4\u5408\uff1a',shCta:'\u514d\u8d39\u83b7\u53d6\u60a8\u7684\u4e13\u5c5e\u6570\u5b57',waLine:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u4eca\u5929\u53ea\u4e3a\u6211\u5bf9\u9f50\u3002',cvHdr:'NUMBERS  \u2726  \u6570\u5b57\u795e\u8c15',cvGold:'\u9ec4\u91d1\u6570\u5b57',cvTag:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u6c47\u805a\u63ed\u793a\u6b64\u7ec4\u5408  \u2726  numbersoracle.com',cvFoot:'\u5a31\u4e50 \u00b7 \u4e2a\u4eba\u7075\u611f \u00b7 \u81ea\u6211\u8ba4\u77e5',games:{lottery:'\u6bcf\u65e5\u6570\u5b57',chance:'\u5feb\u901f\u6570\u5b57',casino:'\u547d\u8fd0\u6570\u5b57',sports:'\u4f53\u80b2\u6570\u5b57',mundial:'2026\u4e16\u754c\u676f'}}};
+function applyShareI18n(){const t=I18N_NEW[uiLang()];const b=document.getElementById('btn-share-main');if(b)b.textContent=t.shareBtn;const h=document.getElementById('share-hint');if(h)h.textContent=t.shareHint;}
 const SHARE_URL='https://numbersoracle.com/?utm_source=share&utm_medium=social';
 const SHARE_URL_WA='https://numbersoracle.com/?utm_source=share&utm_medium=whatsapp';
 function shareWA(){
   if(!STATE.lastResult) return;
   const{result,name,game}=STATE.lastResult;
-  const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos'};
+  const T=I18N_NEW[uiLang()];
+  const games=T.games;
   const gameName=games[game]||game;
 
   try{
@@ -1202,7 +1210,7 @@ function shareWA(){
 
     // NUMBERS logo top left
     ctx.font='bold 13px Arial';ctx.fillStyle='#e8c97a';ctx.letterSpacing='3px';
-    ctx.fillText('NUMBERS  ✦  ORÁCULO NUMÉRICO',40,38);
+    ctx.fillText(T.cvHdr,40,38);
 
     // Divider
     ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
@@ -1222,7 +1230,7 @@ function shareWA(){
     ctx.font='bold 48px Georgia';ctx.fillStyle='#fff7e0';ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillText(String(result.golden),goldenX,goldenY);
     ctx.font='10px Arial';ctx.fillStyle='#c9a84c';ctx.letterSpacing='2px';
-    ctx.fillText('NÚMERO DE ORO',goldenX,goldenY+82);
+    ctx.fillText(T.cvGold,goldenX,goldenY+82);
     ctx.textAlign='left';ctx.textBaseline='alphabetic';
 
     // User name + game
@@ -1282,9 +1290,9 @@ function shareWA(){
     ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
     ctx.beginPath();ctx.moveTo(40,370);ctx.lineTo(W-40,370);ctx.stroke();
     ctx.font='11px Arial';ctx.fillStyle='rgba(201,168,76,0.6)';ctx.textAlign='center';
-    ctx.fillText('Cinco fuerzas cósmicas convergieron para revelar esta combinación  ✦  numbersoracle.com',W/2,392);
+    ctx.fillText(T.cvTag,W/2,392);
     ctx.font='9px Arial';ctx.fillStyle='rgba(138,122,96,0.6)';
-    ctx.fillText('Entretenimiento · Inspiración personal · Autoconocimiento',W/2,410);
+    ctx.fillText(T.cvFoot,W/2,410);
     ctx.textAlign='left';
 
     // Share
@@ -1293,12 +1301,12 @@ function shareWA(){
       const file=new File([blob],'numbers-combinacion.png',{type:'image/png'});
       if(navigator.canShare&&navigator.canShare({files:[file]})){
         navigator.share({
-          title:'Mi combinación cósmica — NUMBERS',
-          text:`✦ NUMBERS reveló mi Número de Oro: ${result.golden}
+          title:T.shTitle,
+          text:`✦ ${T.shGold}: ${result.golden}
 
-Mi combinación de ${gameName}: ${result.nums.join(' · ')}
+${T.shCombo} ${gameName}: ${result.nums.join(' · ')}
 
-Descubre la tuya gratis → ${SHARE_URL}`,
+${T.shCta} → ${SHARE_URL}`,
           files:[file]
         }).catch(()=>shareWAFallback(name,gameName,result));
       }else{
@@ -1315,13 +1323,14 @@ Descubre la tuya gratis → ${SHARE_URL}`,
 }
 
 function shareWAFallback(name,gameName,result){
-  const text=`✦ NUMBERS reveló mi Número de Oro del día: ${result.golden} 🌟
+  const T=I18N_NEW[uiLang()];
+  const text=`✦ ${T.shGold}: ${result.golden} 🌟
 
-Mi combinación cósmica de ${gameName}: ${result.nums.join(' · ')}
+${T.shCombo} ${gameName}: ${result.nums.join(' · ')}
 
-Cinco fuerzas se alinearon solo para mí hoy, en proporción áurea.
+${T.waLine}
 
-✦ Descubre la tuya gratis → ${SHARE_URL_WA}`;
+✦ ${T.shCta} → ${SHARE_URL_WA}`;
   window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
 }
 
