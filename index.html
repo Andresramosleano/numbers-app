@@ -934,12 +934,13 @@ function openMotorPanel(key){
   if(L==='zh'&&dn===4)dn=5;
   const ruler=getDayRuler(today);
   const rulerName=L==='en'?ruler.en:L==='zh'?ruler.zh:ruler.p;
-  const moonName=(L==='zh'&&typeof tMoon==='function')?tMoon(r.moon.name):r.moon.name;
-  const sign=(L==='zh'&&typeof tZodiac==='function')?tZodiac(r.zodiac.sign):r.zodiac.sign;
+  const moonName=(L==='zh'&&typeof tMoon==='function')?tMoon(r.moon.name):L==='en'?(MOON_EN[r.moon.name]||r.moon.name):r.moon.name;
+  const sign=(L==='zh'&&typeof tZodiac==='function')?tZodiac(r.zodiac.sign):L==='en'?(SIGN_EN[r.zodiac.sign]||r.zodiac.sign):r.zodiac.sign;
   const yAni=getChinese(parseInt(today.slice(0,4)));
-  const yan=(L==='zh'&&typeof tAnimal==='function')?tAnimal(yAni.animal):yAni.animal;
-  const ani=(L==='zh'&&typeof tAnimal==='function')?tAnimal(r.chinese.animal):r.chinese.animal;
-  const txt=M[key].x.replace('{ev}',ev).replace(/\{dn\}/g,dn).replace('{sign}',sign).replace('{planet}',r.zodiac.planet).replace('{ruler}',rulerName).replace('{moonName}',moonName).replace('{animal}',ani).replace('{yearAnimal}',yan);
+  const yan=(L==='zh'&&typeof tAnimal==='function')?tAnimal(yAni.animal):L==='en'?(ANIMAL_EN[yAni.animal]||yAni.animal):yAni.animal;
+  const ani=(L==='zh'&&typeof tAnimal==='function')?tAnimal(r.chinese.animal):L==='en'?(ANIMAL_EN[r.chinese.animal]||r.chinese.animal):r.chinese.animal;
+  const planetName=L==='en'?(PLANET_EN[r.zodiac.planet]||r.zodiac.planet):r.zodiac.planet;
+  const txt=M[key].x.replace('{ev}',ev).replace(/\{dn\}/g,dn).replace('{sign}',sign).replace('{planet}',planetName).replace('{ruler}',rulerName).replace('{moonName}',moonName).replace('{animal}',ani).replace('{yearAnimal}',yan);
   panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-orb">'+dn+'</div><div class="mp-text">'+txt+'</div>';
   panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});
 }
@@ -1031,8 +1032,8 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();setTimeout(maybeShowInstallPrompt,6000)}}
-function setLang(l,b){if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
-function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
+function setLang(l,b){if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}}
+function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
 function selSport(el){
@@ -1040,14 +1041,14 @@ function selSport(el){
   el.classList.add('sel');
   STATE.sport=el.dataset.sport;
   // Update team labels dynamically
-  document.getElementById('label-team-a').textContent=el.dataset.labelA||'🔵 Equipo A / Local';
-  document.getElementById('label-team-b').textContent=el.dataset.labelB||'🔴 Equipo B / Visitante';
+  document.getElementById('label-team-a').textContent=el.dataset.labelA||L('🔵 Equipo A / Local','🔵 Team A / Home');
+  document.getElementById('label-team-b').textContent=el.dataset.labelB||L('🔴 Equipo B / Visitante','🔴 Team B / Away');
   // Clear team inputs when sport changes
   document.getElementById('inp-team-a').value='';
   document.getElementById('inp-team-b').value='';
   const isIndividual=STATE.sport==='tennis'||STATE.sport==='boxing';
-  document.getElementById('inp-team-a').placeholder=isIndividual?'Ej: Djokovic, Alcaraz, Canelo...':'Ej: Real Madrid, Lakers, Colombia...';
-  document.getElementById('inp-team-b').placeholder=isIndividual?'Ej: Federer, Sinner, GGG...':'Ej: Barcelona, Celtics, Argentina...';
+  document.getElementById('inp-team-a').placeholder=isIndividual?L('Ej: Djokovic, Alcaraz, Canelo...','E.g.: Djokovic, Alcaraz, Canelo...'):L('Ej: Real Madrid, Lakers, Colombia...','E.g.: Real Madrid, Lakers, Colombia...');
+  document.getElementById('inp-team-b').placeholder=isIndividual?L('Ej: Federer, Sinner, GGG...','E.g.: Federer, Sinner, GGG...'):L('Ej: Barcelona, Celtics, Argentina...','E.g.: Barcelona, Celtics, Argentina...');
 }
 function selGame(el){
   document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
@@ -1061,10 +1062,10 @@ function selGame(el){
   if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
   // Reset labels for mundial
   if(isMundial){
-    document.getElementById('label-team-a').textContent='🔵 Equipo A / Local';
-    document.getElementById('label-team-b').textContent='🔴 Equipo B / Visitante';
-    document.getElementById('inp-team-a').placeholder='Ej: Argentina, Brasil, México...';
-    document.getElementById('inp-team-b').placeholder='Ej: Francia, España, Alemania...';
+    document.getElementById('label-team-a').textContent=L('🔵 Equipo A / Local','🔵 Team A / Home');
+    document.getElementById('label-team-b').textContent=L('🔴 Equipo B / Visitante','🔴 Team B / Away');
+    document.getElementById('inp-team-a').placeholder=L('Ej: Argentina, Brasil, México...','E.g.: Argentina, Brazil, Mexico...');
+    document.getElementById('inp-team-b').placeholder=L('Ej: Francia, España, Alemania...','E.g.: France, Spain, Germany...');
   }
   if(isDuel){
     const dl=document.getElementById('wc-teams-list');
@@ -1163,15 +1164,15 @@ async function doForgotPw(){
   const email=document.getElementById('forgot-email').value.trim();
   if(!email)return showError('forgot-error','Ingresa tu correo electrónico');
   const btn=document.getElementById('forgot-btn');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Enviando...';
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Enviando...','Sending...');
   try{
     const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://www.numbersoracle.com'});
     if(error)throw error;
     showSuccess('forgot-success','✦ Enlace enviado. Revisa tu correo (incluyendo spam) y haz clic en el enlace para crear tu nueva contraseña.');
-    btn.textContent='¡Enviado! Revisa tu correo';
+    btn.textContent=L('¡Enviado! Revisa tu correo','Sent! Check your email');
   }catch(e){
     showError('forgot-error',e.message||'Error al enviar el enlace. Intenta de nuevo.');
-    btn.disabled=false;btn.innerHTML='✦ Enviar enlace de recuperación ✦';
+    btn.disabled=false;btn.innerHTML=L('✦ Enviar enlace de recuperación ✦','✦ Send recovery link ✦');
   }
 }
 async function doResetPw(){
@@ -1180,7 +1181,7 @@ async function doResetPw(){
   if(!pass||pass.length<6)return showError('resetpw-error','La contraseña debe tener al menos 6 caracteres');
   if(pass!==pass2)return showError('resetpw-error','Las contraseñas no coinciden');
   const btn=document.getElementById('resetpw-btn');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Guardando...';
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Guardando...','Saving...');
   try{
     const{error}=await sb.auth.updateUser({password:pass});
     if(error)throw error;
@@ -1188,19 +1189,19 @@ async function doResetPw(){
     setTimeout(async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user)await afterLogin(session.user);else goAuth('login');},2000);
   }catch(e){
     showError('resetpw-error',e.message||'Error al actualizar la contraseña. El enlace puede haber expirado.');
-    btn.disabled=false;btn.innerHTML='✦ Guardar nueva contraseña ✦';
+    btn.disabled=false;btn.innerHTML=L('✦ Guardar nueva contraseña ✦','✦ Save new password ✦');
   }
 }
 async function doAuth(){
   const email=document.getElementById('auth-email').value.trim();const pass=document.getElementById('auth-pass').value;const name=document.getElementById('auth-name').value.trim();const btn=document.getElementById('auth-btn-main');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Procesando...';
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Procesando...','Processing...');
   try{
     if(STATE.authMode==='register'){
-      if(!name)throw new Error('Ingresa tu nombre completo');if(!email)throw new Error('Ingresa tu correo electrónico');if(!pass||pass.length<6)throw new Error('La contraseña debe tener al menos 6 caracteres');
+      if(!name)throw new Error(L('Ingresa tu nombre completo','Enter your full name'));if(!email)throw new Error(L('Ingresa tu correo electrónico','Enter your email'));if(!pass||pass.length<6)throw new Error(L('La contraseña debe tener al menos 6 caracteres','Password must be at least 6 characters'));
       const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});if(error)throw error;
-      if(data.user){showSuccess('auth-success','¡Cuenta creada! Revisa tu correo para confirmar. Mientras tanto puedes iniciar sesión.');setTimeout(()=>toggleAuth(),3000)}
+      if(data.user){showSuccess('auth-success',L('¡Cuenta creada! Revisa tu correo para confirmar. Mientras tanto puedes iniciar sesión.','Account created! Check your email to confirm. Meanwhile you can log in.'));setTimeout(()=>toggleAuth(),3000)}
     }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
-  }catch(e){showError('auth-error',e.message||'Error en la autenticación')}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?'Crear cuenta':'Iniciar sesión'}
+  }catch(e){showError('auth-error',e.message||L('Error en la autenticación','Authentication error'))}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in')}
 }
 async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Error con Google')}}
 async function afterLogin(user){
@@ -1215,23 +1216,30 @@ async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(s
 async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
 async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
 async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}
-function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';if(isPro){bar.innerHTML='<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML='<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML='<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
+function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';if(isPro){bar.innerHTML=L('<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas','<strong>✦ Pro Plan Active</strong> — Unlimited readings');bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML=L('<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas','<strong>Daily limit reached</strong> — Upgrade to Pro for more readings');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas','<strong>Free reading of the day</strong> — Upgrade to Pro for unlimited');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
   document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
   const name=document.getElementById('inp-name').value.trim();const birth=document.getElementById('inp-birth').value;const cityB=document.getElementById('inp-cityb').value.trim();const cityN=document.getElementById('inp-cityn').value.trim();
-  if(!name)return showError('error-toast','Ingresa tu nombre completo');if(!birth)return showError('error-toast','Ingresa tu fecha de nacimiento');if(!cityB)return showError('error-toast','Ingresa tu ciudad de nacimiento');if(!cityN)return showError('error-toast','Ingresa tu ciudad actual');
+  if(!name)return showError('error-toast',L('Ingresa tu nombre completo','Enter your full name'));if(!birth)return showError('error-toast',L('Ingresa tu fecha de nacimiento','Enter your date of birth'));if(!cityB)return showError('error-toast',L('Ingresa tu ciudad de nacimiento','Enter your city of birth'));if(!cityN)return showError('error-toast',L('Ingresa tu ciudad actual','Enter your current city'));
   const isDuelMode=GAME_CFG[STATE.game]?.duel;
   if(isDuelMode){
     const tA=document.getElementById('inp-team-a').value.trim();
     const tB=document.getElementById('inp-team-b').value.trim();
-    if(!tA)return showError('error-toast','Ingresa el nombre del Equipo A');
-    if(!tB)return showError('error-toast','Ingresa el nombre del Equipo B');
+    if(!tA)return showError('error-toast',L('Ingresa el nombre del Equipo A','Enter the name of Team A'));
+    if(!tB)return showError('error-toast',L('Ingresa el nombre del Equipo B','Enter the name of Team B'));
   }
-  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast','Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.');
+  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast',L('Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.','You have reached your free limit for today. Upgrade to Pro.'));
   showTab('loading');
   const firstName=name.split(' ')[0];
-  const msgs=[
+  const msgs=uiLang()==='en'?[
+    `Calculating ${firstName}'s numerological vibration...`,
+    `Aligning the stars with your sign, ${firstName}...`,
+    `Syncing with today's lunar phase...`,
+    `Consulting the millennial Chinese calendar...`,
+    `Fusing the energies of your cities, ${firstName}...`,
+    `Sealing your unique cosmic combination...`
+  ]:[
     `Calculando la vibración numerológica de ${firstName}...`,
     `Alineando los astros con tu signo, ${firstName}...`,
     `Sincronizando con la fase lunar de hoy...`,
@@ -1262,7 +1270,7 @@ async function generate(){
     updateFreemiumBar();
   }catch(e){
     console.error('Error generando:',e);
-    showTab('form');showError('error-toast','Hubo un problema al generar. Intenta de nuevo.');
+    showTab('form');showError('error-toast',L('Hubo un problema al generar. Intenta de nuevo.','There was a problem generating. Try again.'));
   }
 }
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
@@ -1281,20 +1289,28 @@ function renderResult(r,name){
   (function(){const g=document.getElementById('golden-name');if(g&&window.__wcDefGoldName)g.textContent=window.__wcDefGoldName;})();
   (function(){const h=document.getElementById('wc-nums-hint');if(h)h.style.display='none';})();
   // Restaurar labels del golden section
-  document.getElementById('golden-label').textContent='✦ Número de Oro del Día ✦';
-  document.getElementById('golden-sublabel').textContent='(diferente a tu número de vida · cambia cada día)';
-  const cfg=GAME_CFG[STATE.game];const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
+  document.getElementById('golden-label').textContent=L('✦ Número de Oro del Día ✦','✦ Golden Number of the Day ✦');
+  document.getElementById('golden-sublabel').textContent=L('(diferente a tu número de vida · cambia cada día)','(different from your life number · changes every day)');
+  const cfg=GAME_CFG[STATE.game];const games=I18N_NEW[uiLang()].games;
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   // NÚMERO DE ORO
   document.getElementById('golden-orb').textContent=r.golden;document.getElementById('golden-orb').style.fontSize='';
-  document.getElementById('golden-phi').innerHTML=`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
+  document.getElementById('golden-phi').innerHTML=uiLang()==='en'
+    ?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`
+    :`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
   const inplayEl=document.getElementById('golden-inplay');
-  if(r.goldenInPlay){inplayEl.textContent='✓ Incluido en tu jugada';inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
-  else{inplayEl.textContent='✦ Número ceremonial de inspiración';inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
+  if(r.goldenInPlay){inplayEl.textContent=L('✓ Incluido en tu jugada','✓ Included in your play');inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
+  else{inplayEl.textContent=L('✦ Número ceremonial de inspiración','✦ Ceremonial number of inspiration');inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
   r.nums.forEach((n,i)=>{const b=document.createElement('div');b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
   // EXPLICACIÓN DE MOTORES
-  const motorData=[
+  const motorData=uiLang()==='en'?[
+    {icon:'☿',label:'Numerology',val:r.lp,text:`Your personal vibration. Born from the reduction of your full name and date of birth. It is your unique energetic signature in this universe — the number that defines you.`},
+    {icon:'♈',label:'Astrology',val:r.engines.ast,text:`Today's position of the stars, combined with your sign <strong>${tEN(SIGN_EN,r.zodiac.sign)}</strong> and the planet <strong>${tEN(PLANET_EN,r.zodiac.planet)}</strong>. The heavens imprint this frequency on every decision you make today.`},
+    {icon:'🌙',label:'Moon',val:r.moon.day+'d',text:`We are on day <strong>${r.moon.day}</strong> of the lunar cycle — <strong>${tEN(MOON_EN,r.moon.name)}</strong> moon. Since the beginning of time the moon has guided human intuition. Today its pulse merges with yours.`},
+    {icon:'🐉',label:'Chinese Cal.',val:r.engines.chi,text:`The millennial Chinese calendar assigns the <strong>${r.engines.chi}</strong> to this moment. Five thousand years of observing the cosmos converge in this sacred number.`},
+    {icon:'🌎',label:'Geoenergy',val:r.geo,text:`The geomagnetic energy of <strong>where you were born</strong> and <strong>where you live today</strong> generates the <strong>${r.geo}</strong>. The place we inhabit shapes part of our destiny.`}
+  ]:[
     {icon:'☿',label:'Numerología',val:r.lp,text:`Tu vibración personal. Nace de la reducción de tu nombre completo y fecha de nacimiento. Es tu firma energética única en este universo — el número que te define.`},
     {icon:'♈',label:'Astrología',val:r.engines.ast,text:`La posición de los astros hoy, combinada con tu signo <strong>${r.zodiac.sign}</strong> y el planeta <strong>${r.zodiac.planet}</strong>. Los cielos imprimen esta frecuencia en cada decisión que tomas hoy.`},
     {icon:'🌙',label:'Luna',val:r.moon.day+'d',text:`Estamos en el día <strong>${r.moon.day}</strong> del ciclo lunar — luna <strong>${r.moon.name}</strong>. Desde el principio del tiempo la luna guía la intuición humana. Hoy su pulso se funde con el tuyo.`},
@@ -1303,14 +1319,18 @@ function renderResult(r,name){
   ];
   document.getElementById('motors-explain').innerHTML=motorData.map(m=>`<div class="mexpl-row"><div class="mexpl-icon">${m.icon}</div><div class="mexpl-body"><div class="mexpl-head"><span class="mexpl-label">${m.label}</span><span class="mexpl-num">${m.val}</span></div><div class="mexpl-text">${m.text}</div></div></div>`).join('');
   // TEXTO GANADOR METAFÍSICO
-  document.getElementById('combo-winner').innerHTML=`<div class="combo-winner-title">✦ Por qué esta combinación es tuya ✦</div><div class="combo-winner-text">El cosmos no entrega dos veces la misma combinación. Tus <strong>${r.nums.length} números</strong> nacen de la intersección exacta de <strong>cinco fuerzas cósmicas</strong> — tu esencia numerológica, los astros de hoy, el ciclo lunar, cinco milenios de sabiduría china y la energía de la tierra que pisas. En este instante preciso, estas fuerzas se alinearon solo para ti. <strong>Esta combinación no le pertenece a nadie más en el mundo.</strong></div>`;
+  document.getElementById('combo-winner').innerHTML=uiLang()==='en'
+    ?`<div class="combo-winner-title">✦ Why this combination is yours ✦</div><div class="combo-winner-text">The cosmos never delivers the same combination twice. Your <strong>${r.nums.length} numbers</strong> are born from the exact intersection of <strong>five cosmic forces</strong> — your numerological essence, today's stars, the lunar cycle, five millennia of Chinese wisdom and the energy of the earth you walk on. At this precise instant, these forces aligned only for you. <strong>This combination belongs to no one else in the world.</strong></div>`
+    :`<div class="combo-winner-title">✦ Por qué esta combinación es tuya ✦</div><div class="combo-winner-text">El cosmos no entrega dos veces la misma combinación. Tus <strong>${r.nums.length} números</strong> nacen de la intersección exacta de <strong>cinco fuerzas cósmicas</strong> — tu esencia numerológica, los astros de hoy, el ciclo lunar, cinco milenios de sabiduría china y la energía de la tierra que pisas. En este instante preciso, estas fuerzas se alinearon solo para ti. <strong>Esta combinación no le pertenece a nadie más en el mundo.</strong></div>`;
   // NARRATIVA DE PODER EXPANDIDA
   const firstName=name.split(' ')[0];
-  document.getElementById('interp-text').innerHTML=`${firstName}, tu <strong>número de vida es el ${r.lp}</strong> — permanente, nace de tu nombre y fecha de nacimiento. El <strong>Número de Oro de hoy es el ${r.golden}</strong>, diferente: emerge de fusionar tu ${r.lp} con las cuatro fuerzas del universo de hoy. Este número resuena con <strong>${r.zodiac.planet}</strong>, el planeta regente de <strong>${r.zodiac.sign}</strong>, cuya energía de elemento <strong>${r.zodiac.element}</strong> rige tu carta. Hoy, la <strong>luna ${r.moon.name}</strong> se encuentra en el día ${r.moon.day} de su ciclo, amplificando tu campo magnético personal con una fuerza que no se repetirá igual mañana. El <strong>${r.chinese.animal}</strong> de tu año chino aporta su número sagrado, y la geoenergía fusionada de tus ciudades vibra en <strong>resonancia ${r.geo}</strong>. Cuando estas cinco fuerzas se alinean en una sola semilla, emergen estos números, y solo estos.`;
-  document.getElementById('interp-closer').innerHTML=`Ningún otro ser en el mundo comparte esta combinación exacta hoy. Es tuya, sellada por el cosmos para este día.`;
+  document.getElementById('interp-text').innerHTML=uiLang()==='en'
+    ?`${firstName}, your <strong>life number is ${r.lp}</strong> — permanent, born from your name and date of birth. <strong>Today's Golden Number is ${r.golden}</strong>, a different one: it emerges from fusing your ${r.lp} with the four forces of today's universe. This number resonates with <strong>${tEN(PLANET_EN,r.zodiac.planet)}</strong>, the ruling planet of <strong>${tEN(SIGN_EN,r.zodiac.sign)}</strong>, whose <strong>${tEN(ELEM_EN,r.zodiac.element)}</strong> element energy governs your chart. Today, the <strong>${tEN(MOON_EN,r.moon.name)} moon</strong> is on day ${r.moon.day} of its cycle, amplifying your personal magnetic field with a force that will not repeat the same way tomorrow. The <strong>${tEN(ANIMAL_EN,r.chinese.animal)}</strong> of your Chinese year brings its sacred number, and the fused geoenergy of your cities vibrates in <strong>resonance ${r.geo}</strong>. When these five forces align in a single seed, these numbers emerge — and only these.`
+    :`${firstName}, tu <strong>número de vida es el ${r.lp}</strong> — permanente, nace de tu nombre y fecha de nacimiento. El <strong>Número de Oro de hoy es el ${r.golden}</strong>, diferente: emerge de fusionar tu ${r.lp} con las cuatro fuerzas del universo de hoy. Este número resuena con <strong>${r.zodiac.planet}</strong>, el planeta regente de <strong>${r.zodiac.sign}</strong>, cuya energía de elemento <strong>${r.zodiac.element}</strong> rige tu carta. Hoy, la <strong>luna ${r.moon.name}</strong> se encuentra en el día ${r.moon.day} de su ciclo, amplificando tu campo magnético personal con una fuerza que no se repetirá igual mañana. El <strong>${r.chinese.animal}</strong> de tu año chino aporta su número sagrado, y la geoenergía fusionada de tus ciudades vibra en <strong>resonancia ${r.geo}</strong>. Cuando estas cinco fuerzas se alinean en una sola semilla, emergen estos números, y solo estos.`;
+  document.getElementById('interp-closer').innerHTML=L('Ningún otro ser en el mundo comparte esta combinación exacta hoy. Es tuya, sellada por el cosmos para este día.','No other being in the world shares this exact combination today. It is yours, sealed by the cosmos for this day.');
   // SELLO según juego
-  const seals={lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
-  document.getElementById('seal-text').textContent=seals[STATE.game]||'COMBINACIÓN SELLADA';
+  const seals=uiLang()==='en'?{lottery:'VIBRATION SEALED',chance:'DIGITS REVEALED',casino:'SEQUENCE REVEALED',sports:'SPORTS ENERGY'}:{lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
+  document.getElementById('seal-text').textContent=seals[STATE.game]||L('COMBINACIÓN SELLADA','COMBINATION SEALED');
 }
 function newConsult(){goBackToForm()}
 function toggleAccordion(id){const body=document.getElementById(id);const btn=body.previousElementSibling;const arrow=btn.querySelector('.acc-arrow');const isOpen=body.classList.contains('open');body.classList.toggle('open');arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)'}
@@ -1375,6 +1395,180 @@ function installPwa(){
   deferredInstall.userChoice.finally(()=>{deferredInstall=null;dismissPwaBanner();});
 }
 function uiLang(){return STATE.lang==='en'?'en':STATE.lang==='zh'?'zh':'es'}
+// ═══ STATIC UI TRANSLATION — EN/ES (commit #67) ═══
+function L(es,en){return uiLang()==='en'?en:es}
+const SIGN_EN={'Capricornio':'Capricorn','Acuario':'Aquarius','Piscis':'Pisces','Aries':'Aries','Tauro':'Taurus','Géminis':'Gemini','Cáncer':'Cancer','Leo':'Leo','Virgo':'Virgo','Libra':'Libra','Escorpio':'Scorpio','Sagitario':'Sagittarius'};
+const PLANET_EN={'Saturno':'Saturn','Urano':'Uranus','Neptuno':'Neptune','Marte':'Mars','Venus':'Venus','Mercurio':'Mercury','Luna':'Moon','Sol':'Sun','Plutón':'Pluto','Júpiter':'Jupiter'};
+const ELEM_EN={'Tierra':'Earth','Aire':'Air','Agua':'Water','Fuego':'Fire'};
+const ANIMAL_EN={'Rata':'Rat','Buey':'Ox','Tigre':'Tiger','Conejo':'Rabbit','Dragón':'Dragon','Serpiente':'Snake','Caballo':'Horse','Cabra':'Goat','Mono':'Monkey','Gallo':'Rooster','Perro':'Dog','Cerdo':'Pig'};
+const MOON_EN={'Nueva':'New','Creciente':'Waxing','Cuarto creciente':'First quarter','Gibosa creciente':'Waxing gibbous','Llena':'Full','Gibosa menguante':'Waning gibbous','Cuarto menguante':'Last quarter','Menguante':'Waning'};
+function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
+const UI_EN=[
+['.landing-eyebrow','✦ numeric oracle ✦'],
+['#ll-tag','Your numbers for today, calculated with 5 cosmic forces that align to your name, date and place'],
+['.landing-unique','No other app in the world makes this crossing'],
+['.engines-preview .ep-item:nth-child(1) .ep-label','Numerology'],
+['.engines-preview .ep-item:nth-child(2) .ep-label','Astrology'],
+['.engines-preview .ep-item:nth-child(3) .ep-label','Moon'],
+['.engines-preview .ep-item:nth-child(4) .ep-label','Chinese Cal.'],
+['.engines-preview .ep-item:nth-child(5) .ep-label','Geoenergy'],
+['.lnp-label','This is how your numbers look today'],
+['.lnp-blur-overlay','Create your account to reveal them ✦'],
+['#landing-btns-guest .btn-primary','✦ Reveal my numbers ✦'],
+['#landing-btns-guest .btn-secondary','I already have an account'],
+['#landing-btns-user .btn-primary','✦ See my numbers today ✦'],
+['.landing-disclaimer','ℹ️ Entertainment · Personal inspiration · Self-knowledge'],
+['#auth-sub','Access your personal oracle'],
+['.btn-google span','Continue with Google'],
+['.auth-or','or with email'],
+['#auth-name-field label','Full name'],
+['#auth-name','Your full name','ph'],
+['.auth-field:has(#auth-email) label','Email'],
+['#auth-email','you@email.com','ph'],
+['.auth-field:has(#auth-pass) label','Password (minimum 6 characters)'],
+['#auth-forgot-link span','Forgot your password?'],
+['#auth-btn-main','Create account'],
+['#auth-toggle','Already have an account? <span onclick="toggleAuth()">Log in</span>','html'],
+['#screen-auth .btn-secondary','← Back'],
+['#screen-forgot .auth-sub','Recover your access to the oracle'],
+['.auth-field:has(#forgot-email) label','Email'],
+['#forgot-email','you@email.com','ph'],
+['#forgot-btn','✦ Send recovery link ✦'],
+['#screen-forgot .btn-secondary','← Back to login'],
+['#screen-resetpw .auth-sub','Create your new password'],
+['.auth-field:has(#resetpw-pass) label','New password (minimum 6 characters)'],
+['.auth-field:has(#resetpw-pass2) label','Confirm password'],
+['#resetpw-btn','✦ Save new password ✦'],
+['#eng-num .eng-name','Numerology'],
+['#eng-ast .eng-name','Astrology'],
+['#eng-moon .eng-name','Moon'],
+['#eng-chi .eng-name','Chinese'],
+['#eng-geo .eng-name','Geoenergy'],
+['.sacred-banner-text','Complete the form to discover your <strong>sacred numbers</strong>','html'],
+['.sacred-banner-sub','The universe calculates your unique vibration'],
+['.form-title','✦ Enter your energy ✦'],
+['.field:has(#inp-name) label','Full name'],
+['#inp-name','As it appears on your ID','ph'],
+['.field:has(#inp-name) .field-hint','✦ Your name carries the vibrational frequency by which the universe recognizes you'],
+['.field:has(#inp-birth) label','Date of birth'],
+['.field:has(#inp-birth) .field-hint','✦ Activates your personal numerology cycle. Every one of your numbers originates on this day'],
+['.field:has(#inp-cityb) label','City of birth'],
+['#inp-cityb','City where you were born','ph'],
+['.field:has(#inp-cityb) .field-hint','✦ Anchors your origin energy. Where you were born defines your earth number'],
+['.field:has(#inp-cityn) label','Current city'],
+['#inp-cityn','City where you live now','ph'],
+['.field:has(#inp-cityn) .field-hint','✦ Sets your present energy field. The universe calculates from where you are today'],
+['#tab-form .field:not(:has(input)):not(:has(select)) label','Your lucky numbers'],
+['.game-card[data-game="lottery"] .gl','Numbers of the Day'],
+['.game-card[data-game="lottery"] .gd','These are your 6 numbers today. They change tomorrow.'],
+['.game-card[data-game="chance"] .gl','Quick Numbers'],
+['.game-card[data-game="chance"] .gd','Three numbers. Now. No overthinking.'],
+['.game-card[data-game="casino"] .gl','Destiny Numbers'],
+['.game-card[data-game="casino"] .gd','They never change. They are yours. Born with you.'],
+['.game-card[data-game="casino"] .pro-preview','"Your master number reveals the purpose the cosmos wrote in you before you were born..."'],
+['.game-card[data-game="sports"] .gl','Sports'],
+['.game-card[data-game="sports"] .gd','Who wins today? Cosmic match prediction'],
+['.game-card[data-game="sports"] .pro-preview','"The home team\'s numeric energy outshines the visitor in vibration today..."'],
+['.game-card[data-game="mundial"] .gl','World Cup 2026'],
+['.game-card[data-game="mundial"] .gd','Predict who wins the match with cosmic energy'],
+['.game-card[data-game="mundial"] .pro-preview','"The 5 engines converge to reveal which national team carries the winning vibration tonight..."'],
+['#card-hint','↑ Complete your personal details to reveal your numbers'],
+['#sport-selector-wrap .duel-fields-intro','🏆 Select the sport and the two rivals'],
+['#mundial-duel-intro .duel-fields-intro','🏆 Choose the two teams of the match to predict'],
+['#wc-match-label','📅 Official match — FIFA schedule'],
+['#wc-match-hint','✦ The match date and venue feed the 5 engines'],
+['#label-team-a','🔵 Team A / Home'],
+['#label-team-b','🔴 Team B / Away'],
+['#inp-team-a','E.g.: Argentina, Brazil, Real Madrid...','ph'],
+['#inp-team-b','E.g.: France, Germany, Barcelona...','ph'],
+['#freemium-bar','<strong>Free reading of the day</strong> — <span id="fn-txt">Upgrade to Pro for unlimited</span>','html'],
+['#btn-gen','✦ Reveal my numbers ✦'],
+['#loading-msg','Calculating your vibration...'],
+['#tab-result button[onclick="goBackToForm()"]','← New reading'],
+['.result-for','Your combination for'],
+['#golden-div-text-top','✦ Your Complete Combination ✦'],
+['#seal-text','COMBINATION SEALED'],
+['#seal-sub','Five cosmic forces converge in your numbers'],
+['.duel-score-label','Cosmic Energy'],
+['.duel-winner-label','✦ The Cosmos Favors ✦'],
+['#golden-label','✦ Golden Number of the Day ✦'],
+['#golden-sublabel','(different from your life number · changes every day)'],
+['#golden-name','Your number in divine proportion'],
+['#golden-inplay','✓ Included in your play'],
+['.pct-urgency','Your combination changes tomorrow.<br>Save it · Access Sports &amp; World Cup · No daily limit.','html'],
+['.pct-price','from $3.99 USD/mo · Coming soon'],
+['#pro-cta-mid .btn-pct','I want to be among the first →'],
+['.motors-row .motor-chip:nth-child(3) .motor-name','Moon'],
+['.motors-row .motor-chip:nth-child(4) .motor-name','Chinese'],
+['.accordion-block:has(#acc-motors) .accordion-toggle','☿ Why these numbers? — Tap to view <span class="acc-arrow">↓</span>','html'],
+['.accordion-block:has(#acc-interp) .accordion-toggle','✦ Reveal the meaning of your numbers — Tap to view <span class="acc-arrow">↓</span>','html'],
+['#interp-power','✦ Why these numbers are powerful ✦'],
+['.disclaimer-text','ℹ️ Numbers is entertainment and personal inspiration.'],
+['.pro-perks','Unlimited readings · 30-day history · All games · from $3.99 USD/mo'],
+['.btn-pro','See Pro plan →'],
+['#profile-plan','Freemium plan · 1 reading/day'],
+['.profile-stats .stat-box:nth-child(1) .stat-label','Readings today'],
+['.profile-stats .stat-box:nth-child(2) .stat-label','History total'],
+['#tab-profile .btn-primary','⬆ Activate Pro — from $3.99 USD/mo'],
+['#tab-profile .btn-secondary','Log out'],
+['.history-title','Reading history'],
+['.upgrade-sub','Unlock the full power of the five cosmic engines. No limits. No restrictions.'],
+['.plan-card:not(.featured) .plan-features li:nth-child(1)','<span class="check">✓</span>1 free reading per day','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(2)','<span class="check">✓</span>2 games (Day + Quick)','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(3)','<span class="check">✓</span>Golden Number of the day','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(4)','<span class="check">✓</span>3 languages','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(5)','<span class="cross">✗</span><span style="color:var(--faint)">No history</span>','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(6)','<span class="cross">✗</span><span style="color:var(--faint)">Daily limit active</span>','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(7)','<span class="cross">✗</span><span style="color:var(--faint)">Destiny · Sports · World Cup 🔒</span>','html'],
+['.plan-card:not(.featured) .plan-cta','Current plan →'],
+['.plan-badge','✦ COMING SOON'],
+['.plan-card.featured .plan-features li:nth-child(1)','<span class="check">✓</span>Unlimited readings','html'],
+['.plan-card.featured .plan-features li:nth-child(2)','<span class="check">✓</span>All 5 games unlocked','html'],
+['.plan-card.featured .plan-features li:nth-child(3)','<span class="check">✓</span>Golden Number of the day','html'],
+['.plan-card.featured .plan-features li:nth-child(4)','<span class="check">✓</span>3 languages','html'],
+['.plan-card.featured .plan-features li:nth-child(5)','<span class="check">✓</span>30-day history','html'],
+['.plan-card.featured .plan-features li:nth-child(6)','<span class="check">✓</span>No daily limit','html'],
+['.plan-card.featured .plan-cta','Notify me →'],
+['.perks-title','✦ Why Pro is worth it ✦'],
+['.upgrade-perks .perk-row:nth-of-type(1) .perk-name','Unlimited readings'],
+['.upgrade-perks .perk-row:nth-of-type(1) .perk-desc','Ask as many times a day as you want. Try different games, different energies. No restrictions.'],
+['.upgrade-perks .perk-row:nth-of-type(2) .perk-name','Full 30-day history'],
+['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Review every combination the cosmos has revealed to you. Find patterns in your lucky numbers.'],
+['.upgrade-perks .perk-row:nth-of-type(3) .perk-name','Golden Number every day'],
+['.upgrade-perks .perk-row:nth-of-type(3) .perk-desc','Your golden-ratio number calculated fresh every day, integrated into your game combination.'],
+['.upgrade-perks .perk-row:nth-of-type(4) .perk-name','All 3 languages and every game'],
+['.upgrade-perks .perk-row:nth-of-type(4) .perk-desc','Numbers of the Day, Quick Numbers, Destiny and Sports. In Spanish, English or Mandarin Chinese. With active cultural rules.'],
+['.upgrade-perks .perk-row:nth-of-type(5) .perk-name','Priority on new features'],
+['.upgrade-perks .perk-row:nth-of-type(5) .perk-desc','Pro users access every new oracle capability before everyone else.'],
+['#region-pricing > div:first-child','✦ Choose how you want access ✦'],
+['div:has(> #price-monthly) > div:first-child','Monthly subscription'],
+['div:has(> div > #price-monthly) > div:last-child','Unlimited access for 30 days. Renews automatically. Cancel anytime.'],
+['div:has(> #price-consult) > div:first-child','Pay per reading'],
+['div:has(> div > #price-consult) > div:last-child','A single reading, no commitment. Ideal to try before subscribing.'],
+['.upgrade-notify .notify-title','🔔 Coming soon'],
+['.notify-sub','We are activating payments. Leave your email and you will be the first to know when you can subscribe.'],
+['.btn-notify','Notify me when it\'s ready'],
+['#modal-title','Coming soon'],
+['#modal-body','We are activating payments. You will be the first to know when the Pro Plan is available.'],
+['.modal-close','Got it →'],
+['#nav-home .nav-label','Home'],
+['#nav-result .nav-label','Numbers'],
+['#nav-upgrade .nav-label','Pro'],
+['#nav-profile .nav-label','Profile']
+];
+const CHIP_ES={football:['⚽ Fútbol','🔵 Equipo Local','🔴 Equipo Visitante'],basketball:['🏀 Básquet','🔵 Equipo Local','🔴 Equipo Visitante'],tennis:['🎾 Tenis','🔵 Jugador A','🔴 Jugador B'],baseball:['⚾ Béisbol','🔵 Equipo Local','🔴 Equipo Visitante'],volleyball:['🏐 Voleibol','🔵 Equipo A','🔴 Equipo B'],boxing:['🥊 Boxeo','🔵 Boxeador A','🔴 Boxeador B'],americanfootball:['🏈 F. Americano','🔵 Equipo Local','🔴 Equipo Visitante'],other:['🏆 Otro','🔵 Opción A','🔴 Opción B']};
+const CHIP_EN={football:['⚽ Soccer','🔵 Home Team','🔴 Away Team'],basketball:['🏀 Basketball','🔵 Home Team','🔴 Away Team'],tennis:['🎾 Tennis','🔵 Player A','🔴 Player B'],baseball:['⚾ Baseball','🔵 Home Team','🔴 Away Team'],volleyball:['🏐 Volleyball','🔵 Team A','🔴 Team B'],boxing:['🥊 Boxing','🔵 Boxer A','🔴 Boxer B'],americanfootball:['🏈 Am. Football','🔵 Home Team','🔴 Away Team'],other:['🏆 Other','🔵 Option A','🔴 Option B']};
+function applyChipLang(l){const T=l==='en'?CHIP_EN:CHIP_ES;document.querySelectorAll('.sport-chip').forEach(ch=>{const t=T[ch.dataset.sport];if(!t)return;ch.textContent=t[0];ch.dataset.labelA=t[1];ch.dataset.labelB=t[2];});}
+let __uiES=null;
+function captureStaticES(){__uiES={};UI_EN.forEach(e=>{const sel=e[0],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{__uiES[sel+'|'+i]=kind==='ph'?el.placeholder:(kind==='html'?el.innerHTML:el.textContent)})}catch(err){}});}
+function applyStaticLang(l){
+  if(l==='zh')return;
+  if(!__uiES)captureStaticES();
+  UI_EN.forEach(e=>{const sel=e[0],en=e[1],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{const v=l==='en'?en:__uiES[sel+'|'+i];if(v==null)return;if(kind==='ph')el.placeholder=v;else if(kind==='html')el.innerHTML=v;else el.textContent=v})}catch(err){}});
+  applyChipLang(l);
+  try{applyShareI18n()}catch(e){}
+  try{if(typeof populateWcMatches==='function'&&STATE.game==='mundial')populateWcMatches()}catch(e){}
+}
 const I18N_NEW={
 es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Env\u00edaselos a alguien que necesite suerte hoy \ud83c\udf40',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{lottery:'N\u00fameros del D\u00eda',chance:'N\u00fameros R\u00e1pidos',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026'}},
 en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Send them to someone who needs luck today \ud83c\udf40',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{lottery:'Numbers of the Day',chance:'Quick Numbers',casino:'Destiny Numbers',sports:'Sports Numbers',mundial:'World Cup 2026'}},
@@ -1594,7 +1788,7 @@ function closeModal(){
 }
 
 function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
-function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||'Usuario';document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?'Plan Pro · Ilimitadas':'Plan Freemium · 1 consulta/día';document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">Sin consultas aún</div>';return}const games={lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
+function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||L('Usuario','User');document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?L('Plan Pro · Ilimitadas','Pro Plan · Unlimited'):L('Plan Freemium · 1 consulta/día','Freemium Plan · 1 reading/day');document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">'+L('Sin consultas aún','No readings yet')+'</div>';return}const games=I18N_NEW[uiLang()].games;el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{
   // Detectar si el usuario viene desde un enlace de recuperación de contraseña
   const hash=new URLSearchParams(window.location.hash.replace('#',''));
