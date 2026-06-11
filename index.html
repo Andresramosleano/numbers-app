@@ -365,6 +365,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .duel-winner-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem}
 .duel-winner-name{font-family:'Cinzel Decorative',serif;font-size:21px;color:var(--gold2);letter-spacing:.06em;margin-bottom:.4rem}
 .duel-confidence{font-size:13px;color:var(--muted);font-style:italic;line-height:1.5}
+/* ✦ Legibilidad ampliada + sin ranking visible (10 jun) ✦ */
+.golden-phi{font-size:18px}.interp-text{font-size:19px}.interp-closer{font-size:18px}
+.mexpl-text{font-size:17px}.combo-winner-text{font-size:17px}.duel-confidence{font-size:15.5px}
+.golden-sublabel{font-size:14px}.duel-match-info{font-size:14px}.field-hint{font-size:15.5px}
+.gd{font-size:14.5px}.gl{font-size:15px}.duel-team-name{font-size:15px}
+.duel-winner-name{font-size:24px}.duel-winner-label{font-size:12px}.duel-score-label{font-size:11.5px}
+.result-for{font-size:11px}.golden-name{font-size:18px}.card-hint{font-size:14px}
+.field select{font-size:16px}.pro-preview{font-size:13.5px}
 </style>
 </head>
 <body>
@@ -845,7 +853,7 @@ const WC_GS=[
 const WC_KO=[{d:'2026-06-28',v:'LAX',r:'R32'},{d:'2026-06-29',v:'BOS',r:'R32'},{d:'2026-06-29',v:'MTY',r:'R32'},{d:'2026-06-29',v:'HOU',r:'R32'},{d:'2026-06-30',v:'NYC',r:'R32'},{d:'2026-06-30',v:'DAL',r:'R32'},{d:'2026-06-30',v:'MEX',r:'R32'},{d:'2026-07-01',v:'ATL',r:'R32'},{d:'2026-07-01',v:'SFO',r:'R32'},{d:'2026-07-01',v:'SEA',r:'R32'},{d:'2026-07-02',v:'TOR',r:'R32'},{d:'2026-07-02',v:'LAX',r:'R32'},{d:'2026-07-02',v:'VAN',r:'R32'},{d:'2026-07-03',v:'MIA',r:'R32'},{d:'2026-07-03',v:'KCY',r:'R32'},{d:'2026-07-03',v:'DAL',r:'R32'},{d:'2026-07-04',v:'PHI',r:'R16'},{d:'2026-07-04',v:'HOU',r:'R16'},{d:'2026-07-05',v:'NYC',r:'R16'},{d:'2026-07-05',v:'MEX',r:'R16'},{d:'2026-07-06',v:'DAL',r:'R16'},{d:'2026-07-06',v:'SEA',r:'R16'},{d:'2026-07-07',v:'ATL',r:'R16'},{d:'2026-07-07',v:'VAN',r:'R16'},{d:'2026-07-09',v:'BOS',r:'QF'},{d:'2026-07-10',v:'LAX',r:'QF'},{d:'2026-07-11',v:'MIA',r:'QF'},{d:'2026-07-11',v:'KCY',r:'QF'},{d:'2026-07-14',v:'DAL',r:'SF'},{d:'2026-07-15',v:'ATL',r:'SF'},{d:'2026-07-18',v:'MIA',r:'TP'},{d:'2026-07-19',v:'NYC',r:'F'}];
 const WC_KO_R={R32:['Dieciseisavos de final','Round of 32','32强赛'],R16:['Octavos de final','Round of 16','16强赛'],QF:['Cuartos de final','Quarter-final','四分之一决赛'],SF:['Semifinal','Semi-final','半决赛'],TP:['Tercer puesto','Third place','季军赛'],F:['LA GRAN FINAL','THE FINAL','总决赛']};
 const WC_I18N={
-es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan los 5 motores',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}',fieldLabel:'CAMPO ENERGÉTICO',favorLabel:'✦ El Cosmos Favorece A ✦',drawLabel:'✦ Las Energías se Entrelazan ✦',drawName:'EMPATE CÓSMICO',sealT:'PREDICCIÓN CÓSMICA',sealS:'Los cinco motores midieron el campo energético del partido',goldT:'✦ Energía del Favorecido ✦',goldTD:'✦ Equilibrio Energético ✦',goldS:'Porción del campo energético que domina hoy',goldSD:'Las vibraciones se neutralizan en este encuentro',
+es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan los 5 motores',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}',fieldLabel:'CAMPO ENERGÉTICO',favorLabel:'✦ El Cosmos Favorece A ✦',drawLabel:'✦ Las Energías se Entrelazan ✦',drawName:'EMPATE CÓSMICO',sealT:'PREDICCIÓN CÓSMICA',sealS:'Los cinco motores midieron el campo energético del partido',goldT:'✦ Energía del Favorecido ✦',goldTD:'✦ Equilibrio Energético ✦',goldName:'La resonancia dominante del encuentro',goldS:'Porción del campo energético que domina hoy',goldSD:'Las vibraciones se neutralizan en este encuentro',
 phi:'La raíz pitagórica del nombre de <strong>{win}</strong> entra en conjugación armónica con el número de la fecha del encuentro y la geoenergía de la sede, bajo la <strong>luna {moon}</strong> (día {day}). Esa resonancia le entrega el <strong>{wp}%</strong> del campo energético del partido.',
 phiD:'El cosmos midió la conjugación numerológica de <strong>{a}</strong> y <strong>{b}</strong> bajo la <strong>luna {moon}</strong> (día {day}), el número de la fecha y la geoenergía de la sede. Las dos vibraciones se reflejan como espejos: ninguna logra dominar el campo. En el fútbol, el empate también es un designio del cosmos.',
 interp:'{n}, la conjugación de los números revela por qué este resultado puede manifestarse: la vibración del nombre de <strong>{win}</strong>, el número de la fecha y la energía de la sede se alinean en una misma frecuencia — y sus jugadores atraviesan un gran momento vibracional, esa convergencia interior que los místicos llaman estado de gracia. <strong>{win}</strong> domina el <strong>{wp}%</strong> del campo frente al {lpct}% de <strong>{lose}</strong>{rk}.',
@@ -853,7 +861,7 @@ interpD:'{n}, los motores conjugaron los números de ambas escuadras para esta f
 rankTail:' — y la balanza terrenal del ranking FIFA (#{rw} frente a #{rl}) confirma lo que los números susurran',
 closer:'Esta lectura refleja las energías del cosmos hoy — el fútbol, como la vida, siempre puede sorprender. Numbers es entretenimiento e inspiración.',
 confDraw:'⚡ Vibraciones casi idénticas — el empate es un desenlace muy probable',confKO:'⚡ Energías casi gemelas — la definición llegará en los detalles más finos',confLeve:'⚡ Ventaja cósmica leve — partido muy parejo, cualquiera puede ganar',confMod:'⚡ Ventaja moderada — la energía inclina la balanza',confClara:'⚡ Ventaja cósmica clara — los cinco motores apuntan en una dirección'},
-en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}',fieldLabel:'ENERGY FIELD',favorLabel:'✦ The Cosmos Favors ✦',drawLabel:'✦ The Energies Intertwine ✦',drawName:'COSMIC DRAW',sealT:'COSMIC PREDICTION',sealS:'The five engines measured the energy field of this match',goldT:'✦ Energy of the Favored ✦',goldTD:'✦ Energetic Balance ✦',goldS:'Share of the energy field dominated today',goldSD:'The vibrations neutralize each other in this match',
+en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}',fieldLabel:'ENERGY FIELD',favorLabel:'✦ The Cosmos Favors ✦',drawLabel:'✦ The Energies Intertwine ✦',drawName:'COSMIC DRAW',sealT:'COSMIC PREDICTION',sealS:'The five engines measured the energy field of this match',goldT:'✦ Energy of the Favored ✦',goldTD:'✦ Energetic Balance ✦',goldName:'The dominant resonance of this match',goldS:'Share of the energy field dominated today',goldSD:'The vibrations neutralize each other in this match',
 phi:'The Pythagorean root of the name of <strong>{win}</strong> enters harmonic conjugation with the number of the match date and the geo-energy of the venue, under the <strong>{moon} moon</strong> (day {day}). That resonance grants it <strong>{wp}%</strong> of the energy field of this match.',
 phiD:'The cosmos measured the numerological conjugation of <strong>{a}</strong> and <strong>{b}</strong> under the <strong>{moon} moon</strong> (day {day}), the number of the date and the geo-energy of the venue. The two vibrations mirror each other: neither dominates the field. In football, a draw is also a design of the cosmos.',
 interp:'{n}, the conjugation of the numbers reveals why this result can manifest: the vibration of the name of <strong>{win}</strong>, the number of the date and the energy of the venue align on the same frequency — and its players are living a great vibrational moment, that inner convergence mystics call a state of grace. <strong>{win}</strong> dominates <strong>{wp}%</strong> of the field against {lpct}% for <strong>{lose}</strong>{rk}.',
@@ -861,7 +869,7 @@ interpD:'{n}, the engines conjugated the numbers of both squads for this date an
 rankTail:' — and the earthly balance of the FIFA Ranking (#{rw} vs #{rl}) confirms what the numbers whisper',
 closer:'This reading reflects the energies of the cosmos today — football, like life, can always surprise. Numbers is entertainment and inspiration.',
 confDraw:'⚡ Nearly identical vibrations — a draw is a very likely outcome',confKO:'⚡ Twin energies — it will be decided by the finest details',confLeve:'⚡ Slight cosmic edge — very even match, anyone can win',confMod:'⚡ Moderate edge — the energy tips the scale',confClara:'⚡ Clear cosmic edge — all five engines point in one direction'},
-zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙预测',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
+zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙预测',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
 phi:'在<strong>{moon}</strong>（第{day}天）之下，<strong>{win}</strong>名称的毕达哥拉斯之根与比赛日期数字、场地地能进入和谐共振。这种共振为其赢得本场比赛<strong>{wp}%</strong>的能量场。',
 phiD:'宇宙在<strong>{moon}</strong>（第{day}天）之下，测算了<strong>{a}</strong>与<strong>{b}</strong>的数字融合、日期数字与场地地能。两股振动如镜像相互映照：无一方能主宰能量场。在足球中，平局也是宇宙的安排。',
 interp:'{n}，数字的融合揭示了这一结果为何可能显现：<strong>{win}</strong>名称的振动、比赛日期的数字与场地的能量汇聚于同一频率 — 他们的球员正处于巅峰的振动时刻，即神秘学所称的恩典状态。<strong>{win}</strong>掌控<strong>{wp}%</strong>的能量场，而<strong>{lose}</strong>为{lpct}%{rk}。',
@@ -1031,13 +1039,14 @@ function renderDuelResult(duel,name){
   const mi=document.getElementById('duel-match-info');
   if(mi){mi.textContent=duel.match?('📅 '+wcFmtDate(duel.match.d)+'  ·  🏟 '+wcVenueName(duel.match.v)):'';mi.style.display=duel.match?'block':'none';}
   const ri=document.getElementById('duel-rank-info');
-  if(ri){if(duel.rankA!==undefined&&duel.rankB!==undefined){ri.textContent=T.rankLine.replace('{a}',duel.teamA).replace('{ra}',duel.rankA).replace('{b}',duel.teamB).replace('{rb}',duel.rankB);ri.style.display='block';}else{ri.style.display='none';ri.textContent='';}}
+  if(ri){ri.style.display='none';ri.textContent='';}
   document.getElementById('duel-result-section').classList.remove('hidden');
   document.getElementById('numbers-display').classList.add('hidden');
   const nh=document.getElementById('wc-nums-hint');if(nh)nh.style.display='none';
   const tt=document.getElementById('golden-div-text-top');if(tt&&window.__wcDefTitle)tt.textContent=window.__wcDefTitle;
   document.getElementById('golden-label').textContent=duel.isDraw?T.goldTD:T.goldT;
   document.getElementById('golden-sublabel').textContent=duel.isDraw?T.goldSD:T.goldS;
+  const gn=document.getElementById('golden-name');if(gn){if(!window.__wcDefGoldName)window.__wcDefGoldName=gn.textContent;gn.textContent=T.goldName;}
   const winPct=duel.isDraw?'50%':((isAWinner?duel.pctA:duel.pctB)+'%');
   const go=document.getElementById('golden-orb');go.textContent=winPct;go.style.fontSize='30px';
   const moonName=(L==='zh'&&typeof tMoon==='function')?tMoon(duel.moon.name):duel.moon.name;
@@ -1047,12 +1056,7 @@ function renderDuelResult(duel,name){
   document.getElementById('golden-inplay').style.color='var(--teal)';
   document.getElementById('golden-inplay').style.borderColor='rgba(61,191,168,.3)';
   const ipw=document.getElementById('interp-power');if(ipw&&L==='zh'&&typeof TRANSLATIONS!=='undefined'&&TRANSLATIONS.zh&&TRANSLATIONS.zh.interpPower)ipw.textContent=TRANSLATIONS.zh.interpPower;
-  let rk='';
-  if(duel.rankA!==undefined&&duel.rankB!==undefined&&!duel.isDraw){
-    const rw=isAWinner?duel.rankA:duel.rankB,rl=isAWinner?duel.rankB:duel.rankA;
-    rk=T.rankTail.replace('{rw}',rw).replace('{rl}',rl);
-  }
-  document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}',rk);
+  document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}','');
   document.getElementById('interp-closer').innerHTML=T.closer;
 }
 function isPro(){return STATE.profile?.plan==='pro'}
@@ -1211,6 +1215,7 @@ function renderResult(r,name){
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
   (function(){const t=document.getElementById('golden-div-text-top');if(t&&window.__wcDefTitle)t.textContent=window.__wcDefTitle;})();
+  (function(){const g=document.getElementById('golden-name');if(g&&window.__wcDefGoldName)g.textContent=window.__wcDefGoldName;})();
   (function(){const h=document.getElementById('wc-nums-hint');if(h)h.style.display='none';})();
   // Restaurar labels del golden section
   document.getElementById('golden-label').textContent='✦ Número de Oro del Día ✦';
