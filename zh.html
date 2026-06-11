@@ -371,6 +371,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .duel-winner-name{font-size:24px}.duel-winner-label{font-size:12px}.duel-score-label{font-size:11.5px}
 .result-for{font-size:11px}.golden-name{font-size:18px}.card-hint{font-size:14px}
 .field select{font-size:16px}.pro-preview{font-size:13.5px}
+.motor-chip{cursor:pointer;transition:all .2s}
+.motor-chip:hover{border-color:var(--gold)}
+.motor-chip:active{transform:scale(.94)}
+#motor-panel{background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.06));border:1px solid var(--gold);border-radius:14px;padding:1.2rem 1.4rem;margin:.75rem 1rem 1rem;text-align:center;animation:sealIn .5s ease both}
+.mp-title{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.6rem}
+.mp-orb{width:64px;height:64px;border-radius:50%;margin:0 auto .6rem;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:900;border:2px solid var(--gold2);color:#fff7e0;background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.3),rgba(201,168,76,.15),var(--bg2));box-shadow:0 0 30px rgba(201,168,76,.35)}
+.mp-text{font-size:16.5px;font-style:italic;color:var(--text);line-height:1.8}
+.mp-locked{font-size:15.5px;font-style:italic;color:var(--muted);line-height:1.7}
 </style>
 </head>
 <body>
@@ -598,12 +606,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
       </div>
       <div class="motors-row">
-        <div class="motor-chip"><div class="motor-icon">☿</div><div class="motor-val" id="mv-num">—</div><div class="motor-name">命理</div></div>
-        <div class="motor-chip"><div class="motor-icon">♈</div><div class="motor-val" id="mv-ast">—</div><div class="motor-name">星象</div></div>
-        <div class="motor-chip"><div class="motor-icon">🌙</div><div class="motor-val" id="mv-moon">—</div><div class="motor-name">月相</div></div>
-        <div class="motor-chip"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">历法</div></div>
-        <div class="motor-chip"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">地能</div></div>
+        <div class="motor-chip" onclick="openMotorPanel('num')"><div class="motor-icon">☿</div><div class="motor-val" id="mv-num">—</div><div class="motor-name">命理</div></div>
+        <div class="motor-chip" onclick="openMotorPanel('ast')"><div class="motor-icon">♈</div><div class="motor-val" id="mv-ast">—</div><div class="motor-name">星象</div></div>
+        <div class="motor-chip" onclick="openMotorPanel('moon')"><div class="motor-icon">🌙</div><div class="motor-val" id="mv-moon">—</div><div class="motor-name">月相</div></div>
+        <div class="motor-chip" onclick="openMotorPanel('chi')"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">历法</div></div>
+        <div class="motor-chip" onclick="openMotorPanel('geo')"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">地能</div></div>
       </div>
+      <div id="motor-panel" class="hidden"></div>
       <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ 分享我的数字 ✦</button>
       <div class="share-hint" id="share-hint">送给今天需要好运的人 🍀</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
@@ -1177,6 +1186,56 @@ function wcResolveTeam(s){if(!s)return s;const n=s.trim();if(WC_RANK[n]!==undefi
 function wcVenueName(v){const x=WC_VENUES[v];return x?x[wcLi()]:''}
 function wcFmtDate(d){const l=wcLang();const p=d.split('-');const m=+p[1],day=+p[2];if(l==='zh')return m+'月'+day+'日';const mes=l==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return l==='en'?(mes[m-1]+' '+day):(day+' '+mes[m-1])}
 function wcRed9(n){n=numReduce(n);if(n>9)n=(n%9)||9;return n}
+// ═══ LOS 5 ORÁCULOS: regentes planetarios del día + año chino en curso + paneles por motor ═══
+const DAY_RULERS=[{p:'el Sol',en:'the Sun',zh:'太阳',n:1},{p:'la Luna',en:'the Moon',zh:'月亮',n:2},{p:'Marte',en:'Mars',zh:'火星',n:9},{p:'Mercurio',en:'Mercury',zh:'水星',n:5},{p:'Júpiter',en:'Jupiter',zh:'木星',n:3},{p:'Venus',en:'Venus',zh:'金星',n:6},{p:'Saturno',en:'Saturn',zh:'土星',n:8}];
+function getDayRuler(d){return DAY_RULERS[new Date(d+'T12:00:00').getDay()]}
+const MOTOR_I18N={
+es:{lock:'✦ Este oráculo está sellado — su número aguarda en el plano Pro ✦',lockBtn:'Desbloquear con Pro →',
+num:{t:'☿ Oráculo de la Numerología',x:'Tu esencia numerológica vibra en el <strong>{ev}</strong>. Fundida con el número del día, hoy te entrega el <strong>{dn}</strong>. Úsalo en decisiones personales y nuevos comienzos.'},
+ast:{t:'♈ Oráculo de los Astros',x:'Tu signo <strong>{sign}</strong> resuena con {planet}, y hoy gobierna <strong>{ruler}</strong>. De esa conjunción nace tu <strong>{dn}</strong>. Es tu número para elegir el momento oportuno.'},
+moon:{t:'🌙 Oráculo Lunar',x:'La luna <strong>{moonName}</strong> transita el día {ev} de su ciclo. Su pulso, cruzado con la vibración de hoy, te entrega el <strong>{dn}</strong>. Número de la intuición: confía en lo que sientes.'},
+chi:{t:'🐉 Oráculo del Oriente',x:'Eres <strong>{animal}</strong> y atravesamos el año del <strong>{yearAnimal}</strong>. Del encuentro de ambos nace tu <strong>{dn}</strong>. Número de la prosperidad y los acuerdos.'},
+geo:{t:'🌎 Oráculo de la Tierra',x:'La energía de tus ciudades vibra en <strong>{ev}</strong>. Cruzada con el día, te entrega el <strong>{dn}</strong>. Número para moverte: viajes, lugares, cambios.'}},
+en:{lock:'✦ This oracle is sealed — its number awaits on the Pro plane ✦',lockBtn:'Unlock with Pro →',
+num:{t:'☿ Oracle of Numerology',x:'Your numerological essence vibrates at <strong>{ev}</strong>. Fused with the number of the day, it grants you the <strong>{dn}</strong> today. Use it for personal decisions and new beginnings.'},
+ast:{t:'♈ Oracle of the Stars',x:'Your sign <strong>{sign}</strong> resonates with {planet}, and today <strong>{ruler}</strong> rules. From that conjunction your <strong>{dn}</strong> is born. Your number for choosing the right moment.'},
+moon:{t:'🌙 Lunar Oracle',x:'The <strong>{moonName}</strong> moon is on day {ev} of its cycle. Its pulse, crossed with today, grants you the <strong>{dn}</strong>. The number of intuition: trust what you feel.'},
+chi:{t:'🐉 Oracle of the East',x:'You are <strong>{animal}</strong> and we walk the year of the <strong>{yearAnimal}</strong>. From that meeting your <strong>{dn}</strong> is born. The number of prosperity and agreements.'},
+geo:{t:'🌎 Oracle of the Earth',x:'The energy of your cities vibrates at <strong>{ev}</strong>. Crossed with the day, it grants you the <strong>{dn}</strong>. Your number for movement: travel, places, change.'}},
+zh:{lock:'✦ 此神谕已被封印 — 它的数字在Pro位面等候 ✦',lockBtn:'用 Pro 解锁 →',
+num:{t:'☿ 命理神谕',x:'您的命理本质振动于<strong>{ev}</strong>。与今日数字融合后，为您送上<strong>{dn}</strong>。适用于个人抉择与新的开始。'},
+ast:{t:'♈ 星辰神谕',x:'您的星座<strong>{sign}</strong>今日与主宰之星<strong>{ruler}</strong>相合，由此诞生您的<strong>{dn}</strong>。这是选择时机之数。'},
+moon:{t:'🌙 月亮神谕',x:'<strong>{moonName}</strong>正行至周期第{ev}天。它的脉动与今日交汇，为您送上<strong>{dn}</strong>。直觉之数：相信您的感觉。'},
+chi:{t:'🐉 东方神谕',x:'您属<strong>{animal}</strong>，今年是<strong>{yearAnimal}</strong>年。两者相遇，诞生您的<strong>{dn}</strong>。财富与盟约之数。'},
+geo:{t:'🌎 大地神谕',x:'您双城的能量振动于<strong>{ev}</strong>。与今日交汇后，为您送上<strong>{dn}</strong>。出行之数：旅程、地点、变化。'}}};
+function openMotorPanel(key){
+  const lr=STATE.lastResult;if(!lr)return;
+  const r=lr.result||lr.duel;if(!r||!r.engines)return;
+  const panel=document.getElementById('motor-panel');if(!panel)return;
+  if(panel.dataset.key===key&&!panel.classList.contains('hidden')){panel.classList.add('hidden');panel.dataset.key='';return;}
+  const L=wcLang();const M=MOTOR_I18N[L];
+  const free=key==='num'||key==='moon';
+  if(!free&&!isPro()){
+    panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-locked">'+M.lock+'</div><button class="btn-pct" style="margin-top:.85rem" onclick="showTab(\'upgrade\')">'+M.lockBtn+'</button>';
+    panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});return;
+  }
+  const today=new Date().toISOString().split('T')[0];
+  const tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+  const ev=key==='moon'?r.moon.day:r.engines[key];
+  let dn=numReduce((key==='moon'?numReduce(r.moon.day):ev)+tn);
+  if(dn>9)dn=(dn%9)||9;
+  if(L==='zh'&&dn===4)dn=5;
+  const ruler=getDayRuler(today);
+  const rulerName=L==='en'?ruler.en:L==='zh'?ruler.zh:ruler.p;
+  const moonName=(L==='zh'&&typeof tMoon==='function')?tMoon(r.moon.name):r.moon.name;
+  const sign=(L==='zh'&&typeof tZodiac==='function')?tZodiac(r.zodiac.sign):r.zodiac.sign;
+  const yAni=getChinese(parseInt(today.slice(0,4)));
+  const yan=(L==='zh'&&typeof tAnimal==='function')?tAnimal(yAni.animal):yAni.animal;
+  const ani=(L==='zh'&&typeof tAnimal==='function')?tAnimal(r.chinese.animal):r.chinese.animal;
+  const txt=M[key].x.replace('{ev}',ev).replace(/\{dn\}/g,dn).replace('{sign}',sign).replace('{planet}',r.zodiac.planet).replace('{ruler}',rulerName).replace('{moonName}',moonName).replace('{animal}',ani).replace('{yearAnimal}',yan);
+  panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-orb">'+dn+'</div><div class="mp-text">'+txt+'</div>';
+  panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});
+}
 function populateWcMatches(){
   const sel=document.getElementById('wc-match-select');if(!sel)return;
   const T=WC_I18N[wcLang()];
@@ -1205,6 +1264,7 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
   const geo=numReduce(geoB+geoN+venueGeo);
   const todayN=numReduce(effDate.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
   const zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear());
+  const astV=numReduce(zodiac.num+getDayRuler(effDate).n),chiV=numReduce(chinese.num+getChinese(parseInt(effDate.slice(0,4))).num);
   const rankA=WC_RANK[cA],rankB=WC_RANK[cB];
   function cosmicScore(canon){
     const tn=nameNum(canon);
@@ -1240,25 +1300,26 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
   else if(diff<=16)confidence=TC.confLeve;
   else if(diff<=30)confidence=TC.confMod;
   else confidence=TC.confClara;
-  return{teamA,teamB,pctA,pctB,scoreA:pctA,scoreB:pctB,isDraw,stage,winner,loser,confidence,match:match||null,rankA,rankB,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo},moon,lp,zodiac,chinese,geo};
+  return{teamA,teamB,pctA,pctB,scoreA:pctA,scoreB:pctB,isDraw,stage,winner,loser,confidence,match:match||null,rankA,rankB,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo},moon,lp,zodiac,chinese,geo};
 }
 function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
 function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear()),moon=getMoon(today),eB=cityEnergy(cityB),eN=cityEnergy(cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
-  const seed=Math.abs(lp*137+zodiac.num*29+chinese.num*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
+  const astV=numReduce(zodiac.num+getDayRuler(today).n),chiV=numReduce(chinese.num+getChinese(parseInt(today.slice(0,4))).num);
+  const seed=Math.abs(lp*137+astV*29+chiV*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
   const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
   for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
   for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
   const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=cfg.count)break}
   nums.sort((a,b)=>a-b);
   // NÚMERO DE ORO: fusión de los 5 motores + día, reducido a dígito maestro
-  const goldenRaw=lp+zodiac.num+chinese.num+moon.day+geo+tn;
+  const goldenRaw=lp+astV+chiV+moon.day+geo+tn;
   const golden=numReduce(goldenRaw);
   // ¿Cabe en la jugada? (rango del juego)
   const goldenFits=golden>=(cfg.max===9?0:1)&&golden<=cfg.max&&!rules.blocked.includes(golden);
   // El número de oro se muestra arriba en su propio círculo — NO se incluye en la secuencia
   let goldenInPlay=goldenFits;
-  return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:zodiac.num,moon:moon.day,chi:chinese.num,geo}};
+  return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
 }
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
@@ -1306,6 +1367,7 @@ function selGame(el){
   document.getElementById('card-hint').classList.remove('show');
 }
 function renderDuelResult(duel,name){
+  (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   const proCta=document.getElementById('pro-cta-mid');
   if(proCta) proCta.style.display='none';
   const L=wcLang();const T=WC_I18N[L];
@@ -1501,6 +1563,7 @@ async function generate(){
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
 
 function renderResult(r,name){
+  (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   const proCta=document.getElementById('pro-cta-mid');
   const proBannerBottom=document.getElementById('pro-banner-bottom');
   if(proCta) proCta.style.display=isPro()?'none':'block';
