@@ -602,7 +602,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="pro-cta-mid" id="pro-cta-mid" style="display:none">
         <div class="pct-title">✦ NUMBERS PRO ✦</div>
         <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Deportes y Mundial · Sin límite diario.</div>
-        <div class="pct-price">desde ¥45 CNY/mes · Próximamente disponible</div>
+        <div class="pct-price">desde ¥58 CNY/mes · Próximamente disponible</div>
         <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
       </div>
       <div class="motors-row">
@@ -644,7 +644,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="disclaimer-text">ℹ️ 数字神谕是娱乐与个人启示工具。</div>
       <div class="pro-banner" id="pro-banner-bottom" style="display:none">
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
-        <div class="pro-perks">Consultas ilimitadas · Historial 30 días · Todos los juegos · desde ¥45 CNY/mes</div>
+        <div class="pro-perks">Consultas ilimitadas · Historial 30 días · Todos los juegos · desde ¥58 CNY/mes</div>
         <button class="btn-pro" onclick="showTab('upgrade')">Ver plan Pro →</button>
       </div>
     </div>
@@ -659,7 +659,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label">今日占卜</div></div>
           <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label">历史总计</div></div>
         </div>
-        <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem" onclick="showTab('upgrade')">⬆ 升级专业版 — 每月¥45起</button>
+        <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem" onclick="showTab('upgrade')">⬆ 升级专业版 — 每月¥58起</button>
         <button class="btn-secondary" style="width:100%;margin-top:0" onclick="logout()">退出登录</button>
       </div>
       <div class="profile-card">
@@ -752,7 +752,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div style="position:absolute;top:-10px;right:12px;background:var(--gold);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:99px">POPULAR</div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
             <div style="font-size:14px;color:var(--gold3);font-weight:500">月度订阅</div>
-            <div style="font-size:20px;font-weight:500;color:var(--gold2)" id="price-monthly">¥45 <span style="font-size:12px;color:var(--muted)">CNY/月</span></div>
+            <div style="font-size:20px;font-weight:500;color:var(--gold2)" id="price-monthly">¥58 <span style="font-size:12px;color:var(--muted)">CNY/月</span></div>
           </div>
           <div style="font-size:12px;color:var(--muted);line-height:1.6">30天无限访问。自动续费。随时取消。</div>
         </div>
@@ -760,7 +760,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
             <div style="font-size:14px;color:var(--text);font-weight:500">按次付费</div>
-            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">¥12 <span style="font-size:12px;color:var(--muted)">CNY/次</span></div>
+            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">¥18 <span style="font-size:12px;color:var(--muted)">CNY/次</span></div>
           </div>
           <div style="font-size:12px;color:var(--muted);line-height:1.6">单次占卜，无需承诺。适合在订阅前体验。</div>
         </div>
@@ -911,7 +911,7 @@ const TRANSLATIONS={zh:{
   goldenCeremonial:'✦ 灵感仪式数字',
   proCTATitle:'✦ NUMBERS PRO ✦',
   proCTAUrgency:'您的组合明天会改变。<br>保存它 · 访问体育和世界杯 · 无每日限制。',
-  proCTAPrice:'每次咨询仅需 ¥12 · 即将推出',
+  proCTAPrice:'每次咨询仅需 ¥18 · 即将推出',
   proCTABtn:'我要成为首批用户 →',
   motorShort:['命理','星象','月相','中历','地能'],
   duelSealText:'宇宙预测',
@@ -928,7 +928,7 @@ const TRANSLATIONS={zh:{
   profilePlanPro:'Pro 计划 · 无限咨询',
   statConsultsLabel:'今日咨询',
   statTotalLabel:'历史总计',
-  btnActivatePro:'⬆ 激活 Pro — 每次咨询仅需 ¥12',
+  btnActivatePro:'⬆ 激活 Pro — 每次咨询仅需 ¥18',
   btnLogout:'退出登录',
   historyTitle:'咨询历史',
   historyEmpty:'暂无咨询记录',
@@ -1719,11 +1719,11 @@ function shareWA(){
   shareZh(text);
 }
 function detectRegionPricing(){
-  // zh.html = solo China: precios v2 fijos en CNY (\u00a545/\u00a512)
+  // zh.html = solo China: precios v3 fijos en CNY (\u00a558/\u00a518) \u2014 n\u00fameros con 8 (prosperidad)
   const pm=document.getElementById('price-monthly');
   const pc=document.getElementById('price-consult');
-  if(pm) pm.innerHTML='\u00a545 <span style="font-size:12px;color:var(--muted)">CNY/\u6708</span>';
-  if(pc) pc.innerHTML='\u00a512 <span style="font-size:12px;color:var(--muted)">CNY/\u6b21</span>';
+  if(pm) pm.innerHTML='\u00a558 <span style="font-size:12px;color:var(--muted)">CNY/\u6708</span>';
+  if(pc) pc.innerHTML='\u00a518 <span style="font-size:12px;color:var(--muted)">CNY/\u6b21</span>';
 }
 function showNotifyModal(){
   const name=STATE.profile?.full_name?.split(' ')[0]||'';
