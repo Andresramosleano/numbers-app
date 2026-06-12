@@ -114,6 +114,24 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .freemium-bar.locked strong{color:var(--rose)}
 .error-toast{background:rgba(191,92,124,.12);border:.5px solid rgba(191,92,124,.3);border-radius:var(--r);padding:11px 15px;font-size:13px;color:var(--rose);margin-bottom:1rem;text-align:center;display:none}
 .error-toast.show{display:block}
+.wc-ribbon{display:block;background:rgba(201,168,76,.08);border-bottom:.5px solid rgba(201,168,76,.35);padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);cursor:pointer;letter-spacing:.03em;text-align:center;transition:background .2s}
+.wc-ribbon:hover{background:rgba(201,168,76,.15)}
+.acc-progress{text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.12em;margin:-0.75rem 0 1rem}
+.acc-step{border:.5px solid var(--border);border-radius:var(--rr);margin-bottom:10px;overflow:hidden;transition:border-color .25s,opacity .25s,background .25s}
+.acc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:13px 16px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:.04em}
+.acc-sum{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold2);font-style:italic;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acc-body{display:none;padding:2px 16px 16px}
+.acc-step.open{border-color:var(--gold);background:var(--bg2)}
+.acc-step.open .acc-head{color:var(--gold2)}
+.acc-step.open .acc-body{display:block;animation:fadeUp .25s ease both}
+.acc-step.done{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.05)}
+.acc-step.done .acc-head{color:var(--gold2)}
+.acc-step.done .acc-tit::before{content:'✓ ';color:var(--gold)}
+.acc-step.locked{opacity:.45}
+.acc-simple .field{margin-bottom:.4rem}
+.acc-simple .field>label{display:none}
+.acc-next{display:block;margin:10px auto 0;background:rgba(201,168,76,.12);border:.5px solid var(--gold);border-radius:99px;padding:8px 28px;color:var(--gold2);font-family:'JetBrains Mono',monospace;font-size:12px;cursor:pointer;letter-spacing:.06em}
+.acc-next:hover{background:rgba(201,168,76,.2)}
 .success-toast{background:rgba(61,191,168,.1);border:.5px solid rgba(61,191,168,.3);border-radius:var(--r);padding:11px 15px;font-size:13px;color:var(--teal);margin-bottom:1rem;text-align:center;display:none}
 .success-toast.show{display:block}
 .loading-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
@@ -498,20 +516,43 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="eng-item" id="eng-chi"><div class="eng-icon">🐉</div><div class="eng-val" id="ev-chi">—</div><div class="eng-name">Chino</div></div>
       <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name">Geoenergía</div></div>
     </div>
+    <div class="wc-ribbon" id="wc-ribbon" onclick="wcRibbonGo()">🏆 Mundial 2026 — Predicción gratis e ilimitada →</div>
 
     <div class="form-screen" id="tab-form">
-      <div class="sacred-banner">
-        <div class="sacred-banner-icon">🔮</div>
-        <div class="sacred-banner-text">Completa el formulario para descubrir tus <strong>números sagrados</strong></div>
-        <div class="sacred-banner-sub">El universo calcula tu vibración única</div>
-      </div>
       <div class="form-title">✦ Ingresa tu energía ✦</div>
+      <div class="acc-progress" id="acc-progress">Paso 1 de 5</div>
       <div class="error-toast" id="error-toast"></div>
-      <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento"><div class="field-hint">✦ Tu nombre contiene la frecuencia vibracional con la que el universo te reconoce</div></div>
-      <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth"><div class="field-hint">✦ Activa tu ciclo numerológico personal. Cada número tiene su origen en este día</div></div>
-      <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"><div class="field-hint">✦ Ancla tu energía de origen. Donde naciste define tu número de la tierra</div></div>
-      <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"><div class="field-hint">✦ Determina tu campo energético presente. El universo calcula desde donde estás hoy</div></div>
-      <div class="field"><label>Tus números de la suerte</label></div>
+      <div class="acc-step acc-simple" id="acc-1">
+        <div class="acc-head" onclick="accToggle(1)"><span class="acc-tit">1 · Tu nombre</span><span class="acc-sum" id="acc-sum-1"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento"><div class="field-hint">✦ Tu nombre contiene la frecuencia vibracional con la que el universo te reconoce</div></div>
+          <button class="acc-next" onclick="accNext(1)">Continuar ↓</button>
+        </div>
+      </div>
+      <div class="acc-step acc-simple" id="acc-2">
+        <div class="acc-head" onclick="accToggle(2)"><span class="acc-tit">2 · Tu nacimiento</span><span class="acc-sum" id="acc-sum-2"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth"><div class="field-hint">✦ Activa tu ciclo numerológico personal. Cada número tiene su origen en este día</div></div>
+          <button class="acc-next" onclick="accNext(2)">Continuar ↓</button>
+        </div>
+      </div>
+      <div class="acc-step acc-simple" id="acc-3">
+        <div class="acc-head" onclick="accToggle(3)"><span class="acc-tit">3 · Tu tierra de origen</span><span class="acc-sum" id="acc-sum-3"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"><div class="field-hint">✦ Ancla tu energía de origen. Donde naciste define tu número de la tierra</div></div>
+          <button class="acc-next" onclick="accNext(3)">Continuar ↓</button>
+        </div>
+      </div>
+      <div class="acc-step acc-simple" id="acc-4">
+        <div class="acc-head" onclick="accToggle(4)"><span class="acc-tit">4 · Tu energía presente</span><span class="acc-sum" id="acc-sum-4"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"><div class="field-hint">✦ Determina tu campo energético presente. El universo calcula desde donde estás hoy</div></div>
+          <button class="acc-next" onclick="accNext(4)">Continuar ↓</button>
+        </div>
+      </div>
+      <div class="acc-step" id="acc-5">
+        <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · Elige tu consulta</span><span class="acc-sum" id="acc-sum-5"></span></div>
+        <div class="acc-body">
       <div class="game-grid">
         <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Estos son tus 6 números hoy. Cambian mañana.</div></div>
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div><div class="gd">Tres números. Ahora. Sin pensarlo.</div></div>
@@ -543,6 +584,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
         <datalist id="wc-teams-list"></datalist>
+      </div>
+        </div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
       <div id="btn-gen-wrap" style="position:relative;width:100%;max-width:360px;margin:0 auto">
@@ -1038,8 +1081,8 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 }
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();setTimeout(maybeShowInstallPrompt,6000)}}
-function setLang(l,b){if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}}
+function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}}
+function setLang(l,b){if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
@@ -1081,6 +1124,7 @@ function selGame(el){
   // Hide hint when a card is selected
   document.getElementById('card-hint').classList.remove('show');
   try{updateFreemiumBar()}catch(e){}
+  try{accUpdate()}catch(e){}
 }
 function renderDuelResult(duel,name){
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
@@ -1154,6 +1198,46 @@ function wcUpsellGo(){
   goBackToForm();
   setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="lottery"]');if(el){quickLaunch(el)}},200);
 }
+/* ─── Acordeón ritual ─── */
+const ACC_FIELDS={1:'inp-name',2:'inp-birth',3:'inp-cityb',4:'inp-cityn'};
+let ACC_OPEN=1;
+function accVal(n){const f=ACC_FIELDS[n];if(!f)return'';const el=document.getElementById(f);return el?el.value.trim():''}
+function accFmtDate(v){if(!v)return'';const p=v.split('-');return p.length===3?p[2]+' · '+p[1]+' · '+p[0]:v}
+function accFirstEmpty(){for(let i=1;i<=4;i++){if(!accVal(i))return i}return 5}
+function accOpenStep(n,focus){ACC_OPEN=n;accUpdate();const st=document.getElementById('acc-'+n);if(st&&focus)setTimeout(()=>{st.scrollIntoView({behavior:'smooth',block:'center'});const f=ACC_FIELDS[n];if(f){const el=document.getElementById(f);if(el)el.focus()}},150)}
+function accToggle(n){if(ACC_OPEN!==n)accOpenStep(n,true)}
+function accNext(n){
+  if(n<5&&!accVal(n)){const f=document.getElementById(ACC_FIELDS[n]);if(f){f.closest('.field')?.classList.add('field-missing');setTimeout(()=>f.closest('.field')?.classList.remove('field-missing'),2500);f.focus()}return}
+  accOpenStep(n>=5?5:Math.min(accFirstEmpty(),n+1),true)
+}
+function accUpdate(){
+  for(let i=1;i<=5;i++){
+    const st=document.getElementById('acc-'+i);if(!st)continue;
+    const done=i<5&&!!accVal(i);
+    st.classList.toggle('open',ACC_OPEN===i);
+    st.classList.toggle('done',done&&ACC_OPEN!==i);
+    st.classList.toggle('locked',ACC_OPEN!==i&&!done);
+    const sum=document.getElementById('acc-sum-'+i);
+    if(sum){
+      if(ACC_OPEN===i){sum.textContent=''}
+      else if(i===5){let g='';try{g=I18N_NEW[uiLang()].games[STATE.game]||''}catch(e){}sum.textContent=g}
+      else{sum.textContent=i===2?accFmtDate(document.getElementById('inp-birth').value):accVal(i)}
+    }
+  }
+  const p=document.getElementById('acc-progress');if(p)p.textContent=L('Paso ','Step ')+ACC_OPEN+L(' de 5',' of 5');
+}
+function accInit(){accOpenStep(accFirstEmpty(),false)}
+function wcRibbonGo(){
+  showTab('form');accOpenStep(5,false);
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="mundial"]');if(el)quickLaunch(el)},200);
+}
+(function(){
+  for(let i=1;i<=4;i++){(function(n){
+    const el=document.getElementById(ACC_FIELDS[n]);if(!el)return;
+    el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();accNext(n)}});
+    el.addEventListener('change',function(){if(accVal(n)&&ACC_OPEN===n)accNext(n)});
+  })(i)}
+})();
 function quickLaunch(el){
   selGame(el);
   // Siempre: solo seleccionar la tarjeta y hacer pulsar el botón Revelar.
@@ -1168,8 +1252,9 @@ function quickLaunch(el){
   btnGen.classList.add('btn-ready');
   startSparkles();
   btnGen.scrollIntoView({behavior:'smooth',block:'center'});
-  // Si faltan datos personales, resaltar campos vacíos
+  // Si faltan datos personales, abrir el primer paso vacío y resaltar
   if(!name||!birth||!cityB||!cityN){
+    try{accOpenStep(accFirstEmpty(),true)}catch(e){}
     const fields=[
       {id:'inp-name',val:name},{id:'inp-birth',val:birth},
       {id:'inp-cityb',val:cityB},{id:'inp-cityn',val:cityN}
@@ -1247,6 +1332,7 @@ function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');c
 async function generate(){
   document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
   const name=document.getElementById('inp-name').value.trim();const birth=document.getElementById('inp-birth').value;const cityB=document.getElementById('inp-cityb').value.trim();const cityN=document.getElementById('inp-cityn').value.trim();
+  if(!name||!birth||!cityB||!cityN){try{accOpenStep(accFirstEmpty(),true)}catch(e){}}
   if(!name)return showError('error-toast',L('Ingresa tu nombre completo','Enter your full name'));if(!birth)return showError('error-toast',L('Ingresa tu fecha de nacimiento','Enter your date of birth'));if(!cityB)return showError('error-toast',L('Ingresa tu ciudad de nacimiento','Enter your city of birth'));if(!cityN)return showError('error-toast',L('Ingresa tu ciudad actual','Enter your current city'));
   const isDuelMode=GAME_CFG[STATE.game]?.duel;
   if(isDuelMode){
@@ -1472,9 +1558,14 @@ const UI_EN=[
 ['#eng-moon .eng-name','Moon'],
 ['#eng-chi .eng-name','Chinese'],
 ['#eng-geo .eng-name','Geoenergy'],
-['.sacred-banner-text','Complete the form to discover your <strong>sacred numbers</strong>','html'],
-['.sacred-banner-sub','The universe calculates your unique vibration'],
 ['.form-title','✦ Enter your energy ✦'],
+['#wc-ribbon','🏆 World Cup 2026 — Free unlimited prediction →'],
+['#acc-1 .acc-tit','1 · Your name'],
+['#acc-2 .acc-tit','2 · Your birth'],
+['#acc-3 .acc-tit','3 · Your land of origin'],
+['#acc-4 .acc-tit','4 · Your present energy'],
+['#acc-5 .acc-tit','5 · Choose your reading'],
+['.acc-next','Continue ↓'],
 ['.field:has(#inp-name) label','Full name'],
 ['#inp-name','As it appears on your ID','ph'],
 ['.field:has(#inp-name) .field-hint','✦ Your name carries the vibrational frequency by which the universe recognizes you'],
@@ -1486,7 +1577,6 @@ const UI_EN=[
 ['.field:has(#inp-cityn) label','Current city'],
 ['#inp-cityn','City where you live now','ph'],
 ['.field:has(#inp-cityn) .field-hint','✦ Sets your present energy field. The universe calculates from where you are today'],
-['#tab-form .field:not(:has(input)):not(:has(select)) label','Your lucky numbers'],
 ['.game-card[data-game="lottery"] .gl','Numbers of the Day'],
 ['.game-card[data-game="lottery"] .gd','These are your 6 numbers today. They change tomorrow.'],
 ['.game-card[data-game="chance"] .gl','Quick Numbers'],

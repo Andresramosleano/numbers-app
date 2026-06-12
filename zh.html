@@ -112,6 +112,24 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .freemium-bar.locked strong{color:var(--rose)}
 .error-toast{background:rgba(191,92,124,.12);border:.5px solid rgba(191,92,124,.3);border-radius:var(--r);padding:11px 15px;font-size:13px;color:var(--rose);margin-bottom:1rem;text-align:center;display:none}
 .error-toast.show{display:block}
+.wc-ribbon{display:block;background:rgba(201,168,76,.08);border-bottom:.5px solid rgba(201,168,76,.35);padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);cursor:pointer;letter-spacing:.03em;text-align:center;transition:background .2s}
+.wc-ribbon:hover{background:rgba(201,168,76,.15)}
+.acc-progress{text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.12em;margin:-0.75rem 0 1rem}
+.acc-step{border:.5px solid var(--border);border-radius:var(--rr);margin-bottom:10px;overflow:hidden;transition:border-color .25s,opacity .25s,background .25s}
+.acc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:13px 16px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:.04em}
+.acc-sum{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold2);font-style:italic;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acc-body{display:none;padding:2px 16px 16px}
+.acc-step.open{border-color:var(--gold);background:var(--bg2)}
+.acc-step.open .acc-head{color:var(--gold2)}
+.acc-step.open .acc-body{display:block;animation:fadeUp .25s ease both}
+.acc-step.done{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.05)}
+.acc-step.done .acc-head{color:var(--gold2)}
+.acc-step.done .acc-tit::before{content:'✓ ';color:var(--gold)}
+.acc-step.locked{opacity:.45}
+.acc-simple .field{margin-bottom:.4rem}
+.acc-simple .field>label{display:none}
+.acc-next{display:block;margin:10px auto 0;background:rgba(201,168,76,.12);border:.5px solid var(--gold);border-radius:99px;padding:8px 28px;color:var(--gold2);font-family:'JetBrains Mono',monospace;font-size:12px;cursor:pointer;letter-spacing:.06em}
+.acc-next:hover{background:rgba(201,168,76,.2)}
 .success-toast{background:rgba(61,191,168,.1);border:.5px solid rgba(61,191,168,.3);border-radius:var(--r);padding:11px 15px;font-size:13px;color:var(--teal);margin-bottom:1rem;text-align:center;display:none}
 .success-toast.show{display:block}
 .loading-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
@@ -494,20 +512,43 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="eng-item" id="eng-chi"><div class="eng-icon">🐉</div><div class="eng-val" id="ev-chi">—</div><div class="eng-name">中国历法</div></div>
       <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name">地能</div></div>
     </div>
+    <div class="wc-ribbon" id="wc-ribbon" onclick="wcRibbonGo()">🏆 2026世界杯 — 免费无限预测 →</div>
 
     <div class="form-screen" id="tab-form">
-      <div class="sacred-banner">
-        <div class="sacred-banner-icon">🔮</div>
-        <div class="sacred-banner-text">填写表格以发现您的<strong>神圣数字</strong></div>
-        <div class="sacred-banner-sub">宇宙正在计算您独特的振动</div>
-      </div>
       <div class="form-title">✦ 输入您的能量 ✦</div>
+      <div class="acc-progress" id="acc-progress">第 1 步 · 共 5 步</div>
       <div class="error-toast" id="error-toast"></div>
-      <div class="field"><label>全名</label><input type="text" id="inp-name" placeholder="如证件上所示"><div class="field-hint">✦ 您的姓名包含宇宙识别您的振动频率</div></div>
-      <div class="field"><label>出生日期</label><input type="date" id="inp-birth"><div class="field-hint">✦ 激活您的个人命理周期。每个数字都源于这一天</div></div>
-      <div class="field"><label>出生城市</label><input type="text" id="inp-cityb" placeholder="您的出生城市"><div class="field-hint">✦ 锚定您的原始能量。出生地定义您的大地数字</div></div>
-      <div class="field"><label>当前城市</label><input type="text" id="inp-cityn" placeholder="您现在居住的城市"><div class="field-hint">✦ 确定您当前的能量场。宇宙从您今天所在之处计算</div></div>
-      <div class="field"><label>您的幸运数字</label></div>
+      <div class="acc-step acc-simple" id="acc-1">
+        <div class="acc-head" onclick="accToggle(1)"><span class="acc-tit">1 · 您的姓名</span><span class="acc-sum" id="acc-sum-1"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>全名</label><input type="text" id="inp-name" placeholder="如证件上所示"><div class="field-hint">✦ 您的姓名包含宇宙识别您的振动频率</div></div>
+          <button class="acc-next" onclick="accNext(1)">继续 ↓</button>
+        </div>
+      </div>
+      <div class="acc-step acc-simple" id="acc-2">
+        <div class="acc-head" onclick="accToggle(2)"><span class="acc-tit">2 · 您的出生</span><span class="acc-sum" id="acc-sum-2"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>出生日期</label><input type="date" id="inp-birth"><div class="field-hint">✦ 激活您的个人命理周期。每个数字都源于这一天</div></div>
+          <button class="acc-next" onclick="accNext(2)">继续 ↓</button>
+        </div>
+      </div>
+      <div class="acc-step acc-simple" id="acc-3">
+        <div class="acc-head" onclick="accToggle(3)"><span class="acc-tit">3 · 您的出生地</span><span class="acc-sum" id="acc-sum-3"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>出生城市</label><input type="text" id="inp-cityb" placeholder="您的出生城市"><div class="field-hint">✦ 锚定您的原始能量。出生地定义您的大地数字</div></div>
+          <button class="acc-next" onclick="accNext(3)">继续 ↓</button>
+        </div>
+      </div>
+      <div class="acc-step acc-simple" id="acc-4">
+        <div class="acc-head" onclick="accToggle(4)"><span class="acc-tit">4 · 您当前的能量</span><span class="acc-sum" id="acc-sum-4"></span></div>
+        <div class="acc-body">
+          <div class="field"><label>当前城市</label><input type="text" id="inp-cityn" placeholder="您现在居住的城市"><div class="field-hint">✦ 确定您当前的能量场。宇宙从您今天所在之处计算</div></div>
+          <button class="acc-next" onclick="accNext(4)">继续 ↓</button>
+        </div>
+      </div>
+      <div class="acc-step" id="acc-5">
+        <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · 选择您的占卜</span><span class="acc-sum" id="acc-sum-5"></span></div>
+        <div class="acc-body">
       <div class="game-grid">
         <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">今天的6个数字。明天会改变。</div></div>
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">快速数字</div><div class="gd">三个数字。立即。无需思考。</div></div>
@@ -539,6 +580,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
         <datalist id="wc-teams-list"></datalist>
+      </div>
+        </div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>每日免费占卜</strong> — <span id="fn-txt">升级专业版可无限次占卜</span></div>
       <div id="btn-gen-wrap" style="position:relative;width:100%;max-width:360px;margin:0 auto">
@@ -1330,7 +1373,7 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 }
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){updateRenewCountdown();applyInterpLock();setTimeout(maybeShowInstallPrompt,6000)}}
+function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){updateRenewCountdown();applyInterpLock();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}}
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');applyLang(l)}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
@@ -1373,6 +1416,7 @@ function selGame(el){
   // Hide hint when a card is selected
   document.getElementById('card-hint').classList.remove('show');
   try{updateFreemiumBar()}catch(e){}
+  try{accUpdate()}catch(e){}
 }
 function renderDuelResult(duel,name){
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
@@ -1444,6 +1488,46 @@ function wcUpsellGo(){
   goBackToForm();
   setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="lottery"]');if(el){quickLaunch(el)}},200);
 }
+/* ─── Acordeón ritual ─── */
+const ACC_FIELDS={1:'inp-name',2:'inp-birth',3:'inp-cityb',4:'inp-cityn'};
+let ACC_OPEN=1;
+function accVal(n){const f=ACC_FIELDS[n];if(!f)return'';const el=document.getElementById(f);return el?el.value.trim():''}
+function accFmtDate(v){if(!v)return'';const p=v.split('-');return p.length===3?p[0]+'年'+p[1]+'月'+p[2]+'日':v}
+function accFirstEmpty(){for(let i=1;i<=4;i++){if(!accVal(i))return i}return 5}
+function accOpenStep(n,focus){ACC_OPEN=n;accUpdate();const st=document.getElementById('acc-'+n);if(st&&focus)setTimeout(()=>{st.scrollIntoView({behavior:'smooth',block:'center'});const f=ACC_FIELDS[n];if(f){const el=document.getElementById(f);if(el)el.focus()}},150)}
+function accToggle(n){if(ACC_OPEN!==n)accOpenStep(n,true)}
+function accNext(n){
+  if(n<5&&!accVal(n)){const f=document.getElementById(ACC_FIELDS[n]);if(f){f.closest('.field')?.classList.add('field-missing');setTimeout(()=>f.closest('.field')?.classList.remove('field-missing'),2500);f.focus()}return}
+  accOpenStep(n>=5?5:Math.min(accFirstEmpty(),n+1),true)
+}
+function accUpdate(){
+  for(let i=1;i<=5;i++){
+    const st=document.getElementById('acc-'+i);if(!st)continue;
+    const done=i<5&&!!accVal(i);
+    st.classList.toggle('open',ACC_OPEN===i);
+    st.classList.toggle('done',done&&ACC_OPEN!==i);
+    st.classList.toggle('locked',ACC_OPEN!==i&&!done);
+    const sum=document.getElementById('acc-sum-'+i);
+    if(sum){
+      if(ACC_OPEN===i){sum.textContent=''}
+      else if(i===5){const g=document.querySelector('.game-card.sel .gl');sum.textContent=g?g.textContent:''}
+      else{sum.textContent=i===2?accFmtDate(document.getElementById('inp-birth').value):accVal(i)}
+    }
+  }
+  const p=document.getElementById('acc-progress');if(p)p.textContent='第 '+ACC_OPEN+' 步 · 共 5 步';
+}
+function accInit(){accOpenStep(accFirstEmpty(),false)}
+function wcRibbonGo(){
+  showTab('form');accOpenStep(5,false);
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="mundial"]');if(el)quickLaunch(el)},200);
+}
+(function(){
+  for(let i=1;i<=4;i++){(function(n){
+    const el=document.getElementById(ACC_FIELDS[n]);if(!el)return;
+    el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();accNext(n)}});
+    el.addEventListener('change',function(){if(accVal(n)&&ACC_OPEN===n)accNext(n)});
+  })(i)}
+})();
 function quickLaunch(el){
   selGame(el);
   // Siempre: solo seleccionar la tarjeta y hacer pulsar el botón Revelar.
@@ -1458,8 +1542,9 @@ function quickLaunch(el){
   btnGen.classList.add('btn-ready');
   startSparkles();
   btnGen.scrollIntoView({behavior:'smooth',block:'center'});
-  // Si faltan datos personales, resaltar campos vacíos
+  // Si faltan datos personales, abrir el primer paso vacío y resaltar
   if(!name||!birth||!cityB||!cityN){
+    try{accOpenStep(accFirstEmpty(),true)}catch(e){}
     const fields=[
       {id:'inp-name',val:name},{id:'inp-birth',val:birth},
       {id:'inp-cityb',val:cityB},{id:'inp-cityn',val:cityN}
@@ -1539,6 +1624,7 @@ async function generate(){
   document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
   const name=document.getElementById('inp-name').value.trim();const birth=document.getElementById('inp-birth').value;const cityB=document.getElementById('inp-cityb').value.trim();const cityN=document.getElementById('inp-cityn').value.trim();
   const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
+  if(!name||!birth||!cityB||!cityN){try{accOpenStep(accFirstEmpty(),true)}catch(e){}}
   if(!name)return showError('error-toast',zh?T.errName:'Ingresa tu nombre completo');if(!birth)return showError('error-toast',zh?T.errBirth:'Ingresa tu fecha de nacimiento');if(!cityB)return showError('error-toast',zh?T.errCityB:'Ingresa tu ciudad de nacimiento');if(!cityN)return showError('error-toast',zh?T.errCityN:'Ingresa tu ciudad actual');
   const isDuelMode=GAME_CFG[STATE.game]?.duel;
   if(isDuelMode){
