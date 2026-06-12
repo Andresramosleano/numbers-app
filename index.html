@@ -330,7 +330,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 /* ─── DUEL / PREDICTOR DEPORTIVO ─── */
 .field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;color:var(--text);font-family:inherit;font-size:15px;outline:none;cursor:pointer}.field select:focus{border-color:var(--gold)}.wc-nums-hint{text-align:center;font-style:italic;font-size:13px;color:var(--gold2);opacity:.85;margin:.4rem 1.5rem 1rem;line-height:1.6}
 .duel-match-info{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);letter-spacing:.06em;margin:.25rem 0 .75rem;line-height:1.6}.duel-rank-info{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:.5rem;line-height:1.6}
-@keyframes wcGlow{0%,100%{box-shadow:0 0 10px rgba(201,168,76,.15)}50%{box-shadow:0 0 26px rgba(201,168,76,.4)}}.game-card[data-game="mundial"]{border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));animation:wcGlow 2.6s ease-in-out infinite;padding:18px 20px}.game-card[data-game="mundial"] .gi{font-size:38px}.game-card[data-game="mundial"] .gl{font-size:18px;color:var(--gold2);letter-spacing:.06em;font-weight:700}.game-card[data-game="mundial"] .gd{font-size:14.5px;color:var(--text);margin-top:4px}.game-card[data-game="mundial"] .pro-preview{font-size:13px}
+@keyframes wcGlow{0%,100%{box-shadow:0 0 10px rgba(201,168,76,.15)}50%{box-shadow:0 0 26px rgba(201,168,76,.4)}}.game-card[data-game="mundial"]{position:relative;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));animation:wcGlow 2.6s ease-in-out infinite;padding:18px 20px}.game-card[data-game="mundial"] .gi{font-size:38px}.game-card[data-game="mundial"] .gl{font-size:18px;color:var(--gold2);letter-spacing:.06em;font-weight:700}.game-card[data-game="mundial"] .gd{font-size:14.5px;color:var(--text);margin-top:4px}.game-card[data-game="mundial"] .pro-preview{font-size:13px}
+.free-badge{position:absolute;top:6px;right:7px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--teal);background:rgba(61,191,168,.12);border:.5px solid rgba(61,191,168,.4);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
+.wc-upsell{display:none;margin:1.1rem auto 0;max-width:340px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.5;color:var(--gold2);border:1px solid rgba(201,168,76,.45);border-radius:var(--r);padding:13px 16px;cursor:pointer;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.06))}
+.wc-upsell:hover{border-color:var(--gold);background:rgba(201,168,76,.14)}
+#wc-result-card{margin:1.2rem auto 0;max-width:480px;cursor:pointer}
 .duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
 /* ─── SPORT SELECTOR ─── */
 .sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
@@ -513,7 +517,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Números Rápidos</div><div class="gd">Tres números. Ahora. Sin pensarlo.</div></div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
-        <div class="game-card game-card-full pro-locked" data-game="mundial" onclick="proLaunch(this)"><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica</div><div class="pro-preview">"Los 5 motores convergen para revelar qué selección porta la vibración ganadora esta noche..."</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="duel-fields" class="hidden">
@@ -589,6 +593,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="duel-confidence" id="duel-confidence">—</div>
           <div class="duel-rank-info" id="duel-rank-info" style="display:none"></div>
         </div>
+        <div class="wc-upsell" id="wc-upsell" onclick="wcUpsellGo()"></div>
       </div>
       <div class="golden-section" id="golden-section">
         <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
@@ -605,7 +610,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       </div>
       <div class="pro-cta-mid" id="pro-cta-mid" style="display:none">
         <div class="pct-title">✦ NUMBERS PRO ✦</div>
-        <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Deportes y Mundial · Sin límite diario.</div>
+        <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Destino y Deportes · Sin límite diario.</div>
         <div class="pct-price">desde $3.99 USD/mes · Próximamente disponible</div>
         <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
       </div>
@@ -617,6 +622,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="motor-chip" onclick="openMotorPanel('geo')"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">Geo.</div></div>
       </div>
       <div id="motor-panel" class="hidden"></div>
+      <div class="game-card" id="wc-result-card" data-game="mundial" onclick="wcFromResult()" style="display:none"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">¿Quién gana el próximo partido? Tus 5 motores lo predicen · Gratis e ilimitado</div></div>
       <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
       <div class="share-hint" id="share-hint">Envíaselos a alguien que necesite suerte hoy 🍀</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
@@ -685,12 +691,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="plan-name">✦ Freemium</div>
           <ul class="plan-features">
             <li><span class="check">✓</span>1 consulta gratuita al día</li>
-            <li><span class="check">✓</span>2 juegos (Día + Rápidos)</li>
+            <li><span class="check">✓</span>3 juegos (Día + Rápidos + Mundial 🏆)</li>
             <li><span class="check">✓</span>Número de Oro del día</li>
             <li><span class="check">✓</span>3 idiomas</li>
             <li><span class="cross">✗</span><span style="color:var(--faint)">Sin historial</span></li>
             <li><span class="cross">✗</span><span style="color:var(--faint)">Límite diario activo</span></li>
-            <li><span class="cross">✗</span><span style="color:var(--faint)">Destino · Deportes · Mundial 🔒</span></li>
+            <li><span class="check">✓</span>Mundial 2026 gratis e ilimitado</li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">Destino · Deportes 🔒</span></li>
           </ul>
           <button class="plan-cta free" onclick="showTab('form')">Plan actual →</button>
         </div>
@@ -1073,6 +1080,7 @@ function selGame(el){
   }
   // Hide hint when a card is selected
   document.getElementById('card-hint').classList.remove('show');
+  try{updateFreemiumBar()}catch(e){}
 }
 function renderDuelResult(duel,name){
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
@@ -1121,12 +1129,30 @@ function renderDuelResult(duel,name){
   const ipw=document.getElementById('interp-power');if(ipw&&L==='zh'&&typeof TRANSLATIONS!=='undefined'&&TRANSLATIONS.zh&&TRANSLATIONS.zh.interpPower)ipw.textContent=TRANSLATIONS.zh.interpPower;
   document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}','');
   document.getElementById('interp-closer').innerHTML=T.closer;
+  // Tarjeta Mundial bajo motores: oculta si el resultado YA es Mundial · Upsell dorado solo en Mundial
+  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display=STATE.game==='mundial'?'none':'block';
+  const up=document.getElementById('wc-upsell');if(!up)return;
+  if(STATE.game!=='mundial'||isPro()){up.style.display='none';return;}
+  const used=STATE.consultsToday>=1;
+  up.innerHTML=L==='zh'?(used?'✦ 想要更多？用 <strong>Pro</strong> 解锁无限解读 →':'✦ 看看<strong>你的专属数字</strong>今天如何振动 → 免费个人解读')
+    :L==='en'?(used?'✦ Want more? Unlock unlimited readings with <strong>Pro</strong> →':'✦ Discover how <strong>YOUR numbers</strong> vibrate today → Your free personal reading awaits')
+    :(used?'✦ ¿Quieres más? Desbloquea consultas ilimitadas con <strong>Pro</strong> →':'✦ Descubre cómo vibran <strong>TUS números</strong> hoy → Tu lectura personal gratis te espera');
+  up.style.display='block';})();
 }
 function isPro(){return STATE.profile?.plan==='pro'}
 function proLaunch(el){
   if(isPro()){quickLaunch(el);return;}
   showTab('upgrade');
   setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
+}
+function wcFromResult(){
+  goBackToForm();
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="mundial"]');if(el){quickLaunch(el)}},200);
+}
+function wcUpsellGo(){
+  if(STATE.consultsToday>=1&&!isPro()){showTab('upgrade');return;}
+  goBackToForm();
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="lottery"]');if(el){quickLaunch(el)}},200);
 }
 function quickLaunch(el){
   selGame(el);
@@ -1216,7 +1242,7 @@ async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(s
 async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
 async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
 async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}
-function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';if(isPro){bar.innerHTML=L('<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas','<strong>✦ Pro Plan Active</strong> — Unlimited readings');bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML=L('<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas','<strong>Daily limit reached</strong> — Upgrade to Pro for more readings');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas','<strong>Free reading of the day</strong> — Upgrade to Pro for unlimited');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
+function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const isWc=STATE.game==='mundial';if(isPro){bar.innerHTML=L('<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas','<strong>✦ Pro Plan Active</strong> — Unlimited readings');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isWc){bar.innerHTML=L('<strong>🏆 Mundial 2026 — Gratis para todos</strong> · No consume tu consulta del día','<strong>🏆 World Cup 2026 — Free for everyone</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(STATE.consultsToday>=1){bar.innerHTML=L('<strong>Límite alcanzado hoy</strong> — El Mundial 2026 🏆 sigue gratis · Pro para ilimitadas','<strong>Daily limit reached</strong> — World Cup 2026 🏆 is still free · Pro for unlimited');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas','<strong>Free reading of the day</strong> — Upgrade to Pro for unlimited');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
   document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
@@ -1229,7 +1255,7 @@ async function generate(){
     if(!tA)return showError('error-toast',L('Ingresa el nombre del Equipo A','Enter the name of Team A'));
     if(!tB)return showError('error-toast',L('Ingresa el nombre del Equipo B','Enter the name of Team B'));
   }
-  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast',L('Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.','You have reached your free limit for today. Upgrade to Pro.'));
+  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1&&STATE.game!=='mundial')return showError('error-toast',L('Has alcanzado tu límite gratuito de hoy. El Mundial 2026 🏆 sigue gratis. Actualiza a Pro para ilimitadas.','You have reached your free limit for today. World Cup 2026 🏆 is still free. Upgrade to Pro for unlimited.'));
   showTab('loading');
   const firstName=name.split(' ')[0];
   const msgs=uiLang()==='en'?[
@@ -1260,7 +1286,7 @@ async function generate(){
       try{
         await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:[duel.scoreA,duel.scoreB],life_path:duel.lp,zodiac_sign:duel.zodiac.sign,moon_phase:duel.moon.name,chinese_animal:duel.chinese.animal,geo_resonance:duel.geo,market:STATE.lang}),5000,null);
         await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null);
-        await incrementQuota();await loadHistory();
+        if(STATE.game!=='mundial'){await incrementQuota();}await loadHistory();
       }catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
     }else{
       const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);STATE.lastResult={result,name,game:STATE.game};
@@ -1282,6 +1308,8 @@ function renderResult(r,name){
   const proBannerBottom=document.getElementById('pro-banner-bottom');
   if(proCta) proCta.style.display=isPro()?'none':'block';
   if(proBannerBottom) proBannerBottom.style.display='none'; // siempre oculto, CTA mid es suficiente
+  // Tarjeta Mundial bajo los 5 motores (resultado personal) · upsell oculto
+  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display='block';const up=document.getElementById('wc-upsell');if(up)up.style.display='none';})();
   // Ocultar sección duelo y mostrar numbers-display en modo normal
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
@@ -1470,8 +1498,9 @@ const UI_EN=[
 ['.game-card[data-game="sports"] .gd','Who wins today? Cosmic match prediction'],
 ['.game-card[data-game="sports"] .pro-preview','"The home team\'s numeric energy outshines the visitor in vibration today..."'],
 ['.game-card[data-game="mundial"] .gl','World Cup 2026'],
-['.game-card[data-game="mundial"] .gd','Predict who wins the match with cosmic energy'],
-['.game-card[data-game="mundial"] .pro-preview','"The 5 engines converge to reveal which national team carries the winning vibration tonight..."'],
+['.game-grid .game-card[data-game="mundial"] .gd','Predict who wins the match with cosmic energy · Free & unlimited during the tournament'],
+['.game-card[data-game="mundial"] .free-badge','✦ FREE'],
+['#wc-result-card .gd','Who wins the next match? Your 5 engines predict it · Free & unlimited'],
 ['#card-hint','↑ Complete your personal details to reveal your numbers'],
 ['#sport-selector-wrap .duel-fields-intro','🏆 Select the sport and the two rivals'],
 ['#mundial-duel-intro .duel-fields-intro','🏆 Choose the two teams of the match to predict'],
@@ -1495,7 +1524,7 @@ const UI_EN=[
 ['#golden-sublabel','(different from your life number · changes every day)'],
 ['#golden-name','Your number in divine proportion'],
 ['#golden-inplay','✓ Included in your play'],
-['.pct-urgency','Your combination changes tomorrow.<br>Save it · Access Sports &amp; World Cup · No daily limit.','html'],
+['.pct-urgency','Your combination changes tomorrow.<br>Save it · Access Destiny &amp; Sports · No daily limit.','html'],
 ['.pct-price','from $3.99 USD/mo · Coming soon'],
 ['#pro-cta-mid .btn-pct','I want to be among the first →'],
 ['.motors-row .motor-chip:nth-child(3) .motor-name','Moon'],
@@ -1514,12 +1543,13 @@ const UI_EN=[
 ['.history-title','Reading history'],
 ['.upgrade-sub','Unlock the full power of the five cosmic engines. No limits. No restrictions.'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(1)','<span class="check">✓</span>1 free reading per day','html'],
-['.plan-card:not(.featured) .plan-features li:nth-child(2)','<span class="check">✓</span>2 games (Day + Quick)','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(2)','<span class="check">✓</span>3 games (Day + Quick + World Cup 🏆)','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(3)','<span class="check">✓</span>Golden Number of the day','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(4)','<span class="check">✓</span>3 languages','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(5)','<span class="cross">✗</span><span style="color:var(--faint)">No history</span>','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(6)','<span class="cross">✗</span><span style="color:var(--faint)">Daily limit active</span>','html'],
-['.plan-card:not(.featured) .plan-features li:nth-child(7)','<span class="cross">✗</span><span style="color:var(--faint)">Destiny · Sports · World Cup 🔒</span>','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(7)','<span class="check">✓</span>World Cup 2026 free & unlimited','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(8)','<span class="cross">✗</span><span style="color:var(--faint)">Destiny · Sports 🔒</span>','html'],
 ['.plan-card:not(.featured) .plan-cta','Current plan →'],
 ['.plan-badge','✦ COMING SOON'],
 ['.plan-card.featured .plan-features li:nth-child(1)','<span class="check">✓</span>Unlimited readings','html'],
@@ -1764,7 +1794,7 @@ function detectRegionPricing(){
     monthly='$4.99 <span style="font-size:12px;color:var(--muted)">USD/mes</span>';
     consult='$1.49 <span style="font-size:12px;color:var(--muted)">USD/consulta</span>';
   }
-  // Precios v2 (Jun 2026): Latam/E.Europa $3.99/$1.29 - USA/Eur.Occ $6.99/$1.99 - SEA $4.99/$1.49 - China CNY45/12
+  // Precios v3 (Jun 2026): Latam/E.Europa $3.99/$1.29 - USA/Eur.Occ $6.99/$1.99 - SEA $4.99/$1.49 - China CNY58/18 (números 8=prosperidad)
   const pm=document.getElementById('price-monthly');
   const pc=document.getElementById('price-consult');
   if(pm) pm.innerHTML=monthly;

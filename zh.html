@@ -328,7 +328,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 /* ─── DUEL / PREDICTOR DEPORTIVO ─── */
 .field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;color:var(--text);font-family:inherit;font-size:15px;outline:none;cursor:pointer}.field select:focus{border-color:var(--gold)}.wc-nums-hint{text-align:center;font-style:italic;font-size:13px;color:var(--gold2);opacity:.85;margin:.4rem 1.5rem 1rem;line-height:1.6}
 .duel-match-info{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold2);letter-spacing:.06em;margin:.25rem 0 .75rem;line-height:1.6}.duel-rank-info{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:.5rem;line-height:1.6}
-@keyframes wcGlow{0%,100%{box-shadow:0 0 10px rgba(201,168,76,.15)}50%{box-shadow:0 0 26px rgba(201,168,76,.4)}}.game-card[data-game="mundial"]{border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));animation:wcGlow 2.6s ease-in-out infinite;padding:18px 20px}.game-card[data-game="mundial"] .gi{font-size:38px}.game-card[data-game="mundial"] .gl{font-size:18px;color:var(--gold2);letter-spacing:.06em;font-weight:700}.game-card[data-game="mundial"] .gd{font-size:14.5px;color:var(--text);margin-top:4px}.game-card[data-game="mundial"] .pro-preview{font-size:13px}
+@keyframes wcGlow{0%,100%{box-shadow:0 0 10px rgba(201,168,76,.15)}50%{box-shadow:0 0 26px rgba(201,168,76,.4)}}.game-card[data-game="mundial"]{position:relative;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));animation:wcGlow 2.6s ease-in-out infinite;padding:18px 20px}.game-card[data-game="mundial"] .gi{font-size:38px}.game-card[data-game="mundial"] .gl{font-size:18px;color:var(--gold2);letter-spacing:.06em;font-weight:700}.game-card[data-game="mundial"] .gd{font-size:14.5px;color:var(--text);margin-top:4px}.game-card[data-game="mundial"] .pro-preview{font-size:13px}
+.free-badge{position:absolute;top:6px;right:7px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--teal);background:rgba(61,191,168,.12);border:.5px solid rgba(61,191,168,.4);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
+.wc-upsell{display:none;margin:1.1rem auto 0;max-width:340px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.5;color:var(--gold2);border:1px solid rgba(201,168,76,.45);border-radius:var(--r);padding:13px 16px;cursor:pointer;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.06))}
+.wc-upsell:hover{border-color:var(--gold);background:rgba(201,168,76,.14)}
+#wc-result-card{margin:1.2rem auto 0;max-width:480px;cursor:pointer}
 .duel-fields-intro{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
 /* ─── SPORT SELECTOR ─── */
 .sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
@@ -509,7 +513,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">快速数字</div><div class="gd">三个数字。立即。无需思考。</div></div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育预测</div><div class="gd">今天谁会赢？比赛的宇宙预测</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
-        <div class="game-card game-card-full pro-locked" data-game="mundial" onclick="proLaunch(this)"><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量预测比赛胜者</div><div class="pro-preview">"5大引擎汇聚，揭示今晚哪支球队携带胜利振动..."</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量预测比赛胜者 · 世界杯期间免费无限</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ 填写您的个人资料以揭示您的数字</div>
       <div id="duel-fields" class="hidden">
@@ -585,6 +589,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="duel-confidence" id="duel-confidence">—</div>
           <div class="duel-rank-info" id="duel-rank-info" style="display:none"></div>
         </div>
+        <div class="wc-upsell" id="wc-upsell" onclick="wcUpsellGo()"></div>
       </div>
       <div class="golden-section" id="golden-section">
         <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
@@ -601,7 +606,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       </div>
       <div class="pro-cta-mid" id="pro-cta-mid" style="display:none">
         <div class="pct-title">✦ NUMBERS PRO ✦</div>
-        <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Deportes y Mundial · Sin límite diario.</div>
+        <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Destino y Deportes · Sin límite diario.</div>
         <div class="pct-price">desde ¥58 CNY/mes · Próximamente disponible</div>
         <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
       </div>
@@ -613,6 +618,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="motor-chip" onclick="openMotorPanel('geo')"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">地能</div></div>
       </div>
       <div id="motor-panel" class="hidden"></div>
+      <div class="game-card" id="wc-result-card" data-game="mundial" onclick="wcFromResult()" style="display:none"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">下一场比赛谁会赢？您的5大引擎为您预测 · 免费无限</div></div>
       <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ 分享我的数字 ✦</button>
       <div class="share-hint" id="share-hint">送给今天需要好运的人 🍀</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
@@ -681,12 +687,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="plan-name">✦ Freemium</div>
           <ul class="plan-features">
             <li><span class="check">✓</span>每天1次免费占卜</li>
-            <li><span class="check">✓</span>2款游戏（今日 + 快速）</li>
+            <li><span class="check">✓</span>3款游戏（今日 + 快速 + 世界杯🏆）</li>
             <li><span class="check">✓</span>每日黄金数字</li>
             <li><span class="check">✓</span>中文界面</li>
             <li><span class="cross">✗</span><span style="color:var(--faint)">无历史记录</span></li>
             <li><span class="cross">✗</span><span style="color:var(--faint)">每日限制</span></li>
-            <li><span class="cross">✗</span><span style="color:var(--faint)">命运 · 体育 · 世界杯 🔒</span></li>
+            <li><span class="check">✓</span>2026世界杯 免费无限</li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">命运 · 体育 🔒</span></li>
           </ul>
           <button class="plan-cta free" onclick="showTab('form')">当前计划 →</button>
         </div>
@@ -910,7 +917,7 @@ const TRANSLATIONS={zh:{
   goldenInPlay:'✓ 已包含在您的组合中',
   goldenCeremonial:'✦ 灵感仪式数字',
   proCTATitle:'✦ NUMBERS PRO ✦',
-  proCTAUrgency:'您的组合明天会改变。<br>保存它 · 访问体育和世界杯 · 无每日限制。',
+  proCTAUrgency:'您的组合明天会改变。<br>保存它 · 访问命运和体育 · 无每日限制。',
   proCTAPrice:'每次咨询仅需 ¥18 · 即将推出',
   proCTABtn:'我要成为首批用户 →',
   motorShort:['命理','星象','月相','中历','地能'],
@@ -945,7 +952,7 @@ const TRANSLATIONS={zh:{
   errCityN:'请输入您的当前城市',
   errTeamA:'请输入球队A的名称',
   errTeamB:'请输入球队B的名称',
-  errLimit:'您已达到今日免费限额。请升级至 Pro。',
+  errLimit:'您已达到今日免费限额。2026世界杯🏆仍然免费。请升级至 Pro。',
   errGenerate:'生成时出现问题。请重试。',
   errAuthName:'请输入您的全名',
   errAuthEmail:'请输入您的电子邮件',
@@ -1365,6 +1372,7 @@ function selGame(el){
   }
   // Hide hint when a card is selected
   document.getElementById('card-hint').classList.remove('show');
+  try{updateFreemiumBar()}catch(e){}
 }
 function renderDuelResult(duel,name){
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
@@ -1413,12 +1421,28 @@ function renderDuelResult(duel,name){
   const ipw=document.getElementById('interp-power');if(ipw&&L==='zh'&&typeof TRANSLATIONS!=='undefined'&&TRANSLATIONS.zh&&TRANSLATIONS.zh.interpPower)ipw.textContent=TRANSLATIONS.zh.interpPower;
   document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}','');
   document.getElementById('interp-closer').innerHTML=T.closer;
+  // Tarjeta Mundial bajo motores: oculta si el resultado YA es Mundial · Upsell dorado solo en Mundial
+  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display=STATE.game==='mundial'?'none':'block';
+  const up=document.getElementById('wc-upsell');if(!up)return;
+  if(STATE.game!=='mundial'||isPro()){up.style.display='none';return;}
+  const used=STATE.consultsToday>=1;
+  up.innerHTML=used?'✦ 想要更多？用 <strong>Pro</strong> 解锁无限解读 →':'✦ 看看<strong>您的专属数字</strong>今天如何振动 → 免费个人解读等着您';
+  up.style.display='block';})();
 }
 function isPro(){return STATE.profile?.plan==='pro'}
 function proLaunch(el){
   if(isPro()){quickLaunch(el);return;}
   showTab('upgrade');
   setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
+}
+function wcFromResult(){
+  goBackToForm();
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="mundial"]');if(el){quickLaunch(el)}},200);
+}
+function wcUpsellGo(){
+  if(STATE.consultsToday>=1&&!isPro()){showTab('upgrade');return;}
+  goBackToForm();
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="lottery"]');if(el){quickLaunch(el)}},200);
 }
 function quickLaunch(el){
   selGame(el);
@@ -1509,7 +1533,7 @@ async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(s
 async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
 async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
 async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}
-function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const zh=STATE.lang==='zh';if(isPro){bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumProActive}</strong> — ${TRANSLATIONS.zh.freemiumProUnlimited}`:'<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked')}else if(STATE.consultsToday>=1){bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumLimited}</strong> — ${TRANSLATIONS.zh.freemiumLimitedUpgrade}`:'<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumFree}</strong> — ${TRANSLATIONS.zh.freemiumFreeUpgrade}`:'<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
+function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const zh=STATE.lang==='zh';const isWc=STATE.game==='mundial';if(isPro){bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumProActive}</strong> — ${TRANSLATIONS.zh.freemiumProUnlimited}`:'<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isWc){bar.innerHTML=zh?'<strong>🏆 2026世界杯 — 人人免费</strong> · 不消耗您的每日占卜':'<strong>🏆 Mundial 2026 — Gratis para todos</strong> · No consume tu consulta del día';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(STATE.consultsToday>=1){bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumLimited}</strong> — ${TRANSLATIONS.zh.freemiumLimitedUpgrade}`:'<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para más consultas';bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=zh?`<strong>${TRANSLATIONS.zh.freemiumFree}</strong> — ${TRANSLATIONS.zh.freemiumFreeUpgrade}`:'<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas';bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
   document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
@@ -1523,7 +1547,7 @@ async function generate(){
     if(!tA)return showError('error-toast',zh?T.errTeamA:'Ingresa el nombre del Equipo A');
     if(!tB)return showError('error-toast',zh?T.errTeamB:'Ingresa el nombre del Equipo B');
   }
-  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1)return showError('error-toast',zh?T.errLimit:'Has alcanzado tu límite gratuito de hoy. Actualiza a Pro.');
+  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1&&STATE.game!=='mundial')return showError('error-toast',zh?T.errLimit:'Has alcanzado tu límite gratuito de hoy. El Mundial 2026 🏆 sigue gratis. Actualiza a Pro.');
   showTab('loading');
   const firstName=name.split(' ')[0];
   const msgs=STATE.lang==='zh'?TRANSLATIONS.zh.loadingMsgs(firstName):[
@@ -1547,7 +1571,7 @@ async function generate(){
       try{
         await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:[duel.scoreA,duel.scoreB],life_path:duel.lp,zodiac_sign:duel.zodiac.sign,moon_phase:duel.moon.name,chinese_animal:duel.chinese.animal,geo_resonance:duel.geo,market:STATE.lang}),5000,null);
         await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null);
-        await incrementQuota();await loadHistory();
+        if(STATE.game!=='mundial'){await incrementQuota();}await loadHistory();
       }catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
     }else{
       const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);STATE.lastResult={result,name,game:STATE.game};
@@ -1568,6 +1592,8 @@ function renderResult(r,name){
   const proBannerBottom=document.getElementById('pro-banner-bottom');
   if(proCta) proCta.style.display=isPro()?'none':'block';
   if(proBannerBottom) proBannerBottom.style.display='none';
+  // Tarjeta Mundial bajo los 5 motores (resultado personal) · upsell oculto
+  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display='block';const up=document.getElementById('wc-upsell');if(up)up.style.display='none';})();
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
   (function(){const t=document.getElementById('golden-div-text-top');if(t&&window.__wcDefTitle)t.textContent=window.__wcDefTitle;})();
