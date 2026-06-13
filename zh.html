@@ -550,8 +550,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · 选择您的占卜</span><span class="acc-sum" id="acc-sum-5"></span></div>
         <div class="acc-body">
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">今天的6个数字。明天会改变。</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">快速数字</div><div class="gd">三个数字。立即。无需思考。</div></div>
+        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">大奖</div><div class="gd">今天冲击大奖的6个数字。明天会改变。</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">即时好运</div><div class="gd">此刻的好运。三个数字，立即呈现。</div></div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育预测</div><div class="gd">今天谁会赢？比赛的宇宙预测</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量预测比赛胜者 · 世界杯期间免费无限</div></div>
@@ -782,7 +782,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="perk-icon">🌍</div>
           <div class="perk-text">
             <div class="perk-name">Los 3 idiomas y todos los juegos</div>
-            <div class="perk-desc">Números del Día, Números Rápidos, Destino y Deportivos. En español, inglés o chino mandarín. Con reglas culturales activas.</div>
+            <div class="perk-desc">Gran Premio, Fortuna Inmediata, Destino y Deportivos. En español, inglés o chino mandarín. Con reglas culturales activas.</div>
           </div>
         </div>
         <div class="perk-row">
@@ -920,10 +920,10 @@ const TRANSLATIONS={zh:{
   fieldCityNPlaceholder:'您现在居住的城市',
   fieldCityNHint:'✦ 确定您当前的能量场。宇宙从您所在之处开始计算',
   fieldLuckyLabel:'您的幸运数字',
-  gameLotteryName:'今日数字',
-  gameLotteryDesc:'这是您今天的6个数字。明天将会改变。',
-  gameChanceName:'快速数字',
-  gameChanceDesc:'三个数字。立即。无需思考。',
+  gameLotteryName:'大奖',
+  gameLotteryDesc:'今天冲击大奖的6个数字。明天将会改变。',
+  gameChanceName:'即时好运',
+  gameChanceDesc:'此刻的好运。三个数字，立即呈现。',
   gameCasinoName:'命运数字',
   gameCasinoDesc:'不会改变。是您的。与您一同诞生。',
   gameCasinoPreview:'"您的主命数揭示了宇宙在您出生前为您书写的使命..."',
@@ -1006,7 +1006,7 @@ const TRANSLATIONS={zh:{
   successAccountCreated:'账号已创建！请检查您的邮箱以确认。您现在可以登录。',
   successResetPw:'✦ 密码已更新！正在登录...',
   successForgotSent:'✦ 链接已发送。请检查您的邮箱（包括垃圾邮件），点击链接设置新密码。',
-  gameLabels:{lottery:'今日数字',chance:'快速数字',casino:'命运数字',sports:'体育预测',mundial:'世界杯 2026'},
+  gameLabels:{lottery:'大奖',chance:'即时好运',casino:'命运数字',sports:'体育预测',mundial:'世界杯 2026'},
   duelIntro:'🏆 选择运动项目和两支对手',
   mundialIntro:'🏆 选择要预测比赛的两支球队',
   sportChips:{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',volleyball:'🏐 排球',boxing:'🥊 拳击',americanfootball:'🏈 美式足球',other:'🏆 其他'},
@@ -1687,7 +1687,7 @@ function renderResult(r,name){
   (function(){const h=document.getElementById('wc-nums-hint');if(h)h.style.display='none';})();
   const cfg=GAME_CFG[STATE.game];
   const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
-  const games=zh?T.gameLabels:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
+  const games=zh?T.gameLabels:{lottery:'Gran Premio',chance:'Fortuna Inmediata',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   document.getElementById('golden-label').textContent=zh?T.goldenLabel:'✦ Número de Oro del Día ✦';
   document.getElementById('golden-sublabel').textContent=zh?T.goldenSublabel:'(diferente a tu número de vida · cambia cada día)';
@@ -1823,7 +1823,7 @@ function shareWA(){
   }
   const{result,name,game}=STATE.lastResult;
   const zh=STATE.lang==='zh';
-  const games=zh?{lottery:'每日数字',chance:'快速数字',casino:'命运数字',sports:'体育预测',mundial:'世界杯2026'}:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
+  const games=zh?{lottery:'大奖',chance:'即时好运',casino:'命运数字',sports:'体育预测',mundial:'世界杯2026'}:{lottery:'Gran Premio',chance:'Fortuna Inmediata',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
   const gameName=games[game]||game;
   const text=zh
     ?`✦ 数字神谕今天揭示了我的黄金数字：${result.golden} 🌟\n\n我的${gameName}宇宙组合：${result.nums.join(' · ')}\n\n五大宇宙力量今天只为我对齐。\n\n✦ 探索您的数字：numbersoracle.com/zh.html`
@@ -1863,7 +1863,7 @@ function renderProfile(){
   document.getElementById('stat-total').textContent=STATE.history.length;
   const el=document.getElementById('history-list');
   if(!STATE.history.length){el.innerHTML=`<div style="font-size:12px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">${zh?T.historyEmpty:'Sin consultas aún'}</div>`;return}
-  const games=zh?T.gameLabels:{lottery:'Números del Día',chance:'Números Rápidos',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
+  const games=zh?T.gameLabels:{lottery:'Gran Premio',chance:'Fortuna Inmediata',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
   el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return`<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')
 }
 (async()=>{
