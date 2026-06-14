@@ -536,21 +536,21 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="acc-step acc-simple" id="acc-2">
         <div class="acc-head" onclick="accToggle(2)"><span class="acc-tit">2 · 您的出生</span><span class="acc-sum" id="acc-sum-2"></span></div>
         <div class="acc-body">
-          <div class="field"><label>出生日期</label><input type="date" id="inp-birth"><div class="field-hint">✦ 激活您的个人命理周期。每个数字都源于这一天</div></div>
+          <div class="field"><label>出生日期</label><input type="date" id="inp-birth" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}"><div class="field-hint">✦ 点击打开日历，选择日、月、年</div></div>
           <button class="acc-next" onclick="accNext(2)">继续 ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-3">
         <div class="acc-head" onclick="accToggle(3)"><span class="acc-tit">3 · 您的出生地</span><span class="acc-sum" id="acc-sum-3"></span></div>
         <div class="acc-body">
-          <div class="field"><label>出生城市</label><input type="text" id="inp-cityb" placeholder="您的出生城市"><div class="field-hint">✦ 锚定您的原始能量。出生地定义您的大地数字</div></div>
+          <div class="field"><label>出生城市</label><input type="text" id="inp-cityb" placeholder="城市, 国家 — 例如：北京, 中国"><div class="field-hint">✦ 请包含国家（不同国家可能有同名城市）。锚定您的原始能量</div></div>
           <button class="acc-next" onclick="accNext(3)">继续 ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-4">
         <div class="acc-head" onclick="accToggle(4)"><span class="acc-tit">4 · 您当前的能量</span><span class="acc-sum" id="acc-sum-4"></span></div>
         <div class="acc-body">
-          <div class="field"><label>当前城市</label><input type="text" id="inp-cityn" placeholder="您现在居住的城市"><div class="field-hint">✦ 确定您当前的能量场。宇宙从您今天所在之处计算</div></div>
+          <div class="field"><label>当前城市</label><input type="text" id="inp-cityn" placeholder="城市, 国家 — 例如：上海, 中国"><div class="field-hint">✦ 请包含国家。确定您当前的能量场</div></div>
           <button class="acc-next" onclick="accNext(4)">继续 ↓</button>
         </div>
       </div>
@@ -1628,7 +1628,8 @@ async function doAuth(){
     if(STATE.authMode==='register'){
       if(!name)throw new Error('Ingresa tu nombre completo');if(!email)throw new Error('Ingresa tu correo electrónico');if(!pass||pass.length<6)throw new Error('La contraseña debe tener al menos 6 caracteres');
       const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});if(error)throw error;
-      if(data.user){showSuccess('auth-success','¡Cuenta creada! Revisa tu correo para confirmar. Mientras tanto puedes iniciar sesión.');setTimeout(()=>toggleAuth(),3000)}
+      if(data.session&&data.user){await afterLogin(data.user);}
+      else if(data.user){const r2=await sb.auth.signInWithPassword({email,password:pass});if(r2.data&&r2.data.user){await afterLogin(r2.data.user);}else{showSuccess('auth-success','账号已创建！您现在可以登录。');setTimeout(()=>toggleAuth(),2500);}}
     }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
   }catch(e){showError('auth-error',e.message||'Error en la autenticación')}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?'Crear cuenta':'Iniciar sesión'}
 }
