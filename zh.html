@@ -401,6 +401,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .mp-orb{width:64px;height:64px;border-radius:50%;margin:0 auto .6rem;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:900;border:2px solid var(--gold2);color:#fff7e0;background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.3),rgba(201,168,76,.15),var(--bg2));box-shadow:0 0 30px rgba(201,168,76,.35)}
 .mp-text{font-size:16.5px;font-style:italic;color:var(--text);line-height:1.8}
 .mp-locked{font-size:15.5px;font-style:italic;color:var(--muted);line-height:1.7}
+/* 即时好运 — 1/2/3 选择器 + 轮盘真实颜色球 */
+.chance-seg{display:flex;border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:230px;margin:.6rem auto .2rem}
+.chance-seg span{flex:1;text-align:center;padding:11px 0;font-weight:700;font-size:17px;color:var(--muted);cursor:pointer;border-right:1px solid var(--border);transition:background .2s}
+.chance-seg span:last-child{border-right:none}
+.chance-seg span.on{background:var(--gold);color:#1a1306}
+.nball.r-red{border:1px solid #e0565b;color:#fff;background:radial-gradient(circle at 35% 32%,#e85b60,#b22a2f);box-shadow:0 0 22px rgba(214,53,58,.35)}
+.nball.r-blk{border:1px solid #3a3a48;color:#f4f1e8;background:radial-gradient(circle at 35% 32%,#2c2c3c,#121219);box-shadow:0 0 18px rgba(0,0,0,.4)}
+.nball.r-grn{border:1px solid #3ddc97;color:#06281c;background:radial-gradient(circle at 35% 32%,#54e0a6,#1f9c6e);box-shadow:0 0 22px rgba(61,220,151,.4)}
 </style>
 </head>
 <body>
@@ -551,7 +559,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="acc-body">
       <div class="game-grid">
         <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">大奖</div><div class="gd">今天冲击大奖的6个数字。明天会改变。</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">即时好运</div><div class="gd">此刻的好运。三个数字，立即呈现。</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">即时好运</div><div class="gd">此刻的好运。转动你的运气：1、2 或 3 个数字。</div></div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育预测</div><div class="gd">今天谁会赢？比赛的宇宙预测</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量预测比赛胜者 · 世界杯期间免费无限</div></div>
@@ -580,6 +588,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
         <datalist id="wc-teams-list"></datalist>
+      </div>
+      <div id="chance-fields" class="hidden">
+        <div class="duel-fields-intro" id="chance-intro">🎡 转动你的运气 — 选择你想要几个数字</div>
+        <div class="chance-seg" id="chance-seg">
+          <span data-n="1" onclick="selectChance(1)">1</span>
+          <span data-n="2" onclick="selectChance(2)">2</span>
+          <span data-n="3" class="on" onclick="selectChance(3)">3</span>
+        </div>
       </div>
         </div>
       </div>
@@ -866,7 +882,7 @@ function withTimeout(promise,ms,fallback){
     new Promise(resolve=>setTimeout(()=>{console.warn('Supabase call timed out after',ms,'ms');resolve(fallback)},ms))
   ]);
 }
-const STATE={lang:'zh',user:null,profile:null,game:'lottery',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register'};
+const STATE={lang:'zh',user:null,profile:null,game:'lottery',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register',chanceCount:3};
 
 // ═══════════════════════════════════════
 // INTERNACIONALIZACIÓN (i18n) — CHINO MANDARÍN SIMPLIFICADO
@@ -1176,7 +1192,7 @@ function getChinese(y){return CHINESE[(y-1900)%12]}
 function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
 function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
-const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:9},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true}};
+const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:36,roulette:true},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true}};
 const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
 const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
 // ═══ MUNDIAL 2026 · CRONOGRAMA OFICIAL FIFA + RANKING FIFA (corte: 10 jun 2026) ═══
@@ -1358,10 +1374,18 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   const astV=numReduce(zodiac.num+getDayRuler(today).n),chiV=numReduce(chinese.num+getChinese(parseInt(today.slice(0,4))).num);
   const seed=Math.abs(lp*137+astV*29+chiV*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
   const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
-  for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
+  const isRoulette=!!cfg.roulette;
+  // 轮盘：用户选择 1-3 个数字，默认 3
+  const wantCount=isRoulette?Math.min(3,Math.max(1,(STATE.chanceCount||3))):cfg.count;
+  if(isRoulette){
+    // 美式轮盘：0、00（内部=37）和 1..36 — 全部数字，不套用文化规则（中文版也含 4）
+    pool.push(0,37);for(let i=1;i<=36;i++)pool.push(i);
+  }else{
+    for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
+  }
   for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
-  const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=cfg.count)break}
-  nums.sort((a,b)=>a-b);
+  const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=wantCount)break}
+  if(isRoulette){const sv=x=>x===37?0.5:x;nums.sort((a,b)=>sv(a)-sv(b));}else{nums.sort((a,b)=>a-b);}
   // NÚMERO DE ORO: fusión de los 5 motores + día, reducido a dígito maestro
   const goldenRaw=lp+astV+chiV+moon.day+geo+tn;
   const golden=numReduce(goldenRaw);
@@ -1371,6 +1395,8 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   let goldenInPlay=goldenFits;
   return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
 }
+// 美式轮盘真实颜色（0 和 00 为绿色）。37 = 内部的 00。
+function rouletteColor(n){if(n===0||n===37)return'grn';const R=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];return R.includes(n)?'red':'blk';}
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){updateRenewCountdown();applyInterpLock();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}}
@@ -1392,6 +1418,7 @@ function selSport(el){
   document.getElementById('inp-team-a').placeholder=isIndividual?'Ej: Djokovic, Alcaraz, Canelo...':'Ej: Real Madrid, Lakers, Colombia...';
   document.getElementById('inp-team-b').placeholder=isIndividual?'Ej: Federer, Sinner, GGG...':'Ej: Barcelona, Celtics, Argentina...';
 }
+function selectChance(n){STATE.chanceCount=n;document.querySelectorAll('#chance-seg span').forEach(s=>s.classList.toggle('on',+s.dataset.n===n));}
 function selGame(el){
   document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');STATE.game=el.dataset.game;
@@ -1399,6 +1426,7 @@ function selGame(el){
   const isSports=STATE.game==='sports';
   const isMundial=STATE.game==='mundial';
   document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
+  document.getElementById('chance-fields').classList.toggle('hidden',STATE.game!=='chance');
   document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
   document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
   if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
@@ -1699,7 +1727,7 @@ function renderResult(r,name){
   if(r.goldenInPlay){inplayEl.textContent=zh?T.goldenInPlay:'✓ Incluido en tu jugada';inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
   else{inplayEl.textContent=zh?T.goldenCeremonial:'✦ Número ceremonial de inspiración';inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
-  r.nums.forEach((n,i)=>{const b=document.createElement('div');b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
+  r.nums.forEach((n,i)=>{const b=document.createElement('div');if(cfg.roulette){b.className='nball r-'+rouletteColor(n);b.textContent=(n===37?'00':String(n));}else{b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;}b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
   const motorData=zh?[
     {icon:'☿',label:'命理学',val:r.lp,text:`您的个人振动。源于您全名和出生日期的归约。这是您在这个宇宙中独特的能量印记——定义您的数字。`},
     {icon:'♈',label:'星象学',val:r.engines.ast,text:`今日天体位置，结合您的星座 <strong>${tZodiac(r.zodiac.sign)}</strong> 和行星 <strong>${tPlanet(r.zodiac.planet)}</strong>。今天的天空在您每个决定中烙下这一频率。`},
