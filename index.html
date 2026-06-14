@@ -540,21 +540,21 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="acc-step acc-simple" id="acc-2">
         <div class="acc-head" onclick="accToggle(2)"><span class="acc-tit">2 · Tu nacimiento</span><span class="acc-sum" id="acc-sum-2"></span></div>
         <div class="acc-body">
-          <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth"><div class="field-hint">✦ Activa tu ciclo numerológico personal. Cada número tiene su origen en este día</div></div>
+          <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}"><div class="field-hint">✦ Toca para abrir el calendario y elegir día, mes y año</div></div>
           <button class="acc-next" onclick="accNext(2)">Continuar ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-3">
         <div class="acc-head" onclick="accToggle(3)"><span class="acc-tit">3 · Tu tierra de origen</span><span class="acc-sum" id="acc-sum-3"></span></div>
         <div class="acc-body">
-          <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad donde naciste"><div class="field-hint">✦ Ancla tu energía de origen. Donde naciste define tu número de la tierra</div></div>
+          <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad, País — ej: Bogotá, Colombia"><div class="field-hint">✦ Incluye el país (hay ciudades con el mismo nombre en distintos países). Ancla tu energía de origen</div></div>
           <button class="acc-next" onclick="accNext(3)">Continuar ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-4">
         <div class="acc-head" onclick="accToggle(4)"><span class="acc-tit">4 · Tu energía presente</span><span class="acc-sum" id="acc-sum-4"></span></div>
         <div class="acc-body">
-          <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad donde vives ahora"><div class="field-hint">✦ Determina tu campo energético presente. El universo calcula desde donde estás hoy</div></div>
+          <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad, País — ej: Madrid, España"><div class="field-hint">✦ Incluye el país. Determina tu campo energético presente desde donde estás hoy</div></div>
           <button class="acc-next" onclick="accNext(4)">Continuar ↓</button>
         </div>
       </div>
@@ -1338,7 +1338,8 @@ async function doAuth(){
     if(STATE.authMode==='register'){
       if(!name)throw new Error(L('Ingresa tu nombre completo','Enter your full name'));if(!email)throw new Error(L('Ingresa tu correo electrónico','Enter your email'));if(!pass||pass.length<6)throw new Error(L('La contraseña debe tener al menos 6 caracteres','Password must be at least 6 characters'));
       const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});if(error)throw error;
-      if(data.user){showSuccess('auth-success',L('¡Cuenta creada! Revisa tu correo para confirmar. Mientras tanto puedes iniciar sesión.','Account created! Check your email to confirm. Meanwhile you can log in.'));setTimeout(()=>toggleAuth(),3000)}
+      if(data.session&&data.user){await afterLogin(data.user);}
+      else if(data.user){const r2=await sb.auth.signInWithPassword({email,password:pass});if(r2.data&&r2.data.user){await afterLogin(r2.data.user);}else{showSuccess('auth-success',L('¡Cuenta creada! Ya puedes iniciar sesión.','Account created! You can now log in.'));setTimeout(()=>toggleAuth(),2500);}}
     }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
   }catch(e){showError('auth-error',e.message||L('Error en la autenticación','Authentication error'))}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in')}
 }
@@ -1598,13 +1599,13 @@ const UI_EN=[
 ['#inp-name','As it appears on your ID','ph'],
 ['.field:has(#inp-name) .field-hint','✦ Your name carries the vibrational frequency by which the universe recognizes you'],
 ['.field:has(#inp-birth) label','Date of birth'],
-['.field:has(#inp-birth) .field-hint','✦ Activates your personal numerology cycle. Every one of your numbers originates on this day'],
+['.field:has(#inp-birth) .field-hint','✦ Tap to open the calendar and pick day, month and year'],
 ['.field:has(#inp-cityb) label','City of birth'],
-['#inp-cityb','City where you were born','ph'],
-['.field:has(#inp-cityb) .field-hint','✦ Anchors your origin energy. Where you were born defines your earth number'],
+['#inp-cityb','City, Country — e.g. Bogotá, Colombia','ph'],
+['.field:has(#inp-cityb) .field-hint','✦ Include the country (some cities share names across countries). Anchors your origin energy'],
 ['.field:has(#inp-cityn) label','Current city'],
-['#inp-cityn','City where you live now','ph'],
-['.field:has(#inp-cityn) .field-hint','✦ Sets your present energy field. The universe calculates from where you are today'],
+['#inp-cityn','City, Country — e.g. Madrid, Spain','ph'],
+['.field:has(#inp-cityn) .field-hint','✦ Include the country. Sets your present energy field from where you are today'],
 ['.game-card[data-game="lottery"] .gl','Grand Prize'],
 ['.game-card[data-game="lottery"] .gd','Your 6 numbers for the big chance today. They change tomorrow.'],
 ['.game-card[data-game="chance"] .gl','Instant Fortune'],
