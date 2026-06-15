@@ -413,6 +413,12 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nball.r-grn{border:1px solid #3ddc97;color:#06281c;background:radial-gradient(circle at 35% 32%,#54e0a6,#1f9c6e);box-shadow:0 0 22px rgba(61,220,151,.4)}
 .chance-hint{text-align:center;margin:.5rem auto 1.2rem;max-width:360px;font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold2);line-height:1.55}
 .chance-hint strong{font-size:22px;color:var(--gold3);letter-spacing:.02em;display:inline-block;margin-top:.25rem}
+#chance-fields{grid-column:1/-1;margin-top:-.1rem}
+#roulette-wheel-wrap{margin:1rem auto .6rem;max-width:300px}
+.rw-stage{position:relative;width:100%;max-width:300px;margin:0 auto;aspect-ratio:1/1}
+.rw-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:3;font-size:26px;color:var(--gold2);filter:drop-shadow(0 1px 2px #000)}
+.rw-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 22px rgba(0,0,0,.5))}
+.rw-rot{transform-origin:160px 160px;transition:transform 4.6s cubic-bezier(.17,.67,.2,1)}
 </style>
 </head>
 <body>
@@ -566,6 +572,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="game-grid">
         <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Gran Premio</div><div class="gd">Tus 6 números para la gran oportunidad de hoy. Cambian mañana.</div></div>
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Fortuna Inmediata</div><div class="gd">Tu fortuna del momento. Gira tu suerte: 1, 2 o 3 números.</div></div>
+        <div id="chance-fields" class="hidden">
+          <div class="duel-fields-intro" id="chance-intro">🎡 Gira tu suerte — elige cuántos números quieres</div>
+          <div class="chance-seg" id="chance-seg">
+            <span data-n="1" onclick="selectChance(1)">1</span>
+            <span data-n="2" onclick="selectChance(2)">2</span>
+            <span data-n="3" class="on" onclick="selectChance(3)">3</span>
+          </div>
+        </div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
@@ -595,14 +609,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
         <datalist id="wc-teams-list"></datalist>
       </div>
-      <div id="chance-fields" class="hidden">
-        <div class="duel-fields-intro" id="chance-intro">🎡 Gira tu suerte — elige cuántos números quieres</div>
-        <div class="chance-seg" id="chance-seg">
-          <span data-n="1" onclick="selectChance(1)">1</span>
-          <span data-n="2" onclick="selectChance(2)">2</span>
-          <span data-n="3" class="on" onclick="selectChance(3)">3</span>
-        </div>
-      </div>
         </div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
@@ -625,6 +631,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="result-user" id="result-user"></div>
       </div>
       <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
+      <div id="roulette-wheel-wrap" style="display:none"></div>
       <div class="numbers-row" id="numbers-display"></div>
       <div class="wc-nums-hint" id="wc-nums-hint" style="display:none"></div>
       <div class="chance-hint" id="chance-hint" style="display:none"></div>
@@ -1108,6 +1115,21 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
 }
 // Color real de la ruleta americana (0 y 00 verdes). 37 = 00 interno.
 function rouletteColor(n){if(n===0||n===37)return'grn';const R=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];return R.includes(n)?'red':'blk';}
+// Dibuja la ruleta americana (SVG) y la hace girar hasta detenerse en targetNum (37=00)
+const RW_ORDER=[0,28,9,26,30,11,7,20,32,17,5,22,34,15,3,24,36,13,1,'00',27,10,25,29,12,8,19,31,18,6,21,33,16,4,23,35,14,2];
+function buildRouletteWheel(targetNum){
+  const wrap=document.getElementById('roulette-wheel-wrap');if(!wrap)return;
+  const RED=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+  const colf=n=>(n===0||n==='00')?'#1f9c6e':(RED.has(+n)?'#b4282d':'#141119');
+  const N=RW_ORDER.length,seg=360/N,R=145,cx=160,cy=160;let paths='',labels='';
+  RW_ORDER.forEach((num,i)=>{const a0=(i*seg-90-seg/2)*Math.PI/180,a1=((i+1)*seg-90-seg/2)*Math.PI/180;const x0=cx+R*Math.cos(a0),y0=cy+R*Math.sin(a0),x1=cx+R*Math.cos(a1),y1=cy+R*Math.sin(a1);paths+='<path d="M'+cx+','+cy+' L'+x0.toFixed(1)+','+y0.toFixed(1)+' A'+R+','+R+' 0 0 1 '+x1.toFixed(1)+','+y1.toFixed(1)+' Z" fill="'+colf(num)+'" stroke="#c9a84c" stroke-width="0.6"/>';const am=(i*seg-90)*Math.PI/180,lr=R*0.84,lx=cx+lr*Math.cos(am),ly=cy+lr*Math.sin(am);labels+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" fill="#fff7e0" font-size="11" font-weight="700" font-family="JetBrains Mono,monospace" text-anchor="middle" dominant-baseline="central" transform="rotate('+(i*seg).toFixed(1)+' '+lx.toFixed(1)+' '+ly.toFixed(1)+')">'+num+'</text>';});
+  const tnorm=(targetNum===37?'00':targetNum);let ti=RW_ORDER.indexOf(tnorm);if(ti<0)ti=RW_ORDER.indexOf(Number(tnorm));if(ti<0)ti=0;
+  const finalRot=360*4-ti*seg;
+  wrap.innerHTML='<div class="rw-stage"><div class="rw-pointer">▼</div><svg viewBox="0 0 320 320" class="rw-svg"><circle cx="160" cy="160" r="152" fill="none" stroke="#c9a84c" stroke-width="6"/><g class="rw-rot">'+paths+labels+'</g><circle cx="160" cy="160" r="34" fill="#0b0710" stroke="#c9a84c" stroke-width="2"/><text x="160" y="160" class="rw-center" fill="#e8c97a" font-size="24" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono,monospace">★</text></svg></div>';
+  const rot=wrap.querySelector('.rw-rot');rot.style.transform='rotate(0deg)';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{rot.style.transform='rotate('+finalRot+'deg)';}));
+  setTimeout(()=>{const c=wrap.querySelector('.rw-center');if(c)c.textContent=(targetNum===37?'00':targetNum);},4700);
+}
 
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}}
@@ -1449,7 +1471,7 @@ function renderResult(r,name){
   else{inplayEl.textContent=L('✦ Número ceremonial de inspiración','✦ Ceremonial number of inspiration');inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
   r.nums.forEach((n,i)=>{const b=document.createElement('div');if(cfg.roulette){b.className='nball r-'+rouletteColor(n);b.textContent=(n===37?'00':String(n));}else{b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;}b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
-  (function(){const ch=document.getElementById('chance-hint');if(!ch)return;if(cfg.roulette){const cn={red:L('Rojo','Red'),blk:L('Negro','Black'),grn:L('Verde','Green')};ch.innerHTML='🎡 '+L('Tu fortuna en la ruleta de hoy','Your roulette fortune today')+':<br><strong>'+r.nums.map(n=>(n===37?'00':n)+' · '+cn[rouletteColor(n)]).join('&nbsp;&nbsp;·&nbsp;&nbsp;')+'</strong>';ch.style.display='block';document.getElementById('seal-sub').textContent=L('Tus números de la suerte y su color en la ruleta','Your lucky numbers and their roulette color');}else{ch.style.display='none';document.getElementById('seal-sub').textContent=L('Cinco fuerzas cósmicas convergen en tus números','Five cosmic forces converge in your numbers');}})();
+  (function(){const ch=document.getElementById('chance-hint');const rww=document.getElementById('roulette-wheel-wrap');if(!ch)return;if(cfg.roulette){if(rww){rww.style.display='block';try{buildRouletteWheel(r.nums[0]);}catch(e){rww.style.display='none';}}const cn={red:L('Rojo','Red'),blk:L('Negro','Black'),grn:L('Verde','Green')};ch.innerHTML='🎡 '+L('Tu fortuna en la ruleta de hoy','Your roulette fortune today')+':<br><strong>'+r.nums.map(n=>(n===37?'00':n)+' · '+cn[rouletteColor(n)]).join('&nbsp;&nbsp;·&nbsp;&nbsp;')+'</strong>';ch.style.display='block';document.getElementById('seal-sub').textContent=L('Tus números de la suerte y su color en la ruleta','Your lucky numbers and their roulette color');}else{if(rww)rww.style.display='none';ch.style.display='none';document.getElementById('seal-sub').textContent=L('Cinco fuerzas cósmicas convergen en tus números','Five cosmic forces converge in your numbers');}})();
   // EXPLICACIÓN DE MOTORES
   const motorData=uiLang()==='en'?[
     {icon:'☿',label:'Numerology',val:r.lp,text:`Your personal vibration. Born from the reduction of your full name and date of birth. It is your unique energetic signature in this universe — the number that defines you.`},
