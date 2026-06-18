@@ -2,12 +2,16 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<!-- Si el usuario eligió ES/EN explícitamente, no quedar atrapado en la página china. -->
+<script>
+(function(){try{var s=localStorage.getItem('no_lang');if(s==='es'||s==='en'){location.replace('index.html');}}catch(e){}})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080510">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="数字神谕 — 您今日的黄金数字。五大宇宙力量交汇：命理学、星象学、月相、中国历法与地能。">
 <meta property="og:title" content="数字神谕 — 您今日的黄金数字">
-<meta property="og:description" content="五大宇宙力量为您计算今日专属幸运数字：命理学、星象学、月相、中国历法与地能。">
+<meta property="og:description" content="借五重古老智慧——命理、星象、月相、中华历法与大地之能——映照你此刻的心性与能量，邀你在数字之中照见自己。">
 <meta property="og:image" content="https://www.numbersoracle.com/og-image-zh.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +22,7 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="数字神谕 — 您今日的黄金数字">
-<meta name="twitter:description" content="五大宇宙力量为您计算今日专属幸运数字。">
+<meta name="twitter:description" content="五重古老智慧，照见此刻的你。">
 <meta name="twitter:image" content="https://www.numbersoracle.com/og-image-zh.png">
 <title>数字神谕 ✦ — 您今日的黄金数字</title>
 <link rel="manifest" href="/manifest.json">
@@ -406,17 +410,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .chance-seg span{flex:1;text-align:center;padding:15px 0;font-weight:800;font-size:28px;color:var(--text);cursor:pointer;border-right:1px solid var(--border);transition:background .2s;font-family:'Cinzel Decorative',serif}
 .chance-seg span:last-child{border-right:none}
 .chance-seg span.on{background:var(--gold);color:#1a1306}
-.nball.r-red{border:1px solid #e0565b;color:#fff;background:radial-gradient(circle at 35% 32%,#e85b60,#b22a2f);box-shadow:0 0 22px rgba(214,53,58,.35)}
-.nball.r-blk{border:1px solid #3a3a48;color:#f4f1e8;background:radial-gradient(circle at 35% 32%,#2c2c3c,#121219);box-shadow:0 0 18px rgba(0,0,0,.4)}
-.nball.r-grn{border:1px solid #3ddc97;color:#06281c;background:radial-gradient(circle at 35% 32%,#54e0a6,#1f9c6e);box-shadow:0 0 22px rgba(61,220,151,.4)}
 .chance-hint{text-align:center;margin:.5rem auto 1.2rem;max-width:360px;font-size:18px;color:var(--gold2);line-height:1.55}
 .chance-hint strong{font-size:22px;color:var(--gold3);letter-spacing:.02em;display:inline-block;margin-top:.25rem}
 #chance-fields{grid-column:1/-1;margin-top:-.1rem}
-#roulette-wheel-wrap{margin:1rem auto .6rem;max-width:300px}
-.rw-stage{position:relative;width:100%;max-width:300px;margin:0 auto;aspect-ratio:1/1}
-.rw-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:3;font-size:26px;color:var(--gold2);filter:drop-shadow(0 1px 2px #000)}
-.rw-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 22px rgba(0,0,0,.5))}
-.rw-rot{transform-origin:160px 160px;transition:transform 4.6s cubic-bezier(.17,.67,.2,1)}
 </style>
 </head>
 <body>
@@ -516,7 +512,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="header-logo">NUMBERS</div>
       <div class="header-right">
         <div class="lang-switcher">
-          <button class="lang-btn active" style="pointer-events:none">中文</button>
+          <button class="lang-btn" onclick="goLang('es')">ES</button>
+          <button class="lang-btn" onclick="goLang('en')">EN</button>
+          <button class="lang-btn active" style="pointer-events:none">中</button>
         </div>
         <div class="user-avatar" id="user-avatar" onclick="showTab('profile')">A</div>
       </div>
@@ -528,7 +526,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="eng-item" id="eng-chi"><div class="eng-icon">🐉</div><div class="eng-val" id="ev-chi">—</div><div class="eng-name">中国历法</div></div>
       <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name">地能</div></div>
     </div>
-    <div class="wc-ribbon" id="wc-ribbon" onclick="wcRibbonGo()">🏆 2026世界杯 — 免费无限预测 →</div>
+    <div class="wc-ribbon" id="wc-ribbon" onclick="wcRibbonGo()">🏆 2026世界杯 — 免费无限解读 →</div>
 
     <div class="form-screen" id="tab-form">
       <div class="form-title">✦ 输入您的能量 ✦</div>
@@ -577,8 +575,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           </div>
         </div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
-        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育预测</div><div class="gd">今天谁会赢？比赛的宇宙预测</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
-        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量预测比赛胜者 · 世界杯期间免费无限</div></div>
+        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">今天谁会赢？比赛的宇宙解读</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量解读比赛胜者 · 世界杯期间免费无限</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ 填写您的个人资料以揭示您的数字</div>
       <div id="duel-fields" class="hidden">
@@ -627,7 +625,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="result-user" id="result-user"></div>
       </div>
       <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
-      <div id="roulette-wheel-wrap" style="display:none"></div>
       <div class="numbers-row" id="numbers-display"></div>
       <div class="wc-nums-hint" id="wc-nums-hint" style="display:none"></div>
       <div class="chance-hint" id="chance-hint" style="display:none"></div>
@@ -687,9 +684,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="motor-chip" onclick="openMotorPanel('geo')"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">地能</div></div>
       </div>
       <div id="motor-panel" class="hidden"></div>
-      <div class="game-card" id="wc-result-card" data-game="mundial" onclick="wcFromResult()" style="display:none"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">下一场比赛谁会赢？您的5大引擎为您预测 · 免费无限</div></div>
+      <div class="game-card" id="wc-result-card" data-game="mundial" onclick="wcFromResult()" style="display:none"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">下一场比赛谁会赢？您的5大引擎为您解读 · 免费无限</div></div>
       <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ 分享我的数字 ✦</button>
-      <div class="share-hint" id="share-hint">送给今天需要好运的人 🍀</div>
+      <div class="share-hint" id="share-hint">送给今天想更懂自己的人 ✨</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
         <button class="btn-whatsapp" onclick="shareWA()">📱 分享</button>
         <button class="btn-new" onclick="newConsult()">↺ 新占卜</button>
@@ -945,7 +942,7 @@ const TRANSLATIONS={zh:{
   fieldCityNLabel:'当前城市',
   fieldCityNPlaceholder:'您现在居住的城市',
   fieldCityNHint:'✦ 确定您当前的能量场。宇宙从您所在之处开始计算',
-  fieldLuckyLabel:'您的幸运数字',
+  fieldLuckyLabel:'您的能量数字',
   gameLotteryName:'今日数字',
   gameLotteryDesc:'今天为你引导的6个数字。明天将会改变。',
   gameChanceName:'此刻脉动',
@@ -954,10 +951,10 @@ const TRANSLATIONS={zh:{
   gameCasinoDesc:'不会改变。是您的。与您一同诞生。',
   gameCasinoPreview:'"您的主命数揭示了宇宙在您出生前为您书写的使命..."',
   gameSportsName:'体育',
-  gameSportsDesc:'谁今天会赢？赛事宇宙预测',
+  gameSportsDesc:'谁今天会赢？赛事宇宙解读',
   gameSportsPreview:'"主队今天在振动频率上超越了客队..."',
   gameMundialName:'世界杯 2026',
-  gameMundialDesc:'用宇宙能量预测比赛结果',
+  gameMundialDesc:'用宇宙能量解读比赛结果',
   gameMundialPreview:'"五大引擎汇聚，揭示哪支球队今晚携带着获胜的振动..."',
   cardHint:'↑ 填写您的个人信息以揭示数字',
   freemiumFree:'今日免费咨询',
@@ -978,7 +975,7 @@ const TRANSLATIONS={zh:{
   btnNewConsult:'← 新咨询',
   resultFor:'您今天的组合',
   comboTitle:'✦ 您的完整组合 ✦',
-  sealTextMap:{lottery:'振动已封印',chance:'数字已揭示',casino:'序列已揭示',sports:'宇宙预测',default:'组合已封印'},
+  sealTextMap:{lottery:'振动已封印',chance:'数字已揭示',casino:'序列已揭示',sports:'宇宙解读',default:'组合已封印'},
   sealSub:'五大宇宙力量在您的数字中汇聚',
   goldenLabel:'✦ 今日黄金数字 ✦',
   goldenSublabel:'（与您的生命数字不同 · 每天变化）',
@@ -990,7 +987,7 @@ const TRANSLATIONS={zh:{
   proCTAPrice:'每次咨询仅需 ¥18 · 即将推出',
   proCTABtn:'我要成为首批用户 →',
   motorShort:['命理','星象','月相','中历','地能'],
-  duelSealText:'宇宙预测',
+  duelSealText:'宇宙解读',
   duelSealSub:'五大引擎今天计算了每支球队的能量',
   duelGoldenLabel:'✦ 被眷顾者的能量 ✦',
   duelGoldenSublabel:'振动频率最高的球队的力量数字',
@@ -1032,9 +1029,9 @@ const TRANSLATIONS={zh:{
   successAccountCreated:'账号已创建！请检查您的邮箱以确认。您现在可以登录。',
   successResetPw:'✦ 密码已更新！正在登录...',
   successForgotSent:'✦ 链接已发送。请检查您的邮箱（包括垃圾邮件），点击链接设置新密码。',
-  gameLabels:{lottery:'今日数字',chance:'此刻脉动',casino:'命运数字',sports:'体育预测',mundial:'世界杯 2026'},
+  gameLabels:{lottery:'今日数字',chance:'此刻脉动',casino:'命运数字',sports:'体育解读',mundial:'世界杯 2026'},
   duelIntro:'🏆 选择运动项目和两支对手',
-  mundialIntro:'🏆 选择要预测比赛的两支球队',
+  mundialIntro:'🏆 选择要解读比赛的两支球队',
   sportChips:{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',volleyball:'🏐 排球',boxing:'🥊 拳击',americanfootball:'🏈 美式足球',other:'🏆 其他'},
   sportLabelA:{football:'🔵 主队',basketball:'🔵 主队',tennis:'🔵 球员A',baseball:'🔵 主队',volleyball:'🔵 球队A',boxing:'🔵 拳手A',americanfootball:'🔵 主队',other:'🔵 选项A'},
   sportLabelB:{football:'🔴 客队',basketball:'🔴 客队',tennis:'🔴 球员B',baseball:'🔴 客队',volleyball:'🔴 球队B',boxing:'🔴 拳手B',americanfootball:'🔴 客队',other:'🔴 选项B'},
@@ -1123,7 +1120,7 @@ function applyLang(lang){
     else if(lt==='出生日期'){lbl.textContent=zh.fieldBirthLabel;if(hint)hint.textContent=zh.fieldBirthHint;}
     else if(lt==='Ciudad de nacimiento'){lbl.textContent=zh.fieldCityBLabel;if(inp)inp.placeholder=zh.fieldCityBPlaceholder;if(hint)hint.textContent=zh.fieldCityBHint;}
     else if(lt==='Ciudad actual'){lbl.textContent=zh.fieldCityNLabel;if(inp)inp.placeholder=zh.fieldCityNPlaceholder;if(hint)hint.textContent=zh.fieldCityNHint;}
-    else if(lt==='您的幸运数字'){lbl.textContent=zh.fieldLuckyLabel;}
+    else if(lt==='您的能量数字'){lbl.textContent=zh.fieldLuckyLabel;}
   });
   // ── Game cards ──
   document.querySelectorAll('.game-card').forEach(card=>{
@@ -1247,7 +1244,7 @@ interpD:'{n}, the engines conjugated the numbers of both squads for this date an
 rankTail:' — and the earthly balance of the FIFA Ranking (#{rw} vs #{rl}) confirms what the numbers whisper',
 closer:'This reading reflects the energies of the cosmos today — football, like life, can always surprise. Numbers is entertainment and inspiration.',
 confDraw:'⚡ Nearly identical vibrations — a draw is a very likely outcome',confKO:'⚡ Twin energies — it will be decided by the finest details',confLeve:'⚡ Slight cosmic edge — very even match, anyone can win',confMod:'⚡ Moderate edge — the energy tips the scale',confClara:'⚡ Clear cosmic edge — all five engines point in one direction'},
-zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙预测',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
+zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙解读',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
 phi:'在<strong>{moon}</strong>（第{day}天）之下，<strong>{win}</strong>名称的毕达哥拉斯之根与比赛日期数字、场地地能进入和谐共振。这种共振为其赢得本场比赛<strong>{wp}%</strong>的能量场。',
 phiD:'宇宙在<strong>{moon}</strong>（第{day}天）之下，测算了<strong>{a}</strong>与<strong>{b}</strong>的数字融合、日期数字与场地地能。两股振动如镜像相互映照：无一方能主宰能量场。在足球中，平局也是宇宙的安排。',
 interp:'{n}，数字的融合揭示了这一结果为何可能显现：<strong>{win}</strong>名称的振动、比赛日期的数字与场地的能量汇聚于同一频率 — 他们的球员正处于巅峰的振动时刻，即神秘学所称的恩典状态。<strong>{win}</strong>掌控<strong>{wp}%</strong>的能量场，而<strong>{lose}</strong>为{lpct}%{rk}。',
@@ -1384,19 +1381,13 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   const astV=numReduce(zodiac.num+getDayRuler(today).n),chiV=numReduce(chinese.num+getChinese(parseInt(today.slice(0,4))).num);
   const seed=Math.abs(lp*137+astV*29+chiV*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
   const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
-  const isRoulette=!!cfg.roulette;
   const userPicks=!!cfg.pick;
   // 用户可选择 1-3 个数字，默认 3
-  const wantCount=(isRoulette||userPicks)?Math.min(3,Math.max(1,(STATE.chanceCount||3))):cfg.count;
-  if(isRoulette){
-    // 美式轮盘：0、00（内部=37）和 1..36 — 全部数字，不套用文化规则（中文版也含 4）
-    pool.push(0,37);for(let i=1;i<=36;i++)pool.push(i);
-  }else{
-    for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
-  }
+  const wantCount=userPicks?Math.min(3,Math.max(1,(STATE.chanceCount||3))):cfg.count;
+  for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
   for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
   const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=wantCount)break}
-  if(isRoulette){const sv=x=>x===37?0.5:x;nums.sort((a,b)=>sv(a)-sv(b));}else{nums.sort((a,b)=>a-b);}
+  nums.sort((a,b)=>a-b);
   // NÚMERO DE ORO: fusión de los 5 motores + día, reducido a dígito maestro
   const goldenRaw=lp+astV+chiV+moon.day+geo+tn;
   const golden=numReduce(goldenRaw);
@@ -1406,26 +1397,10 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   let goldenInPlay=goldenFits;
   return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
 }
-// 美式轮盘真实颜色（0 和 00 为绿色）。37 = 内部的 00。
-function rouletteColor(n){if(n===0||n===37)return'grn';const R=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];return R.includes(n)?'red':'blk';}
-const RW_ORDER=[0,28,9,26,30,11,7,20,32,17,5,22,34,15,3,24,36,13,1,'00',27,10,25,29,12,8,19,31,18,6,21,33,16,4,23,35,14,2];
-function buildRouletteWheel(targetNum){
-  const wrap=document.getElementById('roulette-wheel-wrap');if(!wrap)return;
-  const RED=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-  const colf=n=>(n===0||n==='00')?'#1f9c6e':(RED.has(+n)?'#b4282d':'#141119');
-  const N=RW_ORDER.length,seg=360/N,R=145,cx=160,cy=160;let paths='',labels='';
-  RW_ORDER.forEach((num,i)=>{const a0=(i*seg-90-seg/2)*Math.PI/180,a1=((i+1)*seg-90-seg/2)*Math.PI/180;const x0=cx+R*Math.cos(a0),y0=cy+R*Math.sin(a0),x1=cx+R*Math.cos(a1),y1=cy+R*Math.sin(a1);paths+='<path d="M'+cx+','+cy+' L'+x0.toFixed(1)+','+y0.toFixed(1)+' A'+R+','+R+' 0 0 1 '+x1.toFixed(1)+','+y1.toFixed(1)+' Z" fill="'+colf(num)+'" stroke="#c9a84c" stroke-width="0.6"/>';const am=(i*seg-90)*Math.PI/180,lr=R*0.84,lx=cx+lr*Math.cos(am),ly=cy+lr*Math.sin(am);labels+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" fill="#fff7e0" font-size="11" font-weight="700" font-family="JetBrains Mono,monospace" text-anchor="middle" dominant-baseline="central" transform="rotate('+(i*seg).toFixed(1)+' '+lx.toFixed(1)+' '+ly.toFixed(1)+')">'+num+'</text>';});
-  const tnorm=(targetNum===37?'00':targetNum);let ti=RW_ORDER.indexOf(tnorm);if(ti<0)ti=RW_ORDER.indexOf(Number(tnorm));if(ti<0)ti=0;
-  const finalRot=360*4-ti*seg;
-  wrap.innerHTML='<div class="rw-stage"><div class="rw-pointer">▼</div><svg viewBox="0 0 320 320" class="rw-svg"><circle cx="160" cy="160" r="152" fill="none" stroke="#c9a84c" stroke-width="6"/><g class="rw-rot">'+paths+labels+'</g><circle cx="160" cy="160" r="34" fill="#0b0710" stroke="#c9a84c" stroke-width="2"/><text x="160" y="160" class="rw-center" fill="#e8c97a" font-size="24" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono,monospace">★</text></svg></div>';
-  const rot=wrap.querySelector('.rw-rot');rot.style.transform='rotate(0deg)';
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{rot.style.transform='rotate('+finalRot+'deg)';}));
-  setTimeout(()=>{const c=wrap.querySelector('.rw-center');if(c)c.textContent=(targetNum===37?'00':targetNum);},4700);
-}
-
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){updateRenewCountdown();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}}
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');applyLang(l)}
+function goLang(l){try{localStorage.setItem('no_lang',l)}catch(e){}location.href='index.html';}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
@@ -1753,8 +1728,8 @@ function renderResult(r,name){
   if(r.goldenInPlay){inplayEl.textContent=zh?T.goldenInPlay:'✓ Incluido en tu jugada';inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
   else{inplayEl.textContent=zh?T.goldenCeremonial:'✦ Número ceremonial de inspiración';inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
-  r.nums.forEach((n,i)=>{const b=document.createElement('div');if(cfg.roulette){b.className='nball r-'+rouletteColor(n);b.textContent=(n===37?'00':String(n));}else{b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;}b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
-  (function(){const ch=document.getElementById('chance-hint');const rww=document.getElementById('roulette-wheel-wrap');if(!ch)return;if(cfg.roulette){if(rww){rww.style.display='block';try{buildRouletteWheel(r.nums[0]);}catch(e){rww.style.display='none';}}const cn={red:'红',blk:'黑',grn:'绿'};ch.innerHTML='🎡 今日轮盘好运：<br><strong>'+r.nums.map(n=>(n===37?'00':n)+' · '+cn[rouletteColor(n)]).join('&nbsp;&nbsp;·&nbsp;&nbsp;')+'</strong>';ch.style.display='block';document.getElementById('seal-sub').textContent='您的幸运数字及其轮盘颜色';}else{if(rww)rww.style.display='none';ch.style.display='none';document.getElementById('seal-sub').textContent='五大宇宙力量在您的数字中汇聚';}})();
+  r.nums.forEach((n,i)=>{const b=document.createElement('div');b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
+  (function(){const ch=document.getElementById('chance-hint');if(!ch)return;ch.style.display='none';document.getElementById('seal-sub').textContent='五大宇宙力量在您的数字中汇聚';})();
   const motorData=zh?[
     {icon:'☿',label:'命理学',val:r.lp,text:`您的个人振动。源于您全名和出生日期的归约。这是您在这个宇宙中独特的能量印记——定义您的数字。`},
     {icon:'♈',label:'星象学',val:r.engines.ast,text:`今日天体位置，结合您的星座 <strong>${tZodiac(r.zodiac.sign)}</strong> 和行星 <strong>${tPlanet(r.zodiac.planet)}</strong>。今天的天空在您每个决定中烙下这一频率。`},
@@ -1871,14 +1846,14 @@ function shareWA(){
     const{duel,name}=STATE.lastResult;
     const zh=STATE.lang==='zh';
     const text=zh
-      ?`✦ 数字神谕预测 🌟\n\n神谕揭示：${duel.winner}的宇宙能量更强！\n比分：${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ 探索您的神谕：numbersoracle.com/zh.html`
+      ?`✦ 数字神谕解读 🌟\n\n神谕揭示：${duel.winner}的宇宙能量更强！\n比分：${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ 探索您的神谕：numbersoracle.com/zh.html`
       :`✦ NUMBERS predijo el partido 🌟\n\nEl oráculo revela: ¡${duel.winner} tiene la energía cósmica más fuerte!\nScore: ${duel.teamA} ${duel.scoreA} — ${duel.scoreB} ${duel.teamB}\n\n✦ Descubre la tuya en numbersoracle.com`;
     shareZh(text);
     return;
   }
   const{result,name,game}=STATE.lastResult;
   const zh=STATE.lang==='zh';
-  const games=zh?{lottery:'今日数字',chance:'此刻脉动',casino:'命运数字',sports:'体育预测',mundial:'世界杯2026'}:{lottery:'Números del Día',chance:'Pulso del Momento',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
+  const games=zh?{lottery:'今日数字',chance:'此刻脉动',casino:'命运数字',sports:'体育解读',mundial:'世界杯2026'}:{lottery:'Números del Día',chance:'Pulso del Momento',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
   const gameName=games[game]||game;
   const text=zh
     ?`✦ 数字神谕今天揭示了我的黄金数字：${result.golden} 🌟\n\n我的${gameName}宇宙组合：${result.nums.join(' · ')}\n\n五大宇宙力量今天只为我对齐。\n\n✦ 探索您的数字：numbersoracle.com/zh.html`
