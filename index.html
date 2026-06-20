@@ -301,6 +301,16 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .modal-body{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;font-style:italic}
 .modal-close{background:var(--gold);border:none;border-radius:6px;padding:10px 28px;cursor:pointer;color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;letter-spacing:.05em}
 .modal-close:hover{opacity:.9}
+.notify-input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:10px 14px;color:var(--text);font-size:15px;font-family:inherit;margin-bottom:.5rem;box-sizing:border-box}
+.notify-input:focus{outline:none;border-color:var(--gold)}
+.notify-submit{background:var(--gold);border:none;border-radius:6px;padding:10px 24px;cursor:pointer;color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;letter-spacing:.05em;width:100%;margin-top:.25rem}
+.notify-submit:disabled{opacity:.5;cursor:default}
+.notify-success-icon{font-size:36px;margin-bottom:.5rem}
+.notify-success-text{font-size:15px;color:var(--gold2);font-style:italic;line-height:1.7}
+.notify-logged-email{font-weight:700;color:var(--gold2)}
+.notify-error{font-size:13px;color:var(--rose);margin-bottom:.5rem;text-align:left;display:none}
+.notify-close-link{background:none;border:none;color:var(--faint);font-size:13px;cursor:pointer;margin-top:.75rem;padding:4px 12px;letter-spacing:.03em}
+.notify-close-link:hover{color:var(--muted)}
 
 @media(max-width:380px){.nball{width:56px;height:56px;font-size:22px}.motors-row{grid-template-columns:repeat(5,1fr)}.eng-icon{width:40px;height:40px;font-size:18px}.engines-preview{gap:1rem}.ep-orb{width:50px;height:50px;font-size:22px}}
 
@@ -866,10 +876,28 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     <!-- NOTIFY MODAL -->
     <div id="notify-modal" class="modal-overlay hidden">
       <div class="modal-box">
-        <div class="modal-icon">✦</div>
-        <div class="modal-title" id="modal-title">Próximamente disponible</div>
-        <div class="modal-body" id="modal-body">Estamos activando los pagos. Serás el primero en saber cuando el Plan Pro esté disponible.</div>
-        <button class="modal-close" onclick="closeModal()">Entendido →</button>
+        <div class="modal-icon">🔔</div>
+        <div class="modal-title">Reserva tu lugar Pro</div>
+        <!-- Estado de éxito -->
+        <div id="notify-success" class="hidden">
+          <div class="notify-success-icon">✦</div>
+          <div class="notify-success-text" id="notify-success-text"></div>
+        </div>
+        <!-- Cuerpo principal -->
+        <div id="notify-modal-body">
+          <!-- Usuario logueado: mostrar su email -->
+          <div id="notify-logged-info" class="hidden">
+            <div class="modal-body">Te avisaremos a <span id="notify-logged-email" class="notify-logged-email"></span> en cuanto los pagos estén activos.</div>
+          </div>
+          <!-- Usuario no logueado: pedir email -->
+          <div id="notify-form">
+            <div class="modal-body" style="margin-bottom:1rem">Déjanos tu email y serás el primero en acceder cuando abra el Plan Pro.</div>
+            <div class="notify-error" id="notify-error">Ingresa un email válido</div>
+            <input type="email" id="notify-email-input" class="notify-input" placeholder="tu@correo.com" onkeydown="if(event.key==='Enter')submitNotify()">
+          </div>
+          <button id="notify-submit-btn" class="notify-submit" onclick="submitNotify()">Avisarme cuando esté listo →</button>
+        </div>
+        <button class="notify-close-link" onclick="closeModal()">Cerrar</button>
       </div>
     </div>
 
@@ -1935,18 +1963,46 @@ function detectRegionPricing(){
 
 // Notify modal
 function showNotifyModal(){
-  const name=STATE.profile?.full_name?.split(' ')[0]||'';
   const email=STATE.profile?.email||'';
-  const title='✦ Próximamente disponible';
-  const body=email
-    ? `¡Perfecto${name?', '+name:''}! Te avisaremos a <strong>${email}</strong> cuando el Plan Pro esté disponible. Estamos activando los pagos.`
-    : `Cuando el Plan Pro esté listo serás el primero en saberlo. Mantente atento a tu correo registrado.`;
-  document.getElementById('modal-title').textContent=title;
-  document.getElementById('modal-body').innerHTML=body;
+  const form=document.getElementById('notify-form');
+  const loggedInfo=document.getElementById('notify-logged-info');
+  if(email){
+    form.classList.add('hidden');
+    loggedInfo.classList.remove('hidden');
+    document.getElementById('notify-logged-email').textContent=email;
+  }else{
+    form.classList.remove('hidden');
+    loggedInfo.classList.add('hidden');
+    document.getElementById('notify-email-input').value='';
+  }
+  document.getElementById('notify-success').classList.add('hidden');
+  document.getElementById('notify-modal-body').classList.remove('hidden');
+  document.getElementById('notify-error').style.display='none';
+  const btn=document.getElementById('notify-submit-btn');
+  btn.textContent=L('Avisarme cuando esté listo →','Notify me when ready →');
+  btn.disabled=false;
   document.getElementById('notify-modal').classList.remove('hidden');
 }
 function closeModal(){
   document.getElementById('notify-modal').classList.add('hidden');
+}
+async function submitNotify(){
+  const inputEmail=document.getElementById('notify-email-input');
+  const email=((inputEmail&&!inputEmail.closest('.hidden'))?inputEmail.value.trim():STATE.profile?.email||'').toLowerCase();
+  const name=STATE.profile?.full_name||'';
+  const errEl=document.getElementById('notify-error');
+  if(!email||!email.includes('@')){errEl.style.display='block';return;}
+  errEl.style.display='none';
+  const btn=document.getElementById('notify-submit-btn');btn.textContent='...';btn.disabled=true;
+  try{
+    await sb.from('waitlist').upsert({email,name,source:'upgrade-modal'},{onConflict:'email'});
+    document.getElementById('notify-modal-body').classList.add('hidden');
+    document.getElementById('notify-success').classList.remove('hidden');
+    document.getElementById('notify-success-text').textContent=L(`✦ ¡Perfecto! Te avisaremos a ${email} cuando el Plan Pro esté listo.`,`✦ Perfect! We'll notify ${email} when Pro is ready.`);
+    setTimeout(closeModal,3500);
+  }catch(e){
+    btn.textContent=L('Reintentar','Retry');btn.disabled=false;
+  }
 }
 
 function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
