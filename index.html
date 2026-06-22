@@ -65,7 +65,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes twinkle{0%{opacity:.7}100%{opacity:1}}
 /* OPCIÓN 1 — columna ancha centrada, responsive */
 #app{position:relative;z-index:1;max-width:640px;margin:0 auto;height:100dvh;display:flex;flex-direction:column}
-.screen{display:none;flex-direction:column;flex:1;animation:fadeUp .4s ease both}
+.screen{display:none;flex-direction:column;flex:1;min-height:0;animation:fadeUp .4s ease both}
 .screen.active{display:flex}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .landing{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:2rem 1.5rem 3rem;text-align:center}
