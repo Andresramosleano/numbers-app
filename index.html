@@ -500,7 +500,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-result.signals-mode .result-header
 {display:none!important}
 /* ─── NUMA — Oráculo Guiado ─── */
-#tab-numa{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#tab-numa{position:absolute;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;animation:numaIn .3s ease both}
+@keyframes numaIn{from{transform:translateY(3%);opacity:0}to{transform:translateY(0);opacity:1}}
+.numa-back{background:none;border:none;color:var(--gold2);font-size:22px;cursor:pointer;padding:4px 10px 4px 0;line-height:1;flex-shrink:0;touch-action:manipulation;opacity:.85}
 .numa-header{display:flex;align-items:center;gap:12px;padding:.85rem 1rem .7rem;border-bottom:.5px solid var(--border);flex-shrink:0}
 .numa-avatar{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f5e1a0,var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(201,168,76,.4);flex-shrink:0}
 .numa-name{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);letter-spacing:.05em}
@@ -512,10 +514,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .numa-score{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.4px;color:var(--muted);border:.5px solid var(--border);border-radius:20px;padding:3px 10px;font-family:'JetBrains Mono',monospace}
 .numa-chips-wrap{flex-shrink:0;padding:.7rem 1rem calc(.6rem + env(safe-area-inset-bottom));border-top:.5px solid var(--border);background:var(--bg2)}
 .numa-chips-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:.55rem;text-transform:uppercase}
-.numa-chips{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}.numa-chips::-webkit-scrollbar{display:none}
-.numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:20px;padding:10px 16px;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.3;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.numa-chips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:14px;padding:14px 10px;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.45;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;text-align:center}
 .numa-chip:active{background:rgba(201,168,76,.08);border-color:var(--gold)}
-.numa-chip.locked{color:var(--muted);border-style:dashed;cursor:default;opacity:.65}
+.numa-chip.locked{grid-column:1/-1;color:var(--muted);border-style:dashed;cursor:default;opacity:.65;text-align:center}
 </style>
 </head>
 <body>
@@ -997,6 +999,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     <!-- NUMA — Oráculo Guiado -->
     <div id="tab-numa" class="hidden">
       <div class="numa-header">
+        <button class="numa-back" onclick="numaClose()" aria-label="Volver">←</button>
         <div class="numa-avatar">🔮</div>
         <div>
           <div class="numa-name">NUMA</div>
@@ -1256,22 +1259,22 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
 }
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile','upgrade','numa'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade',numa:'nav-numa'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade',numa:'nav-numa'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();}
 // ─── NUMA — Oráculo Guiado ───
 const NUMA_DATA={
   questions:{
     es:[
-      {id:'buen-dia',label:'🎲 ¿Es buen día para jugar?'},
-      {id:'numero',label:'🔢 ¿Qué número me favorece?'},
-      {id:'arriesgar',label:'⚖️ ¿Debo arriesgar hoy?'},
-      {id:'energia',label:'✨ ¿Cómo está mi energía?'},
+      {id:'buen-dia',label:'🌟 ¿Es mi momento hoy?'},
+      {id:'numero',label:'🔢 ¿Mi número del día?'},
+      {id:'arriesgar',label:'⚡ ¿Es momento de actuar?'},
+      {id:'energia',label:'✨ ¿Cómo vibro hoy?'},
       {id:'libre',label:'🔒 Pregunta libre — pronto',locked:true}
     ],
     en:[
-      {id:'buen-dia',label:'🎲 Good day to play?'},
-      {id:'numero',label:'🔢 Which number favors me?'},
-      {id:'arriesgar',label:'⚖️ Should I take risks today?'},
-      {id:'energia',label:'✨ How is my energy today?'},
+      {id:'buen-dia',label:'🌟 Is this my moment?'},
+      {id:'numero',label:'🔢 My number today?'},
+      {id:'arriesgar',label:'⚡ Time to act today?'},
+      {id:'energia',label:'✨ How do I vibrate today?'},
       {id:'libre',label:'🔒 Free question — soon',locked:true}
     ]
   },
@@ -1281,14 +1284,14 @@ const NUMA_DATA={
   },
   q1:{
     es:{
-      yes:['Sí, hoy es tu día. ✨ Tu vibración ({personal}) entra en armonía con la energía de hoy ({dia}): un día de impulso y oportunidad.','Las señales están a tu favor. Hoy tu energía y la del día se alinean — es un buen momento para intentarlo.','Hoy la suerte te acompaña, {nombre}. Tu número y el del día fluyen juntos. Aprovéchalo.'],
+      yes:['Sí, hoy es tu día. ✨ Tu vibración ({personal}) entra en armonía con la energía de hoy ({dia}): un día de impulso y oportunidad.','Las señales están a tu favor. Hoy tu energía y la del día se alinean — es un buen momento para intentarlo.','Hoy la energía te acompaña, {nombre}. Tu número y el del día fluyen juntos. Aprovéchalo.'],
       mid:['Es un día equilibrado. La energía no empuja ni frena — actúa con calma e intención.','Hoy las fuerzas están parejas. Si decides moverte, hazlo con intención y sin excesos.','Día neutral, {nombre}. Ni el mejor ni el peor: confía en tu intuición más que en el impulso.'],
-      no:['Hoy mejor espera. Tu energía y la del día no terminan de alinearse — guarda tu suerte para un mejor momento.','El día pide cautela, {nombre}. No es momento de arriesgar; mañana la energía cambia.','Las señales sugieren paciencia hoy. La oportunidad volverá pronto, más fuerte.']
+      no:['Hoy mejor espera. Tu energía y la del día no terminan de alinearse — guarda tu fuerza para un mejor momento.','El día pide cautela, {nombre}. No es momento de arriesgar; mañana la energía cambia.','Las señales sugieren paciencia hoy. La oportunidad volverá pronto, más fuerte.']
     },
     en:{
-      yes:['Yes, today is your day. ✨ Your vibration ({personal}) harmonizes with today\'s energy ({dia}): a day of momentum and opportunity.','The signs are in your favor. Today your energy and the day\'s align — now is a good time to try.','Luck is with you today, {nombre}. Your number and the day\'s flow together. Make the most of it.'],
-      mid:['A balanced day. You can play, but calmly and with small amounts. The energy neither pushes nor pulls.','Forces are even today. If you play, do it with intention and don\'t overdo it.','Neutral day, {nombre}. Not the best nor the worst: trust your intuition over impulse.'],
-      no:['Better wait today. Your energy and the day\'s aren\'t fully aligning — save your luck for a better moment.','The day calls for caution, {nombre}. Not the time to risk; tomorrow the energy shifts.','The signs suggest patience today. The opportunity will return soon, stronger.']
+      yes:['Yes, today is your day. ✨ Your vibration ({personal}) harmonizes with today\'s energy ({dia}): a day of momentum and opportunity.','The signs are in your favor. Today your energy and the day\'s align — now is a good time to try.','The energy is with you today, {nombre}. Your number and the day\'s flow together. Make the most of it.'],
+      mid:['A balanced day. The energy neither pushes nor pulls — act with calm intention.','Forces are even today. Move with intention and don\'t overdo it.','Neutral day, {nombre}. Not the best nor the worst: trust your intuition over impulse.'],
+      no:['Better wait today. Your energy and the day\'s aren\'t fully aligning — save your strength for a better moment.','The day calls for caution, {nombre}. Not the time to risk; tomorrow the energy shifts.','The signs suggest patience today. The opportunity will return soon, stronger.']
     }
   },
   q2:{
@@ -1297,7 +1300,7 @@ const NUMA_DATA={
   },
   q3:{
     es:{
-      yes:['Sí, hoy es día de arriesgar. La energía está de tu lado — si sientes el impulso, síguelo.','Tu momento es ahora, {nombre}. La fortuna premia a los valientes en días como hoy.','El día tiene fuerza. Si vas a arriesgar, hazlo hoy con confianza.'],
+      yes:['Sí, hoy es tu día. La energía está de tu lado — si sientes el impulso, síguelo.','Tu momento es ahora, {nombre}. El cosmos premia a los valientes en días como hoy.','El día tiene fuerza. Si vas a moverte, hazlo hoy con confianza.'],
       no:['Hoy la energía pide calma. No es momento de movimientos grandes — reserva tu fuerza para cuando la vibración suba.','Mejor con prudencia, {nombre}. La energía de hoy favorece la pausa, no la acción impulsiva.','El día pide cabeza fría. Observa, espera, actúa cuando la energía lo pida.']
     },
     en:{
@@ -1335,6 +1338,7 @@ function numaOpen(){
   if(chat&&chat.children.length===0)numaGreet();
 }
 function numaGreet(){const lang=STATE.lang||'es',vars=numaVars(),g=NUMA_DATA.greet[lang]||NUMA_DATA.greet.es;numaAddBubble(numaFill(numaRand(g),vars),false);}
+function numaClose(){showTab(STATE.prevTab||'form');}
 function numaAsk(q){
   try{
     const lang=STATE.lang||'es',vars=numaVars();
