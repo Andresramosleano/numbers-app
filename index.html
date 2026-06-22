@@ -511,9 +511,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nbfu{background:linear-gradient(135deg,#c9a84c,#a87618);color:#1a1306;border-top-right-radius:4px;align-self:flex-end;font-weight:600}
 .numa-score{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.4px;color:var(--muted);border:.5px solid var(--border);border-radius:20px;padding:3px 10px;font-family:'JetBrains Mono',monospace}
 .numa-chips-wrap{flex-shrink:0;padding:.7rem 1rem calc(.6rem + env(safe-area-inset-bottom));border-top:.5px solid var(--border);background:var(--bg2)}
-.numa-chips-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--muted);margin-bottom:.55rem;text-transform:uppercase}
-.numa-chips{display:flex;flex-wrap:wrap;gap:7px}
-.numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:20px;padding:9px 14px;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.2}
+.numa-chips-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:.55rem;text-transform:uppercase}
+.numa-chips{display:flex;flex-wrap:wrap;gap:8px}
+.numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:20px;padding:10px 16px;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.3}
 .numa-chip:active{background:rgba(201,168,76,.08);border-color:var(--gold)}
 .numa-chip.locked{color:var(--muted);border-style:dashed;cursor:default;opacity:.65}
 </style>
@@ -1292,17 +1292,17 @@ const NUMA_DATA={
     }
   },
   q2:{
-    es:['Tu número de poder de hoy es el {poder}. Para la mesa te acompañan el {a} y el {b}, con el color {color}.','Hoy vibras con el {poder}. Si vas a la mesa, lleva el {a} y el {b}, y apóyate en el {color}.','El {poder} es tu aliado del día, {nombre}. Tus números de hoy son {a} y {b} · color {color}.'],
-    en:['Your power number today is {poder}. For the table: {a} and {b}, with the color {color}.','Today you vibrate with {poder}. At the table, go with {a} and {b}, supported by {color}.','The {poder} is your ally today, {nombre}. Your numbers are {a} and {b} · color {color}.']
+    es:['Tu número de poder de hoy es el {poder}. Los que te acompañan ahora son el {a} y el {b}, con el color {color}.','Hoy vibras con el {poder}. Tus números de apoyo son el {a} y el {b} · color {color}.','El {poder} es tu aliado del día, {nombre}. Tu energía numérica ahora: {a} y {b} · color {color}.'],
+    en:['Your power number today is {poder}. Supporting numbers right now: {a} and {b}, with the color {color}.','Today you vibrate with {poder}. Your supporting numbers are {a} and {b} · color {color}.','The {poder} is your ally today, {nombre}. Your energy numbers now: {a} and {b} · color {color}.']
   },
   q3:{
     es:{
       yes:['Sí, hoy es día de arriesgar. La energía está de tu lado — si sientes el impulso, síguelo.','Tu momento es ahora, {nombre}. La fortuna premia a los valientes en días como hoy.','El día tiene fuerza. Si vas a arriesgar, hazlo hoy con confianza.'],
-      no:['Hoy juega seguro, con montos pequeños. No es día de grandes movimientos según la energía.','Mejor con prudencia, {nombre}. Guarda los grandes movimientos para cuando la energía suba.','El día pide cabeza fría. Disfruta sin arriesgar de más.']
+      no:['Hoy la energía pide calma. No es momento de movimientos grandes — reserva tu fuerza para cuando la vibración suba.','Mejor con prudencia, {nombre}. La energía de hoy favorece la pausa, no la acción impulsiva.','El día pide cabeza fría. Observa, espera, actúa cuando la energía lo pida.']
     },
     en:{
-      yes:['Yes, today is a day to take risks. The energy is on your side — if you feel the impulse, follow it.','Your moment is now, {nombre}. Fortune rewards the bold on days like today.','The day has strength. If you\'re going to risk, do it today with confidence.'],
-      no:['Play it safe today, with small amounts. Not a day for big moves according to the energy.','Better with prudence, {nombre}. Save the big moves for when the energy rises.','The day calls for a clear head. Enjoy without risking too much.']
+      yes:['Yes, today is a day to act boldly. The energy is on your side — if you feel the impulse, follow it.','Your moment is now, {nombre}. The universe rewards the bold on days like today.','The day has strength. If you\'re going to move, do it today with confidence.'],
+      no:['Today the energy calls for calm. Not the moment for big moves — save your strength for when the vibration rises.','Better with prudence, {nombre}. Today\'s energy favors the pause, not the impulsive action.','The day calls for a clear head. Observe, wait, act when the energy asks for it.']
     }
   },
   q4:{
