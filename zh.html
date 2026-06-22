@@ -423,6 +423,48 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .chance-hint{text-align:center;margin:.5rem auto 1.2rem;max-width:360px;font-size:18px;color:var(--gold2);line-height:1.55}
 .chance-hint strong{font-size:22px;color:var(--gold3);letter-spacing:.02em;display:inline-block;margin-top:.25rem}
 #chance-fields{grid-column:1/-1;margin-top:-.1rem}
+/* ─── 数字共鸣 ─── */
+.signals-result{padding:0 .5rem .5rem}
+.signals-hook{text-align:center;padding:1.5rem 1rem 1rem;margin-bottom:1.25rem}
+.signals-hook-title{font-family:'Cinzel Decorative',serif;font-size:clamp(17px,4vw,22px);color:var(--gold2);margin-bottom:.6rem;letter-spacing:.08em}
+.signals-hook-sub{font-size:17px;color:var(--muted);font-style:italic;line-height:1.7}
+.signal-card{background:var(--bg2);border:.5px solid var(--border2);border-radius:var(--rr);padding:1.4rem 1.5rem;margin-bottom:1rem;animation:fadeUp .5s ease both}
+.signal-card-num{font-family:'Cinzel Decorative',serif;font-size:36px;color:var(--gold2);text-align:center;margin-bottom:.4rem}
+.signal-card-name{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;text-align:center;margin-bottom:.85rem}
+.signal-card-text{font-size:17px;color:var(--text);line-height:1.9;font-style:italic;margin-bottom:.85rem}
+.signal-card-energy{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.85rem;justify-content:center}
+.signal-energy-pill{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);border:.5px solid rgba(201,168,76,.35);border-radius:99px;padding:4px 13px;background:rgba(201,168,76,.06)}
+.signal-card-area{font-size:16px;color:var(--muted);font-style:italic;line-height:1.7;padding-top:.6rem;border-top:.5px solid var(--border)}
+.signal-card-area strong{color:var(--gold2);font-style:normal}
+.signal-pro-hook{background:linear-gradient(135deg,rgba(124,92,191,.15),rgba(201,168,76,.07));border:.5px solid rgba(124,92,191,.35);border-radius:var(--rr);padding:1.4rem 1.5rem;text-align:center;margin:1.25rem 0 1rem}
+.signal-pro-title{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.signal-pro-text{font-size:17px;color:var(--muted);line-height:1.7;font-style:italic;margin-bottom:1rem}
+.signal-pro-text strong{color:var(--text);font-style:normal}
+.signal-dominant{background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.4);border-radius:var(--rr);padding:1.25rem 1.5rem;margin-bottom:1.25rem;text-align:center}
+.signal-dominant-label{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
+.signal-dominant-num{font-family:'Cinzel Decorative',serif;font-size:42px;color:var(--gold2);margin-bottom:.25rem}
+.signal-dominant-sub{font-size:16px;color:var(--muted);font-style:italic}
+#signals-fields{margin-top:.75rem}
+#signals-fields input{font-size:18px;letter-spacing:.05em}
+#tab-result.signals-mode #combo-title-wrap-top,
+#tab-result.signals-mode .numbers-row,
+#tab-result.signals-mode #wc-nums-hint,
+#tab-result.signals-mode #chance-hint,
+#tab-result.signals-mode .power-seal,
+#tab-result.signals-mode #duel-result-section,
+#tab-result.signals-mode .golden-section,
+#tab-result.signals-mode #pro-cta-mid,
+#tab-result.signals-mode .motors-row,
+#tab-result.signals-mode #motor-panel,
+#tab-result.signals-mode #wc-result-card,
+#tab-result.signals-mode #btn-share-main,
+#tab-result.signals-mode .share-hint,
+#tab-result.signals-mode .action-row,
+#tab-result.signals-mode .accordion-block,
+#tab-result.signals-mode .disclaimer-text,
+#tab-result.signals-mode #pro-banner-bottom,
+#tab-result.signals-mode .result-header
+{display:none!important}
 </style>
 </head>
 <body>
@@ -586,6 +628,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">今天谁会赢？比赛的宇宙解读</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
+        <div class="game-card game-card-full" data-game="signals" onclick="quickLaunch(this)"><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">某个数字一直出现。这不是巧合。</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量解读比赛胜者 · 世界杯期间免费无限</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ 填写您的个人资料以揭示您的数字</div>
@@ -613,6 +656,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
         <datalist id="wc-teams-list"></datalist>
       </div>
+      <div id="signals-fields" class="hidden">
+        <div class="field" style="margin-top:.75rem">
+          <label id="signals-label">你不断见到的是哪个数字？</label>
+          <input type="text" id="inp-signals" placeholder="例：7 · 1111 · 3 14 22" autocomplete="off" inputmode="text">
+          <div class="field-hint" id="signals-hint">✦ 写下一个或多个数字。多个数字请用空格或逗号分隔。</div>
+        </div>
+      </div>
         </div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>每日免费占卜</strong> — <span id="fn-txt">升级专业版可无限次占卜</span></div>
@@ -629,6 +679,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 
     <div class="result-screen hidden" id="tab-result">
       <div style="padding:1rem 1.5rem .25rem;text-align:center"><button onclick="goBackToForm()" style="background:rgba(201,168,76,.08);border:1px solid var(--gold);border-radius:99px;padding:12px 32px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--gold2);cursor:pointer;letter-spacing:.08em;width:100%;max-width:340px">← 新占卜</button></div>
+      <div id="signals-result" class="signals-result hidden"></div>
       <div class="result-header">
         <div class="result-for">您的组合用于</div>
         <div class="result-game" id="result-game"></div>
@@ -1227,7 +1278,7 @@ function getChinese(y){return CHINESE[(y-1900)%12]}
 function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
 function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
-const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true}};
+const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true},signals:{signals:true}};
 const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
 const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
 // ═══ MUNDIAL 2026 · CRONOGRAMA OFICIAL FIFA + RANKING FIFA (corte: 10 jun 2026) ═══
@@ -1455,6 +1506,7 @@ function selGame(el){
   const isMundial=STATE.game==='mundial';
   document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
   document.getElementById('chance-fields').classList.toggle('hidden',STATE.game!=='chance');
+  document.getElementById('signals-fields').classList.toggle('hidden',STATE.game!=='signals');
   document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
   document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
   if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
@@ -1475,6 +1527,7 @@ function selGame(el){
   try{accUpdate()}catch(e){}
 }
 function renderDuelResult(duel,name){
+  (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   const proCta=document.getElementById('pro-cta-mid');
   if(proCta) proCta.style.display='none';
@@ -1690,6 +1743,7 @@ async function generate(){
     if(!tA)return showError('error-toast',zh?T.errTeamA:'Ingresa el nombre del Equipo A');
     if(!tB)return showError('error-toast',zh?T.errTeamB:'Ingresa el nombre del Equipo B');
   }
+  if(STATE.game==='signals'){generateSignals(name,birth);return;}
   if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1&&STATE.game!=='mundial')return showError('error-toast',zh?T.errLimit:'Has alcanzado tu límite gratuito de hoy. El Mundial 2026 🏆 sigue gratis. Actualiza a Pro.');
   showTab('loading');
   const firstName=name.split(' ')[0];
@@ -1730,6 +1784,7 @@ async function generate(){
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
 
 function renderResult(r,name){
+  (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   const proCta=document.getElementById('pro-cta-mid');
   const proBannerBottom=document.getElementById('pro-banner-bottom');
@@ -1964,6 +2019,103 @@ function renderProfile(){
     if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
   })
 })();
+
+/* ─── 数字共鸣 — 解读库 ─── */
+const SIGNALS_DB_ZH={
+  0:{name:'归零',hook:'宇宙在新的开始之前向你展示"0"。这是一个周期结束、另一个尚未成形的寂静时刻。',depth:'在数字学中，0是纯粹的潜能——不是空虚，而是一切尚未诞生的可能性。它是所有数字的起点。',energy:['潜能','开始','圆满'],area:'一个新的阶段正在酝酿中。可能是在你的事业、一段关系或内心深处。'},
+  1:{name:'启动',hook:'"1"是宇宙最直接的信号：是时候行动了。如果它不断出现，说明你内心有某件事已经准备好了——即使头脑还在犹豫。',depth:'在数字学中，1是领导力、独立性和创造意志的数字。',energy:['行动','领导','新起点'],area:'有一个决定你已经推迟了很久。"1"说：就是现在。'},
+  2:{name:'和谐',hook:'"2"出现，是宇宙希望你在行动前先聆听。你的人际关系或待定决策中有某些事情需要更多关注。',depth:'在数字学中，2是二元性、耐心和直觉的数字。它要求合作先于行动。',energy:['平衡','耐心','连接'],area:'一段重要关系或决定需要你在行动前考虑两面。'},
+  3:{name:'表达',hook:'"3"到来，是因为你已经沉默了一些东西太久——一个想法、一种才华、一个真实的声音。宇宙提醒你：你有话要说。',depth:'在数字学中，3是创造力、沟通与喜悦的数字。',energy:['创造','表达','喜悦'],area:'你的创意或社交生活正在渴望更多空间。你想创造或想说的事情值得被表达出来。'},
+  4:{name:'根基',hook:'"4"不是一个温柔的信号——它是一个指令：建造。宇宙正在要求你从梦想走向结构。',depth:'在数字学中，4是秩序、纪律和持久稳定的数字。',energy:['纪律','稳定','建设'],area:'你的财务、健康或一个长期项目现在需要更坚实的基础。'},
+  5:{name:'转变',hook:'"5"出现在变化之前。它带来了你一直在回避的决定。宇宙没有在请求许可。',depth:'在数字学中，5是体系中最不安分的数字：自由、流动、不可避免的转变。',energy:['变化','自由','流动'],area:'一个过渡即将到来——或者有一个重要决定你已经搁置太久。'},
+  6:{name:'关怀',hook:'"6"出现，是宇宙希望你回到最重要的事情：你爱的人、你的平衡、你内心的世界。',depth:'在数字学中，6是爱、责任和和谐的数字。它也指向自我关怀和内在滋养。',energy:['爱','责任','和谐'],area:'家人、伴侣或自我关怀——你内心圈子里的人需要你，或者你需要他们。'},
+  7:{name:'探寻',hook:'宇宙用"7"召唤那些从不满足于表面的人。如果它出现在你的生活中，是一个邀请：去质疑你认为理所当然的事，去深入探索。',depth:'在数字学中，7是永恒的探寻者——理性、分析、深度灵性。它的陷阱：过度依赖理性，有时错失只在寂静中存在的答案。',energy:['探寻','深度','隐藏的真相'],area:'你生活中某些事情正在要求更深入的审视——一个不合理的情况，一个你一直在回避的问题。'},
+  8:{name:'圆满',hook:'"8"是能量积累与圆满的信号。当它反复出现，宇宙告诉你：你所积累的，即将完成一个完整的循环。',depth:'在中国传统中，8的形态本身象征着循环往复、生生不息——就像"∞"的竖立之形，代表持续流动的能量。在数字学中，8是积累的能量回归平衡的数字：你投入的一切，正在寻找它的归途。',energy:['圆满','积累','平衡'],area:'你的事业、内在能量或一段重要关系正处于转折点。8不是给予——它是回归。'},
+  9:{name:'圆成',hook:'"9"出现，说明某件事正走向圆满的终点——那不是失去，而是完成。宇宙正在准备你，让你放下已经完成使命的东西。',depth:'在数字学中，9是圆满与普世慈悲的数字。放下，也意味着宽恕——宽恕他人，或者宽恕自己。',energy:['圆成','慈悲','蜕变'],area:'一个阶段、一段关系或一个自我版本正在结束。放下，是下一个开始的第一步。'},
+  11:{name:'觉醒',hook:'"11"不是低语——它直接对你说话。当它跟随你，宇宙有一个紧迫的信息：多相信你的直觉，少依赖你的理性思维。',depth:'在数字学中，11是第一个主数字。它结合了1的双重能量与2的深层感受力——放大的直觉，灵性觉醒。',energy:['直觉','觉醒','灵性'],area:'你的人生使命正在被激活。在未来几天，关注你的预感和生活中的共鸣——它们是线索。'},
+  22:{name:'成就',hook:'"22"是将大梦想落地为现实最有力的数字。当它反复出现，信息是具体而紧迫的：你面前有一个重要的机会——你必须现在抓住它。',depth:'在数字学中，22将11的直觉与4的务实性结合：一个数字中同时拥有远见与结构。大师建造者。',energy:['远见','建设','传承'],area:'一个项目、一个决定、一扇门——某件看起来太大的事情正在等待你认真对待它。"22"不会敲两次门。'},
+  33:{name:'智慧',hook:'"33"是最高级别的主数字。但当它跟随你，它的信息不仅仅是你有什么可以传授——而是有一位智者正在走向你。打开你的心。',depth:'在数字学中，33将3的创造力与6的责任之爱结合，其最显著的特质是真诚的奉献。诸师之师。',energy:['慈悲','传授','提升'],area:'一个人、一本书、一段体验——某个你的生命现在需要的课程正在路上。不要因分心而错过它。'}
+};
+
+const SIGNALS_SEQ_ZH={
+  0:{text:'"000/0000"放大内在的圆满感——宇宙正在确认它对你的守护。感恩之心打开吸引更多美好的通道。'},
+  1:{text:'"111"是觉察的门户。你的意念此刻有着不同寻常的力量——关注你在心中构建的画面，因为它正在加速显现。'},
+  2:{text:'"222"是你走在正确道路上的信号，即使看起来并非如此。宇宙请你耐心与信任——某些事情正在深层展开。'},
+  3:{text:'"333"宣告灵性导师近在身旁。这是一个主动守护的信号。你所经历的，并不是独自面对。'},
+  4:{text:'"444"是体系中最令人安心的信号：你被守护着。宇宙正在你周围建立一张支持之网。你所在的地方，正是你应该在的地方。'},
+  5:{text:'"555"宣告你近期最重要的转变。不要阻止它——顺应流动。抵抗是唯一真正的障碍。'},
+  6:{text:'"666"不是黑暗的信号——而是重新平衡的提醒。宇宙在请你回归真正重要的事：真实的连接、爱与家。'},
+  7:{text:'"777"是与宇宙完美契合的信号。你走在智慧的道路上。你所寻求的答案触手可及——你只需停下来聆听。'},
+  8:{text:'"888"在体系中是能量圆满归位最有力的信号。积累的能量正在向你涌动——或即将到来。准备好接收。'},
+  9:{text:'"999"宣告一个重大周期的圆成。它可能带来痛感，感觉像是失去——但9总是先于1。关闭的，打开更大的。'}
+};
+
+function getSignalInterpZH(n){
+  const str=String(n);
+  if(str.length>=3&&str.split('').every(function(d){return d===str[0];})){
+    const digit=parseInt(str[0],10);
+    if(SIGNALS_SEQ_ZH[digit]){
+      const base=SIGNALS_DB_ZH[digit]||SIGNALS_DB_ZH[1];
+      return{isSeq:true,seqText:SIGNALS_SEQ_ZH[digit].text,name:base.name,energy:base.energy,area:base.area};
+    }
+  }
+  if(n===11||n===22||n===33){return Object.assign({},SIGNALS_DB_ZH[n]||SIGNALS_DB_ZH[1]);}
+  const reduced=numReduce(n);
+  const base=SIGNALS_DB_ZH[reduced]||SIGNALS_DB_ZH[1];
+  return Object.assign({},base,{originalN:(n!==reduced?n:null),reducedTo:reduced});
+}
+
+function buildSignalCardZH(n,interp,idx){
+  const delay=(idx*0.12).toFixed(2);
+  const energyPills=interp.energy.map(function(e){return'<div class="signal-energy-pill">'+e+'</div>';}).join('');
+  let subNote='';
+  if(!interp.isSeq&&interp.originalN!=null){
+    subNote='<div style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:var(--faint);margin-bottom:.75rem;text-align:center">'+interp.originalN+' 在数字学中归一为 <strong>'+interp.reducedTo+'</strong></div>';
+  }
+  let mainText='';
+  if(interp.isSeq){
+    mainText='<div class="signal-card-text">'+interp.seqText+'</div>';
+  }else{
+    mainText='<div class="signal-card-text">'+interp.hook+'</div><div class="signal-card-text" style="font-size:16px;margin-top:.4rem;opacity:.8">'+interp.depth+'</div>';
+  }
+  return'<div class="signal-card" style="animation-delay:'+delay+'s"><div class="signal-card-num">'+n+'</div><div class="signal-card-name">'+interp.name+'</div>'+subNote+mainText+'<div class="signal-card-energy">'+energyPills+'</div><div class="signal-card-area"><strong>现在作用的领域：</strong> '+interp.area+'</div></div>';
+}
+
+function generateSignals(name,birth){
+  const raw=document.getElementById('inp-signals').value.trim();
+  if(!raw)return showError('error-toast','请输入你不断见到的数字');
+  const parts=raw.replace(/[,;，；]/g,' ').split(/\s+/).map(function(s){return s.trim();}).filter(function(s){return/^\d+$/.test(s)&&s.length>0;});
+  if(parts.length===0)return showError('error-toast','请输入至少一个有效的数字');
+  const nums=parts.map(function(s){return parseInt(s,10);}).filter(function(n){return!isNaN(n)&&n>=0;});
+  if(nums.length===0)return showError('error-toast','请输入至少一个有效的数字');
+  const firstName=name.split(' ')[0];
+  const cards=nums.map(function(n,i){return buildSignalCardZH(n,getSignalInterpZH(n),i);}).join('');
+  let dominantHTML='';
+  if(nums.length>1){
+    const total=nums.reduce(function(a,b){return a+b;},0);
+    const reduced=numReduce(total);
+    const di=getSignalInterpZH(reduced);
+    const dsub='组合能量归一为 <strong>'+reduced+'</strong> — '+di.name;
+    dominantHTML='<div class="signal-dominant"><div class="signal-dominant-label">你的数字序列的主导能量</div><div class="signal-dominant-num">'+reduced+'</div><div class="signal-dominant-sub">'+dsub+'</div></div>';
+  }
+  let proHTML='';
+  if(typeof isPro==='function'&&!isPro()){
+    try{
+      const lp=lifePath(name,birth);
+      const pblurred='你的个人振动与这个信号之间的共鸣，激活了一种只有少数人能感知的模式。';
+      const ptext='<strong>'+firstName+'</strong>，你的生命数字是 <strong>'+lp+'</strong>。你的生命数字与你所接收的信号之间的连接，揭示了为什么这个数字一直在寻找你。<span style="filter:blur(4px);user-select:none">'+pblurred+'</span>';
+      proHTML='<div class="signal-pro-hook"><div class="signal-pro-title">✦ 这个数字不是偶然来找你的 ✦</div><div class="signal-pro-text">'+ptext+'</div><button class="btn-unlock" onclick="showTab(\'upgrade\')">解锁这个连接 → 专业版</button></div>';
+    }catch(e){}
+  }
+  const html='<div class="signals-hook"><div class="signals-hook-title">🌌 某个数字一直出现。</div><div class="signals-hook-sub">当一个数字在你的生命中反复出现，<br>那里有一条等待被解读的信息。</div></div>'+dominantHTML+cards+proHTML+'<div class="action-row" style="margin:1.25rem 0 .5rem"><button class="btn-new" onclick="newConsult()" style="flex:1">↺ 新占卜</button></div><div class="disclaimer-text">ℹ️ 数字神谕为娱乐与个人启发。</div>';
+  const sr=document.getElementById('signals-result');
+  sr.innerHTML=html;
+  sr.classList.remove('hidden');
+  const tr=document.getElementById('tab-result');
+  tr.classList.add('signals-mode');
+  showTab('result');
+  history.pushState({tab:'result'},'','');
+}
 </script>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').then(r=>console.log('[SW]',r.scope)).catch(e=>console.warn('[SW]',e));})}

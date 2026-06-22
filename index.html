@@ -439,6 +439,48 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .chance-hint{text-align:center;margin:.5rem auto 1.2rem;max-width:360px;font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold2);line-height:1.55}
 .chance-hint strong{font-size:22px;color:var(--gold3);letter-spacing:.02em;display:inline-block;margin-top:.25rem}
 #chance-fields{grid-column:1/-1;margin-top:-.1rem}
+/* ─── SINCRONÍAS ─── */
+.signals-result{padding:0 .5rem .5rem}
+.signals-hook{text-align:center;padding:1.5rem 1rem 1rem;margin-bottom:1.25rem}
+.signals-hook-title{font-family:'Cinzel Decorative',serif;font-size:clamp(17px,4vw,22px);color:var(--gold2);margin-bottom:.6rem;letter-spacing:.08em}
+.signals-hook-sub{font-size:17px;color:var(--muted);font-style:italic;line-height:1.7}
+.signal-card{background:var(--bg2);border:.5px solid var(--border2);border-radius:var(--rr);padding:1.4rem 1.5rem;margin-bottom:1rem;animation:fadeUp .5s ease both}
+.signal-card-num{font-family:'Cinzel Decorative',serif;font-size:36px;color:var(--gold2);text-align:center;margin-bottom:.4rem}
+.signal-card-name{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;text-align:center;margin-bottom:.85rem}
+.signal-card-text{font-size:17px;color:var(--text);line-height:1.9;font-style:italic;margin-bottom:.85rem}
+.signal-card-energy{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.85rem;justify-content:center}
+.signal-energy-pill{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);border:.5px solid rgba(201,168,76,.35);border-radius:99px;padding:4px 13px;background:rgba(201,168,76,.06)}
+.signal-card-area{font-size:16px;color:var(--muted);font-style:italic;line-height:1.7;padding-top:.6rem;border-top:.5px solid var(--border)}
+.signal-card-area strong{color:var(--gold2);font-style:normal}
+.signal-pro-hook{background:linear-gradient(135deg,rgba(124,92,191,.15),rgba(201,168,76,.07));border:.5px solid rgba(124,92,191,.35);border-radius:var(--rr);padding:1.4rem 1.5rem;text-align:center;margin:1.25rem 0 1rem}
+.signal-pro-title{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.signal-pro-text{font-size:17px;color:var(--muted);line-height:1.7;font-style:italic;margin-bottom:1rem}
+.signal-pro-text strong{color:var(--text);font-style:normal}
+.signal-dominant{background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.4);border-radius:var(--rr);padding:1.25rem 1.5rem;margin-bottom:1.25rem;text-align:center}
+.signal-dominant-label{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
+.signal-dominant-num{font-family:'Cinzel Decorative',serif;font-size:42px;color:var(--gold2);margin-bottom:.25rem}
+.signal-dominant-sub{font-size:16px;color:var(--muted);font-style:italic}
+#signals-fields{margin-top:.75rem}
+#signals-fields input{font-size:18px;letter-spacing:.05em}
+#tab-result.signals-mode #combo-title-wrap-top,
+#tab-result.signals-mode .numbers-row,
+#tab-result.signals-mode #wc-nums-hint,
+#tab-result.signals-mode #chance-hint,
+#tab-result.signals-mode .power-seal,
+#tab-result.signals-mode #duel-result-section,
+#tab-result.signals-mode .golden-section,
+#tab-result.signals-mode #pro-cta-mid,
+#tab-result.signals-mode .motors-row,
+#tab-result.signals-mode #motor-panel,
+#tab-result.signals-mode #wc-result-card,
+#tab-result.signals-mode #btn-share-main,
+#tab-result.signals-mode .share-hint,
+#tab-result.signals-mode .action-row,
+#tab-result.signals-mode .accordion-block,
+#tab-result.signals-mode .disclaimer-text,
+#tab-result.signals-mode #pro-banner-bottom,
+#tab-result.signals-mode .result-header
+{display:none!important}
 </style>
 </head>
 <body>
@@ -602,6 +644,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
+        <div class="game-card game-card-full" data-game="signals" onclick="quickLaunch(this)"><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
@@ -629,6 +672,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
         <datalist id="wc-teams-list"></datalist>
       </div>
+      <div id="signals-fields" class="hidden">
+        <div class="field" style="margin-top:.75rem">
+          <label id="signals-label">¿Qué número no puedes dejar de ver?</label>
+          <input type="text" id="inp-signals" placeholder="Ej: 7  ·  1111  ·  3 14 22" autocomplete="off" inputmode="text">
+          <div class="field-hint" id="signals-hint">✦ Escribe uno o varios números. Si son varios, sepáralos con espacio o coma.</div>
+        </div>
+      </div>
         </div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
@@ -645,6 +695,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 
     <div class="result-screen hidden" id="tab-result">
       <div style="padding:1rem 1.5rem .25rem;text-align:center"><button onclick="goBackToForm()" style="background:rgba(201,168,76,.08);border:1px solid var(--gold);border-radius:99px;padding:12px 32px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--gold2);cursor:pointer;letter-spacing:.08em;width:100%;max-width:340px">← Nueva consulta</button></div>
+      <div id="signals-result" class="signals-result hidden"></div>
       <div class="result-header">
         <div class="result-for">Tu combinación para</div>
         <div class="result-game" id="result-game"></div>
@@ -946,7 +997,7 @@ function getChinese(y){return CHINESE[(y-1900)%12]}
 function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
 function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
-const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true}};
+const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true},signals:{signals:true}};
 const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
 const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
 // ═══ MUNDIAL 2026 · CRONOGRAMA OFICIAL FIFA + RANKING FIFA (corte: 10 jun 2026) ═══
@@ -1174,6 +1225,7 @@ function selGame(el){
   const isMundial=STATE.game==='mundial';
   document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
   document.getElementById('chance-fields').classList.toggle('hidden',STATE.game!=='chance');
+  document.getElementById('signals-fields').classList.toggle('hidden',STATE.game!=='signals');
   document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
   document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
   if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
@@ -1194,6 +1246,7 @@ function selGame(el){
   try{accUpdate()}catch(e){}
 }
 function renderDuelResult(duel,name){
+  (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   const proCta=document.getElementById('pro-cta-mid');
   if(proCta) proCta.style.display='none';
@@ -1409,6 +1462,7 @@ async function generate(){
     if(!tA)return showError('error-toast',L('Ingresa el nombre del Equipo A','Enter the name of Team A'));
     if(!tB)return showError('error-toast',L('Ingresa el nombre del Equipo B','Enter the name of Team B'));
   }
+  if(STATE.game==='signals'){generateSignals(name,birth);return;}
   if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1&&STATE.game!=='mundial')return showError('error-toast',L('Has alcanzado tu límite gratuito de hoy. El Mundial 2026 🏆 sigue gratis. Actualiza a Pro para ilimitadas.','You have reached your free limit for today. World Cup 2026 🏆 is still free. Upgrade to Pro for unlimited.'));
   showTab('loading');
   const firstName=name.split(' ')[0];
@@ -1456,6 +1510,7 @@ async function generate(){
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
 
 function renderResult(r,name){
+  (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   // Mostrar/ocultar CTA Pro según plan
   const proCta=document.getElementById('pro-cta-mid');
@@ -1657,6 +1712,11 @@ const UI_EN=[
 ['.game-card[data-game="sports"] .gl','Sports'],
 ['.game-card[data-game="sports"] .gd','Who wins today? Cosmic match prediction'],
 ['.game-card[data-game="sports"] .pro-preview','"The home team\'s numeric energy outshines the visitor in vibration today..."'],
+['.game-card[data-game="signals"] .gl','Synchronies'],
+['.game-card[data-game="signals"] .gd','A number is following you. It\'s not a coincidence.'],
+['#signals-label','What number can\'t you stop seeing?'],
+['#inp-signals','Eg: 7  ·  1111  ·  3 14 22','ph'],
+['#signals-hint','✦ Write one or more numbers. Separate them with a space or comma.'],
 ['.game-card[data-game="mundial"] .gl','World Cup 2026'],
 ['.game-grid .game-card[data-game="mundial"] .gd','Predict who wins the match with cosmic energy · Free & unlimited during the tournament'],
 ['.game-card[data-game="mundial"] .free-badge','✦ FREE'],
@@ -1760,8 +1820,8 @@ function applyStaticLang(l){
   try{if(typeof populateWcMatches==='function'&&STATE.game==='mundial')populateWcMatches()}catch(e){}
 }
 const I18N_NEW={
-es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Env\u00edaselos a alguien que necesite suerte hoy \ud83c\udf40',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026'}},
-en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Send them to someone who needs luck today \ud83c\udf40',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{lottery:'Numbers of the Day',chance:'Pulse of the Moment',casino:'Destiny Numbers',sports:'Sports Numbers',mundial:'World Cup 2026'}},
+es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Env\u00edaselos a alguien que necesite suerte hoy \ud83c\udf40',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026',signals:'Sincron\u00edas'}},
+en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Send them to someone who needs luck today \ud83c\udf40',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{lottery:'Numbers of the Day',chance:'Pulse of the Moment',casino:'Destiny Numbers',sports:'Sports Numbers',mundial:'World Cup 2026',signals:'Synchronies'}},
 zh:{unlockT:'\u2726 \u60a8\u7684\u89e3\u8bfb\u7ed3\u5c3e\u5df2\u88ab\u5c01\u5370 \u2726',unlockBtn:'\u7528 Pro \u89e3\u9501 \u2192',renew:'\u2726 \u5b87\u5b99\u5c06\u5728{h}\u5c0f\u65f6{m}\u5206\u540e\u66f4\u65b0\u60a8\u7684\u6570\u5b57 \u2726',shareBtn:'\u2726 \u5206\u4eab\u6211\u7684\u6570\u5b57 \u2726',shareHint:'\u9001\u7ed9\u4eca\u5929\u9700\u8981\u597d\u8fd0\u7684\u4eba \ud83c\udf40',pwaTitle:'\u2726 \u968f\u8eab\u643a\u5e26\u60a8\u7684\u795e\u8c15 \u2726',pwaSub:'\u5c06 NUMBERS \u5b89\u88c5\u5230\u4e3b\u5c4f\u5e55\u3002\u514d\u8d39\uff0c\u65e0\u9700\u5e94\u7528\u5546\u5e97\u3002',pwaIos:'\u70b9\u6309 Safari \u5e95\u90e8\u7684<strong>\u5206\u4eab</strong>\uff0c\u7136\u540e\u9009\u62e9<strong>\u300c\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\u300d</strong>',pwaBtn:'\u5b89\u88c5',shTitle:'\u6211\u7684\u5b87\u5b99\u7ec4\u5408 \u2014 \u6570\u5b57\u795e\u8c15',shGold:'\u6570\u5b57\u795e\u8c15\u63ed\u793a\u4e86\u6211\u7684\u9ec4\u91d1\u6570\u5b57',shCombo:'\u6211\u7684\u7ec4\u5408\uff1a',shCta:'\u514d\u8d39\u83b7\u53d6\u60a8\u7684\u4e13\u5c5e\u6570\u5b57',waLine:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u4eca\u5929\u53ea\u4e3a\u6211\u5bf9\u9f50\u3002',cvHdr:'NUMBERS  \u2726  \u6570\u5b57\u795e\u8c15',cvGold:'\u9ec4\u91d1\u6570\u5b57',cvTag:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u6c47\u805a\u63ed\u793a\u6b64\u7ec4\u5408  \u2726  numbersoracle.com',cvFoot:'\u5a31\u4e50 \u00b7 \u4e2a\u4eba\u7075\u611f \u00b7 \u81ea\u6211\u8ba4\u77e5',games:{lottery:'\u4eca\u65e5\u6570\u5b57',chance:'\u6b64\u523b\u8109\u52a8',casino:'\u547d\u8fd0\u6570\u5b57',sports:'\u4f53\u80b2\u6570\u5b57',mundial:'2026\u4e16\u754c\u676f'}}};
 function applyShareI18n(){const t=I18N_NEW[uiLang()];const b=document.getElementById('btn-share-main');if(b)b.textContent=t.shareBtn;const h=document.getElementById('share-hint');if(h)h.textContent=t.shareHint;updateRenewCountdown();}
 function updateRenewCountdown(){
@@ -2024,6 +2084,152 @@ function renderProfile(){if(!STATE.profile)return;document.getElementById('profi
     if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
   })
 })();
+
+/* ─── SINCRONÍAS — banco de interpretaciones ─── */
+const SIGNALS_DB={
+es:{
+  0:{name:'El Umbral',hook:'El universo te muestra el 0 justo antes de que algo nuevo comience. Es el silencio entre un ciclo que cierra y otro que todavía no tiene forma.',depth:'En numerología, el 0 es el potencial puro — no es vacío, es todo lo que aún no ha nacido.',energy:['Potencial','Inicio','Totalidad'],area:'Un nuevo ciclo se está gestando. Puede ser en tu carrera, en una relación, o en tu interior.'},
+  1:{name:'La Chispa',hook:'El 1 es la señal más directa del universo: es hora de actuar. Si no para de aparecer, algo en ti ya está listo para comenzar — aunque la mente todavía dude.',depth:'En numerología, es el número del liderazgo, la independencia y la voluntad creadora.',energy:['Acción','Liderazgo','Nuevo comienzo'],area:'Hay una decisión que llevas tiempo posponiendo. El 1 dice: es ahora.'},
+  2:{name:'El Espejo',hook:'El 2 aparece cuando el universo quiere que escuches antes de actuar. Hay algo en tus relaciones o en tus decisiones pendientes que necesita más atención.',depth:'En numerología, es el número de la dualidad, la paciencia y la intuición. Pide cooperación antes que acción.',energy:['Equilibrio','Paciencia','Conexión'],area:'Una relación o decisión importante requiere que consideres ambas partes antes de moverte.'},
+  3:{name:'La Voz',hook:'El 3 llega cuando llevas tiempo callando algo — una idea, un talento, una verdad. El universo te está recordando que tienes algo que expresar.',depth:'En numerología, es el número de la creatividad, la comunicación y la alegría.',energy:['Creatividad','Expresión','Alegría'],area:'Tu vida creativa o social pide más espacio. Algo que has querido crear o decir merece salir.'},
+  4:{name:'Los Cimientos',hook:'El 4 no es una señal suave — es una instrucción: construye. El universo te está pidiendo que pases de los sueños a la estructura.',depth:'En numerología, es el número del orden, la disciplina y la estabilidad duradera.',energy:['Disciplina','Estabilidad','Construcción'],area:'Tu economía, tu salud o un proyecto a largo plazo necesitan una base más sólida ahora.'},
+  5:{name:'El Viento',hook:'El 5 aparece justo antes de un cambio. Y trae consigo una decisión que has estado evitando. El universo no te está pidiendo permiso.',depth:'En numerología, es el número más inquieto del sistema: libertad, movimiento, transformación inevitable.',energy:['Cambio','Libertad','Movimiento'],area:'Una transición está cerca — o hay una decisión importante que llevas tiempo postergando.'},
+  6:{name:'El Hogar',hook:'El 6 aparece cuando el universo quiere que vuelvas a lo que más importa: las personas que amas, tu equilibrio, tu mundo íntimo.',depth:'En numerología, es el número del amor, la responsabilidad y la armonía. También señala el autocuidado.',energy:['Amor','Responsabilidad','Armonía'],area:'Familia, pareja o cuidado propio — alguien en tu círculo íntimo te necesita, o tú los necesitas a ellos.'},
+  7:{name:'El Buscador',hook:'El universo usa el 7 para llamar al que nunca acepta la superficie. Si aparece en tu vida, es una invitación a cuestionar lo que dabas por sentado e ir más profundo.',depth:'En numerología, el 7 es el eterno buscador de la verdad oculta — intelectual, analítico, profundamente espiritual. Su trampa: confiar tanto en la razón que a veces pierde la respuesta que solo existe en el silencio.',energy:['Búsqueda','Profundidad','Verdad oculta'],area:'Algo en tu vida pide ser investigado más a fondo — una situación que no cuadra, una pregunta que llevas tiempo evitando.'},
+  8:{name:'El Poder',hook:'El 8 es la señal de abundancia y poder — pero no regalada, ganada. Cuando aparece, el universo te está diciendo que el ciclo de recompensa está activándose.',depth:'En numerología, el 8 es karma material en su forma más pura: lo que has construido, lo que has dado, lo que has sostenido — todo está a punto de completar su vuelta.',energy:['Abundancia','Poder','Karma'],area:'Tu economía, tu carrera o tu autoridad personal están en un punto de inflexión. El 8 no regala — recompensa.'},
+  9:{name:'La Liberación',hook:'El 9 aparece cuando algo está llegando a su fin — y eso no es pérdida, es liberación. El universo te está preparando para soltar lo que ya cumplió su ciclo.',depth:'En numerología, es el número de la culminación y la compasión universal. Soltar también implica perdonar — a otros o a ti mismo.',energy:['Cierre','Compasión','Transformación'],area:'Una etapa, una relación, o una versión de ti está terminando. Soltar es el primer paso del siguiente comienzo.'},
+  11:{name:'La Iluminación',hook:'El 11 no susurra — habla directamente. Es el número de alta vibración más reconocible del sistema, y cuando te sigue, el universo tiene un mensaje urgente: confía más en tu intuición y menos en tu mente racional.',depth:'En numerología, el 11 es el primero de los números maestros. Combina la energía doble del 1 con la sensibilidad profunda del 2 — intuición amplificada, despertar espiritual.',energy:['Intuición','Iluminación','Despertar'],area:'Tu propósito de vida está siendo activado. Presta atención a tus corazonadas y sincronías en los próximos días.'},
+  22:{name:'El Arquitecto',hook:'El 22 es el número más poderoso para materializar sueños grandes. Y cuando aparece repetidamente, el mensaje es específico y urgente: hay una oportunidad grande frente a ti — y tienes que tomarla ahora.',depth:'En numerología, el 22 combina la intuición del 11 con la practicidad del 4: visión y estructura en un solo número. El Maestro Constructor.',energy:['Visión','Construcción','Legado'],area:'Un proyecto, una decisión, una puerta — algo que parece demasiado grande está esperando que lo tomes en serio. El 22 no vuelve a tocar dos veces.'},
+  33:{name:'El Maestro',hook:'El 33 es el más elevado de los números maestros. Pero su mensaje cuando te sigue no es solo que tú tengas algo que enseñar — es que hay un maestro llegando a ti. Abre tu mente.',depth:'En numerología, el 33 combina la creatividad del 3 con el amor responsable del 6. Su rasgo más distintivo: la devoción sincera. El Maestro de Maestros.',energy:['Compasión','Enseñanza','Elevación'],area:'Una persona, un libro, una experiencia — algo está en camino con una lección que tu vida necesita ahora. No lo dejes pasar.'}
+},
+en:{
+  0:{name:'The Threshold',hook:'The universe shows you 0 just before something new begins. It is the silence between a cycle that closes and another that has not yet taken shape.',depth:'In numerology, 0 is pure potential — not emptiness, but everything that has not yet been born.',energy:['Potential','Beginning','Wholeness'],area:'A new cycle is forming. It may be in your career, a relationship, or within yourself.'},
+  1:{name:'The Spark',hook:'The 1 is the most direct signal the universe sends: it is time to act. If it keeps appearing, something in you is already ready to begin — even if your mind still doubts.',depth:'In numerology, it is the number of leadership, independence, and creative will.',energy:['Action','Leadership','New beginning'],area:'There is a decision you have been postponing. The 1 says: now is the time.'},
+  2:{name:'The Mirror',hook:'The 2 appears when the universe wants you to listen before acting. Something in your relationships or pending decisions needs more attention.',depth:'In numerology, it is the number of duality, patience, and intuition. It asks for cooperation before action.',energy:['Balance','Patience','Connection'],area:'An important relationship or decision requires you to consider both sides before moving.'},
+  3:{name:'The Voice',hook:'The 3 arrives when you have been silencing something — an idea, a talent, a truth. The universe is reminding you that you have something to express.',depth:'In numerology, it is the number of creativity, communication, and joy.',energy:['Creativity','Expression','Joy'],area:'Your creative or social life is asking for more space. Something you have wanted to create or say deserves to come out.'},
+  4:{name:'The Foundation',hook:'The 4 is not a gentle signal — it is an instruction: build. The universe is asking you to move from dreams to structure.',depth:'In numerology, it is the number of order, discipline, and lasting stability.',energy:['Discipline','Stability','Construction'],area:'Your finances, your health, or a long-term project need a stronger foundation now.'},
+  5:{name:'The Wind',hook:'The 5 appears just before a change. And it brings with it a decision you have been avoiding. The universe is not asking for permission.',depth:'In numerology, it is the most restless number in the system: freedom, movement, inevitable transformation.',energy:['Change','Freedom','Movement'],area:'A transition is near — or there is an important decision you have been putting off.'},
+  6:{name:'The Home',hook:'The 6 appears when the universe wants you to return to what matters most: the people you love, your balance, your intimate world.',depth:'In numerology, it is the number of love, responsibility, and harmony. It also points to self-care.',energy:['Love','Responsibility','Harmony'],area:'Family, partner, or self-care — someone in your inner circle needs you, or you need them.'},
+  7:{name:'The Seeker',hook:'The universe uses the 7 to call on those who never accept the surface. If it appears in your life, it is an invitation to question what you took for granted and go deeper.',depth:'In numerology, the 7 is the eternal seeker of hidden truth — intellectual, analytical, deeply spiritual. Its trap: trusting reason so much that it sometimes misses the answer that exists only in silence.',energy:['Seeking','Depth','Hidden truth'],area:'Something in your life is asking to be investigated more deeply — a situation that does not add up, a question you have been avoiding.'},
+  8:{name:'The Power',hook:'The 8 is the signal of abundance and power — not given, but earned. When it appears, the universe is telling you that the cycle of reward is activating.',depth:'In numerology, the 8 is material karma in its purest form: what you have built, what you have given, what you have sustained — all of it is about to complete its return.',energy:['Abundance','Power','Karma'],area:'Your finances, career, or personal authority are at a tipping point. The 8 does not give — it rewards.'},
+  9:{name:'The Liberation',hook:'The 9 appears when something is coming to an end — and that is not loss, it is liberation. The universe is preparing you to release what has already completed its cycle.',depth:'In numerology, it is the number of culmination and universal compassion. Letting go also means forgiving — others or yourself.',energy:['Closure','Compassion','Transformation'],area:'A stage, a relationship, or a version of yourself is ending. Letting go is the first step of what comes next.'},
+  11:{name:'The Illumination',hook:'The 11 does not whisper — it speaks directly. It is the most recognizable high-vibration number in the system, and when it follows you, the universe has an urgent message: trust your intuition more and your rational mind less.',depth:'In numerology, the 11 is the first Master Number. It combines the doubled energy of the 1 with the deep sensitivity of the 2 — amplified intuition, spiritual awakening.',energy:['Intuition','Illumination','Awakening'],area:'Your life purpose is being activated. Pay attention to your hunches and synchronicities in the coming days.'},
+  22:{name:'The Architect',hook:'The 22 is the most powerful number for materializing big dreams. And when it appears repeatedly, the message is specific and urgent: there is a great opportunity in front of you — and you need to seize it now.',depth:'In numerology, the 22 combines the intuition of the 11 with the practicality of the 4: vision and structure in one number. The Master Builder.',energy:['Vision','Construction','Legacy'],area:'A project, a decision, a door — something that seems too big is waiting for you to take it seriously. The 22 does not knock twice.'},
+  33:{name:'The Master',hook:'The 33 is the highest of the Master Numbers. But its message when it follows you is not just that you have something to teach — it is that a teacher is coming to you. Open your mind.',depth:'In numerology, the 33 combines the creativity of the 3 with the responsible love of the 6. Its most distinctive trait: sincere devotion. The Master of Masters.',energy:['Compassion','Teaching','Elevation'],area:'A person, a book, an experience — something is on its way with a lesson your life needs now. Do not let it pass by unnoticed.'}
+}};
+
+const SIGNALS_SEQ={
+es:{
+  0:{text:'El 0 repetido amplifica la gracia divina — el universo está confirmando su protección sobre ti. La gratitud abre los canales que atraen aún más.'},
+  1:{text:'El 111 es la puerta de la manifestación. Tus pensamientos tienen un poder inusual ahora — cuida lo que visualizas, porque se está acelerando.'},
+  2:{text:'El 222 es la señal de que estás en el camino correcto, aunque no lo parezca. El universo te pide paciencia y confianza — algo se está desarrollando en el fondo.'},
+  3:{text:'El 333 anuncia que los maestros espirituales están cerca. Es una señal de protección activa. Lo que estás atravesando, no lo estás atravesando solo.'},
+  4:{text:'El 444 es la señal más reconfortante del sistema: eres protegido. El universo está construyendo una red de soporte a tu alrededor. Estás exactamente donde debes estar.'},
+  5:{text:'El 555 anuncia el cambio más importante de tu etapa reciente. No lo frenes — fluye con él. La resistencia es el único obstáculo real.'},
+  6:{text:'El 666 no es una señal oscura — es un recordatorio de reequilibrio. El universo te está pidiendo que vuelvas a lo que importa de verdad: las conexiones reales, el amor, el hogar.'},
+  7:{text:'El 777 es la señal de alineación perfecta con el universo. Estás en el camino de la sabiduría. Las respuestas que buscas están disponibles — solo tienes que detenerte a escuchar.'},
+  8:{text:'El 888 es la señal más poderosa de prosperidad del sistema. La abundancia está fluyendo hacia ti — o está a punto de hacerlo. Prepárate para recibirla.'},
+  9:{text:'El 999 anuncia el cierre de un ciclo mayor. Puede doler, puede sentirse como pérdida — pero el 9 siempre antecede al 1. Lo que cierra, abre algo más grande.'}
+},
+en:{
+  0:{text:'Repeated 0 amplifies divine grace — the universe is confirming its protection over you. Gratitude opens the channels that attract even more.'},
+  1:{text:'The 111 is the manifestation portal. Your thoughts have unusual power right now — watch what you visualize, because it is accelerating.'},
+  2:{text:'The 222 is the signal that you are on the right path, even if it does not seem so. The universe is asking for patience and trust — something is developing beneath the surface.'},
+  3:{text:'The 333 announces that spiritual masters are near. It is a signal of active protection. What you are going through, you are not going through alone.'},
+  4:{text:'The 444 is the most reassuring signal in the system: you are protected. The universe is building a support network around you. You are exactly where you need to be.'},
+  5:{text:'The 555 announces the most important change of your recent phase. Do not hold it back — flow with it. Resistance is the only real obstacle.'},
+  6:{text:'The 666 is not a dark signal — it is a reminder to rebalance. The universe is asking you to return to what truly matters: real connections, love, and home.'},
+  7:{text:'The 777 is the signal of perfect alignment with the universe. You are on the path of wisdom. The answers you seek are available — you just need to stop and listen.'},
+  8:{text:'The 888 is the most powerful prosperity signal in the system. Abundance is flowing toward you — or is about to. Prepare to receive it.'},
+  9:{text:'The 999 announces the closing of a major cycle. It may hurt, it may feel like loss — but 9 always precedes 1. What closes, opens something greater.'}
+}};
+
+function getSignalInterp(n,lang){
+  const db=SIGNALS_DB[lang]||SIGNALS_DB.es;
+  const str=String(n);
+  // Repeating sequence: 3+ digits all the same (111, 222, 333, 444, 555, 666, 777, 888, 999, 1111...)
+  if(str.length>=3&&str.split('').every(function(d){return d===str[0];})){
+    const digit=parseInt(str[0],10);
+    const seqDb=SIGNALS_SEQ[lang]||SIGNALS_SEQ.es;
+    if(seqDb[digit]){
+      const base=db[digit]||db[1];
+      return{isSeq:true,seqText:seqDb[digit].text,name:base.name,energy:base.energy,area:base.area};
+    }
+  }
+  // Master numbers: return as-is
+  if(n===11||n===22||n===33){return Object.assign({},db[n]||db[1]);}
+  // Any other number: reduce to single digit
+  const reduced=numReduce(n);
+  const base=db[reduced]||db[1];
+  return Object.assign({},base,{originalN:(n!==reduced?n:null),reducedTo:reduced});
+}
+
+function buildSignalCard(n,interp,idx,lang){
+  const delay=(idx*0.12).toFixed(2);
+  const energyPills=interp.energy.map(function(e){return'<div class="signal-energy-pill">'+e+'</div>';}).join('');
+  let subNote='';
+  if(!interp.isSeq&&interp.originalN!=null){
+    const noteText=lang==='en'?('The '+interp.originalN+' reduces numerologically to the <strong>'+interp.reducedTo+'</strong>.'):('El '+interp.originalN+' se reduce numerológicamente al <strong>'+interp.reducedTo+'</strong>.');
+    subNote='<div style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:var(--faint);margin-bottom:.75rem;text-align:center">'+noteText+'</div>';
+  }
+  let mainText='';
+  if(interp.isSeq){
+    mainText='<div class="signal-card-text">'+interp.seqText+'</div>';
+  }else{
+    mainText='<div class="signal-card-text">'+interp.hook+'</div><div class="signal-card-text" style="font-size:16px;margin-top:.4rem;opacity:.8">'+interp.depth+'</div>';
+  }
+  const whereLabel=lang==='en'?'Where it acts now:':'Dónde actúa ahora:';
+  return'<div class="signal-card" style="animation-delay:'+delay+'s"><div class="signal-card-num">'+n+'</div><div class="signal-card-name">'+interp.name+'</div>'+subNote+mainText+'<div class="signal-card-energy">'+energyPills+'</div><div class="signal-card-area"><strong>'+whereLabel+'</strong> '+interp.area+'</div></div>';
+}
+
+function generateSignals(name,birth){
+  const raw=document.getElementById('inp-signals').value.trim();
+  if(!raw)return showError('error-toast',L('Ingresa el número o números que no puedes dejar de ver','Enter the number or numbers you can\'t stop seeing'));
+  const parts=raw.replace(/[,;]/g,' ').split(/\s+/).map(function(s){return s.trim();}).filter(function(s){return/^\d+$/.test(s)&&s.length>0;});
+  if(parts.length===0)return showError('error-toast',L('Ingresa al menos un número válido','Enter at least one valid number'));
+  const nums=parts.map(function(s){return parseInt(s,10);}).filter(function(n){return!isNaN(n)&&n>=0;});
+  if(nums.length===0)return showError('error-toast',L('Ingresa al menos un número válido','Enter at least one valid number'));
+  const lang=uiLang();
+  const firstName=name.split(' ')[0];
+  // Individual cards
+  const cards=nums.map(function(n,i){return buildSignalCard(n,getSignalInterp(n,lang),i,lang);}).join('');
+  // Dominant number (multiple entries: reduce sum)
+  let dominantHTML='';
+  if(nums.length>1){
+    const total=nums.reduce(function(a,b){return a+b;},0);
+    const reduced=numReduce(total);
+    const di=getSignalInterp(reduced,lang);
+    const dlabel=lang==='en'?'The directing number of your sequence':'El número que dirige la secuencia';
+    const dsub=lang==='en'?('Combined energy reduces to the <strong>'+reduced+'</strong> — '+di.name):('La energía combinada reduce al <strong>'+reduced+'</strong> — '+di.name);
+    dominantHTML='<div class="signal-dominant"><div class="signal-dominant-label">'+dlabel+'</div><div class="signal-dominant-num">'+reduced+'</div><div class="signal-dominant-sub">'+dsub+'</div></div>';
+  }
+  // Pro hook (personalized with life number)
+  let proHTML='';
+  if(typeof isPro==='function'&&!isPro()){
+    try{
+      const lp=lifePath(name,birth);
+      const ptitle=lang==='en'?'This number didn\'t come for just anyone — it came for you':'Este número no llegó a cualquiera — llegó a ti';
+      const pblurred=lang==='en'?'The resonance between your personal vibration and this signal activates a pattern only a few can perceive.':'La resonancia entre tu vibración personal y esta señal activa un patrón que pocos pueden percibir.';
+      const ptext=lang==='en'?('<strong>'+firstName+'</strong>, your life number is <strong>'+lp+'</strong>. The connection between your life number and the signal you are receiving reveals exactly why this number keeps finding you. <span style="filter:blur(4px);user-select:none">'+pblurred+'</span>'):('<strong>'+firstName+'</strong>, tu número de vida es el <strong>'+lp+'</strong>. La conexión entre tu número de vida y la señal que estás recibiendo revela exactamente por qué este número te sigue encontrando. <span style="filter:blur(4px);user-select:none">'+pblurred+'</span>');
+      const pbtn=lang==='en'?'Unlock this connection → Pro':'Descubrir esta conexión → Pro';
+      proHTML='<div class="signal-pro-hook"><div class="signal-pro-title">✦ '+ptitle+' ✦</div><div class="signal-pro-text">'+ptext+'</div><button class="btn-unlock" onclick="showTab(\'upgrade\')">'+pbtn+'</button></div>';
+    }catch(e){}
+  }
+  // Header
+  const hookTitle=lang==='en'?'A number is following you.':'Un número te sigue.';
+  const hookSub=lang==='en'?'When a number appears again and again in your life,<br>there is a message waiting to be read.':'Cuando un número aparece una y otra vez en tu vida,<br>hay un mensaje esperando ser leído.';
+  const newLabel=lang==='en'?'New reading':'Nueva consulta';
+  const disclaim=lang==='en'?'ℹ️ Numbers is entertainment and personal inspiration.':'ℹ️ Numbers es entretenimiento e inspiración personal.';
+  const html='<div class="signals-hook"><div class="signals-hook-title">🌌 '+hookTitle+'</div><div class="signals-hook-sub">'+hookSub+'</div></div>'+dominantHTML+cards+proHTML+'<div class="action-row" style="margin:1.25rem 0 .5rem"><button class="btn-new" onclick="newConsult()" style="flex:1">↺ '+newLabel+'</button></div><div class="disclaimer-text">'+disclaim+'</div>';
+  // Show signals result
+  const sr=document.getElementById('signals-result');
+  sr.innerHTML=html;
+  sr.classList.remove('hidden');
+  const tr=document.getElementById('tab-result');
+  tr.classList.add('signals-mode');
+  showTab('result');
+  history.pushState({tab:'result'},'','');
+}
 </script>
 <!-- Aplicar idioma detectado (en). ES es el predeterminado; zh ya redirigió en <head>. -->
 <script>
