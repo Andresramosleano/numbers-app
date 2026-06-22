@@ -661,25 +661,25 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div id="duel-fields" class="hidden">
         <!-- Selector de deporte (solo para modo Deportes, no Mundial) -->
         <div id="sport-selector-wrap" class="hidden">
-          <div class="duel-fields-intro">🏆 Selecciona el deporte y los dos rivales</div>
+          <div class="duel-fields-intro">🏆 选择运动项目与两支队伍</div>
           <div class="sport-selector" id="sport-selector">
-            <div class="sport-chip sel" data-sport="football" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚽ Fútbol</div>
-            <div class="sport-chip" data-sport="basketball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏀 Básquet</div>
-            <div class="sport-chip" data-sport="tennis" data-label-a="🔵 Jugador A" data-label-b="🔴 Jugador B" onclick="selSport(this)">🎾 Tenis</div>
-            <div class="sport-chip" data-sport="baseball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚾ Béisbol</div>
-            <div class="sport-chip" data-sport="volleyball" data-label-a="🔵 Equipo A" data-label-b="🔴 Equipo B" onclick="selSport(this)">🏐 Voleibol</div>
-            <div class="sport-chip" data-sport="boxing" data-label-a="🔵 Boxeador A" data-label-b="🔴 Boxeador B" onclick="selSport(this)">🥊 Boxeo</div>
-            <div class="sport-chip" data-sport="americanfootball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏈 F. Americano</div>
-            <div class="sport-chip" data-sport="other" data-label-a="🔵 Opción A" data-label-b="🔴 Opción B" onclick="selSport(this)">🏆 Otro</div>
+            <div class="sport-chip sel" data-sport="football" data-label-a="🔵 主场队伍" data-label-b="🔴 客场队伍" onclick="selSport(this)">⚽ 足球</div>
+            <div class="sport-chip" data-sport="basketball" data-label-a="🔵 主场队伍" data-label-b="🔴 客场队伍" onclick="selSport(this)">🏀 篮球</div>
+            <div class="sport-chip" data-sport="tennis" data-label-a="🔵 选手 A" data-label-b="🔴 选手 B" onclick="selSport(this)">🎾 网球</div>
+            <div class="sport-chip" data-sport="baseball" data-label-a="🔵 主场队伍" data-label-b="🔴 客场队伍" onclick="selSport(this)">⚾ 棒球</div>
+            <div class="sport-chip" data-sport="volleyball" data-label-a="🔵 队伍 A" data-label-b="🔴 队伍 B" onclick="selSport(this)">🏐 排球</div>
+            <div class="sport-chip" data-sport="boxing" data-label-a="🔵 拳手 A" data-label-b="🔴 拳手 B" onclick="selSport(this)">🥊 拳击</div>
+            <div class="sport-chip" data-sport="americanfootball" data-label-a="🔵 主场队伍" data-label-b="🔴 客场队伍" onclick="selSport(this)">🏈 橄榄球</div>
+            <div class="sport-chip" data-sport="other" data-label-a="🔵 选项 A" data-label-b="🔴 选项 B" onclick="selSport(this)">🏆 其他</div>
           </div>
         </div>
         <!-- Intro para Mundial -->
         <div id="mundial-duel-intro" class="hidden">
-          <div class="duel-fields-intro">🏆 Elige los dos equipos del partido a predecir</div>
-          <div class="field" style="margin-top:.5rem"><label id="wc-match-label">📅 Partido oficial — Cronograma FIFA</label><select id="wc-match-select" onchange="selWcMatch()"></select><div class="field-hint" id="wc-match-hint">✦ La fecha y la sede del partido alimentan los 5 motores</div></div>
+          <div class="duel-fields-intro">🏆 选择世界杯赛程中的两支队伍</div>
+          <div class="field" style="margin-top:.5rem"><label id="wc-match-label">📅 官方赛程 — FIFA 世界杯</label><select id="wc-match-select" onchange="selWcMatch()"></select><div class="field-hint" id="wc-match-hint">✦ 比赛日期与赛场地能将融入五大引擎的推算</div></div>
         </div>
-        <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
-        <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
+        <div class="field"><label id="label-team-a">🔵 主场队伍</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="例：阿根廷、巴西、皇马..."></div>
+        <div class="field"><label id="label-team-b">🔴 客场队伍</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="例：法国、德国、巴萨..."></div>
         <datalist id="wc-teams-list"></datalist>
       </div>
       <div id="signals-fields" class="hidden">
@@ -1513,8 +1513,8 @@ function selSport(el){
   el.classList.add('sel');
   STATE.sport=el.dataset.sport;
   // Update team labels dynamically
-  document.getElementById('label-team-a').textContent=el.dataset.labelA||'🔵 Equipo A / Local';
-  document.getElementById('label-team-b').textContent=el.dataset.labelB||'🔴 Equipo B / Visitante';
+  document.getElementById('label-team-a').textContent=el.dataset.labelA||'🔵 主场队伍';
+  document.getElementById('label-team-b').textContent=el.dataset.labelB||'🔴 客场队伍';
   // Clear team inputs when sport changes
   document.getElementById('inp-team-a').value='';
   document.getElementById('inp-team-b').value='';
@@ -1537,10 +1537,10 @@ function selGame(el){
   if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
   // Reset labels for mundial
   if(isMundial){
-    document.getElementById('label-team-a').textContent='🔵 Equipo A / Local';
-    document.getElementById('label-team-b').textContent='🔴 Equipo B / Visitante';
-    document.getElementById('inp-team-a').placeholder='Ej: Argentina, Brasil, México...';
-    document.getElementById('inp-team-b').placeholder='Ej: Francia, España, Alemania...';
+    document.getElementById('label-team-a').textContent='🔵 主场队伍';
+    document.getElementById('label-team-b').textContent='🔴 客场队伍';
+    document.getElementById('inp-team-a').placeholder='例：阿根廷、巴西、墨西哥...';
+    document.getElementById('inp-team-b').placeholder='例：法国、西班牙、德国...';
   }
   if(isDuel){
     const dl=document.getElementById('wc-teams-list');
