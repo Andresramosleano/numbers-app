@@ -1330,23 +1330,26 @@ function numaOpen(){
   const chipsEl=document.getElementById('numa-chips');
   if(statusEl)statusEl.textContent=lang==='en'?'● Your personal oracle':'● Tu oráculo personal';
   if(lbl)lbl.textContent=lang==='en'?'✦ TAP A QUESTION':'✦ TOCA UNA PREGUNTA';
-  if(chipsEl){const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es;chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" onclick="numaAsk('${q.id}')">${q.label}</button>`).join('');}
+  if(chipsEl){const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es;chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" data-qid="${q.id}">${q.label}</button>`).join('');chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{btn.addEventListener('click',function(){numaAsk(this.dataset.qid)});});}
   const chat=document.getElementById('numa-chat');
   if(chat&&chat.children.length===0)numaGreet();
 }
 function numaGreet(){const lang=STATE.lang||'es',vars=numaVars(),g=NUMA_DATA.greet[lang]||NUMA_DATA.greet.es;numaAddBubble(numaFill(numaRand(g),vars),false);}
 function numaAsk(q){
-  const lang=STATE.lang||'es',vars=numaVars();
-  const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es,chip=qs.find(x=>x.id===q);
-  if(!chip||chip.locked)return;
-  numaAddBubble(chip.label,true);
-  const scoreLabel=lang==='en'?'Day harmony':'Armonía del día';
-  let resp='';
-  if(q==='buen-dia'){const tier=vars.score>=70?'yes':vars.score>=40?'mid':'no';const d=(NUMA_DATA.q1[lang]||NUMA_DATA.q1.es)[tier];resp=numaFill(numaRand(d),vars)+`<br><span class="numa-score">${scoreLabel} · ${vars.score}/100</span>`;}
-  else if(q==='numero'){const d=NUMA_DATA.q2[lang]||NUMA_DATA.q2.es;resp=numaFill(numaRand(d),vars);}
-  else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=(NUMA_DATA.q3[lang]||NUMA_DATA.q3.es)[tier];resp=numaFill(numaRand(d),vars);}
-  else if(q==='energia'){const d=(NUMA_DATA.q4[lang]||NUMA_DATA.q4.es)[vars.dayNum]||(NUMA_DATA.q4.es)[1];resp=lang==='en'?`<strong style="color:var(--gold)">Today you vibrate in ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`:`<strong style="color:var(--gold)">Hoy vibras en ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`;}
-  if(resp)numaAddBubble(resp,false,700);
+  try{
+    const lang=STATE.lang||'es',vars=numaVars();
+    const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es,chip=qs.find(x=>x.id===q);
+    if(!chip||chip.locked)return;
+    numaAddBubble(chip.label,true);
+    const scoreLabel=lang==='en'?'Day harmony':'Armonía del día';
+    let resp='';
+    if(q==='buen-dia'){const tier=vars.score>=70?'yes':vars.score>=40?'mid':'no';const d=(NUMA_DATA.q1[lang]||NUMA_DATA.q1.es)[tier];resp=numaFill(numaRand(d),vars)+`<br><span class="numa-score">${scoreLabel} · ${vars.score}/100</span>`;}
+    else if(q==='numero'){const d=NUMA_DATA.q2[lang]||NUMA_DATA.q2.es;resp=numaFill(numaRand(d),vars);}
+    else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=(NUMA_DATA.q3[lang]||NUMA_DATA.q3.es)[tier];resp=numaFill(numaRand(d),vars);}
+    else if(q==='energia'){const d=(NUMA_DATA.q4[lang]||NUMA_DATA.q4.es)[vars.dayNum]||(NUMA_DATA.q4.es)[1];resp=lang==='en'?`<strong style="color:var(--gold)">Today you vibrate in ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`:`<strong style="color:var(--gold)">Hoy vibras en ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`;}
+    if(resp)numaAddBubble(resp,false,700);
+    else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ La energía está procesando tu pregunta...',false,700);
+  }catch(e){console.error('[NUMA]',e);numaAddBubble('✦ Los astros se están alineando... intenta de nuevo.',false,400);}
 }
 function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
