@@ -459,6 +459,18 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .signal-dominant{background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.4);border-radius:var(--rr);padding:1.25rem 1.5rem;margin-bottom:1.25rem;text-align:center}
 .signal-dominant-label{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
 .signal-dominant-num{font-family:'Cinzel Decorative',serif;font-size:42px;color:var(--gold2);margin-bottom:.25rem}
+.sm-overlay{position:fixed;inset:0;background:rgba(4,2,16,.9);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.25rem;backdrop-filter:blur(6px)}
+.sm-overlay.hidden{display:none}
+.sm-box{background:#120d26;border:1px solid var(--gold2);border-radius:18px;padding:2rem 1.5rem;max-width:380px;width:100%;text-align:center;box-shadow:0 0 50px rgba(212,175,55,.2)}
+.sm-icon{font-size:2.25rem;margin-bottom:.4rem}
+.sm-title{font-family:'Cinzel Decorative',serif;color:var(--gold2);font-size:1.15rem;margin-bottom:.3rem}
+.sm-sub{color:var(--muted);font-size:.88rem;font-style:italic;margin-bottom:1.5rem}
+.sm-label{display:block;color:var(--gold1);font-size:.9rem;text-align:left;margin-bottom:.5rem}
+#inp-sm{width:100%;background:#0d0920;border:1.5px solid var(--gold2);border-radius:10px;padding:.85rem 1rem;color:#fff;font-size:1.2rem;letter-spacing:.06em;text-align:center;box-sizing:border-box;margin-bottom:.5rem}
+#inp-sm:focus{outline:none;border-color:var(--gold1);box-shadow:0 0 0 3px rgba(212,175,55,.15)}
+.sm-hint{color:var(--muted);font-size:.78rem;text-align:left;margin-bottom:1.35rem}
+.btn-sm-rev{width:100%;padding:.9rem 1rem;background:linear-gradient(135deg,var(--gold1),var(--gold2));color:#0d0920;border:none;border-radius:10px;font-family:'Cinzel Decorative',serif;font-size:.92rem;cursor:pointer;font-weight:700;margin-bottom:.65rem;letter-spacing:.03em}
+.btn-sm-close{background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;padding:.25rem .5rem}
 .signal-dominant-sub{font-size:16px;color:var(--muted);font-style:italic}
 #signals-fields{margin-top:.75rem}
 #signals-fields input{font-size:18px;letter-spacing:.05em}
@@ -644,7 +656,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
-        <div class="game-card game-card-full" data-game="signals" onclick="quickLaunch(this)"><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
+        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
@@ -1717,6 +1729,12 @@ const UI_EN=[
 ['#signals-label','What number can\'t you stop seeing?'],
 ['#inp-signals','Eg: 7  ·  1111  ·  3 14 22','ph'],
 ['#signals-hint','✦ Write one or more numbers. Separate them with a space or comma.'],
+['#sm-title','Synchronies'],
+['#sm-sub','A number is following you. It\'s not a coincidence.'],
+['#sm-lbl','What number can\'t you stop seeing?'],
+['#inp-sm','Eg: 7  ·  1111  ·  3 14 22','ph'],
+['#sm-hint','✦ Write one or more. Separate them with a space or comma.'],
+['#sm-btn','✦ Reveal ✦'],
 ['.game-card[data-game="mundial"] .gl','World Cup 2026'],
 ['.game-grid .game-card[data-game="mundial"] .gd','Predict who wins the match with cosmic energy · Free & unlimited during the tournament'],
 ['.game-card[data-game="mundial"] .free-badge','✦ FREE'],
@@ -2230,6 +2248,25 @@ function generateSignals(name,birth){
   showTab('result');
   history.pushState({tab:'result'},'','');
 }
+function smOpen(){
+  const m=document.getElementById('sm');
+  m.classList.remove('hidden');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){const i=document.getElementById('inp-sm');if(i){i.value='';i.focus();}},150);
+}
+function smClose(){
+  document.getElementById('sm').classList.add('hidden');
+  document.body.style.overflow='';
+}
+function smReveal(){
+  const raw=(document.getElementById('inp-sm').value||'').trim();
+  if(!raw){document.getElementById('inp-sm').focus();return;}
+  document.getElementById('inp-signals').value=raw;
+  smClose();
+  const name=document.getElementById('inp-name').value.trim();
+  const birth=document.getElementById('inp-birth').value;
+  generateSignals(name,birth);
+}
 </script>
 <!-- Aplicar idioma detectado (en). ES es el predeterminado; zh ya redirigió en <head>. -->
 <script>
@@ -2243,6 +2280,19 @@ document.addEventListener('DOMContentLoaded',function(){
   }catch(e){}
 });
 </script>
+<!-- Signals Quick Modal -->
+<div id="sm" class="sm-overlay hidden" onclick="if(event.target===this)smClose()">
+  <div class="sm-box">
+    <div class="sm-icon">🌌</div>
+    <div class="sm-title" id="sm-title">Sincronías</div>
+    <div class="sm-sub" id="sm-sub">Un número te sigue. No es coincidencia.</div>
+    <label class="sm-label" id="sm-lbl">¿Qué número no puedes dejar de ver?</label>
+    <input type="text" id="inp-sm" placeholder="Ej: 7  ·  1111  ·  3 14 22" autocomplete="off" inputmode="text" onkeydown="if(event.key==='Enter')smReveal()">
+    <div class="sm-hint" id="sm-hint">✦ Escribe uno o varios. Sepáralos con espacio o coma.</div>
+    <button class="btn-sm-rev" id="sm-btn" onclick="smReveal()">✦ Revelar ✦</button>
+    <button class="btn-sm-close" onclick="smClose()">← Volver</button>
+  </div>
+</div>
 <!-- Service Worker Registration -->
 <script>
 if ('serviceWorker' in navigator) {

@@ -443,6 +443,18 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .signal-dominant{background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.4);border-radius:var(--rr);padding:1.25rem 1.5rem;margin-bottom:1.25rem;text-align:center}
 .signal-dominant-label{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
 .signal-dominant-num{font-family:'Cinzel Decorative',serif;font-size:42px;color:var(--gold2);margin-bottom:.25rem}
+.sm-overlay{position:fixed;inset:0;background:rgba(4,2,16,.9);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.25rem;backdrop-filter:blur(6px)}
+.sm-overlay.hidden{display:none}
+.sm-box{background:#120d26;border:1px solid var(--gold2);border-radius:18px;padding:2rem 1.5rem;max-width:380px;width:100%;text-align:center;box-shadow:0 0 50px rgba(212,175,55,.2)}
+.sm-icon{font-size:2.25rem;margin-bottom:.4rem}
+.sm-title{font-family:'Cinzel Decorative',serif;color:var(--gold2);font-size:1.15rem;margin-bottom:.3rem}
+.sm-sub{color:var(--muted);font-size:.88rem;font-style:italic;margin-bottom:1.5rem}
+.sm-label{display:block;color:var(--gold1);font-size:.9rem;text-align:left;margin-bottom:.5rem}
+#inp-sm{width:100%;background:#0d0920;border:1.5px solid var(--gold2);border-radius:10px;padding:.85rem 1rem;color:#fff;font-size:1.2rem;letter-spacing:.06em;text-align:center;box-sizing:border-box;margin-bottom:.5rem}
+#inp-sm:focus{outline:none;border-color:var(--gold1);box-shadow:0 0 0 3px rgba(212,175,55,.15)}
+.sm-hint{color:var(--muted);font-size:.78rem;text-align:left;margin-bottom:1.35rem}
+.btn-sm-rev{width:100%;padding:.9rem 1rem;background:linear-gradient(135deg,var(--gold1),var(--gold2));color:#0d0920;border:none;border-radius:10px;font-family:'Cinzel Decorative',serif;font-size:.92rem;cursor:pointer;font-weight:700;margin-bottom:.65rem;letter-spacing:.03em}
+.btn-sm-close{background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;padding:.25rem .5rem}
 .signal-dominant-sub{font-size:16px;color:var(--muted);font-style:italic}
 #signals-fields{margin-top:.75rem}
 #signals-fields input{font-size:18px;letter-spacing:.05em}
@@ -628,7 +640,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">今天谁会赢？比赛的宇宙解读</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
-        <div class="game-card game-card-full" data-game="signals" onclick="quickLaunch(this)"><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">某个数字一直出现。这不是巧合。</div></div>
+        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">某个数字一直出现。这不是巧合。</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量解读比赛胜者 · 世界杯期间免费无限</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ 填写您的个人资料以揭示您的数字</div>
@@ -2116,7 +2128,39 @@ function generateSignals(name,birth){
   showTab('result');
   history.pushState({tab:'result'},'','');
 }
+function smOpen(){
+  const m=document.getElementById('sm');
+  m.classList.remove('hidden');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){const i=document.getElementById('inp-sm');if(i){i.value='';i.focus();}},150);
+}
+function smClose(){
+  document.getElementById('sm').classList.add('hidden');
+  document.body.style.overflow='';
+}
+function smReveal(){
+  const raw=(document.getElementById('inp-sm').value||'').trim();
+  if(!raw){document.getElementById('inp-sm').focus();return;}
+  document.getElementById('inp-signals').value=raw;
+  smClose();
+  const name=document.getElementById('inp-name').value.trim();
+  const birth=document.getElementById('inp-birth').value;
+  generateSignals(name,birth);
+}
 </script>
+<!-- Signals Quick Modal -->
+<div id="sm" class="sm-overlay hidden" onclick="if(event.target===this)smClose()">
+  <div class="sm-box">
+    <div class="sm-icon">🌌</div>
+    <div class="sm-title">数字共鸣</div>
+    <div class="sm-sub">某个数字一直出现。这不是巧合。</div>
+    <label class="sm-label">你不断见到的是哪个数字？</label>
+    <input type="text" id="inp-sm" placeholder="例：7 · 1111 · 3 14 22" autocomplete="off" inputmode="text" onkeydown="if(event.key==='Enter')smReveal()">
+    <div class="sm-hint">✦ 写下一个或多个数字。多个数字请用空格或逗号分隔。</div>
+    <button class="btn-sm-rev" onclick="smReveal()">✦ 解读 ✦</button>
+    <button class="btn-sm-close" onclick="smClose()">← 返回</button>
+  </div>
+</div>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').then(r=>console.log('[SW]',r.scope)).catch(e=>console.warn('[SW]',e));})}
 </script>
