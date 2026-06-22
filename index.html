@@ -505,7 +505,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .numa-avatar{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f5e1a0,var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(201,168,76,.4);flex-shrink:0}
 .numa-name{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);letter-spacing:.05em}
 .numa-status{font-size:11px;color:var(--teal);margin-top:2px;font-family:'JetBrains Mono',monospace}
-.numa-chat{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem}
+.numa-chat{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .numa-bubble{max-width:88%;padding:11px 14px;border-radius:16px;font-size:14.5px;line-height:1.65}
 .nbfn{background:var(--bg2);border:.5px solid var(--border);border-top-left-radius:4px;align-self:flex-start}
 .nbfu{background:linear-gradient(135deg,#c9a84c,#a87618);color:#1a1306;border-top-right-radius:4px;align-self:flex-end;font-weight:600}
@@ -513,7 +513,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .numa-chips-wrap{flex-shrink:0;padding:.7rem 1rem calc(.6rem + env(safe-area-inset-bottom));border-top:.5px solid var(--border);background:var(--bg2)}
 .numa-chips-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:.55rem;text-transform:uppercase}
 .numa-chips{display:flex;flex-wrap:wrap;gap:8px}
-.numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:20px;padding:10px 16px;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.3}
+.numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:20px;padding:10px 16px;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.3;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 .numa-chip:active{background:rgba(201,168,76,.08);border-color:var(--gold)}
 .numa-chip.locked{color:var(--muted);border-style:dashed;cursor:default;opacity:.65}
 </style>
@@ -1330,7 +1330,7 @@ function numaOpen(){
   const chipsEl=document.getElementById('numa-chips');
   if(statusEl)statusEl.textContent=lang==='en'?'● Your personal oracle':'● Tu oráculo personal';
   if(lbl)lbl.textContent=lang==='en'?'✦ TAP A QUESTION':'✦ TOCA UNA PREGUNTA';
-  if(chipsEl){const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es;chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" data-qid="${q.id}">${q.label}</button>`).join('');chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{btn.addEventListener('click',function(){numaAsk(this.dataset.qid)});});}
+  if(chipsEl){const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es;chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" data-qid="${q.id}">${q.label}</button>`).join('');chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{let _touched=false;btn.addEventListener('touchend',function(e){e.preventDefault();_touched=true;numaAsk(this.dataset.qid);setTimeout(()=>{_touched=false},500);});btn.addEventListener('click',function(){if(!_touched)numaAsk(this.dataset.qid);});})}
   const chat=document.getElementById('numa-chat');
   if(chat&&chat.children.length===0)numaGreet();
 }
