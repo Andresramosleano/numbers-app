@@ -89,6 +89,12 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .lnp-ball{width:44px;height:44px;border-radius:50%;background:var(--bg2);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--text);font-weight:700}
 .lnp-gold{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold2)}
 .lnp-blur-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold2);font-style:italic;letter-spacing:.05em;pointer-events:none}
+.landing-gold-preview{text-align:center;margin-bottom:1.5rem;animation:fadeUp .6s .4s both}
+.lgp-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.85}
+.lgp-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.65rem}
+.lgp-halo{position:absolute;inset:-12px;border-radius:50%;border:.5px solid rgba(201,168,76,.3);animation:halo 3.5s ease-in-out infinite}
+.lgp-orb{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:30px;font-weight:900;color:#fff7e0;border:2px solid var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.4),rgba(201,168,76,.16) 55%,var(--bg2));box-shadow:0 0 40px rgba(201,168,76,.35),inset 0 2px 8px rgba(255,247,224,.15)}
+.lgp-desc{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;line-height:1.7;margin:0 auto;max-width:280px}
 .app-header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem .85rem;border-bottom:.5px solid var(--border)}
 .header-logo{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.12em}
 .header-right{display:flex;align-items:center;gap:.85rem}
@@ -511,8 +517,16 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">Cal. Chino</div></div>
         <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">Geoenergía</div></div>
       </div>
+      <div class="landing-gold-preview">
+        <div class="lgp-label">✦ Tu Número de Oro del Día ✦</div>
+        <div class="lgp-orb-wrap">
+          <div class="lgp-halo"></div>
+          <div class="lgp-orb">?</div>
+        </div>
+        <div class="lgp-desc">Único para ti · Cambia cada 24h · Calculado con tu nombre, fecha y lugar</div>
+      </div>
       <div class="landing-numbers-preview">
-        <div class="lnp-label">Así lucen tus números de hoy</div>
+        <div class="lnp-label">+ 6 números guía para el día</div>
         <div class="lnp-balls">
           <div class="lnp-ball">07</div>
           <div class="lnp-ball">14</div>
@@ -654,10 +668,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
             <span data-n="3" class="on" onclick="selectChance(3)">3</span>
           </div>
         </div>
+        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
-        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
-        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="duel-fields" class="hidden">
@@ -706,12 +720,24 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     </div>
 
     <div class="result-screen hidden" id="tab-result">
-      <div style="padding:1rem 1.5rem .25rem;text-align:center"><button onclick="goBackToForm()" style="background:rgba(201,168,76,.08);border:1px solid var(--gold);border-radius:99px;padding:12px 32px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--gold2);cursor:pointer;letter-spacing:.08em;width:100%;max-width:340px">← Nueva consulta</button></div>
       <div id="signals-result" class="signals-result hidden"></div>
       <div class="result-header">
         <div class="result-for">Tu combinación para</div>
         <div class="result-game" id="result-game"></div>
         <div class="result-user" id="result-user"></div>
+      </div>
+      <div class="golden-section" id="golden-section">
+        <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
+        <div class="golden-sublabel" id="golden-sublabel">(diferente a tu número de vida · cambia cada día)</div>
+        <div class="golden-orb-wrap">
+          <div class="golden-halo"></div>
+          <div class="golden-halo2"></div>
+          <div class="golden-orb" id="golden-orb">7</div>
+        </div>
+        <div class="golden-name" id="golden-name">Tu número en proporción divina</div>
+        <div class="golden-phi" id="golden-phi"></div>
+        <div class="golden-inplay" id="golden-inplay">✓ Incluido en tu jugada</div>
+        <div class="renew-countdown" id="renew-countdown"></div>
       </div>
       <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
       <div class="numbers-row" id="numbers-display"></div>
@@ -746,19 +772,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="wc-upsell" id="wc-upsell" onclick="wcUpsellGo()"></div>
       </div>
-      <div class="golden-section" id="golden-section">
-        <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
-        <div class="golden-sublabel" id="golden-sublabel">(diferente a tu número de vida · cambia cada día)</div>
-        <div class="golden-orb-wrap">
-          <div class="golden-halo"></div>
-          <div class="golden-halo2"></div>
-          <div class="golden-orb" id="golden-orb">7</div>
-        </div>
-        <div class="golden-name" id="golden-name">Tu número en proporción divina</div>
-        <div class="golden-phi" id="golden-phi"></div>
-        <div class="golden-inplay" id="golden-inplay">✓ Incluido en tu jugada</div>
-        <div class="renew-countdown" id="renew-countdown"></div>
-      </div>
       <div class="pro-cta-mid" id="pro-cta-mid" style="display:none">
         <div class="pct-title">✦ NUMBERS PRO ✦</div>
         <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Destino y Deportes · Sin límite diario.</div>
@@ -775,7 +788,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div id="motor-panel" class="hidden"></div>
       <div class="game-card" id="wc-result-card" data-game="mundial" onclick="wcFromResult()" style="display:none"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">¿Quién gana el próximo partido? Tus 5 motores lo predicen · Gratis e ilimitado</div></div>
       <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
-      <div class="share-hint" id="share-hint">Envíaselos a alguien que necesite suerte hoy 🍀</div>
+      <div class="share-hint" id="share-hint">Comparte tu energía del día con alguien especial ✦</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
         <button class="btn-whatsapp" onclick="shareWA()">📱 WhatsApp</button>
         <button class="btn-new" onclick="newConsult()">↺ Nueva consulta</button>
@@ -1548,7 +1561,7 @@ function renderResult(r,name){
     ?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`
     :`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
   const inplayEl=document.getElementById('golden-inplay');
-  if(r.goldenInPlay){inplayEl.textContent=L('✓ Incluido en tu jugada','✓ Included in your play');inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
+  if(r.goldenInPlay){inplayEl.textContent=L('✦ Presente en tu energía de hoy','✦ Present in your energy today');inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
   else{inplayEl.textContent=L('✦ Número ceremonial de inspiración','✦ Ceremonial number of inspiration');inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
   r.nums.forEach((n,i)=>{const b=document.createElement('div');b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
@@ -1838,8 +1851,8 @@ function applyStaticLang(l){
   try{if(typeof populateWcMatches==='function'&&STATE.game==='mundial')populateWcMatches()}catch(e){}
 }
 const I18N_NEW={
-es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Env\u00edaselos a alguien que necesite suerte hoy \ud83c\udf40',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026',signals:'Sincron\u00edas'}},
-en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Send them to someone who needs luck today \ud83c\udf40',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{lottery:'Numbers of the Day',chance:'Pulse of the Moment',casino:'Destiny Numbers',sports:'Sports Numbers',mundial:'World Cup 2026',signals:'Synchronies'}},
+es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Comparte tu energ\u00eda del d\u00eda con alguien especial \u2726',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026',signals:'Sincron\u00edas'}},
+en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Share your energy of the day with someone special \u2726',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{lottery:'Numbers of the Day',chance:'Pulse of the Moment',casino:'Destiny Numbers',sports:'Sports Numbers',mundial:'World Cup 2026',signals:'Synchronies'}},
 zh:{unlockT:'\u2726 \u60a8\u7684\u89e3\u8bfb\u7ed3\u5c3e\u5df2\u88ab\u5c01\u5370 \u2726',unlockBtn:'\u7528 Pro \u89e3\u9501 \u2192',renew:'\u2726 \u5b87\u5b99\u5c06\u5728{h}\u5c0f\u65f6{m}\u5206\u540e\u66f4\u65b0\u60a8\u7684\u6570\u5b57 \u2726',shareBtn:'\u2726 \u5206\u4eab\u6211\u7684\u6570\u5b57 \u2726',shareHint:'\u9001\u7ed9\u4eca\u5929\u9700\u8981\u597d\u8fd0\u7684\u4eba \ud83c\udf40',pwaTitle:'\u2726 \u968f\u8eab\u643a\u5e26\u60a8\u7684\u795e\u8c15 \u2726',pwaSub:'\u5c06 NUMBERS \u5b89\u88c5\u5230\u4e3b\u5c4f\u5e55\u3002\u514d\u8d39\uff0c\u65e0\u9700\u5e94\u7528\u5546\u5e97\u3002',pwaIos:'\u70b9\u6309 Safari \u5e95\u90e8\u7684<strong>\u5206\u4eab</strong>\uff0c\u7136\u540e\u9009\u62e9<strong>\u300c\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\u300d</strong>',pwaBtn:'\u5b89\u88c5',shTitle:'\u6211\u7684\u5b87\u5b99\u7ec4\u5408 \u2014 \u6570\u5b57\u795e\u8c15',shGold:'\u6570\u5b57\u795e\u8c15\u63ed\u793a\u4e86\u6211\u7684\u9ec4\u91d1\u6570\u5b57',shCombo:'\u6211\u7684\u7ec4\u5408\uff1a',shCta:'\u514d\u8d39\u83b7\u53d6\u60a8\u7684\u4e13\u5c5e\u6570\u5b57',waLine:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u4eca\u5929\u53ea\u4e3a\u6211\u5bf9\u9f50\u3002',cvHdr:'NUMBERS  \u2726  \u6570\u5b57\u795e\u8c15',cvGold:'\u9ec4\u91d1\u6570\u5b57',cvTag:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u6c47\u805a\u63ed\u793a\u6b64\u7ec4\u5408  \u2726  numbersoracle.com',cvFoot:'\u5a31\u4e50 \u00b7 \u4e2a\u4eba\u7075\u611f \u00b7 \u81ea\u6211\u8ba4\u77e5',games:{lottery:'\u4eca\u65e5\u6570\u5b57',chance:'\u6b64\u523b\u8109\u52a8',casino:'\u547d\u8fd0\u6570\u5b57',sports:'\u4f53\u80b2\u6570\u5b57',mundial:'2026\u4e16\u754c\u676f'}}};
 function applyShareI18n(){const t=I18N_NEW[uiLang()];const b=document.getElementById('btn-share-main');if(b)b.textContent=t.shareBtn;const h=document.getElementById('share-hint');if(h)h.textContent=t.shareHint;updateRenewCountdown();}
 function updateRenewCountdown(){
