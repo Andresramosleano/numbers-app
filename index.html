@@ -362,6 +362,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 
 /* ─── CARD MUNDIAL (ancho completo) ─── */
 .game-card-full{grid-column:1/-1;flex-direction:row;gap:12px;padding:14px 20px;justify-content:center;border-color:rgba(201,168,76,.35);background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(124,92,191,.04))}
+.numa-game-card{border-color:rgba(201,168,76,.5)!important;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.03))!important}
+.numa-game-card .gl{color:var(--gold2)!important;font-family:'Cinzel Decorative',serif;font-size:15px!important}
+.numa-game-card .gd{color:var(--muted)}
 .game-card-full .gi{font-size:28px;margin:0}
 .game-card-full .gl{font-size:16px;color:var(--muted)}
 .game-card-full.sel{border-color:var(--gold);background:rgba(201,168,76,.1)}
@@ -695,6 +698,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
+        <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal. Pregúntale lo que quieras sobre tu día.</div></div>
         <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
       </div>
@@ -731,14 +735,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
       </div>
         </div>
-      </div>
-      <div class="numa-cta-card" onclick="showTab('numa')" style="margin-bottom:1rem">
-        <div class="numa-cta-orb">🔮</div>
-        <div>
-          <div class="numa-cta-title">NUMA — Tu oráculo personal</div>
-          <div class="numa-cta-sub">Pregúntale sobre tu energía, tu momento o tu día</div>
-        </div>
-        <div class="numa-cta-arrow">→</div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
       <div id="btn-gen-wrap" style="position:relative;width:100%;max-width:360px;margin:0 auto">
@@ -1891,6 +1887,8 @@ const UI_EN=[
 ['.game-card[data-game="sports"] .gl','Sports'],
 ['.game-card[data-game="sports"] .gd','Who wins today? Cosmic match prediction'],
 ['.game-card[data-game="sports"] .pro-preview','"The home team\'s numeric energy outshines the visitor in vibration today..."'],
+['.numa-game-card .gl','NUMA'],
+['.numa-game-card .gd','Your personal oracle. Ask anything about your day.'],
 ['.game-card[data-game="signals"] .gl','Synchronies'],
 ['.game-card[data-game="signals"] .gd','A number is following you. It\'s not a coincidence.'],
 ['#signals-label','What number can\'t you stop seeing?'],
