@@ -25,7 +25,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="NUMBERS ORACLE — Tu Número de Oro del Día. Cinco fuerzas cósmicas: numerología, astrología, ciclos lunares, calendario chino y geoenergía.">
 <meta property="og:title" content="NUMBERS ORACLE — Tu Número de Oro del Día">
-<meta property="og:description" content="Cinco fuerzas cósmicas calculan tu número de la suerte único para hoy: numerología, astrología, ciclos lunares, calendario chino y geoenergía.">
+<meta property="og:description" content="Cinco fuerzas cósmicas calculan tu número del día: numerología, astrología, ciclos lunares, calendario chino y geoenergía. Único para ti. Cambia cada 24h.">
 <meta property="og:image" content="https://www.numbersoracle.com/og-image-v2.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -38,7 +38,7 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="NUMBERS ORACLE — Tu Número de Oro del Día">
-<meta name="twitter:description" content="Cinco fuerzas cósmicas calculan tu número de la suerte único para hoy.">
+<meta name="twitter:description" content="Cinco fuerzas cósmicas calculan tu número del día único para ti. Numerología, astrología, luna, calendario chino y geoenergía.">
 <meta name="twitter:image" content="https://www.numbersoracle.com/og-image-v2.png">
 <title>NUMBERS ORACLE ✦ — Tu Número de Oro del Día</title>
 <link rel="manifest" href="/manifest.json">
@@ -83,12 +83,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
 .landing-disclaimer{font-size:15px;color:var(--faint);font-family:'JetBrains Mono',monospace;margin-top:2rem;line-height:1.6;animation:fadeUp .6s .7s both}
 .landing-unique{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.2rem;opacity:.8;animation:fadeUp .6s .35s both;border:.5px solid rgba(201,168,76,.25);border-radius:20px;padding:6px 16px;display:inline-block}
-.landing-numbers-preview{position:relative;margin-bottom:2.2rem;animation:fadeUp .6s .45s both;width:100%;max-width:360px}
-.lnp-label{font-size:15px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;opacity:.7}
-.lnp-balls{display:flex;gap:10px;justify-content:center;filter:blur(7px);user-select:none;pointer-events:none}
-.lnp-ball{width:44px;height:44px;border-radius:50%;background:var(--bg2);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--text);font-weight:700}
-.lnp-gold{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold2)}
-.lnp-blur-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold2);font-style:italic;letter-spacing:.05em;pointer-events:none}
 .landing-gold-preview{text-align:center;margin-bottom:1rem;animation:fadeUp .6s .4s both}
 .lgp-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.85}
 .lgp-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.65rem}
@@ -553,18 +547,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="lgp-desc">Único para ti · Cambia cada 24h · Calculado con tu nombre, fecha y lugar</div>
       </div>
-      <div class="landing-numbers-preview">
-        <div class="lnp-label">+ 6 números guía para el día</div>
-        <div class="lnp-balls">
-          <div class="lnp-ball">07</div>
-          <div class="lnp-ball">14</div>
-          <div class="lnp-ball lnp-gold">33</div>
-          <div class="lnp-ball">41</div>
-          <div class="lnp-ball">08</div>
-          <div class="lnp-ball">22</div>
-        </div>
-        <div class="lnp-blur-overlay">Crea tu cuenta para revelarlos ✦</div>
-      </div>
       <div id="landing-btns-guest">
         <button class="btn-primary" onclick="goAuth('register')">✦ Revelar mis números ✦</button>
         <button class="btn-secondary" onclick="goAuth('login')">Ya tengo cuenta</button>
@@ -765,7 +747,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="golden-name" id="golden-name">Tu número en proporción divina</div>
         <div class="golden-phi" id="golden-phi"></div>
-        <div class="golden-inplay" id="golden-inplay">✓ Incluido en tu jugada</div>
+        <div class="golden-inplay" id="golden-inplay">✓ En tu lectura de hoy</div>
         <div class="renew-countdown" id="renew-countdown"></div>
       </div>
       <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
@@ -930,7 +912,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="perk-icon">📜</div>
           <div class="perk-text">
             <div class="perk-name">Historial completo de 30 días</div>
-            <div class="perk-desc">Revisa cada combinación que el cosmos te ha revelado. Encuentra patrones en tus números de la suerte.</div>
+            <div class="perk-desc">Revisa cada combinación que el cosmos te ha revelado. Encuentra patrones en tu energía numérica.</div>
           </div>
         </div>
         <div class="perk-row">
@@ -1270,7 +1252,7 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   // NÚMERO DE ORO: fusión de los 5 motores + día, reducido a dígito maestro
   const goldenRaw=lp+astV+chiV+moon.day+geo+tn;
   const golden=numReduce(goldenRaw);
-  // ¿Cabe en la jugada? (rango del juego)
+  // ¿El número de oro entra en el rango de la lectura?
   const goldenFits=golden>=(cfg.max===9?0:1)&&golden<=cfg.max&&!rules.blocked.includes(golden);
   // El número de oro se muestra arriba en su propio círculo — NO se incluye en la secuencia
   let goldenInPlay=goldenFits;
@@ -1825,8 +1807,6 @@ const UI_EN=[
 ['.engines-preview .ep-item:nth-child(3) .ep-label','Moon'],
 ['.engines-preview .ep-item:nth-child(4) .ep-label','Chinese Cal.'],
 ['.engines-preview .ep-item:nth-child(5) .ep-label','Geoenergy'],
-['.lnp-label','This is how your numbers look today'],
-['.lnp-blur-overlay','Create your account to reveal them ✦'],
 ['#landing-btns-guest .btn-primary','✦ Reveal my numbers ✦'],
 ['#landing-btns-guest .btn-secondary','I already have an account'],
 ['#landing-btns-user .btn-primary','✦ See my numbers today ✦'],
@@ -1926,7 +1906,7 @@ const UI_EN=[
 ['#golden-label','✦ Golden Number of the Day ✦'],
 ['#golden-sublabel','(different from your life number · changes every day)'],
 ['#golden-name','Your number in divine proportion'],
-['#golden-inplay','✓ Included in your play'],
+['#golden-inplay','✓ In your reading today'],
 ['.pct-urgency','Your combination changes tomorrow.<br>Save it · Access Destiny &amp; Sports · No daily limit.','html'],
 ['.pct-price','from $3.99 USD/mo · Coming soon'],
 ['#pro-cta-mid .btn-pct','I want to be among the first →'],
@@ -1966,7 +1946,7 @@ const UI_EN=[
 ['.upgrade-perks .perk-row:nth-of-type(1) .perk-name','Unlimited readings'],
 ['.upgrade-perks .perk-row:nth-of-type(1) .perk-desc','Ask as many times a day as you want. Try different games, different energies. No restrictions.'],
 ['.upgrade-perks .perk-row:nth-of-type(2) .perk-name','Full 30-day history'],
-['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Review every combination the cosmos has revealed to you. Find patterns in your lucky numbers.'],
+['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Review every combination the cosmos has revealed to you. Find patterns in your numeric energy.'],
 ['.upgrade-perks .perk-row:nth-of-type(3) .perk-name','Golden Number every day'],
 ['.upgrade-perks .perk-row:nth-of-type(3) .perk-desc','Your golden-ratio number calculated fresh every day, integrated into your game combination.'],
 ['.upgrade-perks .perk-row:nth-of-type(4) .perk-name','All 3 languages and every game'],
