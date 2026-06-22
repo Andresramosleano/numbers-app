@@ -512,8 +512,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .numa-cta-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(201,168,76,.09),rgba(201,168,76,.02));border:.5px solid rgba(201,168,76,.35);border-radius:16px;padding:16px;cursor:pointer;margin:1rem 0;transition:border-color .2s,transform .15s;touch-action:manipulation}
 .numa-cta-card:active{transform:scale(.98);border-color:var(--gold)}
 .numa-cta-orb{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f5e1a0,var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 16px rgba(201,168,76,.25);flex-shrink:0}
-.numa-cta-title{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold2);letter-spacing:.04em;margin-bottom:4px}
-.numa-cta-sub{font-size:13px;color:var(--muted);line-height:1.4}
+.numa-cta-title{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold2);letter-spacing:.04em;margin-bottom:5px}
+.numa-cta-sub{font-size:14px;color:var(--muted);line-height:1.45}
 .numa-cta-arrow{color:var(--gold2);font-size:20px;margin-left:auto;flex-shrink:0;opacity:.75}
 .nbfn{background:var(--bg2);border:.5px solid var(--border);border-top-left-radius:4px;align-self:flex-start}
 .nbfu{background:linear-gradient(135deg,#c9a84c,#a87618);color:#1a1306;border-top-right-radius:4px;align-self:flex-end;font-weight:600}
@@ -731,6 +731,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
       </div>
         </div>
+      </div>
+      <div class="numa-cta-card" onclick="showTab('numa')" style="margin-bottom:1rem">
+        <div class="numa-cta-orb">🔮</div>
+        <div>
+          <div class="numa-cta-title">NUMA — Tu oráculo personal</div>
+          <div class="numa-cta-sub">Pregúntale sobre tu energía, tu momento o tu día</div>
+        </div>
+        <div class="numa-cta-arrow">→</div>
       </div>
       <div class="freemium-bar" id="freemium-bar"><strong>Consulta gratuita del día</strong> — <span id="fn-txt">Actualiza a Pro para ilimitadas</span></div>
       <div id="btn-gen-wrap" style="position:relative;width:100%;max-width:360px;margin:0 auto">
