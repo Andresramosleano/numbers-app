@@ -71,7 +71,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .landing{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100dvh;padding:1.5rem 1.5rem 3rem;text-align:center}
 .landing-eyebrow{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
 .landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(2.4rem,9vw,4rem);font-weight:900;color:var(--gold2);letter-spacing:.1em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both;text-shadow:0 0 80px rgba(201,168,76,.25)}
-.landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin-bottom:1.2rem;animation:fadeUp .6s .3s both}
+.landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin-bottom:1.5rem;animation:fadeUp .6s .3s both}
 .engines-preview{display:flex;gap:1.2rem;justify-content:center;margin-bottom:1.5rem;animation:fadeUp .6s .4s both;flex-wrap:wrap}
 .ep-item{display:flex;flex-direction:column;align-items:center;gap:7px}
 .ep-orb{width:46px;height:46px;border-radius:50%;border:.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:21px}
@@ -530,8 +530,15 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     <div class="landing">
       <div class="landing-eyebrow">✦ oráculo numérico ✦</div>
       <div class="landing-logo">NUMBERS</div>
-      <div class="landing-tagline" id="ll-tag">Tus números del día, calculados con 5 fuerzas cósmicas que se alinean a tu nombre, fecha y lugar</div>
-      <div class="landing-unique">Ninguna otra app en el mundo hace este cruce</div>
+      <div class="landing-tagline" id="ll-tag">Tu número del día, calculado con 5 fuerzas cósmicas</div>
+      <div class="landing-gold-preview">
+        <div class="lgp-label">✦ Tu Número de Oro del Día ✦</div>
+        <div class="lgp-orb-wrap">
+          <div class="lgp-halo"></div>
+          <div class="lgp-orb">?</div>
+        </div>
+        <div class="lgp-desc">Único para ti · Cambia cada 24h</div>
+      </div>
       <div class="engines-preview">
         <div class="ep-item"><div class="ep-orb">☿</div><div class="ep-label">Numerología</div></div>
         <div class="ep-item"><div class="ep-orb">♈</div><div class="ep-label">Astrología</div></div>
@@ -539,14 +546,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">Cal. Chino</div></div>
         <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">Geoenergía</div></div>
       </div>
-      <div class="landing-gold-preview">
-        <div class="lgp-label">✦ Tu Número de Oro del Día ✦</div>
-        <div class="lgp-orb-wrap">
-          <div class="lgp-halo"></div>
-          <div class="lgp-orb">?</div>
-        </div>
-        <div class="lgp-desc">Único para ti · Cambia cada 24h · Calculado con tu nombre, fecha y lugar</div>
-      </div>
+      <div class="landing-unique">Ninguna otra app en el mundo hace este cruce</div>
       <div id="landing-btns-guest">
         <button class="btn-primary" onclick="goAuth('register')">✦ Revelar mis números ✦</button>
         <button class="btn-secondary" onclick="goAuth('login')">Ya tengo cuenta</button>
@@ -1800,7 +1800,7 @@ const MOON_EN={'Nueva':'New','Creciente':'Waxing','Cuarto creciente':'First quar
 function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
 const UI_EN=[
 ['.landing-eyebrow','✦ numeric oracle ✦'],
-['#ll-tag','Your numbers for today, calculated with 5 cosmic forces that align to your name, date and place'],
+['#ll-tag','Your number for today, calculated with 5 cosmic forces'],
 ['.landing-unique','No other app in the world makes this crossing'],
 ['.engines-preview .ep-item:nth-child(1) .ep-label','Numerology'],
 ['.engines-preview .ep-item:nth-child(2) .ep-label','Astrology'],
