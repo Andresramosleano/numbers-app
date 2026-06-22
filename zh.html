@@ -73,6 +73,12 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .lnp-ball{width:44px;height:44px;border-radius:50%;background:var(--bg2);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--text);font-weight:700}
 .lnp-gold{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold2)}
 .lnp-blur-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold2);font-style:italic;letter-spacing:.05em;pointer-events:none}
+.landing-gold-preview{text-align:center;margin-bottom:1.5rem;animation:fadeUp .6s .4s both}
+.lgp-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.85}
+.lgp-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.65rem}
+.lgp-halo{position:absolute;inset:-12px;border-radius:50%;border:.5px solid rgba(201,168,76,.3);animation:halo 3.5s ease-in-out infinite}
+.lgp-orb{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:30px;font-weight:900;color:#fff7e0;border:2px solid var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.4),rgba(201,168,76,.16) 55%,var(--bg2));box-shadow:0 0 40px rgba(201,168,76,.35),inset 0 2px 8px rgba(255,247,224,.15)}
+.lgp-desc{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;line-height:1.7;margin:0 auto;max-width:280px}
 .app-header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem .85rem;border-bottom:.5px solid var(--border)}
 .header-logo{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.12em}
 .header-right{display:flex;align-items:center;gap:.85rem}
@@ -486,8 +492,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     <div class="landing">
       <div class="landing-eyebrow">✦ 数字神谕 ✦</div>
       <div class="landing-logo">NUMBERS</div>
-      <div class="landing-tagline" id="ll-tag">您的每日数字，由五大宇宙力量结合您的姓名、出生日期与所在地推算而来</div>
-      <div class="landing-unique">世界上没有任何应用能做到这样的交叉推算</div>
+      <div class="landing-tagline" id="ll-tag">五大古老智慧交汇，为您解读此刻的生命能量与数字轨迹</div>
+      <div class="landing-unique">世界上没有其他应用能做到如此深度的交汇解读</div>
       <div class="engines-preview">
         <div class="ep-item"><div class="ep-orb">☿</div><div class="ep-label">命理学</div></div>
         <div class="ep-item"><div class="ep-orb">♈</div><div class="ep-label">星象学</div></div>
@@ -495,8 +501,16 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">中国历法</div></div>
         <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">地能</div></div>
       </div>
+      <div class="landing-gold-preview">
+        <div class="lgp-label">✦ 今日黄金数字 ✦</div>
+        <div class="lgp-orb-wrap">
+          <div class="lgp-halo"></div>
+          <div class="lgp-orb">?</div>
+        </div>
+        <div class="lgp-desc">专属于您 · 每24小时焕新 · 以您的姓名、生日与所在地推算</div>
+      </div>
       <div class="landing-numbers-preview">
-        <div class="lnp-label">您的今日数字如此呈现</div>
+        <div class="lnp-label">+ 今日六个引导数字</div>
         <div class="lnp-balls">
           <div class="lnp-ball">07</div>
           <div class="lnp-ball">14</div>
@@ -521,7 +535,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
   <div class="screen" id="screen-auth">
     <div class="auth-screen">
       <div class="auth-logo">NUMBERS</div>
-      <div class="auth-sub" id="auth-sub">Accede a tu oráculo personal</div>
+      <div class="auth-sub" id="auth-sub">开启您的数字神谕之旅</div>
       <div class="auth-form">
         <div class="error-toast" id="auth-error"></div>
         <div class="success-toast" id="auth-success"></div>
@@ -625,11 +639,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
       </div>
       <div class="acc-step" id="acc-5">
-        <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · 选择您的占卜</span><span class="acc-sum" id="acc-sum-5"></span></div>
+        <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · 选择您的探索</span><span class="acc-sum" id="acc-sum-5"></span></div>
         <div class="acc-body">
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">今天为你引导的6个数字。明天会改变。</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">此刻脉动</div><div class="gd">你此刻的数字能量。选择 1、2 或 3 个数字。</div></div>
+        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">为您今天引路的六个数字。明日自会焕新。</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">此刻脉动</div><div class="gd">流动在您身边的此刻能量。选择揭示几个数字。</div></div>
         <div id="chance-fields" class="hidden">
           <div class="duel-fields-intro" id="chance-intro">✦ 选择你想揭示几个数字</div>
           <div class="chance-seg" id="chance-seg">
@@ -638,10 +652,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
             <span data-n="3" class="on" onclick="selectChance(3)">3</span>
           </div>
         </div>
-        <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">永不改变。属于您。与您共生。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的命运..."</div></div>
-        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">今天谁会赢？比赛的宇宙解读</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
-        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">某个数字一直出现。这不是巧合。</div></div>
+        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ 免费</div><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">一个数字反复出现在您身边——数字智慧自有深意。</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量解读比赛胜者 · 世界杯期间免费无限</div></div>
+        <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">与您俱生，从未改变。属于您的宇宙印记。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的生命使命..."</div></div>
+        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">今天谁的能量更强？赛场的宇宙洞见</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ 填写您的个人资料以揭示您的数字</div>
       <div id="duel-fields" class="hidden">
@@ -677,7 +691,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       </div>
         </div>
       </div>
-      <div class="freemium-bar" id="freemium-bar"><strong>每日免费占卜</strong> — <span id="fn-txt">升级专业版可无限次占卜</span></div>
+      <div class="freemium-bar" id="freemium-bar"><strong>每日免费解读</strong> — <span id="fn-txt">升级专业版可无限次探索</span></div>
       <div id="btn-gen-wrap" style="position:relative;width:100%;max-width:360px;margin:0 auto">
         <button class="btn-primary" style="width:100%" onclick="generate()" id="btn-gen">✦ 揭示我的数字 ✦</button>
       </div>
@@ -690,20 +704,32 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     </div>
 
     <div class="result-screen hidden" id="tab-result">
-      <div style="padding:1rem 1.5rem .25rem;text-align:center"><button onclick="goBackToForm()" style="background:rgba(201,168,76,.08);border:1px solid var(--gold);border-radius:99px;padding:12px 32px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--gold2);cursor:pointer;letter-spacing:.08em;width:100%;max-width:340px">← 新占卜</button></div>
       <div id="signals-result" class="signals-result hidden"></div>
       <div class="result-header">
-        <div class="result-for">您的组合用于</div>
+        <div class="result-for">您今天的解读</div>
         <div class="result-game" id="result-game"></div>
         <div class="result-user" id="result-user"></div>
       </div>
-      <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ Tu Combinación Completa ✦</div></div>
+      <div class="golden-section" id="golden-section">
+        <div class="golden-label" id="golden-label">✦ 今日黄金数字 ✦</div>
+        <div class="golden-sublabel" id="golden-sublabel">（与您的生命数字不同 · 每天焕新）</div>
+        <div class="golden-orb-wrap">
+          <div class="golden-halo"></div>
+          <div class="golden-halo2"></div>
+          <div class="golden-orb" id="golden-orb">7</div>
+        </div>
+        <div class="golden-name" id="golden-name">您的神圣比例数字</div>
+        <div class="golden-phi" id="golden-phi"></div>
+        <div class="golden-inplay" id="golden-inplay">✦ 此数字已融入您今日的能量场</div>
+        <div class="renew-countdown" id="renew-countdown"></div>
+      </div>
+      <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ 您的完整组合 ✦</div></div>
       <div class="numbers-row" id="numbers-display"></div>
       <div class="wc-nums-hint" id="wc-nums-hint" style="display:none"></div>
       <div class="chance-hint" id="chance-hint" style="display:none"></div>
       <div class="power-seal">
-        <div class="power-seal-line"><span class="power-seal-text" id="seal-text">COMBINACIÓN SELLADA</span></div>
-        <div class="power-seal-sub" id="seal-sub">Cinco fuerzas cósmicas convergen en tus números</div>
+        <div class="power-seal-line"><span class="power-seal-text" id="seal-text">组合已封印</span></div>
+        <div class="power-seal-sub" id="seal-sub">五大宇宙力量在您的数字中汇聚</div>
       </div>
       <div id="duel-result-section" class="hidden">
         <div class="duel-match-info" id="duel-match-info" style="display:none"></div>
@@ -711,43 +737,30 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="duel-team">
             <div class="duel-team-name" id="duel-name-a">Equipo A</div>
             <div class="duel-orb neutral-orb" id="duel-orb-a">—</div>
-            <div class="duel-score-label">Energía Cósmica</div>
+            <div class="duel-score-label">宇宙能量</div>
           </div>
           <div class="duel-vs-center">
             <div class="duel-vs-text">VS</div>
           </div>
           <div class="duel-team">
-            <div class="duel-team-name" id="duel-name-b">Equipo B</div>
+            <div class="duel-team-name" id="duel-name-b">队伍 B</div>
             <div class="duel-orb neutral-orb" id="duel-orb-b">—</div>
-            <div class="duel-score-label">Energía Cósmica</div>
+            <div class="duel-score-label">宇宙能量</div>
           </div>
         </div>
         <div class="duel-winner-banner">
-          <div class="duel-winner-label">✦ El Cosmos Favorece A ✦</div>
+          <div class="duel-winner-label">✦ 宇宙今日眷顾 ✦</div>
           <div class="duel-winner-name" id="duel-winner-name">—</div>
           <div class="duel-confidence" id="duel-confidence">—</div>
           <div class="duel-rank-info" id="duel-rank-info" style="display:none"></div>
         </div>
         <div class="wc-upsell" id="wc-upsell" onclick="wcUpsellGo()"></div>
       </div>
-      <div class="golden-section" id="golden-section">
-        <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
-        <div class="golden-sublabel" id="golden-sublabel">(diferente a tu número de vida · cambia cada día)</div>
-        <div class="golden-orb-wrap">
-          <div class="golden-halo"></div>
-          <div class="golden-halo2"></div>
-          <div class="golden-orb" id="golden-orb">7</div>
-        </div>
-        <div class="golden-name" id="golden-name">Tu número en proporción divina</div>
-        <div class="golden-phi" id="golden-phi"></div>
-        <div class="golden-inplay" id="golden-inplay">✓ Incluido en tu jugada</div>
-        <div class="renew-countdown" id="renew-countdown"></div>
-      </div>
       <div class="pro-cta-mid" id="pro-cta-mid" style="display:none">
         <div class="pct-title">✦ NUMBERS PRO ✦</div>
-        <div class="pct-urgency">Tu combinación cambia mañana.<br>Guárdala · Accede a Destino y Deportes · Sin límite diario.</div>
-        <div class="pct-price">desde ¥58 CNY/mes · Próximamente disponible</div>
-        <button class="btn-pct" onclick="showTab('upgrade')">Quiero ser de los primeros →</button>
+        <div class="pct-urgency">您的数字组合将随明日能量更新。<br>留存今日的洞见 · 探索命运与体育 · 随心探索，无次数限制。</div>
+        <div class="pct-price">每月 ¥58 起 · 即将开放</div>
+        <button class="btn-pct" onclick="showTab('upgrade')">成为首批用户 →</button>
       </div>
       <div class="motors-row">
         <div class="motor-chip" onclick="openMotorPanel('num')"><div class="motor-icon">☿</div><div class="motor-val" id="mv-num">—</div><div class="motor-name">命理</div></div>
@@ -762,7 +775,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="share-hint" id="share-hint">送给今天想更懂自己的人 ✨</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
         <button class="btn-whatsapp" onclick="shareWA()">📱 分享</button>
-        <button class="btn-new" onclick="newConsult()">↺ 新占卜</button>
+        <button class="btn-new" onclick="newConsult()">↺ 新探索</button>
       </div>
       <div class="accordion-block">
         <button class="accordion-toggle" onclick="toggleAccordion('acc-motors')">☿ 为什么是这些数字？— 点击查看 <span class="acc-arrow">↓</span></button>
@@ -775,7 +788,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <button class="accordion-toggle" onclick="toggleAccordion('acc-interp')">✦ 揭示您数字的意义 — 点击查看 <span class="acc-arrow">↓</span></button>
         <div class="accordion-body" id="acc-interp">
           <div class="interpretation">
-            <div class="interp-power" id="interp-power">✦ Por qué estos números son poderosos ✦</div>
+            <div class="interp-power" id="interp-power">✦ 为什么这些数字属于您 ✦</div>
             <div class="interp-text" id="interp-text"></div>
             <div class="interp-divider"></div>
             <div class="interp-closer" id="interp-closer"></div>
@@ -789,8 +802,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <div class="disclaimer-text">ℹ️ 数字神谕是娱乐与个人启示工具。</div>
       <div class="pro-banner" id="pro-banner-bottom" style="display:none">
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
-        <div class="pro-perks">Consultas ilimitadas · Historial 30 días · Todos los juegos · desde ¥58 CNY/mes</div>
-        <button class="btn-pro" onclick="showTab('upgrade')">Ver plan Pro →</button>
+        <div class="pro-perks">无限次探索 · 30天历史记录 · 全部五款解读 · 每月 ¥58 起</div>
+        <button class="btn-pro" onclick="showTab('upgrade')">查看专业版 →</button>
       </div>
     </div>
 
@@ -799,16 +812,16 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="profile-avatar" id="profile-avatar">A</div>
         <div class="profile-name" id="profile-name">用户</div>
         <div class="profile-email" id="profile-email">—</div>
-        <div class="profile-plan plan-free" id="profile-plan">免费版 · 每日1次占卜</div>
+        <div class="profile-plan plan-free" id="profile-plan">免费版 · 每日1次解读</div>
         <div class="profile-stats">
-          <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label">今日占卜</div></div>
+          <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label">今日解读</div></div>
           <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label">历史总计</div></div>
         </div>
         <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem" onclick="showTab('upgrade')">⬆ 升级专业版 — 每月¥58起</button>
         <button class="btn-secondary" style="width:100%;margin-top:0" onclick="logout()">退出登录</button>
       </div>
       <div class="profile-card">
-        <div class="history-title">占卜历史</div>
+        <div class="history-title">解读历史</div>
         <div id="history-list"></div>
       </div>
     </div>
@@ -825,8 +838,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="plan-card">
           <div class="plan-name">✦ Freemium</div>
           <ul class="plan-features">
-            <li><span class="check">✓</span>每天1次免费占卜</li>
-            <li><span class="check">✓</span>3款游戏（今日 + 快速 + 世界杯🏆）</li>
+            <li><span class="check">✓</span>每天1次免费体验</li>
+            <li><span class="check">✓</span>3款探索（今日 + 此刻 + 世界杯🏆）</li>
             <li><span class="check">✓</span>每日黄金数字</li>
             <li><span class="check">✓</span>中文界面</li>
             <li><span class="cross">✗</span><span style="color:var(--faint)">无历史记录</span></li>
@@ -840,8 +853,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <div class="plan-badge">✦ PRÓXIMAMENTE</div>
           <div class="plan-name">✦ Pro</div>
           <ul class="plan-features">
-            <li><span class="check">✓</span>无限次占卜</li>
-            <li><span class="check">✓</span>5款游戏全部解锁</li>
+            <li><span class="check">✓</span>无限次探索</li>
+            <li><span class="check">✓</span>五款解读全部开放</li>
             <li><span class="check">✓</span>每日黄金数字</li>
             <li><span class="check">✓</span>中文界面</li>
             <li><span class="check">✓</span>30天历史记录</li>
@@ -856,36 +869,36 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="perk-row">
           <div class="perk-icon">🔮</div>
           <div class="perk-text">
-            <div class="perk-name">无限次占卜</div>
-            <div class="perk-desc">每天想占卜多少次就占卜多少次。 Prueba diferentes juegos, diferentes energías. Sin restricciones.</div>
+            <div class="perk-name">无限次深度探索</div>
+            <div class="perk-desc">每天随心所欲地探索不同解读，感受不同能量的流动。没有次数限制，完全自由。</div>
           </div>
         </div>
         <div class="perk-row">
           <div class="perk-icon">📜</div>
           <div class="perk-text">
-            <div class="perk-name">Historial completo de 30 días</div>
-            <div class="perk-desc">Revisa cada combinación que el cosmos te ha revelado. Encuentra patrones en tus números de la suerte.</div>
+            <div class="perk-name">30天完整洞见记录</div>
+            <div class="perk-desc">回顾宇宙为您揭示的每一次组合。在数字的流动中发现属于您的规律与智慧。</div>
           </div>
         </div>
         <div class="perk-row">
           <div class="perk-icon">🌙</div>
           <div class="perk-text">
-            <div class="perk-name">Número de Oro cada día</div>
-            <div class="perk-desc">Tu número en proporción áurea calculado fresh cada día, integrado en tu combinación de juego.</div>
+            <div class="perk-name">每日专属黄金数字</div>
+            <div class="perk-desc">以黄金比例为您每天重新推算，融入您当日的完整组合。每一天都是全新的启示。</div>
           </div>
         </div>
         <div class="perk-row">
           <div class="perk-icon">🌍</div>
           <div class="perk-text">
-            <div class="perk-name">Los 3 idiomas y todos los juegos</div>
-            <div class="perk-desc">Números del Día, Pulso del Momento, Destino y Deportivos. En español, inglés o chino mandarín. Con reglas culturales activas.</div>
+            <div class="perk-name">三种语言 · 全部五款解读</div>
+            <div class="perk-desc">今日数字、此刻脉动、命运数字与体育洞见，以中文、西班牙语或英语呈现，融入各自的文化智慧。</div>
           </div>
         </div>
         <div class="perk-row">
           <div class="perk-icon">✦</div>
           <div class="perk-text">
-            <div class="perk-name">Prioridad en nuevas funciones</div>
-            <div class="perk-desc">Los usuarios Pro acceden primero a cada nueva capacidad del oráculo antes que el resto.</div>
+            <div class="perk-name">新功能优先体验</div>
+            <div class="perk-desc">专业版用户优先获得数字神谕每一项新能力，早于所有其他用户。</div>
           </div>
         </div>
       </div>
@@ -908,7 +921,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
             <div style="font-size:15px;color:var(--text);font-weight:500">按次付费</div>
             <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">¥18 <span style="font-size:15px;color:var(--muted)">CNY/次</span></div>
           </div>
-          <div style="font-size:15px;color:var(--muted);line-height:1.6">单次占卜，无需承诺。适合在订阅前体验。</div>
+          <div style="font-size:15px;color:var(--muted);line-height:1.6">单次体验，无需承诺。适合在订阅前深入了解。</div>
         </div>
       </div>
 
@@ -1069,10 +1082,10 @@ const TRANSLATIONS={zh:{
   sealTextMap:{lottery:'振动已封印',chance:'数字已揭示',casino:'序列已揭示',sports:'宇宙解读',default:'组合已封印'},
   sealSub:'五大宇宙力量在您的数字中汇聚',
   goldenLabel:'✦ 今日黄金数字 ✦',
-  goldenSublabel:'（与您的生命数字不同 · 每天变化）',
+  goldenSublabel:'（与您的生命数字不同 · 每天焕新）',
   goldenName:'您的神圣比例数字',
-  goldenInPlay:'✓ 已包含在您的组合中',
-  goldenCeremonial:'✦ 灵感仪式数字',
+  goldenInPlay:'✦ 此数字已融入您今日的能量场',
+  goldenCeremonial:'✦ 您今日的灵性指引数字',
   proCTATitle:'✦ NUMBERS PRO ✦',
   proCTAUrgency:'您的组合明天会改变。<br>保存它 · 访问命运和体育 · 无每日限制。',
   proCTAPrice:'每次咨询仅需 ¥18 · 即将推出',
