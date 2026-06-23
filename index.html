@@ -523,6 +523,18 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .numa-chip:active{background:rgba(201,168,76,.08);border-color:var(--gold)}
 .numa-chip.locked{grid-column:1/-1;color:var(--muted);border-style:dashed;cursor:default;opacity:.65;text-align:center}
 </style>
+<!-- OneSignal Web Push -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred=window.OneSignalDeferred||[];
+OneSignalDeferred.push(async function(OneSignal){
+  await OneSignal.init({
+    appId:"a3e91790-46be-41ed-b09f-1de1af26a467",
+    notifyButton:{enable:false},
+    promptOptions:{slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"🔮 Recibe tu número del día cada mañana",acceptButton:"Sí, actívame",cancelButton:"Ahora no"}}]}}
+  });
+});
+</script>
 </head>
 <body>
 <div class="starfield"></div>
@@ -1261,7 +1273,8 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
 }
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade',numa:'nav-numa'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
+function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade',numa:'nav-numa'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
 // ─── NUMA — Oráculo Guiado ───
 const NUMA_DATA={
   questions:{
