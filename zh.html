@@ -483,6 +483,31 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-result.signals-mode #pro-banner-bottom,
 #tab-result.signals-mode .result-header
 {display:none!important}
+/* ─── NUMA — 能量向导 ─── */
+#tab-numa{position:absolute;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;animation:numaIn .3s ease both}
+@keyframes numaIn{from{transform:translateY(3%);opacity:0}to{transform:translateY(0);opacity:1}}
+.numa-back{background:none;border:none;color:var(--gold2);font-size:22px;cursor:pointer;padding:4px 10px 4px 0;line-height:1;flex-shrink:0;touch-action:manipulation;opacity:.85}
+.numa-header{display:flex;align-items:center;gap:12px;padding:.85rem 1rem .7rem;border-bottom:.5px solid var(--border);flex-shrink:0}
+.numa-avatar{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f5e1a0,var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(201,168,76,.4);flex-shrink:0}
+.numa-name{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);letter-spacing:.05em}
+.numa-status{font-size:11px;color:var(--teal);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.numa-chat{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.numa-bubble{max-width:88%;padding:11px 14px;border-radius:16px;font-size:16px;line-height:1.65}
+.numa-cta-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(201,168,76,.09),rgba(201,168,76,.02));border:.5px solid rgba(201,168,76,.35);border-radius:16px;padding:16px;cursor:pointer;margin:1rem 0;transition:border-color .2s,transform .15s;touch-action:manipulation}
+.numa-cta-card:active{transform:scale(.98);border-color:var(--gold)}
+.numa-cta-orb{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f5e1a0,var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 16px rgba(201,168,76,.25);flex-shrink:0}
+.numa-cta-title{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold2);letter-spacing:.04em;margin-bottom:5px}
+.numa-cta-sub{font-size:14px;color:var(--muted);line-height:1.45}
+.numa-cta-arrow{color:var(--gold2);font-size:20px;margin-left:auto;flex-shrink:0;opacity:.75}
+.nbfn{background:var(--bg2);border:.5px solid var(--border);border-top-left-radius:4px;align-self:flex-start}
+.nbfu{background:linear-gradient(135deg,#c9a84c,#a87618);color:#1a1306;border-top-right-radius:4px;align-self:flex-end;font-weight:600}
+.numa-score{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.4px;color:var(--muted);border:.5px solid var(--border);border-radius:20px;padding:3px 10px;font-family:'JetBrains Mono',monospace}
+.numa-chips-wrap{flex-shrink:0;padding:.7rem 1rem calc(.6rem + env(safe-area-inset-bottom));border-top:.5px solid var(--border);background:var(--bg2)}
+.numa-chips-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:.55rem;text-transform:uppercase}
+.numa-chips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:14px;padding:14px 10px;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.45;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;text-align:center}
+.numa-chip:active{background:rgba(201,168,76,.08);border-color:var(--gold)}
+.numa-chip.locked{grid-column:1/-1;color:var(--muted);border-style:dashed;cursor:default;opacity:.65;text-align:center}
 </style>
 </head>
 <body>
@@ -777,6 +802,14 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <button class="btn-whatsapp" onclick="shareWA()">📱 分享</button>
         <button class="btn-new" onclick="newConsult()">↺ 新探索</button>
       </div>
+      <div class="numa-cta-card" id="numa-cta" onclick="showTab('numa')">
+        <div class="numa-cta-orb">🔮</div>
+        <div>
+          <div class="numa-cta-title">NUMA 有话对你说</div>
+          <div class="numa-cta-sub">你的能量向导已解读今天的数字。来问它吧。</div>
+        </div>
+        <div class="numa-cta-arrow">→</div>
+      </div>
       <div class="accordion-block">
         <button class="accordion-toggle" onclick="toggleAccordion('acc-motors')">☿ 为什么是这些数字？— 点击查看 <span class="acc-arrow">↓</span></button>
         <div class="accordion-body" id="acc-motors">
@@ -973,9 +1006,27 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
     </div>
     <canvas id="wa-canvas" width="800" height="420"></canvas>
 
+    <!-- NUMA — 能量向导 -->
+    <div id="tab-numa" class="hidden">
+      <div class="numa-header">
+        <button class="numa-back" onclick="numaClose()" aria-label="返回">←</button>
+        <div class="numa-avatar">🔮</div>
+        <div>
+          <div class="numa-name">NUMA</div>
+          <div class="numa-status" id="numa-status-line">● 解读你的数字 · 陪伴你了解自己</div>
+        </div>
+      </div>
+      <div class="numa-chat" id="numa-chat"></div>
+      <div class="numa-chips-wrap">
+        <div class="numa-chips-label" id="numa-chips-label">✦ 选择你的问题</div>
+        <div class="numa-chips" id="numa-chips"></div>
+      </div>
+    </div>
+
     <div class="bottom-nav">
       <button class="nav-btn active" onclick="showTab('form')" id="nav-home"><div class="nav-icon">✦</div><div class="nav-label">首页</div></button>
       <button class="nav-btn" onclick="showTab('result')" id="nav-result"><div class="nav-icon">🔮</div><div class="nav-label">数字</div></button>
+      <button class="nav-btn" onclick="showTab('numa')" id="nav-numa"><div class="nav-icon">🌟</div><div class="nav-label">NUMA</div></button>
       <button class="nav-btn" onclick="showTab('upgrade')" id="nav-upgrade"><div class="nav-icon">👑</div><div class="nav-label">专业版</div></button>
       <button class="nav-btn" onclick="showTab('profile')" id="nav-profile"><div class="nav-icon">👤</div><div class="nav-label">档案</div></button>
     </div>
@@ -1502,7 +1553,109 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
 }
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function showTab(t){['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){updateRenewCountdown();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000)}if(t==='form'){try{accInit()}catch(e){}}}
+// ─── NUMA — 能量向导 ───
+const NUMA_DATA={
+  questions:{
+    zh:[
+      {id:'buen-dia',label:'🌟 今天的能量适合我吗？'},
+      {id:'numero',label:'🔢 今天我的数字是？'},
+      {id:'arriesgar',label:'⚡ 现在适合行动吗？'},
+      {id:'energia',label:'✨ 今天我的能量如何？'},
+      {id:'libre',label:'🔒 自由提问 — 即将开放',locked:true}
+    ]
+  },
+  greet:{
+    zh:[
+      '你好 {nombre} ✨ 我是NUMA — 我解读你今天的数字能量，陪伴你了解自己。你想探索什么？',
+      '{nombre}，今天的数字已经就绪 🔮 我是你的能量向导。选一个问题，我们一起来看看。',
+      '{nombre} ✦ 今日能量已在此刻凝聚。我是NUMA，陪你照见今天的自己。'
+    ]
+  },
+  q1:{
+    zh:{
+      yes:['是的，今天的能量很适合你。✨ 你的个人数字（{personal}）与今日能量（{dia}）形成和谐共振——是推进心中事的好时机。','信号都在你这边，{nombre}。今天你的能量与日能量和谐共鸣，适合稳步前行。','今天能量顺畅，{nombre}。你的数字与今日之数相互流动——好好把握。'],
+      mid:['今天是平衡的一天。能量平稳流动，以清晰的意图行事，不过度，不焦虑。','今日力量均衡，{nombre}。若要行动，请带着平静的心态，而非冲动。','平稳的一天，{nombre}。相信内心的觉察，而非外在的冲动，看清方向再走。'],
+      no:['今天宜静不宜动。你的能量与今日之数尚未完全共振——保存精力，等待更好时机。','今天适合放慢节奏，{nombre}。这不是冒进的时刻，明天能量会转换。','今日提示耐心。机会很快会回来，届时力量更足。']
+    }
+  },
+  q2:{
+    zh:['今天你的核心数字是{poder}，辅助数字为{a}和{b}，与之呼应的颜色是{color}。','今日你共振于{poder}。你的支撑数字是{a}和{b} · 颜色{color}。','{poder}是你今日的核心，{nombre}。你现在的能量数字：{a}与{b} · 颜色{color}。']
+  },
+  q3:{
+    zh:{
+      yes:['今天适合行动。能量在你这边——如果你感到内心的驱动，请跟随它。','现在是你的时刻，{nombre}。在这样的日子里，清醒的行动会带来收获。','今日力量充沛。如果你要迈步，就在今天，带着信心前行。'],
+      no:['今天能量偏静。这是观察和积蓄的时刻，而非冲动行事——等待能量回升再出发。','稳稳的，{nombre}。今天的能量倾向于暂停与内省，而非外部冲突。','今天需要清醒的头脑，{nombre}。观察、等待，当能量呼唤你时再行动。']
+    }
+  },
+  q4:{
+    zh:{
+      1:{k:'推动力 · 新的开始',t:'今天你处于主导能量中。适合开始新事物，踏出第一步，无所畏惧。'},
+      2:{k:'平静 · 平衡',t:'今天能量平和。适合耐心等待、沟通协调，让事物自然展开。'},
+      3:{k:'创造力 · 喜悦',t:'你的能量闪耀。适合表达自我、与他人连接，以及享受让你快乐的事。'},
+      4:{k:'结构 · 踏实',t:'今天适合建设。专注于秩序、稳固的行动和打好基础。'},
+      5:{k:'变化 · 流动',t:'今天需要行动力。变化与探索的能量正在涌动，对未知保持开放。'},
+      6:{k:'关爱 · 家庭',t:'今天内心温柔。适合关注情感、家人，以及你所珍视的人与事。'},
+      7:{k:'直觉 · 内省',t:'向内探索的好时机。你的直觉此刻敏锐——做决定前先倾听内心。'},
+      8:{k:'意志力 · 实现',t:'充满意志力的一天。适合处理现实事务和做出重要的决定。'},
+      9:{k:'完成 · 循环',t:'今天是结束与释放的时刻。放下旧有，为新的能量循环腾出空间。'}
+    }
+  }
+};
+function numaGetDayNum(){const t=new Date(),s=`${t.getFullYear()}${t.getMonth()+1}${t.getDate()}`;return numReduce([...s].reduce((a,c)=>a+parseInt(c),0));}
+function numaHarmony(lp,dn){const s=numReduce(lp+dn);const m={1:82,2:58,3:36,4:42,5:88,6:65,7:72,8:92,9:60};const b=m[s]||65,v=((new Date().getDate()+new Date().getMonth())%7)*2-6;return Math.min(98,Math.max(18,b+v));}
+function numaFill(tpl,vars){return tpl.replace(/\{(\w+)\}/g,(_,k)=>vars[k]??'?')}
+function numaRand(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function numaVars(){
+  const lr=STATE.lastResult,r=lr?.result,p=STATE.profile;
+  let lp=r?.lp;if(!lp&&p?.full_name&&p?.birth_date){try{lp=lifePath(p.full_name,p.birth_date)}catch(e){}}lp=lp||5;
+  const dn=numaGetDayNum(),nombre=(p?.full_name||'朋友').split(' ')[0]||'朋友';
+  const poder=r?.golden||lp,nums=r?.nums||[],a=nums[0]||lp,b=nums[1]||numReduce(lp+dn);
+  const color=lp%2===0?'红色':'黑色';
+  return{lp,dayNum:dn,nombre,poder,a,b,color,score:numaHarmony(lp,dn),personal:lp,dia:dn};
+}
+function numaAddBubble(html,fromUser,delay){setTimeout(()=>{const chat=document.getElementById('numa-chat');if(!chat)return;const div=document.createElement('div');div.className='numa-bubble '+(fromUser?'nbfu':'nbfn');div.innerHTML=html;chat.appendChild(div);setTimeout(()=>{chat.scrollTop=chat.scrollHeight},30);},delay||0);}
+function numaOpen(){
+  const statusEl=document.getElementById('numa-status-line');
+  const lbl=document.getElementById('numa-chips-label');
+  const chipsEl=document.getElementById('numa-chips');
+  if(statusEl)statusEl.textContent='● 解读你的数字 · 陪伴你了解自己';
+  if(lbl)lbl.textContent='✦ 选择你的问题';
+  if(chipsEl){const qs=NUMA_DATA.questions.zh;chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" data-qid="${q.id}">${q.label}</button>`).join('');chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{let _touched=false;btn.addEventListener('touchend',function(e){e.preventDefault();_touched=true;numaAsk(this.dataset.qid);setTimeout(()=>{_touched=false},500);});btn.addEventListener('click',function(){if(!_touched)numaAsk(this.dataset.qid);});})}
+  const chat=document.getElementById('numa-chat');
+  if(chat&&chat.children.length===0)numaGreet();
+}
+function numaGreet(){const vars=numaVars(),g=NUMA_DATA.greet.zh;numaAddBubble(numaFill(numaRand(g),vars),false);}
+function numaClose(){showTab(STATE.prevTab||'form');}
+function numaAsk(q){
+  try{
+    const vars=numaVars();
+    const chip=NUMA_DATA.questions.zh.find(x=>x.id===q);
+    if(!chip||chip.locked)return;
+    numaAddBubble(chip.label,true);
+    let resp='';
+    if(q==='buen-dia'){const tier=vars.score>=70?'yes':vars.score>=40?'mid':'no';const d=NUMA_DATA.q1.zh[tier];resp=numaFill(numaRand(d),vars)+`<br><span class="numa-score">能量和谐度 · ${vars.score}/100</span>`;}
+    else if(q==='numero'){resp=numaFill(numaRand(NUMA_DATA.q2.zh),vars);}
+    else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=NUMA_DATA.q3.zh[tier];resp=numaFill(numaRand(d),vars);}
+    else if(q==='energia'){const d=NUMA_DATA.q4.zh[vars.dayNum]||NUMA_DATA.q4.zh[1];resp=`<strong style="color:var(--gold)">今日你共振于 ${vars.dayNum}：${d.k}。</strong><br>${d.t}`;}
+    if(resp)numaAddBubble(resp,false,700);
+    else numaAddBubble('✦ 能量正在整合中……请再试一次。',false,700);
+  }catch(e){console.error('[NUMA]',e);numaAddBubble('✦ 能量正在整合中……请再试一次。',false,400);}
+}
+function showTab(t){
+  STATE.prevTab=(t==='numa')?STATE.prevTab||'form':t;
+  ['form','loading','result','profile','upgrade'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});
+  const numaEl=document.getElementById('tab-numa');
+  if(numaEl){if(t==='numa')numaEl.classList.remove('hidden');else numaEl.classList.add('hidden');}
+  if(t!=='numa'){const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');}
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade',numa:'nav-numa'};
+  if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}
+  if(t==='profile')renderProfile();
+  if(t==='upgrade')detectRegionPricing();
+  if(t==='result'){updateRenewCountdown();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000)}
+  if(t==='form'){try{accInit()}catch(e){}}
+  if(t==='numa')numaOpen();
+}
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');applyLang(l)}
 function goLang(l){try{localStorage.setItem('no_lang',l)}catch(e){}location.href='index.html';}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}

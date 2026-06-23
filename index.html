@@ -541,6 +541,13 @@ OneSignalDeferred.push(async function(OneSignal){
 <div id="app">
   <div class="screen active" id="screen-landing">
     <div class="landing">
+      <div style="align-self:stretch;display:flex;justify-content:flex-end;margin-bottom:.25rem">
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="es" onclick="setLang('es',this)">ES</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en',this)">EN</button>
+          <button class="lang-btn" data-lang="zh" onclick="setLang('zh',this)">中</button>
+        </div>
+      </div>
       <div class="landing-eyebrow">✦ oráculo numérico ✦</div>
       <div class="landing-logo">NUMBERS</div>
       <div class="landing-tagline" id="ll-tag">Tu número del día, calculado con 5 fuerzas cósmicas</div>
@@ -630,9 +637,9 @@ OneSignalDeferred.push(async function(OneSignal){
       <div class="header-logo">NUMBERS</div>
       <div class="header-right">
         <div class="lang-switcher">
-          <button class="lang-btn active" onclick="setLang('es',this)">ES</button>
-          <button class="lang-btn" onclick="setLang('en',this)">EN</button>
-          <button class="lang-btn" onclick="setLang('zh',this)">中</button>
+          <button class="lang-btn active" data-lang="es" onclick="setLang('es',this)">ES</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en',this)">EN</button>
+          <button class="lang-btn" data-lang="zh" onclick="setLang('zh',this)">中</button>
         </div>
         <div class="user-avatar" id="user-avatar" onclick="showTab('profile')">A</div>
       </div>
@@ -1370,7 +1377,7 @@ function numaAsk(q){
     else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ La energía está procesando tu pregunta...',false,700);
   }catch(e){console.error('[NUMA]',e);numaAddBubble('✦ Los astros se están alineando... intenta de nuevo.',false,400);}
 }
-function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}}
+function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.title=l==='en'?'NUMBERS ORACLE ✦ — Your Golden Number for Today':'NUMBERS ORACLE ✦ — Tu Número de Oro del Día';document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.lang-btn[data-lang="'+l+'"]').forEach(x=>x.classList.add('active'));try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
@@ -1816,6 +1823,8 @@ function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
 const UI_EN=[
 ['.landing-eyebrow','✦ numeric oracle ✦'],
 ['#ll-tag','Your number for today, calculated with 5 cosmic forces'],
+['.lgp-label','✦ Your Golden Number for Today ✦'],
+['.lgp-desc','Unique to you · Changes every 24h'],
 ['#ll-hint','Just your name and date · Free · Ready in 30 seconds'],
 ['.landing-unique','No other app in the world makes this crossing'],
 ['.engines-preview .ep-item:nth-child(1) .ep-label','Numerology'],
@@ -1959,16 +1968,16 @@ const UI_EN=[
 ['.plan-card.featured .plan-features li:nth-child(6)','<span class="check">✓</span>No daily limit','html'],
 ['.plan-card.featured .plan-cta','Notify me →'],
 ['.perks-title','✦ Why Pro is worth it ✦'],
-['.upgrade-perks .perk-row:nth-of-type(1) .perk-name','Unlimited readings'],
-['.upgrade-perks .perk-row:nth-of-type(1) .perk-desc','Ask as many times a day as you want. Try different games, different energies. No restrictions.'],
-['.upgrade-perks .perk-row:nth-of-type(2) .perk-name','Full 30-day history'],
-['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Review every combination the cosmos has revealed to you. Find patterns in your numeric energy.'],
-['.upgrade-perks .perk-row:nth-of-type(3) .perk-name','Golden Number every day'],
-['.upgrade-perks .perk-row:nth-of-type(3) .perk-desc','Your golden-ratio number calculated fresh every day, integrated into your game combination.'],
-['.upgrade-perks .perk-row:nth-of-type(4) .perk-name','All 3 languages and every game'],
-['.upgrade-perks .perk-row:nth-of-type(4) .perk-desc','Numbers of the Day, Pulse of the Moment, Destiny and Sports. In Spanish, English or Mandarin Chinese. With active cultural rules.'],
-['.upgrade-perks .perk-row:nth-of-type(5) .perk-name','Priority on new features'],
-['.upgrade-perks .perk-row:nth-of-type(5) .perk-desc','Pro users access every new oracle capability before everyone else.'],
+['.upgrade-perks .perk-row:nth-of-type(2) .perk-name','Unlimited readings'],
+['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Ask as many times a day as you want. Try different games, different energies. No restrictions.'],
+['.upgrade-perks .perk-row:nth-of-type(3) .perk-name','Full 30-day history'],
+['.upgrade-perks .perk-row:nth-of-type(3) .perk-desc','Review every combination the cosmos has revealed to you. Find patterns in your numeric energy.'],
+['.upgrade-perks .perk-row:nth-of-type(4) .perk-name','Golden Number every day'],
+['.upgrade-perks .perk-row:nth-of-type(4) .perk-desc','Your golden-ratio number calculated fresh every day, integrated into your game combination.'],
+['.upgrade-perks .perk-row:nth-of-type(5) .perk-name','All 3 languages and every game'],
+['.upgrade-perks .perk-row:nth-of-type(5) .perk-desc','Numbers of the Day, Pulse of the Moment, Destiny and Sports. In Spanish, English or Mandarin Chinese. With active cultural rules.'],
+['.upgrade-perks .perk-row:nth-of-type(6) .perk-name','Priority on new features'],
+['.upgrade-perks .perk-row:nth-of-type(6) .perk-desc','Pro users access every new oracle capability before everyone else.'],
 ['#region-pricing > div:first-child','✦ Choose how you want access ✦'],
 ['div:has(> #price-monthly) > div:first-child','Monthly subscription'],
 ['div:has(> div > #price-monthly) > div:last-child','Unlimited access for 30 days. Renews automatically. Cancel anytime.'],
@@ -1977,13 +1986,29 @@ const UI_EN=[
 ['.upgrade-notify .notify-title','🔔 Coming soon'],
 ['.notify-sub','We are activating payments. Leave your email and you will be the first to know when you can subscribe.'],
 ['.btn-notify','Notify me when it\'s ready'],
-['#modal-title','Coming soon'],
-['#modal-body','We are activating payments. You will be the first to know when the Pro Plan is available.'],
-['.modal-close','Got it →'],
+['#notify-modal .modal-title','Reserve your Pro spot'],
+['#notify-logged-info .modal-body','We\'ll notify you at <span id="notify-logged-email" class="notify-logged-email"></span> as soon as payments are active.','html'],
+['#notify-form .modal-body','Leave your email and you\'ll be the first in when Pro Plan opens.'],
+['#notify-error','Enter a valid email'],
+['#notify-email-input','you@email.com','ph'],
+['#notify-submit-btn','Notify me when it\'s ready →'],
+['button.notify-close-link','Close'],
 ['#nav-home .nav-label','Home'],
 ['#nav-result .nav-label','Numbers'],
+['#nav-numa .nav-label','NUMA'],
 ['#nav-upgrade .nav-label','Pro'],
-['#nav-profile .nav-label','Profile']
+['#nav-profile .nav-label','Profile'],
+['.game-card[data-game="signals"] .free-badge','✦ FREE'],
+['.numa-game-card .free-badge','✦ FREE'],
+['#numa-cta .numa-cta-title','NUMA has something to tell you'],
+['#numa-cta .numa-cta-sub','Your personal oracle has read today\'s numbers. Ask it.'],
+['#interp-unlock-t','✦ The end of your reading is sealed ✦'],
+['#interp-unlock-btn','Unlock with Pro →'],
+['.pwa-title','✦ Take your oracle with you ✦'],
+['#pwa-sub','Install NUMBERS on your home screen. Free, no app stores.'],
+['.btn-new','↺ New reading'],
+['#duel-name-a','Team A'],
+['#duel-name-b','Team B']
 ];
 const CHIP_ES={football:['⚽ Fútbol','🔵 Equipo Local','🔴 Equipo Visitante'],basketball:['🏀 Básquet','🔵 Equipo Local','🔴 Equipo Visitante'],tennis:['🎾 Tenis','🔵 Jugador A','🔴 Jugador B'],baseball:['⚾ Béisbol','🔵 Equipo Local','🔴 Equipo Visitante'],volleyball:['🏐 Voleibol','🔵 Equipo A','🔴 Equipo B'],boxing:['🥊 Boxeo','🔵 Boxeador A','🔴 Boxeador B'],americanfootball:['🏈 F. Americano','🔵 Equipo Local','🔴 Equipo Visitante'],other:['🏆 Otro','🔵 Opción A','🔴 Opción B']};
 const CHIP_EN={football:['⚽ Soccer','🔵 Home Team','🔴 Away Team'],basketball:['🏀 Basketball','🔵 Home Team','🔴 Away Team'],tennis:['🎾 Tennis','🔵 Player A','🔴 Player B'],baseball:['⚾ Baseball','🔵 Home Team','🔴 Away Team'],volleyball:['🏐 Volleyball','🔵 Team A','🔴 Team B'],boxing:['🥊 Boxing','🔵 Boxer A','🔴 Boxer B'],americanfootball:['🏈 Am. Football','🔵 Home Team','🔴 Away Team'],other:['🏆 Other','🔵 Option A','🔴 Option B']};
@@ -2434,10 +2459,7 @@ function smReveal(){
 document.addEventListener('DOMContentLoaded',function(){
   try{
     var t=window.__noLang;
-    if(t==='en'&&typeof setLang==='function'){
-      var btns=document.querySelectorAll('.lang-btn');
-      setLang('en',btns&&btns.length>1?btns[1]:null);
-    }
+    if(t==='en'&&typeof setLang==='function'){setLang('en');}
   }catch(e){}
 });
 </script>
