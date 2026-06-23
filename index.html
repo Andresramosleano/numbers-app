@@ -83,6 +83,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
 .landing-disclaimer{font-size:15px;color:var(--faint);font-family:'JetBrains Mono',monospace;margin-top:2rem;line-height:1.6;animation:fadeUp .6s .7s both}
 .landing-unique{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.2rem;opacity:.8;animation:fadeUp .6s .35s both;border:.5px solid rgba(201,168,76,.25);border-radius:20px;padding:6px 16px;display:inline-block}
+.landing-cta-hint{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:.06em;margin-bottom:1rem;opacity:.85;animation:fadeUp .6s .4s both}
 .landing-gold-preview{text-align:center;margin-bottom:1rem;animation:fadeUp .6s .4s both}
 .lgp-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.85}
 .lgp-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.65rem}
@@ -547,6 +548,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">Geoenergía</div></div>
       </div>
       <div class="landing-unique">Ninguna otra app en el mundo hace este cruce</div>
+      <div class="landing-cta-hint" id="ll-hint">Solo tu nombre y fecha · Gratis · Listo en 30 segundos</div>
       <div id="landing-btns-guest">
         <button class="btn-primary" onclick="goAuth('register')">✦ Revelar mis números ✦</button>
         <button class="btn-secondary" onclick="goAuth('login')">Ya tengo cuenta</button>
@@ -1801,6 +1803,7 @@ function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
 const UI_EN=[
 ['.landing-eyebrow','✦ numeric oracle ✦'],
 ['#ll-tag','Your number for today, calculated with 5 cosmic forces'],
+['#ll-hint','Just your name and date · Free · Ready in 30 seconds'],
 ['.landing-unique','No other app in the world makes this crossing'],
 ['.engines-preview .ep-item:nth-child(1) .ep-label','Numerology'],
 ['.engines-preview .ep-item:nth-child(2) .ep-label','Astrology'],
