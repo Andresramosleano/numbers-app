@@ -667,7 +667,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · 选择您的探索</span><span class="acc-sum" id="acc-sum-5"></span></div>
         <div class="acc-body">
       <div class="game-grid">
-        <div class="game-card sel" data-game="lottery" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">为您今天引路的六个数字。明日自会焕新。</div></div>
+        <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">为您今天引路的六个数字。明日自会焕新。</div></div>
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">此刻脉动</div><div class="gd">流动在您身边的此刻能量。选择揭示几个数字。</div></div>
         <div id="chance-fields" class="hidden">
           <div class="duel-fields-intro" id="chance-intro">✦ 选择你想揭示几个数字</div>
@@ -679,7 +679,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ 免费</div><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">一个数字反复出现在您身边——数字智慧自有深意。</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">2026世界杯</div><div class="gd">用宇宙能量解读比赛胜者 · 世界杯期间免费无限</div></div>
-        <div class="game-card pro-locked" data-game="casino" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">与您俱生，从未改变。属于您的宇宙印记。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的生命使命..."</div></div>
+        <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">与您俱生，从未改变。属于您的宇宙印记。</div><div class="pro-preview">"您的主数字揭示宇宙在您出生前为您书写的生命使命..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">今天谁的能量更强？赛场的宇宙洞见</div><div class="pro-preview">"今天主场队伍的数字能量在振动上超越客场队伍..."</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ 填写您的个人资料以揭示您的数字</div>
@@ -1044,7 +1044,7 @@ function withTimeout(promise,ms,fallback){
     new Promise(resolve=>setTimeout(()=>{console.warn('Supabase call timed out after',ms,'ms');resolve(fallback)},ms))
   ]);
 }
-const STATE={lang:'zh',user:null,profile:null,game:'lottery',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register',chanceCount:3};
+const STATE={lang:'zh',user:null,profile:null,game:'daily',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register',chanceCount:3};
 
 // ═══════════════════════════════════════
 // INTERNACIONALIZACIÓN (i18n) — CHINO MANDARÍN SIMPLIFICADO
@@ -1130,7 +1130,7 @@ const TRANSLATIONS={zh:{
   btnNewConsult:'← 新咨询',
   resultFor:'您今天的组合',
   comboTitle:'✦ 您的完整组合 ✦',
-  sealTextMap:{lottery:'振动已封印',chance:'数字已揭示',casino:'序列已揭示',sports:'宇宙解读',default:'组合已封印'},
+  sealTextMap:{daily:'振动已封印',lottery:'振动已封印',chance:'数字已揭示',destiny:'序列已揭示',casino:'序列已揭示',sports:'宇宙解读',default:'组合已封印'},
   sealSub:'五大宇宙力量在您的数字中汇聚',
   goldenLabel:'✦ 今日黄金数字 ✦',
   goldenSublabel:'（与您的生命数字不同 · 每天焕新）',
@@ -1184,7 +1184,7 @@ const TRANSLATIONS={zh:{
   successAccountCreated:'账号已创建！请检查您的邮箱以确认。您现在可以登录。',
   successResetPw:'✦ 密码已更新！正在登录...',
   successForgotSent:'✦ 链接已发送。请检查您的邮箱（包括垃圾邮件），点击链接设置新密码。',
-  gameLabels:{lottery:'今日数字',chance:'此刻脉动',casino:'命运数字',sports:'体育解读',mundial:'世界杯 2026'},
+  gameLabels:{daily:'今日数字',lottery:'今日数字',chance:'此刻脉动',destiny:'命运数字',casino:'命运数字',sports:'体育解读',mundial:'世界杯 2026'},
   duelIntro:'🏆 选择运动项目和两支对手',
   mundialIntro:'🏆 选择要解读比赛的两支球队',
   sportChips:{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',volleyball:'🏐 排球',boxing:'🥊 拳击',americanfootball:'🏈 美式足球',other:'🏆 其他'},
@@ -1354,7 +1354,7 @@ function getChinese(y){return CHINESE[(y-1900)%12]}
 function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
 function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
-const GAME_CFG={lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true},signals:{signals:true}};
+const GAME_CFG={daily:{count:6,max:45},lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},destiny:{count:5,max:36},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true},signals:{signals:true}};
 const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
 const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
 // ═══ MUNDIAL 2026 · CRONOGRAMA OFICIAL FIFA + RANKING FIFA (corte: 10 jun 2026) ═══
@@ -1773,7 +1773,7 @@ function wcFromResult(){
 function wcUpsellGo(){
   if(STATE.consultsToday>=1&&!isPro()){showTab('upgrade');return;}
   goBackToForm();
-  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="lottery"]');if(el){quickLaunch(el)}},200);
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="daily"]');if(el){quickLaunch(el)}},200);
 }
 /* ─── Acordeón ritual ─── */
 const ACC_FIELDS={1:'inp-name',2:'inp-birth',3:'inp-cityb',4:'inp-cityn'};
@@ -1977,7 +1977,7 @@ function renderResult(r,name){
   (function(){const h=document.getElementById('wc-nums-hint');if(h)h.style.display='none';})();
   const cfg=GAME_CFG[STATE.game];
   const zh=STATE.lang==='zh';const T=TRANSLATIONS.zh;
-  const games=zh?T.gameLabels:{lottery:'Números del Día',chance:'Pulso del Momento',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
+  const games=zh?T.gameLabels:{daily:'Números del Día',lottery:'Números del Día',chance:'Pulso del Momento',destiny:'Números del Destino',casino:'Números del Destino',sports:'Predicción Deportiva',mundial:'Mundial 2026'};
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   document.getElementById('golden-label').textContent=zh?T.goldenLabel:'✦ Número de Oro del Día ✦';
   document.getElementById('golden-sublabel').textContent=zh?T.goldenSublabel:'(diferente a tu número de vida · cambia cada día)';
@@ -2014,7 +2014,7 @@ function renderResult(r,name){
     ?`${firstName}，您的<strong>生命数字是 ${r.lp}</strong>——永久的，源于您的姓名和出生日期。<strong>今日黄金数字是 ${r.golden}</strong>，不同之处在于：它源于将您的 ${r.lp} 与今日宇宙四大力量的融合。这个数字与<strong>${tPlanet(r.zodiac.planet)}</strong>产生共鸣，即<strong>${tZodiac(r.zodiac.sign)}</strong>的主宰行星，其<strong>${tElement(r.zodiac.element)}</strong>元素能量掌管您的星盘。今天，<strong>${tMoon(r.moon.name)}</strong>正处于月亮周期的第 ${r.moon.day} 天，以明日不会重复的力量放大您的个人磁场。您的中国年<strong>${tAnimal(r.chinese.animal)}</strong>贡献了它的神圣数字，而您双城融合的地能振动在<strong>共鸣 ${r.geo}</strong> 上产生回响。当这五大力量汇聚为一粒种子，便涌现出这些数字，唯有这些数字。`
     :`${firstName}, tu <strong>número de vida es el ${r.lp}</strong> — permanente, nace de tu nombre y fecha de nacimiento. El <strong>Número de Oro de hoy es el ${r.golden}</strong>, diferente: emerge de fusionar tu ${r.lp} con las cuatro fuerzas del universo de hoy. Este número resuena con <strong>${r.zodiac.planet}</strong>, el planeta regente de <strong>${r.zodiac.sign}</strong>, cuya energía de elemento <strong>${r.zodiac.element}</strong> rige tu carta. Hoy, la <strong>luna ${r.moon.name}</strong> se encuentra en el día ${r.moon.day} de su ciclo, amplificando tu campo magnético personal con una fuerza que no se repetirá igual mañana. El <strong>${r.chinese.animal}</strong> de tu año chino aporta su número sagrado, y la geoenergía fusionada de tus ciudades vibra en <strong>resonancia ${r.geo}</strong>. Cuando estas cinco fuerzas se alinean en una sola semilla, emergen estos números, y solo estos.`;
   document.getElementById('interp-closer').innerHTML=zh?T.interpCloser:`Ningún otro ser en el mundo comparte esta combinación exacta hoy. Es tuya, sellada por el cosmos para este día.`;
-  const seals=zh?T.sealTextMap:{lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
+  const seals=zh?T.sealTextMap:{daily:'VIBRACIÓN SELLADA',lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',destiny:'SECUENCIA REVELADA',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
   document.getElementById('seal-text').textContent=seals[STATE.game]||seals.default||'COMBINACIÓN SELLADA';
   document.getElementById('seal-sub').textContent=zh?T.sealSub:'Cinco fuerzas cósmicas convergen en tus números';
 }
@@ -2114,7 +2114,7 @@ function shareWA(){
   }
   const{result,name,game}=STATE.lastResult;
   const zh=STATE.lang==='zh';
-  const games=zh?{lottery:'今日数字',chance:'此刻脉动',casino:'命运数字',sports:'体育解读',mundial:'世界杯2026'}:{lottery:'Números del Día',chance:'Pulso del Momento',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
+  const games=zh?{daily:'今日数字',lottery:'今日数字',chance:'此刻脉动',destiny:'命运数字',casino:'命运数字',sports:'体育解读',mundial:'世界杯2026'}:{daily:'Números del Día',lottery:'Números del Día',chance:'Pulso del Momento',destiny:'Números del Destino',casino:'Números del Destino',sports:'Números Deportivos',mundial:'Mundial 2026'};
   const gameName=games[game]||game;
   const text=zh
     ?`✦ 数字神谕今天揭示了我的黄金数字：${result.golden} 🌟\n\n我的${gameName}宇宙组合：${result.nums.join(' · ')}\n\n五大宇宙力量今天只为我对齐。\n\n✦ 探索您的数字：numbersoracle.com/zh.html`
