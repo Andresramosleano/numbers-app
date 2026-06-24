@@ -906,7 +906,7 @@ OneSignalDeferred.push(async function(OneSignal){
           <button class="plan-cta free" onclick="showTab('form')">Plan actual →</button>
         </div>
         <div class="plan-card featured">
-          <div class="plan-badge">✦ PRÓXIMAMENTE</div>
+          <div class="plan-badge" id="plan-pro-badge">✦ PRÓXIMAMENTE</div>
           <div class="plan-name">✦ Pro</div>
           <ul class="plan-features">
             <li><span class="check">✓</span>Consultas ilimitadas</li>
@@ -2206,23 +2206,57 @@ ${T.waLine}
 function detectRegionPricing(){
   const lang=navigator.language||navigator.languages?.[0]||'es';
   const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
-  let monthly='$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
-  let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD</span>';
-  if(lang.startsWith('zh')||tz.includes('Shanghai')||tz.includes('Hong_Kong')||tz.includes('Taipei')||tz.includes('Macau')){
-    monthly='\u00a545 <span style="font-size:15px;color:var(--muted)">CNY/mes</span>';
-    consult='\u00a512 <span style="font-size:15px;color:var(--muted)">CNY/consulta</span>';
-  } else if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe')||tz.includes('Australia'))){
-    monthly='$6.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
-    consult='$1.99 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
-  } else if(tz.includes('Asia')){
-    monthly='$4.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
-    consult='$1.49 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+  const isChina=lang.startsWith('zh')||tz.includes('Shanghai')||tz.includes('Hong_Kong')||tz.includes('Taipei')||tz.includes('Macau');
+  const badge=document.getElementById('plan-pro-badge');
+  const rp=document.getElementById('region-pricing');
+  if(!rp) return;
+  if(isChina){
+    // China: paquetes de créditos (sin trial, sin consulta individual)
+    if(badge) badge.style.display='none';
+    rp.innerHTML=`
+      <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择您的访问方式 ✦</div>
+      <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+          <div style="font-size:15px;color:var(--text);font-weight:500">3 次解读</div>
+          <div style="font-size:20px;font-weight:500;color:var(--text)">¥48</div>
+        </div>
+        <div style="font-size:15px;color:var(--muted)">每次 ¥16 · 永久有效</div>
+      </div>
+      <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
+        <div style="position:absolute;top:-10px;right:12px;background:var(--gold);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:99px">推荐</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+          <div style="font-size:15px;color:var(--gold3);font-weight:500">5 次解读</div>
+          <div style="font-size:20px;font-weight:500;color:var(--gold2)">¥78</div>
+        </div>
+        <div style="font-size:15px;color:var(--muted)">每次 ¥15.6 · 永久有效</div>
+      </div>
+      <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+          <div style="font-size:15px;color:var(--text);font-weight:500">10 次解读</div>
+          <div style="font-size:20px;font-weight:500;color:var(--text)">¥138</div>
+        </div>
+        <div style="font-size:15px;color:var(--muted)">每次 ¥13.8 · 最佳价值 · 永久有效</div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:var(--faint);margin-top:.25rem">也可选择月度订阅 ¥58（需国际信用卡）</div>
+    `;
+  } else {
+    // No-China: precios regionales + badge trial 3 días
+    if(badge){ badge.style.display=''; badge.textContent=L('✦ 3 días gratis','✦ 3 free days'); }
+    let monthly='$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
+    let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+    if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe')||tz.includes('Australia'))){
+      monthly='$6.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
+      consult='$1.99 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+    } else if(tz.includes('Asia')){
+      monthly='$4.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
+      consult='$1.49 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+    }
+    // Precios v3 (Jun 2026): Latam/E.Europa $3.99/$1.29 · USA/Eur.Occ $6.99/$1.99 · SEA $4.99/$1.49
+    const pm=document.getElementById('price-monthly');
+    const pc=document.getElementById('price-consult');
+    if(pm) pm.innerHTML=monthly;
+    if(pc) pc.innerHTML=consult;
   }
-  // Precios v3 (Jun 2026): Latam/E.Europa $3.99/$1.29 - USA/Eur.Occ $6.99/$1.99 - SEA $4.99/$1.49 - China CNY58/18 (números 8=prosperidad)
-  const pm=document.getElementById('price-monthly');
-  const pc=document.getElementById('price-consult');
-  if(pm) pm.innerHTML=monthly;
-  if(pc) pc.innerHTML=consult;
 }
 
 // Notify modal
@@ -2486,5 +2520,3 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
-</body>
-</html>
