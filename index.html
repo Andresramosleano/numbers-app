@@ -148,8 +148,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .acc-step.done .acc-tit::before{content:'✓ ';color:var(--gold)}
 .acc-step.locked{opacity:.45}
 .acc-step.profile-locked .acc-body{display:none!important}
-.acc-step.profile-locked .acc-head{cursor:default}
-.acc-lock-edit{font-size:11px;color:var(--teal);margin-left:6px;cursor:pointer;text-decoration:underline;white-space:nowrap;flex-shrink:0}
+.acc-step.profile-locked .acc-head{cursor:default;pointer-events:none}
+.acc-lock-edit{font-size:11px;color:var(--teal);margin-left:6px;cursor:pointer;text-decoration:underline;white-space:nowrap;flex-shrink:0;pointer-events:auto}
 .acc-profile-edit-hint{text-align:center;padding:.4rem 0 0;font-size:11px;color:var(--muted)}
 .acc-simple .field{margin-bottom:.4rem}
 .acc-simple .field>label{display:none}
