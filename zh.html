@@ -883,7 +883,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
           <button class="plan-cta free" onclick="showTab('form')">当前计划 →</button>
         </div>
         <div class="plan-card featured">
-          <div class="plan-badge">✦ PRÓXIMAMENTE</div>
+          <div class="plan-badge" id="plan-pro-badge">✦ PRÓXIMAMENTE</div>
           <div class="plan-name">✦ Pro</div>
           <ul class="plan-features">
             <li><span class="check">✓</span>无限次探索</li>
@@ -952,7 +952,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
         <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
             <div style="font-size:15px;color:var(--text);font-weight:500">按次付费</div>
-            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">¥18 <span style="font-size:15px;color:var(--muted)">CNY/次</span></div>
+            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">— <span style="font-size:15px;color:var(--muted)">CNY</span></div>
           </div>
           <div style="font-size:15px;color:var(--muted);line-height:1.6">单次体验，无需承诺。适合在订阅前深入了解。</div>
         </div>
@@ -1139,7 +1139,7 @@ const TRANSLATIONS={zh:{
   goldenCeremonial:'✦ 您今日的灵性指引数字',
   proCTATitle:'✦ NUMBERS PRO ✦',
   proCTAUrgency:'您的组合明天会改变。<br>保存它 · 访问命运和体育 · 无每日限制。',
-  proCTAPrice:'每次咨询仅需 ¥18 · 即将推出',
+  proCTAPrice:'解读套餐 ¥48起 · 即将推出',
   proCTABtn:'我要成为首批用户 →',
   motorShort:['命理','星象','月相','中历','地能'],
   duelSealText:'宇宙解读',
@@ -1156,7 +1156,7 @@ const TRANSLATIONS={zh:{
   profilePlanPro:'Pro 计划 · 无限咨询',
   statConsultsLabel:'今日咨询',
   statTotalLabel:'历史总计',
-  btnActivatePro:'⬆ 激活 Pro — 每次咨询仅需 ¥18',
+  btnActivatePro:'⬆ 激活 Pro — 解读套餐 ¥48起',
   btnLogout:'退出登录',
   historyTitle:'咨询历史',
   historyEmpty:'暂无咨询记录',
@@ -2122,11 +2122,37 @@ function shareWA(){
   shareZh(text);
 }
 function detectRegionPricing(){
-  // zh.html = solo China: precios v3 fijos en CNY (\u00a558/\u00a518) \u2014 n\u00fameros con 8 (prosperidad)
-  const pm=document.getElementById('price-monthly');
-  const pc=document.getElementById('price-consult');
-  if(pm) pm.innerHTML='\u00a558 <span style="font-size:15px;color:var(--muted)">CNY/\u6708</span>';
-  if(pc) pc.innerHTML='\u00a518 <span style="font-size:15px;color:var(--muted)">CNY/\u6b21</span>';
+  // zh.html = China: paquetes de créditos (sin trial, sin consulta individual)
+  const badge=document.getElementById('plan-pro-badge');
+  const rp=document.getElementById('region-pricing');
+  if(badge) badge.style.display='none';
+  if(!rp) return;
+  rp.innerHTML=`
+    <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择您的访问方式 ✦</div>
+    <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+        <div style="font-size:15px;color:var(--text);font-weight:500">3 次解读</div>
+        <div style="font-size:20px;font-weight:500;color:var(--text)">¥48</div>
+      </div>
+      <div style="font-size:15px;color:var(--muted)">每次 ¥16 · 永久有效</div>
+    </div>
+    <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
+      <div style="position:absolute;top:-10px;right:12px;background:var(--gold);color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:99px">推荐</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+        <div style="font-size:15px;color:var(--gold3);font-weight:500">5 次解读</div>
+        <div style="font-size:20px;font-weight:500;color:var(--gold2)">¥78</div>
+      </div>
+      <div style="font-size:15px;color:var(--muted)">每次 ¥15.6 · 永久有效</div>
+    </div>
+    <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+        <div style="font-size:15px;color:var(--text);font-weight:500">10 次解读</div>
+        <div style="font-size:20px;font-weight:500;color:var(--text)">¥138</div>
+      </div>
+      <div style="font-size:15px;color:var(--muted)">每次 ¥13.8 · 最佳价值 · 永久有效</div>
+    </div>
+    <div style="text-align:center;font-size:13px;color:var(--faint);margin-top:.25rem">也可选择月度订阅 ¥58（需国际信用卡）</div>
+  `;
 }
 function showNotifyModal(){
   const email=STATE.profile?.email||'';
