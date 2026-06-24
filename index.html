@@ -878,7 +878,8 @@ OneSignalDeferred.push(async function(OneSignal){
           <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total historial</div></div>
         </div>
         <button class="btn-primary" style="max-width:100%;margin-bottom:.5rem" onclick="showTab('upgrade')">⬆ Activar Pro — desde $3.99 USD/mes</button>
-        <button class="btn-secondary" style="width:100%;margin-top:0" onclick="logout()">Cerrar sesión</button>
+        <button class="btn-secondary" style="width:100%;margin-top:.5rem" onclick="editProfileData()">✏️ Editar mis datos</button>
+        <button class="btn-secondary" style="width:100%;margin-top:.5rem;opacity:.6" onclick="logout()">Cerrar sesión</button>
       </div>
       <div class="profile-card">
         <div class="history-title">Historial de consultas</div>
@@ -1548,6 +1549,7 @@ function accUpdate(){
   const p=document.getElementById('acc-progress');if(p)p.textContent=L('Paso ','Step ')+ACC_OPEN+L(' de 5',' of 5');
 }
 function accInit(){try{accLockProfile()}catch(e){}accOpenStep(accFirstEmpty(),false)}
+function editProfileData(){for(let i=1;i<=4;i++){const el=document.getElementById('acc-'+i);if(el)el.classList.remove('profile-locked');}showTab('form');accOpenStep(1,true);}
 function wcRibbonGo(){
   showTab('form');accOpenStep(5,false);
   setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="mundial"]');if(el)quickLaunch(el)},200);
