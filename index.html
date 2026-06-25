@@ -714,26 +714,22 @@ OneSignalDeferred.push(async function(OneSignal){
           </div>
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
+        <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">No es casualidad que estén juntos. Sus números lo confirman.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal. Pregúntale lo que quieras sobre tu día.</div></div>
         <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
-        <div class="game-card pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">¿Qué dicen tus números juntos? NUMA analiza el vínculo.</div><div class="pro-preview">"Tu número y el de tu pareja crean una energía única. NUMA revela el potencial de este vínculo..."</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="compat-fields" class="hidden">
-        <div class="duel-fields-intro compat-fields-intro">💑 Datos de tu pareja / Partner data</div>
-        <div class="duel-field-row">
-          <div class="duel-field">
-            <label class="duel-label" id="compat-label-inp-name">Nombre de tu pareja</label>
-            <input class="duel-inp" id="inp-compat-name" type="text" placeholder="Nombre completo" autocomplete="off">
-          </div>
+        <div class="field">
+          <label id="compat-label-inp-name">Nombre de tu pareja</label>
+          <input type="text" id="inp-compat-name" placeholder="Nombre completo" autocomplete="off">
         </div>
-        <div class="duel-field-row">
-          <div class="duel-field">
-            <label class="duel-label" id="compat-label-inp-birth">Fecha de nacimiento</label>
-            <input class="duel-inp" id="inp-compat-birth" type="date">
-          </div>
+        <div class="field">
+          <label id="compat-label-inp-birth">Fecha de nacimiento de tu pareja</label>
+          <input type="date" id="inp-compat-birth" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}">
+          <div class="field-hint">✦ Su número de camino de vida revelará el lenguaje secreto de este vínculo</div>
         </div>
       </div>
       <div id="duel-fields" class="hidden">
@@ -2188,13 +2184,12 @@ const UI_EN=[
 ['#duel-name-a','Team A'],
 ['#duel-name-b','Team B'],
 ['.game-card[data-game="compat"] .gl','Compatibility'],
-['.game-card[data-game="compat"] .gd','What do your numbers say together? NUMA analyzes your bond.'],
-['.game-card[data-game="compat"] .pro-preview','"Your number and your partner\'s create a unique energy. NUMA reveals the potential of this bond..."'],
-['#compat-label-inp-name','Name of your partner'],
-['#compat-label-inp-birth','Date of birth'],
+['.game-card[data-game="compat"] .gd','It\'s no coincidence they\'re together. Their numbers confirm it.'],
+['.game-card[data-game="compat"] .pro-preview','"Their life paths create a unique signature. NUMA reveals what the universe wrote about this bond..."'],
+['#compat-label-inp-name','Your partner\'s name'],
+['#compat-label-inp-birth','Your partner\'s date of birth'],
 ['#inp-compat-name','Full name','ph'],
-['#inp-compat-birth','','ph'],
-['.compat-fields-intro','💑 Partner data']
+['#inp-compat-birth','','ph']
 ];
 const CHIP_ES={football:['⚽ Fútbol','🔵 Equipo Local','🔴 Equipo Visitante'],basketball:['🏀 Básquet','🔵 Equipo Local','🔴 Equipo Visitante'],tennis:['🎾 Tenis','🔵 Jugador A','🔴 Jugador B'],baseball:['⚾ Béisbol','🔵 Equipo Local','🔴 Equipo Visitante'],volleyball:['🏐 Voleibol','🔵 Equipo A','🔴 Equipo B'],boxing:['🥊 Boxeo','🔵 Boxeador A','🔴 Boxeador B'],americanfootball:['🏈 F. Americano','🔵 Equipo Local','🔴 Equipo Visitante'],other:['🏆 Otro','🔵 Opción A','🔴 Opción B']};
 const CHIP_EN={football:['⚽ Soccer','🔵 Home Team','🔴 Away Team'],basketball:['🏀 Basketball','🔵 Home Team','🔴 Away Team'],tennis:['🎾 Tennis','🔵 Player A','🔴 Player B'],baseball:['⚾ Baseball','🔵 Home Team','🔴 Away Team'],volleyball:['🏐 Volleyball','🔵 Team A','🔴 Team B'],boxing:['🥊 Boxing','🔵 Boxer A','🔴 Boxer B'],americanfootball:['🏈 Am. Football','🔵 Home Team','🔴 Away Team'],other:['🏆 Other','🔵 Option A','🔴 Option B']};
