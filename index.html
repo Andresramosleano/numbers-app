@@ -1829,7 +1829,7 @@ async function generate(){
     `Sellando tu combinación cósmica única...`
   ];
   const orbs=['☿','♈','🌕','🐉','🌎','✦'];let mi=0;const iv=setInterval(()=>{document.getElementById('loading-msg').textContent=msgs[mi%msgs.length];document.getElementById('loading-orb').textContent=orbs[mi%orbs.length];mi++},900);
-  await new Promise(r=>setTimeout(r,5400));clearInterval(iv);
+  await new Promise(r=>setTimeout(r,1500));clearInterval(iv);
   const today=new Date().toISOString().split('T')[0];
   try{
     if(GAME_CFG[STATE.game]?.duel){
@@ -1845,7 +1845,10 @@ async function generate(){
       }catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
     }else{
       const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);STATE.lastResult={result,name,game:STATE.game};
-      renderResult(result,name);updateEngines(result.engines,result.moon);showTab('result');history.pushState({tab:'result'},'','');
+      renderResult(result,name);updateEngines(result.engines,result.moon);
+      await playConvergence(result.engines,result.moon,result.golden);
+      showTab('result');history.pushState({tab:'result'},'','');
+      hideConvergence();
       try{await saveConsultation(result,name);await incrementQuota();await loadHistory();}catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
     }
     updateFreemiumBar();
@@ -1855,6 +1858,42 @@ async function generate(){
   }
 }
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
+
+// ===== TEATRO DE CONVERGENCIA (Fase 1 rediseño) — solo index.html (ES/EN); zh.html no lo usa =====
+function playConvergence(e,m,golden){
+  return new Promise(resolve=>{
+    const ov=document.getElementById('conv-overlay');
+    if(!ov){resolve();return;}
+    const stage=document.getElementById('conv-stage');
+    const center=document.getElementById('conv-center');
+    document.getElementById('conv-num').textContent=golden;
+    document.getElementById('conv-lbl').textContent=L('Número de Oro','Golden Number');
+    const cap=document.getElementById('conv-cap');
+    ov.classList.remove('fade');ov.style.display='flex';
+    stage.querySelectorAll('.conv-ring').forEach(r=>r.remove());
+    center.classList.remove('show');
+    const motors=[
+      ['☿','#7bd0ff',e.num,L('La numerología despierta…','Numerology awakens…')],
+      ['♈','#ff9ec7',e.ast,L('Los astros entran en órbita…','The stars enter orbit…')],
+      ['🌙','#cdd6ff',m.day+'d',L('La luna marca su fase…','The moon marks its phase…')],
+      ['🐉','#ffcaa6',e.chi,L('El calendario chino se alinea…','The Chinese calendar aligns…')],
+      ['🌎','#7bf0b0',e.geo,L('La geoenergía cierra el círculo…','Geoenergy closes the circle…')]
+    ];
+    cap.textContent=L('Calculando tu vibración…','Calculating your vibration…');
+    motors.forEach((mo,i)=>{
+      const dia=290-i*52;
+      const r=document.createElement('div');r.className='conv-ring';
+      r.style.width=dia+'px';r.style.height=dia+'px';r.style.zIndex=5-i;
+      r.innerHTML='<svg width="'+dia+'" height="'+dia+'"><circle cx="'+(dia/2)+'" cy="'+(dia/2)+'" r="'+(dia/2-2)+'" fill="none" stroke="'+mo[1]+'" stroke-opacity=".34" stroke-width="1.4" stroke-dasharray="4 7"/></svg><div class="conv-orb" style="color:'+mo[1]+';border-color:'+mo[1]+'55">'+mo[0]+'<b style="color:'+mo[1]+'">'+mo[2]+'</b></div>';
+      stage.insertBefore(r,center);
+      setTimeout(()=>{r.classList.add('show','spin');r.style.animationDuration=(13+i*4)+'s';r.style.animationDirection=(i%2?'reverse':'normal');cap.style.opacity=0;setTimeout(()=>{cap.textContent=mo[3];cap.style.opacity=1;},160);},380+i*480);
+    });
+    const tc=380+motors.length*480+340;
+    setTimeout(()=>{cap.style.opacity=0;setTimeout(()=>{cap.textContent=L('Cinco fuerzas convergen en ti.','Five forces converge in you.');cap.style.opacity=1;},160);center.classList.add('show');stage.querySelectorAll('.conv-ring').forEach(r=>r.style.animationDuration='40s');},tc);
+    setTimeout(resolve,tc+1300);
+  });
+}
+function hideConvergence(){const ov=document.getElementById('conv-overlay');if(!ov)return;ov.classList.add('fade');setTimeout(()=>{ov.style.display='none';ov.classList.remove('fade');},650);}
 
 function resetCompatView(){
   const show=['golden-section','combo-title-wrap-top','numbers-display','power-seal','motors-row'];
@@ -2691,6 +2730,31 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="btn-sm-close" onclick="smClose()">← Volver</button>
   </div>
 </div>
+<!-- ===== TEATRO DE CONVERGENCIA (Fase 1 rediseño) ===== -->
+<style>
+#conv-overlay{position:fixed;inset:0;z-index:3000;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(135% 90% at 50% 42%,#1a1138,#060309);opacity:1;transition:opacity .6s ease}
+#conv-overlay.fade{opacity:0}
+.conv-stage{position:relative;width:300px;height:300px}
+.conv-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;opacity:0;transition:opacity .6s}
+.conv-ring.show{opacity:1}
+.conv-ring.spin{animation:convspin linear infinite}
+@keyframes convspin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.conv-orb{position:absolute;left:50%;top:0;transform:translateX(-50%);width:34px;height:34px;margin-top:-17px;background:#0f0a1e;border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
+.conv-orb b{font-family:'JetBrains Mono',monospace;font-size:10px;position:absolute;bottom:-15px;font-weight:500;white-space:nowrap}
+.conv-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.4);width:120px;height:120px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;background:radial-gradient(circle at 50% 40%,rgba(201,168,76,.32),rgba(201,168,76,.02) 70%);transition:opacity .8s ease,transform .8s cubic-bezier(.2,1.4,.4,1)}
+.conv-center.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.conv-num{font-family:'Cinzel Decorative',serif;font-size:60px;font-weight:900;color:#f5e4b0;text-shadow:0 0 26px rgba(201,168,76,.7);animation:convpulse 2.6s infinite ease-in-out}
+.conv-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:#a99fc4;text-transform:uppercase;margin-top:6px}
+@keyframes convpulse{0%,100%{text-shadow:0 0 20px rgba(201,168,76,.5)}50%{text-shadow:0 0 40px rgba(201,168,76,.95)}}
+.conv-cap{margin-top:30px;font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:#e8c97a;text-align:center;min-height:26px;padding:0 24px;transition:opacity .3s}
+</style>
+<div id="conv-overlay">
+  <div class="conv-stage" id="conv-stage">
+    <div class="conv-center" id="conv-center"><div class="conv-num" id="conv-num">7</div><div class="conv-lbl" id="conv-lbl">Número de Oro</div></div>
+  </div>
+  <div class="conv-cap" id="conv-cap"></div>
+</div>
+
 <!-- Service Worker Registration -->
 <script>
 if ('serviceWorker' in navigator) {
