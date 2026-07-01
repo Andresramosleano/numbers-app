@@ -71,10 +71,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .landing{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100dvh;padding:1.5rem 1.5rem 3rem;text-align:center}
 .landing-eyebrow{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
 .landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,8vw,3.3rem);font-weight:700;color:var(--gold2);letter-spacing:.14em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both;text-shadow:0 0 80px rgba(201,168,76,.25)}
-.landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin-bottom:1rem;animation:fadeUp .6s .3s both}
+.landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin:1rem 0;animation:fadeUp .6s .3s both}
 .landing-logo .ll-oracle{display:block;font-family:'Cinzel Decorative',serif;font-size:.34em;font-weight:600;letter-spacing:.36em;color:var(--gold);margin-top:.14em;padding-left:.36em;line-height:1}
-.landing-headline{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(30px,9vw,44px);line-height:1.16;color:var(--gold3);font-weight:500;letter-spacing:.005em;margin:.5rem 0 1.2rem;text-shadow:0 0 26px rgba(201,168,76,.2);animation:fadeUp .6s .2s both}
-.landing-engines-line{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.05em;color:var(--muted);opacity:.72;margin:0 0 1.5rem;line-height:1.7;animation:fadeUp .6s .45s both}
+.landing-headline{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(24px,7vw,34px);line-height:1.22;color:var(--gold3);font-weight:500;letter-spacing:.01em;margin:2rem 0 1.4rem;text-shadow:0 0 26px rgba(201,168,76,.2);animation:fadeUp .6s .2s both}
+.landing-engines-line{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;color:var(--muted);opacity:.55;margin:0 0 1.7rem;line-height:1.7;animation:fadeUp .6s .45s both}
 .engines-preview{display:flex;gap:1.2rem;justify-content:center;margin-bottom:1.5rem;animation:fadeUp .6s .4s both;flex-wrap:wrap}
 .ep-item{display:flex;flex-direction:column;align-items:center;gap:7px}
 .ep-orb{width:46px;height:46px;border-radius:50%;border:.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:21px}
@@ -86,9 +86,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
 .landing-disclaimer{font-size:15px;color:var(--faint);font-family:'JetBrains Mono',monospace;margin-top:2rem;line-height:1.6;animation:fadeUp .6s .7s both}
 .landing-unique{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.2rem;opacity:.8;animation:fadeUp .6s .35s both;border:.5px solid rgba(201,168,76,.25);border-radius:20px;padding:6px 16px;display:inline-block}
-.landing-cta-hint{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:.06em;margin-bottom:1rem;opacity:.85;animation:fadeUp .6s .4s both}
+.landing-cta-hint{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.06em;margin-bottom:1rem;opacity:.65;animation:fadeUp .6s .4s both}
 .landing-gold-preview{text-align:center;margin-bottom:1rem;animation:fadeUp .6s .4s both}
-.lgp-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.85}
+.lgp-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.7}
 .lgp-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.65rem}
 .lgp-halo{position:absolute;inset:-12px;border-radius:50%;border:.5px solid rgba(201,168,76,.3);animation:halo 3.5s ease-in-out infinite}
 .lgp-orb{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:900;color:#fff7e0;border:2px solid var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.4),rgba(201,168,76,.16) 55%,var(--bg2));box-shadow:0 0 40px rgba(201,168,76,.35),inset 0 2px 8px rgba(255,247,224,.15)}
@@ -652,7 +652,6 @@ OneSignalDeferred.push(async function(OneSignal){
           <div class="lgp-halo"></div>
           <div class="lgp-orb" style="width:112px;height:112px;font-size:46px">?</div>
         </div>
-        <div class="lgp-desc">Único para ti · Cambia cada 24 h</div>
       </div>
       <div class="landing-tagline" id="ll-tag">De esa convergencia nace tu Número de Oro: el que vibra a tu favor hoy. Solo tuyo, cambia en 24 horas.</div>
       <div class="landing-engines-line" id="ll-eng">numerología · astrología · luna · calendario chino · geoenergía</div>
