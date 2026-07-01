@@ -203,6 +203,17 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nball{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:700;border:1px solid var(--gold);color:var(--gold2);background:radial-gradient(circle at 35% 35%,rgba(201,168,76,.16),var(--bg2));box-shadow:0 0 22px rgba(201,168,76,.13),inset 0 1px 0 rgba(255,255,255,.05);animation:ballin .6s ease both}
 @keyframes ballin{from{opacity:0;transform:scale(.4) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
 .motors-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
+/* ===== ONBOARDING: carga de motores (formulario) ===== */
+.mcharge{margin:.15rem 0 1.1rem;text-align:center}
+.mcharge-lead{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:.15rem}
+.mcharge-sub{font-size:13.5px;color:var(--muted);font-style:italic;line-height:1.4;max-width:340px;margin:0 auto .8rem;padding:0 1rem}
+.mchips{display:flex;justify-content:center;gap:6px;flex-wrap:nowrap;margin-bottom:.55rem}
+.mchip{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;max-width:66px;padding:8px 2px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);opacity:.4;filter:grayscale(.55);transition:opacity .45s ease,filter .45s ease,border-color .45s ease}
+.mchip-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid var(--border);transition:all .45s ease}
+.mchip-lbl{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.02em;line-height:1;text-align:center}
+.mchip.on{opacity:1;filter:none}
+.mcharge-count{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--gold3);transition:color .4s}
+.mcharge-count.done{color:var(--teal)}
 /* ===== TEATRO DE CONVERGENCIA — orbital permanente (solo modo diario) ===== */
 .orbit-ring,#golden-satellites{display:none}
 #tab-result.orbit-mode .golden-orb-wrap{margin:56px auto 64px}
@@ -701,33 +712,45 @@ OneSignalDeferred.push(async function(OneSignal){
 
     <div class="form-screen" id="tab-form">
       <div class="form-title">✦ Ingresa tu energía ✦</div>
+      <div class="mcharge" id="mcharge">
+        <div class="mcharge-lead" id="mcharge-lead">Carga tus 5 motores</div>
+        <div class="mcharge-sub" id="mcharge-sub">Cada dato enciende un motor. Cuando los cinco brillen, nace tu Número de Oro.</div>
+        <div class="mchips" id="mchips">
+          <div class="mchip" data-m="0"><div class="mchip-dot">☿</div><div class="mchip-lbl">Numerología</div></div>
+          <div class="mchip" data-m="1"><div class="mchip-dot">♈</div><div class="mchip-lbl">Astrología</div></div>
+          <div class="mchip" data-m="2"><div class="mchip-dot">🌙</div><div class="mchip-lbl">Luna</div></div>
+          <div class="mchip" data-m="3"><div class="mchip-dot">🐉</div><div class="mchip-lbl">Chino</div></div>
+          <div class="mchip" data-m="4"><div class="mchip-dot">🌎</div><div class="mchip-lbl">Geo</div></div>
+        </div>
+        <div class="mcharge-count" id="mcharge-count">0 de 5 motores encendidos</div>
+      </div>
       <div class="acc-progress" id="acc-progress">Paso 1 de 5</div>
       <div class="error-toast" id="error-toast"></div>
       <div class="acc-step acc-simple" id="acc-1">
         <div class="acc-head" onclick="accToggle(1)"><span class="acc-tit">1 · Tu nombre</span><span class="acc-sum" id="acc-sum-1"></span></div>
         <div class="acc-body">
-          <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento"><div class="field-hint">✦ Tu nombre contiene la frecuencia vibracional con la que el universo te reconoce</div></div>
+          <div class="field"><label>Nombre completo</label><input type="text" id="inp-name" placeholder="Como aparece en tu documento" oninput="chargeMotors()"><div class="field-hint">✦ Tu nombre contiene la frecuencia vibracional con la que el universo te reconoce</div></div>
           <button class="acc-next" onclick="accNext(1)">Continuar ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-2">
         <div class="acc-head" onclick="accToggle(2)"><span class="acc-tit">2 · Tu nacimiento</span><span class="acc-sum" id="acc-sum-2"></span></div>
         <div class="acc-body">
-          <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}"><div class="field-hint">✦ Toca para abrir el calendario y elegir día, mes y año</div></div>
+          <div class="field"><label>Fecha de nacimiento</label><input type="date" id="inp-birth" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}" oninput="chargeMotors()" onchange="chargeMotors()"><div class="field-hint">✦ Toca para abrir el calendario y elegir día, mes y año</div></div>
           <button class="acc-next" onclick="accNext(2)">Continuar ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-3">
         <div class="acc-head" onclick="accToggle(3)"><span class="acc-tit">3 · Tu tierra de origen</span><span class="acc-sum" id="acc-sum-3"></span></div>
         <div class="acc-body">
-          <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad, País — ej: Bogotá, Colombia"><div class="field-hint">✦ Incluye el país (hay ciudades con el mismo nombre en distintos países). Ancla tu energía de origen</div></div>
+          <div class="field"><label>Ciudad de nacimiento</label><input type="text" id="inp-cityb" placeholder="Ciudad, País — ej: Bogotá, Colombia" oninput="chargeMotors()"><div class="field-hint">✦ Incluye el país (hay ciudades con el mismo nombre en distintos países). Ancla tu energía de origen</div></div>
           <button class="acc-next" onclick="accNext(3)">Continuar ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-4">
         <div class="acc-head" onclick="accToggle(4)"><span class="acc-tit">4 · Tu energía presente</span><span class="acc-sum" id="acc-sum-4"></span></div>
         <div class="acc-body">
-          <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad, País — ej: Madrid, España"><div class="field-hint">✦ Incluye el país. Determina tu campo energético presente desde donde estás hoy</div></div>
+          <div class="field"><label>Ciudad actual</label><input type="text" id="inp-cityn" placeholder="Ciudad, País — ej: Madrid, España" oninput="chargeMotors()"><div class="field-hint">✦ Incluye el país. Determina tu campo energético presente desde donde estás hoy</div></div>
           <button class="acc-next" onclick="accNext(4)">Continuar ↓</button>
         </div>
       </div>
@@ -1446,7 +1469,24 @@ function renderCiclos(tipo){
   body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
 }
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
+// ─── ONBOARDING: cada dato enciende un motor (nombre→Numerología; nacimiento→Astro+Luna+Chino; ciudades→Geo) ───
+const MCHIP_COLORS=['#7bd0ff','#ff9ec7','#cdd6ff','#ffcaa6','#7bf0b0'];
+function chargeMotors(){
+  const g=id=>{const e=document.getElementById(id);return e?e.value:'';};
+  const nameOk=!!g('inp-name').trim(), birthOk=!!g('inp-birth'),
+        geoOk=!!(g('inp-cityb').trim()&&g('inp-cityn').trim());
+  const on=[nameOk,birthOk,birthOk,birthOk,geoOk];
+  document.querySelectorAll('#mchips .mchip').forEach((c,i)=>{
+    const lit=on[i], col=MCHIP_COLORS[i], dot=c.querySelector('.mchip-dot');
+    c.classList.toggle('on',lit);
+    if(lit){c.style.borderColor=col+'66';if(dot){dot.style.borderColor=col+'99';dot.style.boxShadow='0 0 12px '+col+'55';dot.style.background=col+'22';}}
+    else{c.style.borderColor='';if(dot){dot.style.borderColor='';dot.style.boxShadow='';dot.style.background='';}}
+  });
+  const count=on.filter(Boolean).length;
+  const el=document.getElementById('mcharge-count');
+  if(el){el.textContent=count+L(' de 5 motores encendidos',' of 5 engines charged');el.classList.toggle('done',count===5);}
+}
 // ─── HOY: muestra el Número de Oro del día (orbital) en modo solo-lectura, sin gastar la consulta diaria ───
 function openHoy(){
   const nameEl=document.getElementById('inp-name'),birthEl=document.getElementById('inp-birth');
@@ -1923,7 +1963,7 @@ async function doAuth(){
 async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Error con Google')}}
 async function afterLogin(user){
   STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
-  if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}
+  if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}try{chargeMotors()}catch(e){}
   await loadHistory();await loadQuota();goTo('screen-main');openHoy();updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
 }
 function showLandingLoggedIn(){document.getElementById('landing-btns-guest').style.display='none';document.getElementById('landing-btns-user').style.display='block';}
@@ -2240,6 +2280,13 @@ const UI_EN=[
 ['#eng-chi .eng-name','Chinese'],
 ['#eng-geo .eng-name','Geoenergy'],
 ['.form-title','✦ Enter your energy ✦'],
+['#mcharge-lead','Charge your 5 engines'],
+['#mcharge-sub','Each detail lights an engine. When all five glow, your Golden Number is born.'],
+['#mchips .mchip[data-m="0"] .mchip-lbl','Numerology'],
+['#mchips .mchip[data-m="1"] .mchip-lbl','Astrology'],
+['#mchips .mchip[data-m="2"] .mchip-lbl','Moon'],
+['#mchips .mchip[data-m="3"] .mchip-lbl','Chinese'],
+['#mchips .mchip[data-m="4"] .mchip-lbl','Geo'],
 ['#wc-ribbon','🏆 World Cup 2026 — Free unlimited prediction →'],
 ['#acc-1 .acc-tit','1 · Your name'],
 ['#acc-2 .acc-tit','2 · Your birth'],
