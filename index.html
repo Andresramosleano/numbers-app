@@ -203,6 +203,18 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nball{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:700;border:1px solid var(--gold);color:var(--gold2);background:radial-gradient(circle at 35% 35%,rgba(201,168,76,.16),var(--bg2));box-shadow:0 0 22px rgba(201,168,76,.13),inset 0 1px 0 rgba(255,255,255,.05);animation:ballin .6s ease both}
 @keyframes ballin{from{opacity:0;transform:scale(.4) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
 .motors-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
+/* ===== TEATRO DE CONVERGENCIA — orbital permanente (solo modo diario) ===== */
+.orbit-ring,#golden-satellites{display:none}
+#tab-result.orbit-mode .golden-orb-wrap{margin:56px auto 64px}
+#tab-result.orbit-mode .orbit-ring{display:block;position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;z-index:0}
+#tab-result.orbit-mode .orbit-ring.r1{width:210px;height:210px;margin:-105px 0 0 -105px;border:1px dashed rgba(123,208,255,.20);animation:spin 46s linear infinite}
+#tab-result.orbit-mode .orbit-ring.r2{width:158px;height:158px;margin:-79px 0 0 -79px;border:1px dashed rgba(255,158,199,.18);animation:spin 34s linear infinite reverse}
+#tab-result.orbit-mode #golden-satellites{display:block;position:absolute;left:50%;top:50%;width:210px;height:210px;margin:-105px 0 0 -105px;pointer-events:none;z-index:3;animation:orbitConverge 1s cubic-bezier(.2,1,.35,1) both}
+.gsat{position:absolute;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1;cursor:pointer;pointer-events:auto;transition:transform .15s}
+.gsat:active{transform:scale(.88)}
+.gsat b{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;margin-top:1px}
+#tab-result.orbit-mode .motors-row{display:none}
+@keyframes orbitConverge{from{opacity:0;transform:rotate(-30deg) scale(1.45)}to{opacity:1;transform:rotate(0) scale(1)}}
 .motor-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:8px;padding:10px 4px;text-align:center}
 .motor-icon{font-size:19px;margin-bottom:3px}
 .motor-val{font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--gold)}
@@ -808,9 +820,12 @@ OneSignalDeferred.push(async function(OneSignal){
         <div class="golden-label" id="golden-label">✦ Número de Oro del Día ✦</div>
         <div class="golden-sublabel" id="golden-sublabel">(diferente a tu número de vida · cambia cada día)</div>
         <div class="golden-orb-wrap">
+          <div class="orbit-ring r1"></div>
+          <div class="orbit-ring r2"></div>
           <div class="golden-halo"></div>
           <div class="golden-halo2"></div>
           <div class="golden-orb" id="golden-orb">7</div>
+          <div id="golden-satellites"></div>
         </div>
         <div class="golden-name" id="golden-name">Tu número en proporción divina</div>
         <div class="golden-phi" id="golden-phi"></div>
@@ -1578,7 +1593,7 @@ function selGame(el){
 }
 function renderDuelResult(duel,name){
   resetCompatView();
-  (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
+  (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode','orbit-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   const proCta=document.getElementById('pro-cta-mid');
   if(proCta) proCta.style.display='none';
@@ -1718,7 +1733,7 @@ function generateCompat(){
   if(!cd)return showError('error-toast','Error');
   // Mostrar pantalla de resultado
   showTab('result');
-  const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}
+  const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode','orbit-mode');}
   // Ocultar secciones normales, mostrar compat
   const hide=['golden-section','combo-title-wrap-top','numbers-display','wc-nums-hint','chance-hint','power-seal','duel-result-section','pro-cta-mid','motors-row','motor-panel','wc-result-card'];
   hide.forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='none';el.classList.add('hidden');}});
@@ -2007,6 +2022,30 @@ function resetCompatView(){
   show.forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='';el.classList.remove('hidden');}});
   const cs=document.getElementById('compat-result-section');if(cs)cs.classList.add('hidden');
 }
+function buildOrbit(r){
+  const tr=document.getElementById('tab-result');if(tr)tr.classList.add('orbit-mode');
+  const host=document.getElementById('golden-satellites');if(!host||!r||!r.engines)return;
+  const sats=[
+    ['num','☿','#7bd0ff',r.engines.num],
+    ['ast','♈','#ff9ec7',r.engines.ast],
+    ['moon','🌙','#cdd6ff',(r.moon?r.moon.day:'')+'d'],
+    ['chi','🐉','#ffcaa6',r.engines.chi],
+    ['geo','🌎','#7bf0b0',r.engines.geo]
+  ];
+  const R=90,c=105;
+  host.innerHTML='';
+  host.style.animation='none';void host.offsetWidth;host.style.animation='';
+  sats.forEach((s,i)=>{
+    const a=(i/sats.length)*2*Math.PI - Math.PI/2;
+    const x=c+R*Math.cos(a), y=c+R*Math.sin(a);
+    const d=document.createElement('div');d.className='gsat';
+    d.style.left=x+'px';d.style.top=y+'px';d.style.color=s[2];
+    d.style.borderColor=s[2]+'66';d.style.boxShadow='0 0 10px '+s[2]+'44';
+    d.innerHTML=s[1]+'<b style="color:'+s[2]+'">'+s[3]+'</b>';
+    d.setAttribute('onclick',"openMotorPanel('"+s[0]+"')");
+    host.appendChild(d);
+  });
+}
 function renderResult(r,name){
   resetCompatView();
   (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
@@ -2031,6 +2070,7 @@ function renderResult(r,name){
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   // NÚMERO DE ORO
   document.getElementById('golden-orb').textContent=r.golden;document.getElementById('golden-orb').style.fontSize='';
+  buildOrbit(r);
   document.getElementById('golden-phi').innerHTML=uiLang()==='en'
     ?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`
     :`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
@@ -2791,7 +2831,7 @@ function generateSignals(name,birth){
   sr.innerHTML=html;
   sr.classList.remove('hidden');
   const tr=document.getElementById('tab-result');
-  tr.classList.add('signals-mode');
+  tr.classList.remove('orbit-mode');tr.classList.add('signals-mode');
   showTab('result');
   history.pushState({tab:'result'},'','');
 }
