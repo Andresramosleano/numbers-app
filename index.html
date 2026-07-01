@@ -1156,7 +1156,7 @@ OneSignalDeferred.push(async function(OneSignal){
     <canvas id="wa-canvas" width="800" height="420"></canvas>
 
     <div class="bottom-nav">
-      <button class="nav-btn active" onclick="showTab('form')" id="nav-hoy"><div class="nav-icon">☀️</div><div class="nav-label">Hoy</div></button>
+      <button class="nav-btn active" onclick="openHoy()" id="nav-hoy"><div class="nav-icon">☀️</div><div class="nav-label">Hoy</div></button>
       <button class="nav-btn" onclick="showTab('oraculos')" id="nav-oraculos"><div class="nav-icon">🔮</div><div class="nav-label">Oráculos</div></button>
       <button class="nav-btn" onclick="showTab('ciclos')" id="nav-ciclos"><div class="nav-icon">∞</div><div class="nav-label">Ciclos</div></button>
       <button class="nav-btn" onclick="showTab('numa')" id="nav-numa"><div class="nav-icon">🌟</div><div class="nav-label">NUMA</div></button>
@@ -1447,6 +1447,23 @@ function renderCiclos(tipo){
 }
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
 function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
+// ─── HOY: muestra el Número de Oro del día (orbital) en modo solo-lectura, sin gastar la consulta diaria ───
+function openHoy(){
+  const nameEl=document.getElementById('inp-name'),birthEl=document.getElementById('inp-birth');
+  const name=nameEl?nameEl.value.trim():'',birth=birthEl?birthEl.value:'';
+  if(!name||!birth){showTab('form');return;}
+  try{
+    const cityB=(document.getElementById('inp-cityb')||{value:''}).value.trim();
+    const cityN=(document.getElementById('inp-cityn')||{value:''}).value.trim();
+    const today=new Date().toISOString().split('T')[0];
+    STATE.game='daily';
+    const r=computeNumbers(name,birth,cityB,cityN,'daily',STATE.lang,today);
+    STATE.lastResult={result:r,name:name,game:'daily'};
+    renderResult(r,name);
+    try{updateEngines(r.engines,r.moon);}catch(e){}
+    showTab('result');
+  }catch(e){console.warn('openHoy fallback:',e);showTab('form');}
+}
 // ─── NUMA — Oráculo Guiado ───
 const NUMA_DATA={
   questions:{
@@ -1907,7 +1924,7 @@ async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth(
 async function afterLogin(user){
   STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
   if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}
-  await loadHistory();await loadQuota();goTo('screen-main');showTab('form');updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
+  await loadHistory();await loadQuota();goTo('screen-main');openHoy();updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
 }
 function showLandingLoggedIn(){document.getElementById('landing-btns-guest').style.display='none';document.getElementById('landing-btns-user').style.display='block';}
 async function enterApp(){if(!STATE.user)return;await afterLogin(STATE.user);}
