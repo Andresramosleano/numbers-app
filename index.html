@@ -290,11 +290,31 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .history-date{font-size:15px;color:var(--faint);font-family:'JetBrains Mono',monospace;min-width:76px}
 .history-game{font-size:15px;color:var(--muted)}
 .history-nums{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);margin-left:auto}
-.bottom-nav{display:flex;border-top:.5px solid var(--border);background:var(--bg2);padding:.6rem 0 calc(.6rem + env(safe-area-inset-bottom));max-width:640px;margin:0 auto;width:100%}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:transparent;border:none;cursor:pointer;padding:.45rem}
-.nav-icon{font-size:21px;line-height:1}
-.nav-label{font-size:15px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.bottom-nav{display:flex;border-top:.5px solid var(--border);background:rgba(8,5,16,.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:.55rem 0 calc(.55rem + env(safe-area-inset-bottom));max-width:640px;margin:0 auto;width:100%}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;cursor:pointer;padding:.4rem .2rem}
+.nav-icon{font-size:20px;line-height:1}
+.nav-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
 .nav-btn.active .nav-label{color:var(--gold)}
+.nav-btn.active .nav-icon{filter:drop-shadow(0 0 6px rgba(232,201,122,.5))}
+/* ─── ORÁCULOS TAB ─── */
+.oraculos-header{text-align:center;padding:1.8rem 1rem .8rem}
+.oraculos-title{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.08em;margin-bottom:.4rem}
+.oraculos-sub{font-size:15px;color:var(--muted);line-height:1.55}
+/* ─── CICLOS TAB ─── */
+.ciclos-header{text-align:center;padding:1.8rem 1rem .4rem}
+.ciclos-title{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.08em;margin-bottom:.4rem}
+.ciclos-sub{font-size:15px;color:var(--muted);line-height:1.5;margin-bottom:1.2rem}
+.ciclo-tab-row{display:flex;gap:.5rem;justify-content:center;margin:0 1rem 1.2rem}
+.ciclo-tab-btn{flex:1;max-width:100px;background:transparent;border:.5px solid var(--border);border-radius:20px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:.45rem .8rem;cursor:pointer;transition:all .2s}
+.ciclo-tab-btn.on{background:rgba(232,201,122,.1);border-color:var(--gold);color:var(--gold)}
+.ciclo-card{background:var(--bg2);border:.5px solid var(--border);border-radius:16px;padding:1.4rem 1.2rem;margin:0 1rem .9rem}
+.ciclo-num-row{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
+.ciclo-orb{width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--gold2),var(--gold3,#b8860b) 60%,rgba(201,168,76,.2));display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--bg);font-weight:700;flex-shrink:0}
+.ciclo-info{}
+.ciclo-name{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem}
+.ciclo-label{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold2)}
+.ciclo-narr{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--text);line-height:1.75}
+.ciclo-no-data{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:15px;line-height:1.6}
 .hidden{display:none!important}
 .spinner-mini{display:inline-block;width:12px;height:12px;border:2px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
 
@@ -1077,6 +1097,37 @@ OneSignalDeferred.push(async function(OneSignal){
       </div>
     </div>
 
+    <!-- ORÁCULOS TAB -->
+    <div id="tab-oraculos" class="hidden">
+      <div class="oraculos-header">
+        <div class="oraculos-title">Oráculos</div>
+        <div class="oraculos-sub">Siete lecturas, cada una con su propósito. Elige por dónde quieres mirar.</div>
+      </div>
+      <div class="game-grid" style="padding:0 .75rem 6rem">
+        <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía para hoy. Cambian mañana.</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu energía numérica de este instante. Elige 1, 2 o 3 números.</div></div>
+        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
+        <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">No es casualidad que estén juntos. Sus números lo confirman.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
+        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
+        <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
+        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
+      </div>
+    </div>
+
+    <!-- CICLOS TAB -->
+    <div id="tab-ciclos" class="hidden">
+      <div class="ciclos-header">
+        <div class="ciclos-title">Ciclos</div>
+        <div class="ciclos-sub">Tu energía a tres distancias. Para entenderte y equilibrarte, no para adivinar.</div>
+      </div>
+      <div class="ciclo-tab-row">
+        <button class="ciclo-tab-btn on" onclick="switchCiclo('dia',this)">Día</button>
+        <button class="ciclo-tab-btn" onclick="switchCiclo('mes',this)">Mes</button>
+        <button class="ciclo-tab-btn" onclick="switchCiclo('ano',this)">Año</button>
+      </div>
+      <div id="ciclo-body"></div>
+    </div>
+
     <div id="pwa-banner" class="pwa-banner hidden" style="position:fixed">
       <button class="pwa-close" onclick="dismissPwaBanner()" aria-label="Cerrar">✕</button>
       <div class="pwa-icon">🔮</div>
@@ -1090,10 +1141,10 @@ OneSignalDeferred.push(async function(OneSignal){
     <canvas id="wa-canvas" width="800" height="420"></canvas>
 
     <div class="bottom-nav">
-      <button class="nav-btn active" onclick="showTab('form')" id="nav-home"><div class="nav-icon">✦</div><div class="nav-label">Inicio</div></button>
-      <button class="nav-btn" onclick="showTab('result')" id="nav-result"><div class="nav-icon">🔮</div><div class="nav-label">Números</div></button>
+      <button class="nav-btn active" onclick="showTab('form')" id="nav-hoy"><div class="nav-icon">☀️</div><div class="nav-label">Hoy</div></button>
+      <button class="nav-btn" onclick="showTab('oraculos')" id="nav-oraculos"><div class="nav-icon">🔮</div><div class="nav-label">Oráculos</div></button>
+      <button class="nav-btn" onclick="showTab('ciclos')" id="nav-ciclos"><div class="nav-icon">∞</div><div class="nav-label">Ciclos</div></button>
       <button class="nav-btn" onclick="showTab('numa')" id="nav-numa"><div class="nav-icon">🌟</div><div class="nav-label">NUMA</div></button>
-      <button class="nav-btn" onclick="showTab('upgrade')" id="nav-upgrade"><div class="nav-icon">👑</div><div class="nav-label">Pro</div></button>
       <button class="nav-btn" onclick="showTab('profile')" id="nav-profile"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></button>
     </div>
   </div>
@@ -1323,8 +1374,64 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
 }
 function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+/* ─── CICLOS PERSONALES ─── */
+const CICLO_LABELS={
+  es:{dia:'Número Personal del Día',mes:'Número Personal del Mes',ano:'Año Personal',dia_sub:'Tu energía de las próximas 24 horas',mes_sub:'El tono de este mes para ti',ano_sub:'Tu vibración durante todo este año'},
+  en:{dia:'Personal Day Number',mes:'Personal Month Number',ano:'Personal Year Number',dia_sub:'Your energy for the next 24 hours',mes_sub:'The tone of this month for you',ano_sub:'Your vibration throughout this year'}
+};
+const CICLO_INTERP={
+  es:{
+    1:{label:'El Pionero',narr:'Energía de inicio y liderazgo. Es tu momento de actuar con determinación, plantar la semilla de algo nuevo. El universo respalda tu iniciativa.'},
+    2:{label:'El Diplomático',narr:'Energía de paciencia y cooperación. Los acuerdos se tejen en la quietud. Escucha más de lo que hablas: la información que necesitas llega por lo que otros dicen.'},
+    3:{label:'El Creador',narr:'Energía de expresión y expansión. Tu palabra tiene poder especial hoy. Comparte ideas, conecta personas, deja que tu creatividad fluya sin censura.'},
+    4:{label:'Los Cimientos',narr:'Energía de trabajo y estructura. No es el día para grandes saltos, es el día para construir con precisión lo que durará. El esfuerzo de hoy es la estabilidad de mañana.'},
+    5:{label:'El Cambio',narr:'Energía de movimiento y libertad. Los planes fijos se disuelven para dar paso a algo mejor. Fluye con lo inesperado: la flexibilidad es tu mayor ventaja ahora.'},
+    6:{label:'El Sanador',narr:'Energía de amor y responsabilidad. Tu presencia es lo que más vale para los tuyos. Atiende tu entorno cercano y cuídate también a ti mismo.'},
+    7:{label:'La Claridad',narr:'Energía de introspección y análisis. La respuesta no está afuera: está en el silencio. Un día para pensar, investigar y dejar que la intuición complete lo que la mente no puede.'},
+    8:{label:'El Poder',narr:'Energía de manifestación y autoridad. Tu capacidad de convertir visión en resultado está en su punto más alto. Actúa con convicción en lo material.'},
+    9:{label:'La Culminación',narr:'Energía de cierre y compasión. Algo llega a su fin para que algo mejor comience. Suelta lo que ya no te sirve con gratitud; la generosidad abre el siguiente ciclo.'},
+    11:{label:'La Intuición Maestra',narr:'Vibración elevada de iluminación y sensibilidad. Tus percepciones son inusualmente agudas. Confía en lo que sientes sin necesidad de demostrarlo.'},
+    22:{label:'El Constructor Maestro',narr:'Vibración de visión a gran escala. Tienes la capacidad de materializar algo duradero. No te quedes pequeño: los planes ambiciosos son los que merecen tu energía ahora.'},
+    33:{label:'El Maestro del Amor',narr:'Vibración de servicio y creatividad elevada. Tu presencia tiene el poder de inspirar a otros. Úsala con consciencia y generosidad.'}
+  },
+  en:{
+    1:{label:'The Pioneer',narr:'Energy of beginnings and leadership. This is your moment to act with determination, to plant the seed of something new. The universe supports your initiative.'},
+    2:{label:'The Diplomat',narr:'Energy of patience and cooperation. Agreements are woven in stillness. Listen more than you speak: the information you need arrives through what others say.'},
+    3:{label:'The Creator',narr:'Energy of expression and expansion. Your words carry special power now. Share ideas, connect people, let your creativity flow without censorship.'},
+    4:{label:'The Foundation',narr:'Energy of work and structure. Not a day for great leaps — it\'s a day to build with precision what will last. Today\'s effort is tomorrow\'s stability.'},
+    5:{label:'The Change',narr:'Energy of movement and freedom. Fixed plans dissolve to make way for something better. Flow with the unexpected: flexibility is your greatest advantage now.'},
+    6:{label:'The Healer',narr:'Energy of love and responsibility. Your presence is what matters most to those close to you. Tend to your inner circle — and to yourself.'},
+    7:{label:'The Clarity',narr:'Energy of introspection and analysis. The answer is not outside — it\'s in the silence. A day to think, investigate, and let intuition complete what the mind cannot.'},
+    8:{label:'The Power',narr:'Energy of manifestation and authority. Your ability to turn vision into result is at its peak. Act with conviction in material matters.'},
+    9:{label:'The Culmination',narr:'Energy of closure and compassion. Something ends so something better can begin. Release what no longer serves you with gratitude; generosity opens the next cycle.'},
+    11:{label:'Master Intuition',narr:'Elevated vibration of illumination and sensitivity. Your perceptions are unusually sharp. Trust what you feel without needing to prove it.'},
+    22:{label:'Master Builder',narr:'Vibration of large-scale vision. You have the ability to materialize something lasting. Don\'t think small: ambitious plans are the ones that deserve your energy now.'},
+    33:{label:'Master of Love',narr:'Vibration of elevated service and creativity. Your presence has the power to inspire others. Use it with awareness and generosity.'}
+  }
+};
+function cicloReduce(n){while(n>9&&n!==11&&n!==22&&n!==33){n=String(n).split('').map(Number).reduce((a,b)=>a+b,0);}return n;}
+function getPersonalYear(birth,year){if(!birth)return null;const p=birth.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);const yDigits=String(year).split('').map(Number).reduce((a,b)=>a+b,0);return cicloReduce(d+m+yDigits);}
+function getPersonalMonth(birth,month,year){const py=getPersonalYear(birth,year);if(py===null)return null;return cicloReduce(py+month);}
+function getPersonalDay(birth,day,month,year){const pm=getPersonalMonth(birth,month,year);if(pm===null)return null;return cicloReduce(pm+day);}
+STATE.cicloActivo='dia';
+function switchCiclo(tipo,btn){STATE.cicloActivo=tipo;document.querySelectorAll('.ciclo-tab-btn').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');renderCiclos(tipo);}
+function renderCiclos(tipo){
+  const l=uiLang();
+  const body=document.getElementById('ciclo-body');
+  if(!body)return;
+  const birth=STATE.profile&&STATE.profile.birth_date?STATE.profile.birth_date:(document.getElementById('inp-birth')?document.getElementById('inp-birth').value:'');
+  if(!birth){body.innerHTML='<div class="ciclo-no-data">'+(l==='en'?'Complete your personal data (step 2) to see your cycles.':'Completa tus datos personales (paso 2) para ver tus ciclos.')+'</div>';return;}
+  const now=new Date();const d=now.getDate(),m=now.getMonth()+1,y=now.getFullYear();
+  let num,lbl,sub;
+  if(tipo==='dia'){num=getPersonalDay(birth,d,m,y);lbl=CICLO_LABELS[l]?CICLO_LABELS[l].dia:CICLO_LABELS.es.dia;sub=CICLO_LABELS[l]?CICLO_LABELS[l].dia_sub:CICLO_LABELS.es.dia_sub;}
+  else if(tipo==='mes'){num=getPersonalMonth(birth,m,y);lbl=CICLO_LABELS[l]?CICLO_LABELS[l].mes:CICLO_LABELS.es.mes;sub=CICLO_LABELS[l]?CICLO_LABELS[l].mes_sub:CICLO_LABELS.es.mes_sub;}
+  else{num=getPersonalYear(birth,y);lbl=CICLO_LABELS[l]?CICLO_LABELS[l].ano:CICLO_LABELS.es.ano;sub=CICLO_LABELS[l]?CICLO_LABELS[l].ano_sub:CICLO_LABELS.es.ano_sub;}
+  if(!num){body.innerHTML='<div class="ciclo-no-data">—</div>';return;}
+  const interp=(CICLO_INTERP[l]||CICLO_INTERP.es)[num]||(CICLO_INTERP.es)[num]||{label:'',narr:''};
+  body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
+}
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-home',result:'nav-result',profile:'nav-profile',upgrade:'nav-upgrade',numa:'nav-numa'};if(m[t])document.getElementById(m[t]).classList.add('active');if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
 // ─── NUMA — Oráculo Guiado ───
 const NUMA_DATA={
   questions:{
@@ -2206,10 +2313,10 @@ const UI_EN=[
 ['#notify-email-input','you@email.com','ph'],
 ['#notify-submit-btn','Notify me when it\'s ready →'],
 ['button.notify-close-link','Close'],
-['#nav-home .nav-label','Home'],
-['#nav-result .nav-label','Numbers'],
+['#nav-hoy .nav-label','Today'],
+['#nav-oraculos .nav-label','Oracles'],
+['#nav-ciclos .nav-label','Cycles'],
 ['#nav-numa .nav-label','NUMA'],
-['#nav-upgrade .nav-label','Pro'],
 ['#nav-profile .nav-label','Profile'],
 ['.game-card[data-game="signals"] .free-badge','✦ FREE'],
 ['.numa-game-card .free-badge','✦ FREE'],
