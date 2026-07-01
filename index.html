@@ -70,8 +70,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .landing{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100dvh;padding:1.5rem 1.5rem 3rem;text-align:center}
 .landing-eyebrow{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
-.landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(2.4rem,9vw,4rem);font-weight:900;color:var(--gold2);letter-spacing:.1em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both;text-shadow:0 0 80px rgba(201,168,76,.25)}
-.landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin-bottom:1.5rem;animation:fadeUp .6s .3s both}
+.landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,8vw,3.3rem);font-weight:700;color:var(--gold2);letter-spacing:.14em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both;text-shadow:0 0 80px rgba(201,168,76,.25)}
+.landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin:1rem 0;animation:fadeUp .6s .3s both}
+.landing-logo .ll-oracle{display:block;font-family:'Cinzel Decorative',serif;font-size:.34em;font-weight:600;letter-spacing:.36em;color:var(--gold);margin-top:.14em;padding-left:.36em;line-height:1}
+.landing-headline{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(24px,7vw,34px);line-height:1.22;color:var(--gold3);font-weight:500;letter-spacing:.01em;margin:2rem 0 1.4rem;text-shadow:0 0 26px rgba(201,168,76,.2);animation:fadeUp .6s .2s both}
+.landing-engines-line{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;color:var(--muted);opacity:.55;margin:0 0 1.7rem;line-height:1.7;animation:fadeUp .6s .45s both}
 .engines-preview{display:flex;gap:1.2rem;justify-content:center;margin-bottom:1.5rem;animation:fadeUp .6s .4s both;flex-wrap:wrap}
 .ep-item{display:flex;flex-direction:column;align-items:center;gap:7px}
 .ep-orb{width:46px;height:46px;border-radius:50%;border:.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:21px}
@@ -83,9 +86,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
 .landing-disclaimer{font-size:15px;color:var(--faint);font-family:'JetBrains Mono',monospace;margin-top:2rem;line-height:1.6;animation:fadeUp .6s .7s both}
 .landing-unique{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.2rem;opacity:.8;animation:fadeUp .6s .35s both;border:.5px solid rgba(201,168,76,.25);border-radius:20px;padding:6px 16px;display:inline-block}
-.landing-cta-hint{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:.06em;margin-bottom:1rem;opacity:.85;animation:fadeUp .6s .4s both}
+.landing-cta-hint{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.06em;margin-bottom:1rem;opacity:.65;animation:fadeUp .6s .4s both}
 .landing-gold-preview{text-align:center;margin-bottom:1rem;animation:fadeUp .6s .4s both}
-.lgp-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.85}
+.lgp-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;opacity:.7}
 .lgp-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.65rem}
 .lgp-halo{position:absolute;inset:-12px;border-radius:50%;border:.5px solid rgba(201,168,76,.3);animation:halo 3.5s ease-in-out infinite}
 .lgp-orb{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:900;color:#fff7e0;border:2px solid var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.4),rgba(201,168,76,.16) 55%,var(--bg2));box-shadow:0 0 40px rgba(201,168,76,.35),inset 0 2px 8px rgba(255,247,224,.15)}
@@ -203,6 +206,42 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nball{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:700;border:1px solid var(--gold);color:var(--gold2);background:radial-gradient(circle at 35% 35%,rgba(201,168,76,.16),var(--bg2));box-shadow:0 0 22px rgba(201,168,76,.13),inset 0 1px 0 rgba(255,255,255,.05);animation:ballin .6s ease both}
 @keyframes ballin{from{opacity:0;transform:scale(.4) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
 .motors-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
+/* ===== HOY v2 — pantalla limpia fiel al prototipo ===== */
+#tab-hoy{text-align:center}
+#tab-hoy .hoy-daypill{font-family:'JetBrains Mono',monospace;display:inline-block;margin:2px auto 0;font-size:10.5px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:6px 14px;letter-spacing:.08em;text-transform:uppercase}
+#tab-hoy .hoy-orbit{position:relative;width:236px;height:236px;margin:16px auto 4px}
+#tab-hoy .hoy-ring{position:absolute;left:50%;top:50%;border-radius:50%;border:1px dashed;pointer-events:none}
+#tab-hoy .hoy-ring.r1{width:236px;height:236px;margin:-118px 0 0 -118px;border-color:rgba(123,208,255,.24);animation:spin 46s linear infinite}
+#tab-hoy .hoy-ring.r2{width:184px;height:184px;margin:-92px 0 0 -92px;border-color:rgba(255,158,199,.22);animation:spin 34s linear infinite reverse}
+#tab-hoy .hoy-ring.r3{width:132px;height:132px;margin:-66px 0 0 -66px;border-color:rgba(205,214,255,.22);animation:spin 28s linear infinite}
+#tab-hoy .hoy-gold{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(232,194,107,.30),rgba(232,194,107,.02) 72%)}
+#tab-hoy .hoy-n{font-family:'Cinzel Decorative',serif;font-size:58px;font-weight:900;color:var(--gold3);text-shadow:0 0 22px rgba(201,168,76,.6);line-height:1;animation:goldpulse 2.8s infinite}
+#tab-hoy .hoy-goldlbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:5px}
+#tab-hoy .hoy-mini{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1;cursor:pointer;transition:transform .15s}
+#tab-hoy .hoy-mini:active{transform:scale(.9)}
+#tab-hoy .hoy-mini b{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;margin-top:1px}
+#tab-hoy .hoy-combo{display:flex;justify-content:center;gap:9px;margin:0 0 4px;flex-wrap:wrap}
+#tab-hoy .hoy-combo b{font-family:'JetBrains Mono',monospace;width:40px;height:40px;border-radius:10px;background:var(--bg2);border:1px solid rgba(201,168,76,.38);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--gold2);font-weight:500}
+#tab-hoy .hoy-sub{color:var(--muted);font-size:15.5px;line-height:1.5;max-width:320px;margin:30px auto 14px}
+#tab-hoy .hoy-sub b{color:var(--gold2)}
+#tab-hoy .hoy-cominfo{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);letter-spacing:.06em;margin-top:12px;cursor:pointer}
+#tab-hoy .hoy-wc{display:block;width:100%;margin:20px 0 2px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--gold2);background:linear-gradient(90deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:.5px solid rgba(201,168,76,.26);border-radius:13px;padding:12px}
+#tab-hoy .hoy-numa{margin-top:18px;background:linear-gradient(180deg,rgba(123,208,255,.07),rgba(232,194,107,.05));border:1px solid var(--border);border-radius:16px;padding:15px 16px;text-align:left}
+#tab-hoy .hoy-numa-who{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase}
+#tab-hoy .hoy-numa p{font-size:16px;line-height:1.55;color:var(--text)}
+.btn-outline-hoy{margin-top:12px;width:100%;background:transparent;color:var(--gold);border:1px solid var(--border);border-radius:12px;padding:12px;font-family:'Cinzel Decorative',serif;font-size:13.5px;cursor:pointer}
+#tab-hoy .hoy-sect{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin:22px 4px 10px;text-align:left}
+#tab-hoy .hoy-sub2{color:var(--muted);font-size:14.5px;line-height:1.5;text-align:left;margin:0 4px}
+#tab-hoy .hoy-disc{color:var(--faint);font-size:12px;margin-top:16px;opacity:.85}
+.hoy-sheet-bg{position:fixed;inset:0;z-index:400;background:rgba(4,2,10,.72);display:none;align-items:flex-end;justify-content:center}
+.hoy-sheet-bg.show{display:flex}
+.hoy-sheet{width:100%;max-width:640px;background:var(--bg2);border-top:1px solid var(--gold);border-radius:22px 22px 0 0;padding:24px 22px calc(30px + env(safe-area-inset-bottom));text-align:center;animation:sheetUp .3s ease}
+.hoy-sheet .hs-ic{font-size:26px;margin-bottom:6px}
+.hoy-sheet .hs-horizon{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.hoy-sheet h2{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold3);margin-bottom:10px}
+.hoy-sheet p{font-size:15.5px;line-height:1.6;color:var(--text);margin-bottom:16px}
+@keyframes sheetUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes goldpulse{0%,100%{text-shadow:0 0 18px rgba(232,194,107,.45)}50%{text-shadow:0 0 34px rgba(232,194,107,.85)}}
 /* ===== ONBOARDING: carga de motores (formulario) ===== */
 .mcharge{margin:.15rem 0 1.1rem;text-align:center}
 .mcharge-lead{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:.15rem}
@@ -605,28 +644,20 @@ OneSignalDeferred.push(async function(OneSignal){
           <button class="lang-btn" data-lang="zh" onclick="setLang('zh',this)">中</button>
         </div>
       </div>
-      <div class="landing-eyebrow">✦ oráculo numérico ✦</div>
-      <div class="landing-logo">NUMBERS</div>
-      <div class="landing-tagline" id="ll-tag">Tu número del día, calculado con 5 fuerzas cósmicas</div>
+      <div class="landing-logo">NUMBERS<span class="ll-oracle">ORACLE</span></div>
+      <div class="landing-headline" id="ll-head">Cinco fuerzas del Cosmos<br>convergen en tu vida.</div>
       <div class="landing-gold-preview">
         <div class="lgp-label">✦ Tu Número de Oro del Día ✦</div>
         <div class="lgp-orb-wrap">
           <div class="lgp-halo"></div>
-          <div class="lgp-orb">?</div>
+          <div class="lgp-orb" style="width:112px;height:112px;font-size:46px">?</div>
         </div>
-        <div class="lgp-desc">Único para ti · Cambia cada 24h</div>
       </div>
-      <div class="engines-preview">
-        <div class="ep-item"><div class="ep-orb">☿</div><div class="ep-label">Numerología</div></div>
-        <div class="ep-item"><div class="ep-orb">♈</div><div class="ep-label">Astrología</div></div>
-        <div class="ep-item"><div class="ep-orb">🌙</div><div class="ep-label">Luna</div></div>
-        <div class="ep-item"><div class="ep-orb">🐉</div><div class="ep-label">Cal. Chino</div></div>
-        <div class="ep-item"><div class="ep-orb">🌎</div><div class="ep-label">Geoenergía</div></div>
-      </div>
-      <div class="landing-unique">Ninguna otra app en el mundo hace este cruce</div>
+      <div class="landing-tagline" id="ll-tag">De esa convergencia nace tu Número de Oro: el que vibra a tu favor hoy. Solo tuyo, cambia en 24 horas.</div>
+      <div class="landing-engines-line" id="ll-eng">numerología · astrología · luna · calendario chino · geoenergía</div>
       <div class="landing-cta-hint" id="ll-hint">Solo tu nombre y fecha · Gratis · Listo en 30 segundos</div>
       <div id="landing-btns-guest">
-        <button class="btn-primary" onclick="goAuth('register')">✦ Revelar mis números ✦</button>
+        <button class="btn-primary" onclick="goAuth('register')">✦ Revela tu número de hoy ✦</button>
         <button class="btn-secondary" onclick="goAuth('login')">Ya tengo cuenta</button>
       </div>
       <div id="landing-btns-user" style="display:none;width:100%;max-width:360px">
@@ -691,7 +722,7 @@ OneSignalDeferred.push(async function(OneSignal){
 
   <div class="screen" id="screen-main">
     <div class="app-header">
-      <div class="header-logo">NUMBERS</div>
+      <div class="header-logo">NUMBERS ORACLE</div>
       <div class="header-right">
         <div class="lang-switcher">
           <button class="lang-btn active" data-lang="es" onclick="setLang('es',this)">ES</button>
@@ -709,6 +740,29 @@ OneSignalDeferred.push(async function(OneSignal){
       <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name">Geoenergía</div></div>
     </div>
     <div class="wc-ribbon" id="wc-ribbon" onclick="wcRibbonGo()">🏆 Mundial 2026 — Predicción gratis e ilimitada →</div>
+
+    <div class="form-screen hidden" id="tab-hoy">
+      <div class="hoy-daypill" id="hoy-daypill">✦ Tu Número de Oro de hoy · cambia en 24 h</div>
+      <div class="hoy-orbit" id="hoy-orbit">
+        <div class="hoy-ring r1"></div>
+        <div class="hoy-ring r2"></div>
+        <div class="hoy-ring r3"></div>
+        <div class="hoy-gold"><div class="hoy-n" id="hoy-golden">7</div><div class="hoy-goldlbl" id="hoy-goldlbl">Número de Oro</div></div>
+      </div>
+      <div class="hoy-sub" id="hoy-combo-sub"><b>Tu combinación del día.</b> Seis números que el cosmos alineó solo para ti hoy.</div>
+      <div class="hoy-combo" id="hoy-combo"></div>
+      <div class="hoy-cominfo" id="hoy-cominfo" onclick="openComboInfoHoy()">✦ ¿Cómo nace tu Número de Oro? →</div>
+      <div class="hoy-wc" id="hoy-wc" onclick="wcRibbonGo()">🏆 Mundial 2026 — Predicción gratis e ilimitada →</div>
+      <div class="hoy-numa">
+        <div class="hoy-numa-who" id="hoy-numa-who">🔮 NUMA leyó tus números de hoy</div>
+        <p id="hoy-numa-text">—</p>
+        <button class="btn-outline-hoy" id="hoy-numa-btn" onclick="showTab('numa')">Pregúntale a NUMA →</button>
+      </div>
+      <div class="hoy-sect" id="hoy-sect">Por qué estos números</div>
+      <p class="hoy-sub2" id="hoy-sub2">Toca cualquier motor en el orbital para ver qué aportó hoy. Cada fuerza dejó su huella en tu combinación.</p>
+      <p class="hoy-disc" id="hoy-disc">ℹ️ Numbers es entretenimiento e inspiración personal.</p>
+    </div>
+    <div class="hoy-sheet-bg" id="hoy-sheet-bg" onclick="if(event.target===this)closeHoySheet()"><div class="hoy-sheet" id="hoy-sheet"></div></div>
 
     <div class="form-screen" id="tab-form">
       <div class="form-title">✦ Ingresa tu energía ✦</div>
@@ -1469,7 +1523,7 @@ function renderCiclos(tipo){
   body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
 }
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display=(t==='result')?'flex':'none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy')?'none':'';}
 // ─── ONBOARDING: cada dato enciende un motor (nombre→Numerología; nacimiento→Astro+Luna+Chino; ciudades→Geo) ───
 const MCHIP_COLORS=['#7bd0ff','#ff9ec7','#cdd6ff','#ffcaa6','#7bf0b0'];
 function chargeMotors(){
@@ -1499,10 +1553,56 @@ function openHoy(){
     STATE.game='daily';
     const r=computeNumbers(name,birth,cityB,cityN,'daily',STATE.lang,today);
     STATE.lastResult={result:r,name:name,game:'daily'};
-    renderResult(r,name);
-    try{updateEngines(r.engines,r.moon);}catch(e){}
-    showTab('result');
+    renderHoyView(r,name);
+    showTab('hoy');
   }catch(e){console.warn('openHoy fallback:',e);showTab('form');}
+}
+// ─── HOY v2 — render de la pantalla limpia (fiel al prototipo) ───
+const HOY_MOTORS=[
+  ['num','☿','#7bd0ff','Numerología','La Numerología destila tu nombre y tu fecha en el {v}. Es tu motor base — la vibración con la que el cosmos te reconoce.','Numerology','Numerology distills your name and date into the {v}. It is your base engine — the vibration the cosmos recognizes you by.'],
+  ['ast','♈','#ff9ec7','Astrología','El cielo de hoy marca el {v}: la frecuencia de tu expresión y de tus encuentros de la jornada.','Astrology','Today’s sky marks the {v}: the frequency of your expression and encounters today.'],
+  ['moon','🌙','#cdd6ff','Luna','La Luna va en el día {v} de su ciclo. Su fase afina tu intuición y tu ritmo interno de hoy.','Moon','The Moon is on day {v} of its cycle. Its phase tunes your intuition and inner rhythm today.'],
+  ['chi','🐉','#ffcaa6','Cal. Chino','El calendario chino imprime el {v} a este día: sabiduría milenaria sobre tu paciencia y tu tiempo.','Chinese Cal.','The Chinese calendar imprints the {v} today: ancient wisdom about your patience and timing.'],
+  ['geo','🌎','#7bf0b0','Geoenergía','La energía de tus ciudades vibra en el {v}: el campo del lugar que habitas moldea tu día.','Geoenergy','The energy of your cities vibrates in the {v}: the field of the place you inhabit shapes your day.']
+];
+function hoyMotorVals(r){return {num:r.engines.num,ast:r.engines.ast,moon:r.moon.day+'d',chi:r.engines.chi,geo:r.engines.geo};}
+function renderHoyView(r,name){
+  const gEl=document.getElementById('hoy-golden');if(gEl)gEl.textContent=r.golden;
+  const cfg=(typeof GAME_CFG!=='undefined')?GAME_CFG.daily:null;
+  const combo=document.getElementById('hoy-combo');
+  if(combo){combo.innerHTML='';(r.nums||[]).forEach(n=>{const b=document.createElement('b');b.textContent=(cfg&&cfg.max>9&&n<10)?('0'+n):n;combo.appendChild(b);});}
+  placeHoyMotors(r);
+  const first=(name||'').split(' ')[0];
+  const t=document.getElementById('hoy-numa-text');
+  if(t)t.textContent=L(
+    'Hoy tu Número de Oro es el '+r.golden+', '+first+'. Nace de fundir tus cinco fuerzas con la energía de hoy: es el número más alineado contigo en este momento. Deja que guíe tus decisiones del día.',
+    'Today your Golden Number is '+r.golden+', '+first+'. It is born from fusing your five forces with today’s energy: the number most aligned with you right now. Let it guide your decisions today.');
+}
+function placeHoyMotors(r){
+  const o=document.getElementById('hoy-orbit');if(!o)return;
+  o.querySelectorAll('.hoy-mini').forEach(m=>m.remove());
+  const vals=hoyMotorVals(r), R=92, c=118;
+  HOY_MOTORS.forEach((m,i)=>{
+    const a=(i/HOY_MOTORS.length)*2*Math.PI - Math.PI/2;
+    const x=c+R*Math.cos(a), y=c+R*Math.sin(a);
+    const d=document.createElement('div');d.className='hoy-mini';
+    d.style.left=x+'px';d.style.top=y+'px';d.style.color=m[2];d.style.borderColor=m[2]+'66';d.style.boxShadow='0 0 10px '+m[2]+'44';
+    d.innerHTML=m[1]+'<b style="color:'+m[2]+'">'+vals[m[0]]+'</b>';
+    d.onclick=()=>openHoySheet(i);
+    o.appendChild(d);
+  });
+}
+function openHoySheet(i){
+  const m=HOY_MOTORS[i];const r=(STATE.lastResult&&STATE.lastResult.result)||null;const v=r?hoyMotorVals(r)[m[0]]:'';
+  const en=(typeof uiLang==='function'&&uiLang()==='en');
+  const label=en?m[5]:m[3];const txt=(en?m[6]:m[4]).replace('{v}',v);
+  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic" style="color:'+m[2]+'">'+m[1]+'</div><div class="hs-horizon">'+L('Motor','Engine')+' · '+label+'</div><h2>'+L('Hoy aportó el ','Today it added the ')+v+'</h2><p>'+txt+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
+  document.getElementById('hoy-sheet-bg').classList.add('show');
+}
+function closeHoySheet(){const bg=document.getElementById('hoy-sheet-bg');if(bg)bg.classList.remove('show');}
+function openComboInfoHoy(){
+  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic">✦</div><div class="hs-horizon">'+L('Tu combinación → tu Número de Oro','Your combination → your Golden Number')+'</div><h2>'+L('De seis números, uno de poder','From six numbers, one of power')+'</h2><p>'+L('Tus 5 fuerzas cósmicas generan juntas seis números: tu combinación del día. De esa combinación, la proporción áurea destila el más potente: tu Número de Oro.','Your 5 cosmic forces together generate six numbers: your combination of the day. From it, the golden ratio distills the most powerful one: your Golden Number.')+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
+  document.getElementById('hoy-sheet-bg').classList.add('show');
 }
 // ─── NUMA — Oráculo Guiado ───
 const NUMA_DATA={
@@ -2239,7 +2339,9 @@ const MOON_EN={'Nueva':'New','Creciente':'Waxing','Cuarto creciente':'First quar
 function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
 const UI_EN=[
 ['.landing-eyebrow','✦ numeric oracle ✦'],
-['#ll-tag','Your number for today, calculated with 5 cosmic forces'],
+['.landing-headline','Five forces of the Cosmos<br>converge in your life.','html'],
+['#ll-tag','From that convergence your Golden Number is born: the one that vibrates in your favor today. Yours alone, it changes in 24 hours.'],
+['#ll-eng','numerology · astrology · moon · chinese calendar · geoenergy'],
 ['.lgp-label','✦ Your Golden Number for Today ✦'],
 ['.lgp-desc','Unique to you · Changes every 24h'],
 ['#ll-hint','Just your name and date · Free · Ready in 30 seconds'],
@@ -2249,8 +2351,18 @@ const UI_EN=[
 ['.engines-preview .ep-item:nth-child(3) .ep-label','Moon'],
 ['.engines-preview .ep-item:nth-child(4) .ep-label','Chinese Cal.'],
 ['.engines-preview .ep-item:nth-child(5) .ep-label','Geoenergy'],
-['#landing-btns-guest .btn-primary','✦ Reveal my numbers ✦'],
+['#landing-btns-guest .btn-primary','✦ Reveal your number today ✦'],
 ['#landing-btns-guest .btn-secondary','I already have an account'],
+['#hoy-daypill','✦ Your Golden Number today · changes in 24 h'],
+['#hoy-goldlbl','Golden Number'],
+['#hoy-combo-sub','<b>Your combination of the day.</b> Six numbers the cosmos aligned just for you today.','html'],
+['#hoy-cominfo','✦ How is your Golden Number born? →'],
+['#hoy-wc','🏆 World Cup 2026 — Free unlimited prediction →'],
+['#hoy-numa-who','🔮 NUMA read your numbers today'],
+['#hoy-numa-btn','Ask NUMA →'],
+['#hoy-sect','Why these numbers'],
+['#hoy-sub2','Tap any engine in the orbit to see what it added today. Each force left its mark on your combination.'],
+['#hoy-disc','ℹ️ Numbers is entertainment and personal inspiration.'],
 ['#landing-btns-user .btn-primary','✦ See my numbers today ✦'],
 ['.landing-disclaimer','ℹ️ Entertainment · Personal inspiration · Self-knowledge'],
 ['#auth-sub','Access your personal oracle'],
