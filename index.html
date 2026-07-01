@@ -220,9 +220,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-hoy .hoy-mini{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1;cursor:pointer;transition:transform .15s}
 #tab-hoy .hoy-mini:active{transform:scale(.9)}
 #tab-hoy .hoy-mini b{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;margin-top:1px}
-#tab-hoy .hoy-combo{display:flex;justify-content:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-#tab-hoy .hoy-combo b{font-family:'JetBrains Mono',monospace;width:36px;height:36px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gold2);font-weight:500}
-#tab-hoy .hoy-sub{color:var(--muted);font-size:15.5px;line-height:1.5;max-width:320px;margin:12px auto 0}
+#tab-hoy .hoy-combo{display:flex;justify-content:center;gap:9px;margin:0 0 4px;flex-wrap:wrap}
+#tab-hoy .hoy-combo b{font-family:'JetBrains Mono',monospace;width:40px;height:40px;border-radius:10px;background:var(--bg2);border:1px solid rgba(201,168,76,.38);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--gold2);font-weight:500}
+#tab-hoy .hoy-sub{color:var(--muted);font-size:15.5px;line-height:1.5;max-width:320px;margin:30px auto 14px}
 #tab-hoy .hoy-sub b{color:var(--gold2)}
 #tab-hoy .hoy-cominfo{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);letter-spacing:.06em;margin-top:12px;cursor:pointer}
 #tab-hoy .hoy-wc{display:block;width:100%;margin:18px 0 2px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--gold3);background:linear-gradient(90deg,rgba(201,168,76,.16),rgba(201,168,76,.05));border:1px solid var(--gold);border-radius:13px;padding:13px 12px}
@@ -749,10 +749,10 @@ OneSignalDeferred.push(async function(OneSignal){
         <div class="hoy-ring r3"></div>
         <div class="hoy-gold"><div class="hoy-n" id="hoy-golden">7</div><div class="hoy-goldlbl" id="hoy-goldlbl">Número de Oro</div></div>
       </div>
-      <div class="hoy-combo" id="hoy-combo"></div>
       <div class="hoy-sub" id="hoy-combo-sub"><b>Tu combinación del día.</b> Seis números que el cosmos alineó solo para ti hoy.</div>
+      <div class="hoy-combo" id="hoy-combo"></div>
       <div class="hoy-cominfo" id="hoy-cominfo" onclick="openComboInfoHoy()">✦ ¿Cómo nace tu Número de Oro? →</div>
-      <div class="hoy-wc" onclick="wcRibbonGo()">🏆 Mundial 2026 — Predicción gratis e ilimitada →</div>
+      <div class="hoy-wc" id="hoy-wc" onclick="wcRibbonGo()">🏆 Mundial 2026 — Predicción gratis e ilimitada →</div>
       <div class="hoy-numa">
         <div class="hoy-numa-who" id="hoy-numa-who">🔮 NUMA leyó tus números de hoy</div>
         <p id="hoy-numa-text">—</p>
@@ -2353,6 +2353,16 @@ const UI_EN=[
 ['.engines-preview .ep-item:nth-child(5) .ep-label','Geoenergy'],
 ['#landing-btns-guest .btn-primary','✦ Reveal your number today ✦'],
 ['#landing-btns-guest .btn-secondary','I already have an account'],
+['#hoy-daypill','✦ Your Golden Number today · changes in 24 h'],
+['#hoy-goldlbl','Golden Number'],
+['#hoy-combo-sub','<b>Your combination of the day.</b> Six numbers the cosmos aligned just for you today.','html'],
+['#hoy-cominfo','✦ How is your Golden Number born? →'],
+['#hoy-wc','🏆 World Cup 2026 — Free unlimited prediction →'],
+['#hoy-numa-who','🔮 NUMA read your numbers today'],
+['#hoy-numa-btn','Ask NUMA →'],
+['#hoy-sect','Why these numbers'],
+['#hoy-sub2','Tap any engine in the orbit to see what it added today. Each force left its mark on your combination.'],
+['#hoy-disc','ℹ️ Numbers is entertainment and personal inspiration.'],
 ['#landing-btns-user .btn-primary','✦ See my numbers today ✦'],
 ['.landing-disclaimer','ℹ️ Entertainment · Personal inspiration · Self-knowledge'],
 ['#auth-sub','Access your personal oracle'],
