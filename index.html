@@ -72,6 +72,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .landing-eyebrow{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
 .landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(2.4rem,9vw,4rem);font-weight:900;color:var(--gold2);letter-spacing:.1em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both;text-shadow:0 0 80px rgba(201,168,76,.25)}
 .landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin-bottom:1rem;animation:fadeUp .6s .3s both}
+.landing-logo .ll-oracle{display:block;font-family:'Cinzel Decorative',serif;font-size:.38em;font-weight:700;letter-spacing:.38em;color:var(--gold);margin-top:.12em;padding-left:.38em;line-height:1}
 .landing-headline{font-family:'Cinzel Decorative',serif;font-size:clamp(25px,7vw,34px);line-height:1.16;color:var(--gold3);font-weight:900;margin:.3rem 0 1.1rem;text-shadow:0 0 34px rgba(201,168,76,.35);animation:fadeUp .6s .2s both}
 .landing-engines-line{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.05em;color:var(--muted);opacity:.72;margin:0 0 1.5rem;line-height:1.7;animation:fadeUp .6s .45s both}
 .engines-preview{display:flex;gap:1.2rem;justify-content:center;margin-bottom:1.5rem;animation:fadeUp .6s .4s both;flex-wrap:wrap}
@@ -643,9 +644,8 @@ OneSignalDeferred.push(async function(OneSignal){
           <button class="lang-btn" data-lang="zh" onclick="setLang('zh',this)">中</button>
         </div>
       </div>
-      <div class="landing-eyebrow">✦ oráculo numérico ✦</div>
-      <div class="landing-logo">NUMBERS</div>
-      <div class="landing-headline" id="ll-head">Hoy tu número<br>está alineado.</div>
+      <div class="landing-logo">NUMBERS<span class="ll-oracle">ORACLE</span></div>
+      <div class="landing-headline" id="ll-head">Cinco fuerzas del Cosmos<br>convergen en tu vida.</div>
       <div class="landing-gold-preview">
         <div class="lgp-label">✦ Tu Número de Oro del Día ✦</div>
         <div class="lgp-orb-wrap">
@@ -654,7 +654,7 @@ OneSignalDeferred.push(async function(OneSignal){
         </div>
         <div class="lgp-desc">Único para ti · Cambia cada 24 h</div>
       </div>
-      <div class="landing-tagline" id="ll-tag">Cinco fuerzas calculan el número que vibra a tu favor este día. Solo tuyo, cambia en 24 horas.</div>
+      <div class="landing-tagline" id="ll-tag">De esa convergencia nace tu Número de Oro: el que vibra a tu favor hoy. Solo tuyo, cambia en 24 horas.</div>
       <div class="landing-engines-line" id="ll-eng">numerología · astrología · luna · calendario chino · geoenergía</div>
       <div class="landing-cta-hint" id="ll-hint">Solo tu nombre y fecha · Gratis · Listo en 30 segundos</div>
       <div id="landing-btns-guest">
@@ -723,7 +723,7 @@ OneSignalDeferred.push(async function(OneSignal){
 
   <div class="screen" id="screen-main">
     <div class="app-header">
-      <div class="header-logo">NUMBERS</div>
+      <div class="header-logo">NUMBERS ORACLE</div>
       <div class="header-right">
         <div class="lang-switcher">
           <button class="lang-btn active" data-lang="es" onclick="setLang('es',this)">ES</button>
@@ -2340,8 +2340,8 @@ const MOON_EN={'Nueva':'New','Creciente':'Waxing','Cuarto creciente':'First quar
 function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
 const UI_EN=[
 ['.landing-eyebrow','✦ numeric oracle ✦'],
-['.landing-headline','Today your number<br>is aligned.','html'],
-['#ll-tag','Five forces calculate the number that vibrates in your favor today. Yours alone, it changes in 24 hours.'],
+['.landing-headline','Five forces of the Cosmos<br>converge in your life.','html'],
+['#ll-tag','From that convergence your Golden Number is born: the one that vibrates in your favor today. Yours alone, it changes in 24 hours.'],
 ['#ll-eng','numerology · astrology · moon · chinese calendar · geoenergy'],
 ['.lgp-label','✦ Your Golden Number for Today ✦'],
 ['.lgp-desc','Unique to you · Changes every 24h'],
