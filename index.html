@@ -360,8 +360,24 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nav-btn.active .nav-icon{filter:drop-shadow(0 0 6px rgba(232,201,122,.5))}
 /* ─── ORÁCULOS TAB ─── */
 .oraculos-header{text-align:center;padding:1.8rem 1rem .8rem}
-.oraculos-title{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.08em;margin-bottom:.4rem}
-.oraculos-sub{font-size:15px;color:var(--muted);line-height:1.55}
+.oraculos-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:29px;color:var(--gold3);letter-spacing:.01em;margin-bottom:.3rem}
+.oraculos-sub{font-size:14.5px;color:var(--muted);line-height:1.5;font-style:italic}
+/* ─── ORÁCULOS v2 (Fase 3) — agrupado por horizonte, premium ─── */
+#tab-oraculos{overflow-y:auto;flex:1;padding:0 1rem calc(80px + env(safe-area-inset-bottom))}
+#tab-oraculos .oraculos-header{padding:1.3rem 1rem .3rem}
+#tab-oraculos .orac-group{margin-top:22px}
+#tab-oraculos .orac-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.72;margin:0 4px 11px;text-align:left}
+#tab-oraculos .orac-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#tab-oraculos .game-card{position:relative;background:var(--bg2);border:.5px solid var(--border);border-radius:16px;padding:18px 14px 15px;min-height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#tab-oraculos .game-card:hover{border-color:rgba(201,168,76,.4)}
+#tab-oraculos .game-card.oc-full{grid-column:1 / -1}
+#tab-oraculos .game-card .gi{width:54px;height:54px;margin-bottom:11px;border-radius:50%;border:1px solid rgba(201,168,76,.32);background:radial-gradient(circle at 40% 34%,rgba(201,168,76,.16),rgba(201,168,76,.02) 70%);display:flex;align-items:center;justify-content:center;font-size:27px;box-shadow:0 0 18px rgba(201,168,76,.08)}
+#tab-oraculos .game-card.oc-full .gi{width:60px;height:60px;font-size:30px}
+#tab-oraculos .game-card .gl{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:19px;color:var(--gold2);margin-bottom:5px;line-height:1.2}
+#tab-oraculos .game-card .gd{font-size:13px;color:var(--muted);line-height:1.42;max-width:210px}
+#tab-oraculos .game-card .free-badge{top:10px;right:11px;font-size:9px;color:var(--teal);background:none;border:.5px solid rgba(61,191,168,.35);padding:2px 8px;letter-spacing:.06em}
+#tab-oraculos .game-card.pro-locked{opacity:.92}
+#tab-oraculos .game-card.pro-locked::after{content:'Pro';font-size:9px;top:10px;right:11px;background:none;border:.5px solid rgba(201,168,76,.35);color:var(--gold);padding:2px 8px;letter-spacing:.06em}
 /* ─── CICLOS TAB ─── */
 .ciclos-header{text-align:center;padding:1.8rem 1rem .4rem}
 .ciclos-title{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.08em;margin-bottom:.4rem}
@@ -1193,16 +1209,34 @@ OneSignalDeferred.push(async function(OneSignal){
     <div id="tab-oraculos" class="hidden">
       <div class="oraculos-header">
         <div class="oraculos-title">Oráculos</div>
-        <div class="oraculos-sub">Siete lecturas, cada una con su propósito. Elige por dónde quieres mirar.</div>
+        <div class="oraculos-sub">Siete lecturas, cada una con su propósito.</div>
       </div>
-      <div class="game-grid" style="padding:0 .75rem 6rem">
-        <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía para hoy. Cambian mañana.</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu energía numérica de este instante. Elige 1, 2 o 3 números.</div></div>
-        <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
-        <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">No es casualidad que estén juntos. Sus números lo confirman.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
-        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
-        <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
-        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
+      <div class="orac-group">
+        <div class="orac-label" id="orac-lbl-hoy">Hoy</div>
+        <div class="orac-grid">
+          <div class="game-card oc-full" data-game="daily" onclick="quickLaunch(this)"><div class="free-badge">Gratis</div><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía de hoy. Cambian mañana.</div></div>
+        </div>
+      </div>
+      <div class="orac-group">
+        <div class="orac-label" id="orac-lbl-ahora">Ahora</div>
+        <div class="orac-grid">
+          <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="free-badge">Gratis</div><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
+          <div class="game-card" data-game="signals" onclick="smOpen()"><div class="free-badge">Gratis</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Ese número que te persigue, descifrado.</div></div>
+        </div>
+      </div>
+      <div class="orac-group">
+        <div class="orac-label" id="orac-lbl-siempre">Para siempre</div>
+        <div class="orac-grid">
+          <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">El número que nació contigo. No cambia.</div></div>
+          <div class="game-card pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div></div>
+        </div>
+      </div>
+      <div class="orac-group">
+        <div class="orac-label" id="orac-lbl-pred">Predicciones</div>
+        <div class="orac-grid">
+          <div class="game-card" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">Gratis</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">¿Quién gana el partido? Gratis e ilimitado.</div></div>
+          <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">Predice cualquier partido del año.</div></div>
+        </div>
       </div>
     </div>
 
@@ -2443,6 +2477,21 @@ const UI_EN=[
 ['#sm-btn','✦ Reveal ✦'],
 ['.game-card[data-game="mundial"] .gl','World Cup 2026'],
 ['.game-grid .game-card[data-game="mundial"] .gd','Predict who wins the match with cosmic energy · Free & unlimited during the tournament'],
+['.oraculos-title','Oracles'],
+['.oraculos-sub','Seven readings, each with its purpose.'],
+['#orac-lbl-hoy','Today'],
+['#orac-lbl-ahora','Now'],
+['#orac-lbl-siempre','Forever'],
+['#orac-lbl-pred','Predictions'],
+['.game-card[data-game="compat"] .gl','Compatibility'],
+['#tab-oraculos .free-badge','Free'],
+['#tab-oraculos .game-card[data-game="daily"] .gd','Your 6 guiding numbers for today. They change tomorrow.'],
+['#tab-oraculos .game-card[data-game="chance"] .gd','Your number for this instant. Pick 1, 2 or 3.'],
+['#tab-oraculos .game-card[data-game="signals"] .gd','That number that follows you, decoded.'],
+['#tab-oraculos .game-card[data-game="destiny"] .gd','The number born with you. It never changes.'],
+['#tab-oraculos .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
+['#tab-oraculos .game-card[data-game="mundial"] .gd','Who wins the match? Free and unlimited.'],
+['#tab-oraculos .game-card[data-game="sports"] .gd','Predict any match of the year.'],
 ['.game-card[data-game="mundial"] .free-badge','✦ FREE'],
 ['#wc-result-card .gd','Who wins the next match? Your 5 engines predict it · Free & unlimited'],
 ['#card-hint','↑ Complete your personal details to reveal your numbers'],
@@ -2546,7 +2595,7 @@ const UI_EN=[
 ['#duel-name-a','Team A'],
 ['#duel-name-b','Team B'],
 ['.game-card[data-game="compat"] .gl','Compatibility'],
-['.game-card[data-game="compat"] .gd','It\'s no coincidence they\'re together. Their numbers confirm it.'],
+['.game-grid .game-card[data-game="compat"] .gd','It\'s no coincidence they\'re together. Their numbers confirm it.'],
 ['.game-card[data-game="compat"] .pro-preview','"Their life paths create a unique signature. NUMA reveals what the universe wrote about this bond..."'],
 ['#compat-label-inp-name','Your partner\'s name'],
 ['#compat-label-inp-birth','Your partner\'s date of birth'],
