@@ -1214,13 +1214,13 @@ OneSignalDeferred.push(async function(OneSignal){
       <div class="orac-group">
         <div class="orac-label" id="orac-lbl-hoy">Hoy</div>
         <div class="orac-grid">
-          <div class="game-card oc-full" data-game="daily" onclick="quickLaunch(this)"><div class="free-badge">Gratis</div><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía de hoy. Cambian mañana.</div></div>
+          <div class="game-card oc-full" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía de hoy. Cambian mañana.</div></div>
         </div>
       </div>
       <div class="orac-group">
         <div class="orac-label" id="orac-lbl-ahora">Ahora</div>
         <div class="orac-grid">
-          <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="free-badge">Gratis</div><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
+          <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
           <div class="game-card" data-game="signals" onclick="smOpen()"><div class="free-badge">Gratis</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Ese número que te persigue, descifrado.</div></div>
         </div>
       </div>
@@ -2019,6 +2019,7 @@ function wcRibbonGo(){
 })();
 function quickLaunch(el){
   selGame(el);
+  if(document.getElementById('tab-form')?.classList.contains('hidden'))showTab('form');
   // Siempre: solo seleccionar la tarjeta y hacer pulsar el botón Revelar.
   // El usuario elige libremente y presiona Revelar cuando quiera.
   const isDuel=GAME_CFG[STATE.game]?.duel;
