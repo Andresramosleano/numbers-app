@@ -381,6 +381,18 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-oraculos .game-card .free-badge{top:10px;right:11px;font-size:9px;color:var(--teal);background:none;border:.5px solid rgba(61,191,168,.35);padding:2px 8px;letter-spacing:.06em}
 #tab-oraculos .game-card.pro-locked{opacity:.92}
 #tab-oraculos .game-card.pro-locked::after{content:'Pro';font-size:9px;top:10px;right:11px;background:none;border:.5px solid rgba(201,168,76,.35);color:var(--gold);padding:2px 8px;letter-spacing:.06em}
+/* ─── Fase 4.5 — formulario limpio: consulta seleccionada única ─── */
+#tab-form .game-grid{display:block}
+#tab-form .game-grid > .game-card{display:none}
+#tab-form .card-hint{display:none}
+.consulta-sel{display:flex;align-items:center;gap:14px;background:var(--bg2);border:.5px solid rgba(201,168,76,.35);border-radius:16px;padding:14px 16px;margin-bottom:12px;text-align:left}
+.consulta-sel .cs-gi{width:50px;height:50px;flex-shrink:0;border-radius:50%;border:1px solid rgba(201,168,76,.32);background:radial-gradient(circle at 40% 34%,rgba(201,168,76,.16),rgba(201,168,76,.02) 70%);display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 0 18px rgba(201,168,76,.08)}
+.consulta-sel .cs-mid{min-width:0}
+.consulta-sel .cs-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.75;margin-bottom:3px}
+.consulta-sel .cs-name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:20px;color:var(--gold2);line-height:1.2}
+.consulta-sel .cs-desc{font-size:13px;color:var(--muted);line-height:1.4;margin-top:2px}
+.consulta-sel .cs-change{margin-left:auto;flex-shrink:0;font-size:13px;color:var(--gold2);cursor:pointer;border:.5px solid rgba(201,168,76,.35);border-radius:20px;padding:6px 12px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.consulta-sel .cs-change:active{background:rgba(201,168,76,.1)}
 /* ─── CICLOS TAB ─── */
 .ciclos-header{text-align:center;padding:1.8rem 1rem .4rem}
 .ciclos-title{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold2);letter-spacing:.08em;margin-bottom:.4rem}
@@ -638,17 +650,19 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .numa-chip:active{background:rgba(201,168,76,.08);border-color:var(--gold)}
 .numa-chip.locked{grid-column:1/-1;color:var(--muted);border-style:dashed;cursor:default;opacity:.65;text-align:center}
 </style>
-<!-- OneSignal Web Push -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<!-- OneSignal Web Push — SOLO en producción (en previews de Vercel redirige/rompe: dominio no autorizado) -->
 <script>
-window.OneSignalDeferred=window.OneSignalDeferred||[];
-OneSignalDeferred.push(async function(OneSignal){
-  await OneSignal.init({
-    appId:"a3e91790-46be-41ed-b09f-1de1af26a467",
-    notifyButton:{enable:false},
-    promptOptions:{slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"🔮 Recibe tu número del día cada mañana",acceptButton:"Sí, actívame",cancelButton:"Ahora no"}}]}}
+if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
+  var osTag=document.createElement('script');osTag.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';osTag.defer=true;document.head.appendChild(osTag);
+  window.OneSignalDeferred=window.OneSignalDeferred||[];
+  OneSignalDeferred.push(async function(OneSignal){
+    await OneSignal.init({
+      appId:"a3e91790-46be-41ed-b09f-1de1af26a467",
+      notifyButton:{enable:false},
+      promptOptions:{slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"🔮 Recibe tu número del día cada mañana",acceptButton:"Sí, actívame",cancelButton:"Ahora no"}}]}}
+    });
   });
-});
+}
 </script>
 </head>
 <body>
@@ -829,8 +843,9 @@ OneSignalDeferred.push(async function(OneSignal){
         </div>
       </div>
       <div class="acc-step" id="acc-5">
-        <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · Elige tu consulta</span><span class="acc-sum" id="acc-sum-5"></span></div>
+        <div class="acc-head" onclick="accToggle(5)"><span class="acc-tit">5 · Tu consulta</span><span class="acc-sum" id="acc-sum-5"></span></div>
         <div class="acc-body">
+      <div class="consulta-sel" id="consulta-sel"></div>
       <div class="game-grid">
         <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía para hoy. Cambian mañana.</div></div>
         <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu energía numérica de este instante. Elige 1, 2 o 3 números.</div></div>
@@ -1578,6 +1593,7 @@ function chargeMotors(){
   const count=on.filter(Boolean).length;
   const el=document.getElementById('mcharge-count');
   if(el){el.textContent=count+L(' de 5 motores encendidos',' of 5 engines charged');el.classList.toggle('done',count===5);}
+  try{if((document.getElementById('consulta-sel')||{}).dataset&&document.getElementById('consulta-sel').dataset.g!==(STATE.game||'daily'))renderConsultaSel();}catch(e){}
 }
 // ─── HOY: muestra el Número de Oro del día (orbital) en modo solo-lectura, sin gastar la consulta diaria ───
 function openHoy(){
@@ -1835,6 +1851,19 @@ function selGame(el){
   document.getElementById('card-hint').classList.remove('show');
   try{updateFreemiumBar()}catch(e){}
   try{accUpdate()}catch(e){}
+  try{renderConsultaSel()}catch(e){}
+}
+// ─── Fase 4.5 — tarjeta única de consulta seleccionada en el formulario ───
+function renderConsultaSel(){
+  const box=document.getElementById('consulta-sel');if(!box)return;
+  const g=STATE.game||'daily';
+  const src=document.querySelector('#tab-oraculos .game-card[data-game="'+g+'"]');
+  if(!src){box.innerHTML='';box.dataset.g='';return;}
+  const gi=(src.querySelector('.gi')||{}).textContent||'✦';
+  const gl=(src.querySelector('.gl')||{}).textContent||'';
+  const gd=(src.querySelector('.gd')||{}).textContent||'';
+  box.dataset.g=g;
+  box.innerHTML='<div class="cs-gi">'+gi+'</div><div class="cs-mid"><div class="cs-eyebrow">'+L('Tu consulta','Your reading')+'</div><div class="cs-name">'+gl+'</div><div class="cs-desc">'+gd+'</div></div><div class="cs-change" onclick="showTab(\'oraculos\')">'+L('Cambiar','Change')+' →</div>';
 }
 function renderDuelResult(duel,name){
   resetCompatView();
@@ -2100,7 +2129,7 @@ function quickLaunch(el){
         setTimeout(()=>el.closest('.field')?.classList.remove('field-missing'),3200);
       }
     });
-  }
+  }else{try{accOpenStep(5,false)}catch(e){}}
 }
 function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
 function showSuccess(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
@@ -2493,7 +2522,7 @@ const UI_EN=[
 ['#acc-2 .acc-tit','2 · Your birth'],
 ['#acc-3 .acc-tit','3 · Your land of origin'],
 ['#acc-4 .acc-tit','4 · Your present energy'],
-['#acc-5 .acc-tit','5 · Choose your reading'],
+['#acc-5 .acc-tit','5 · Your reading'],
 ['.acc-next','Continue ↓'],
 ['.field:has(#inp-name) label','Full name'],
 ['#inp-name','As it appears on your ID','ph'],
