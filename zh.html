@@ -1396,11 +1396,11 @@ moon:{t:'🌙 Lunar Oracle',x:'The <strong>{moonName}</strong> moon is on day {e
 chi:{t:'🐉 Oracle of the East',x:'You are <strong>{animal}</strong> and we walk the year of the <strong>{yearAnimal}</strong>. From that meeting your <strong>{dn}</strong> is born. The number of prosperity and agreements.'},
 geo:{t:'🌎 Oracle of the Earth',x:'The energy of your cities vibrates at <strong>{ev}</strong>. Crossed with the day, it grants you the <strong>{dn}</strong>. Your number for movement: travel, places, change.'}},
 zh:{lock:'✦ 此神谕已被封印 — 它的数字在Pro位面等候 ✦',lockBtn:'用 Pro 解锁 →',
-num:{t:'☿ 命理神谕',x:'您的命理本质振动于<strong>{ev}</strong>。与今日数字融合后，为您送上<strong>{dn}</strong>。适用于个人抉择与新的开始。'},
-ast:{t:'♈ 星辰神谕',x:'您的星座<strong>{sign}</strong>今日与主宰之星<strong>{ruler}</strong>相合，由此诞生您的<strong>{dn}</strong>。这是选择时机之数。'},
-moon:{t:'🌙 月亮神谕',x:'<strong>{moonName}</strong>正行至周期第{ev}天。它的脉动与今日交汇，为您送上<strong>{dn}</strong>。直觉之数：相信您的感觉。'},
-chi:{t:'🐉 东方神谕',x:'您属<strong>{animal}</strong>，今年是<strong>{yearAnimal}</strong>年。两者相遇，诞生您的<strong>{dn}</strong>。财富与盟约之数。'},
-geo:{t:'🌎 大地神谕',x:'您双城的能量振动于<strong>{ev}</strong>。与今日交汇后，为您送上<strong>{dn}</strong>。出行之数：旅程、地点、变化。'}}};
+num:{t:'☿ 命理神谕',x:'你的命理本质振动于<strong>{ev}</strong>。与今日数字融合后，为你送上<strong>{dn}</strong>。适用于个人抉择与新的开始。'},
+ast:{t:'♈ 星辰神谕',x:'你的星座<strong>{sign}</strong>今日与主宰之星<strong>{ruler}</strong>相合，由此诞生你的<strong>{dn}</strong>。这是选择时机之数。'},
+moon:{t:'🌙 月亮神谕',x:'<strong>{moonName}</strong>正行至周期第{ev}天。它的脉动与今日交汇，为你送上<strong>{dn}</strong>。直觉之数：相信你的感觉。'},
+chi:{t:'🐉 东方神谕',x:'你属<strong>{animal}</strong>，今年是<strong>{yearAnimal}</strong>年。两者相遇，诞生你的<strong>{dn}</strong>。机遇与盟约之数。'},
+geo:{t:'🌎 大地神谕',x:'你双城的能量振动于<strong>{ev}</strong>。与今日交汇后，为你送上<strong>{dn}</strong>。出行之数：旅程、地点、变化。'}}};
 function openMotorPanel(key){
   const lr=STATE.lastResult;if(!lr)return;
   const r=lr.result||lr.duel;if(!r||!r.engines)return;
@@ -1522,9 +1522,11 @@ function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 /* ─── CICLOS PERSONALES ─── */
 const CICLO_LABELS={
   es:{dia:'Número Personal del Día',mes:'Número Personal del Mes',ano:'Año Personal',dia_sub:'Tu energía de las próximas 24 horas',mes_sub:'El tono de este mes para ti',ano_sub:'Tu vibración durante todo este año'},
-  en:{dia:'Personal Day Number',mes:'Personal Month Number',ano:'Personal Year Number',dia_sub:'Your energy for the next 24 hours',mes_sub:'The tone of this month for you',ano_sub:'Your vibration throughout this year'}
+  en:{dia:'Personal Day Number',mes:'Personal Month Number',ano:'Personal Year Number',dia_sub:'Your energy for the next 24 hours',mes_sub:'The tone of this month for you',ano_sub:'Your vibration throughout this year'},
+  zh:{dia:'个人日数字',mes:'个人月数字',ano:'个人年数字',dia_sub:'你未来24小时的能量',mes_sub:'本月对你的基调',ano_sub:'你这一整年的振动'}
 };
 const CICLO_INTERP={
+  zh:{1:{label:'先行者',narr:'开创与领导的能量。这是你带着决心行动、播下新种子的时刻。宇宙支持你的主动。'},2:{label:'协调者',narr:'耐心与合作的能量。默契在安静中织成。多听少说：你需要的信息，往往藏在别人的话里。'},3:{label:'创造者',narr:'表达与扩展的能量。今天你的话语格外有力。分享想法、连接他人，让创造力自由流动。'},4:{label:'根基',narr:'工作与结构的能量。今天不宜大跃进，而宜精细地建造能长久的东西。今日的付出，是明日的稳定。'},5:{label:'变化',narr:'流动与自由的能量。固定的计划会松动，为更好的可能让路。顺应意外：此刻灵活是你最大的优势。'},6:{label:'疗愈者',narr:'爱与责任的能量。你的存在，对亲近的人最为珍贵。照料你身边的人，也别忘了照顾自己。'},7:{label:'清明',narr:'内省与洞察的能量。答案不在外面，而在寂静之中。今天适合思考、探究，让直觉补足头脑无法企及之处。'},8:{label:'力量',narr:'显化与担当的能量。把愿景化为结果的能力正处高峰。在现实事务中，带着信念行动。'},9:{label:'圆满',narr:'收束与慈悲的能量。有些事走到尽头，是为了让更好的开始。带着感激放下不再适合的，慷慨会开启下一个周期。'},11:{label:'高阶直觉',narr:'启明与敏感的高频振动。你的感知异常敏锐。信任你所感受到的，无需向谁证明。'},22:{label:'大建造者',narr:'宏大愿景的振动。你有把长久之物化为现实的能力。别把自己看小：此刻值得你投入能量的，是那些有雄心的计划。'},33:{label:'爱的导师',narr:'服务与高阶创造的振动。你的存在有启迪他人的力量。带着觉知与慷慨去运用它。'}},
   es:{
     1:{label:'El Pionero',narr:'Energía de inicio y liderazgo. Es tu momento de actuar con determinación, plantar la semilla de algo nuevo. El universo respalda tu iniciativa.'},
     2:{label:'El Diplomático',narr:'Energía de paciencia y cooperación. Los acuerdos se tejen en la quietud. Escucha más de lo que hablas: la información que necesitas llega por lo que otros dicen.'},
@@ -1565,7 +1567,7 @@ function renderCiclos(tipo){
   const body=document.getElementById('ciclo-body');
   if(!body)return;
   const birth=STATE.profile&&STATE.profile.birth_date?STATE.profile.birth_date:(document.getElementById('inp-birth')?document.getElementById('inp-birth').value:'');
-  if(!birth){body.innerHTML='<div class="ciclo-no-data">'+(l==='en'?'Complete your personal data (step 2) to see your cycles.':'Completa tus datos personales (paso 2) para ver tus ciclos.')+'</div>';return;}
+  if(!birth){body.innerHTML='<div class="ciclo-no-data">'+(l==='en'?'Complete your personal data (step 2) to see your cycles.':'请先完善你的个人资料（第 2 步），即可查看你的周期。')+'</div>';return;}
   const now=new Date();const d=now.getDate(),m=now.getMonth()+1,y=now.getFullYear();
   let num,lbl,sub;
   if(tipo==='dia'){num=getPersonalDay(birth,d,m,y);lbl=CICLO_LABELS[l]?CICLO_LABELS[l].dia:CICLO_LABELS.es.dia;sub=CICLO_LABELS[l]?CICLO_LABELS[l].dia_sub:CICLO_LABELS.es.dia_sub;}
@@ -1592,7 +1594,7 @@ function chargeMotors(){
   });
   const count=on.filter(Boolean).length;
   const el=document.getElementById('mcharge-count');
-  if(el){el.textContent=count+L(' de 5 motores encendidos',' of 5 engines charged');el.classList.toggle('done',count===5);}
+  if(el){el.textContent=count+L(' / 5 种力量已点亮',' of 5 engines charged');el.classList.toggle('done',count===5);}
   try{if((document.getElementById('consulta-sel')||{}).dataset&&document.getElementById('consulta-sel').dataset.g!==(STATE.game||'daily'))renderConsultaSel();}catch(e){}
 }
 // ─── HOY: muestra el 每日黄金数字 (orbital) en modo solo-lectura, sin gastar la consulta diaria ───
@@ -1613,11 +1615,11 @@ function openHoy(){
 }
 // ─── HOY v2 — render de la pantalla limpia (fiel al prototipo) ───
 const HOY_MOTORS=[
-  ['num','☿','#7bd0ff','Numerología','La Numerología destila tu nombre y tu fecha en el {v}. Es tu motor base — la vibración con la que el cosmos te reconoce.','Numerology','Numerology distills your name and date into the {v}. It is your base engine — the vibration the cosmos recognizes you by.'],
-  ['ast','♈','#ff9ec7','Astrología','El cielo de hoy marca el {v}: la frecuencia de tu expresión y de tus encuentros de la jornada.','Astrology','Today’s sky marks the {v}: the frequency of your expression and encounters today.'],
-  ['moon','🌙','#cdd6ff','Luna','La Luna va en el día {v} de su ciclo. Su fase afina tu intuición y tu ritmo interno de hoy.','Moon','The Moon is on day {v} of its cycle. Its phase tunes your intuition and inner rhythm today.'],
-  ['chi','🐉','#ffcaa6','Cal. Chino','El calendario chino imprime el {v} a este día: sabiduría milenaria sobre tu paciencia y tu tiempo.','Chinese Cal.','The Chinese calendar imprints the {v} today: ancient wisdom about your patience and timing.'],
-  ['geo','🌎','#7bf0b0','Geoenergía','La energía de tus ciudades vibra en el {v}: el campo del lugar que habitas moldea tu día.','Geoenergy','The energy of your cities vibrates in the {v}: the field of the place you inhabit shapes your day.']
+  ['num','☿','#7bd0ff','命理','命理把你的姓名与生日凝练为 {v}。这是你的根基力量——宇宙借以认出你的振动。','Numerology','Numerology distills your name and date into the {v}. It is your base engine — the vibration the cosmos recognizes you by.'],
+  ['ast','♈','#ff9ec7','星象','今日的天象标出 {v}：你今日表达与相遇的频率。','Astrology','Today’s sky marks the {v}: the frequency of your expression and encounters today.'],
+  ['moon','🌙','#cdd6ff','月相','月亮正处于周期的第 {v} 天。它的相位调校你今日的直觉与内在节奏。','Moon','The Moon is on day {v} of its cycle. Its phase tunes your intuition and inner rhythm today.'],
+  ['chi','🐉','#ffcaa6','中国历法','中国历法为今日印上 {v}：关于你的耐心与时机的千年智慧。','Chinese Cal.','The Chinese calendar imprints the {v} today: ancient wisdom about your patience and timing.'],
+  ['geo','🌎','#7bf0b0','地能','你双城的能量在 {v} 中震动：你所栖居之地的场，塑造你的一天。','Geoenergy','The energy of your cities vibrates in the {v}: the field of the place you inhabit shapes your day.']
 ];
 function hoyMotorVals(r){return {num:r.engines.num,ast:r.engines.ast,moon:r.moon.day+'d',chi:r.engines.chi,geo:r.engines.geo};}
 function renderHoyView(r,name){
@@ -1629,7 +1631,7 @@ function renderHoyView(r,name){
   const first=(name||'').split(' ')[0];
   const t=document.getElementById('hoy-numa-text');
   if(t)t.textContent=L(
-    'Hoy tu Número de Oro es el '+r.golden+', '+first+'. Nace de fundir tus cinco fuerzas con la energía de hoy: es el número más alineado contigo en este momento. Deja que guíe tus decisiones del día.',
+    '今天你的黄金数字是 '+r.golden+'，'+first+'。它由你五种力量与今日能量交融而来，是此刻与你最契合的数字。让它引导你今日的选择。',
     'Today your Golden Number is '+r.golden+', '+first+'. It is born from fusing your five forces with today’s energy: the number most aligned with you right now. Let it guide your decisions today.');
   goldRemember(r.golden);renderStreak();
 }
@@ -1651,9 +1653,9 @@ function renderStreak(){
   const st=streakTouch();if(!st.n){el.textContent='';return;}
   const en=(typeof uiLang==='function'&&uiLang()==='en'),n=st.n;
   let txt;
-  if(n>=21)txt=en?('✦ Day '+n+' — your constancy is now a ritual'):('✦ Día '+n+' — tu constancia ya es un ritual');
-  else if(n===7)txt=en?'✦ Day 7 — a week in tune with yourself':'✦ Día 7 — una semana en sintonía contigo';
-  else txt=en?('✦ Day '+n+' in tune with your number'):('✦ Día '+n+' en sintonía con tu número');
+  if(n>=21)txt=en?('✦ Day '+n+' — your constancy is now a ritual'):('✦ 第 '+n+' 天 — 你的坚持已成为一种仪式');
+  else if(n===7)txt=en?'✦ Day 7 — a week in tune with yourself':'✦ 第 7 天 — 与自己同频的一周';
+  else txt=en?('✦ Day '+n+' in tune with your number'):('✦ 第 '+n+' 天 — 与你的数字同频');
   el.textContent=txt;
   el.classList.remove('milestone');
   if(st.fresh&&(n===3||n===7||n===21)){void el.offsetWidth;el.classList.add('milestone');}
@@ -1692,15 +1694,16 @@ function openHoySheet(i){
   const m=HOY_MOTORS[i];const r=(STATE.lastResult&&STATE.lastResult.result)||null;const v=r?hoyMotorVals(r)[m[0]]:'';
   const en=(typeof uiLang==='function'&&uiLang()==='en');
   const label=en?m[5]:m[3];const txt=(en?m[6]:m[4]).replace('{v}',v);
-  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic" style="color:'+m[2]+'">'+m[1]+'</div><div class="hs-horizon">'+L('Motor','Engine')+' · '+label+'</div><h2>'+L('Hoy aportó el ','Today it added the ')+v+'</h2><p>'+txt+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
+  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic" style="color:'+m[2]+'">'+m[1]+'</div><div class="hs-horizon">'+L('力量','Engine')+' · '+label+'</div><h2>'+L('今日带来了 ','Today it added the ')+v+'</h2><p>'+txt+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('明白了 ✦','Got it ✦')+'</button>';
   document.getElementById('hoy-sheet-bg').classList.add('show');
 }
 function closeHoySheet(){const bg=document.getElementById('hoy-sheet-bg');if(bg)bg.classList.remove('show');}
 function openComboInfoHoy(){
-  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic">✦</div><div class="hs-horizon">'+L('Tu combinación → tu Número de Oro','Your combination → your Golden Number')+'</div><h2>'+L('De seis números, uno de poder','From six numbers, one of power')+'</h2><p>'+L('Tus 5 fuerzas cósmicas generan juntas seis números: tu combinación del día. De esa combinación, la proporción áurea destila el más potente: tu Número de Oro.','Your 5 cosmic forces together generate six numbers: your combination of the day. From it, the golden ratio distills the most powerful one: your Golden Number.')+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
+  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic">✦</div><div class="hs-horizon">'+L('你的组合 → 你的黄金数字','Your combination → your Golden Number')+'</div><h2>'+L('六个数字中，一个是力量之数','From six numbers, one of power')+'</h2><p>'+L('你的五种古老智慧共同生成六个数字：你今日的组合。再由黄金比例，从中凝出最有力量的一个：你的黄金数字。','Your 5 cosmic forces together generate six numbers: your combination of the day. From it, the golden ratio distills the most powerful one: your Golden Number.')+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('明白了 ✦','Got it ✦')+'</button>';
   document.getElementById('hoy-sheet-bg').classList.add('show');
 }
 // ─── NUMA — Oráculo Guiado ───
+const NUMA_ZH={questions:[{id:'buen-dia',label:'🌟 今天的能量适合我吗？'},{id:'numero',label:'🔢 今天我的数字是？'},{id:'arriesgar',label:'⚡ 现在适合行动吗？'},{id:'energia',label:'✨ 今天我的能量如何？'},{id:'libre',label:'🔒 自由提问 — 即将开放',locked:true}],greet:['你好 {nombre} ✨ 我是 NUMA — 我解读你今日的数字能量，陪你更懂自己。你想探索什么？','{nombre}，今天的数字已经就绪 🔮 我是你的能量向导。选一个问题，我们一起来看看。','{nombre} ✦ 今日的能量已在此刻凝聚。我是 NUMA，陪你照见今天的自己。'],q1:{yes:['是的，今天的能量很适合你。✨ 你的个人数字（{personal}）与今日能量（{dia}）形成和谐共振——是推进心中事的好时机。','信号都在你这边，{nombre}。今天你的能量与当日能量和谐共鸣，适合稳步前行。','今天能量顺畅，{nombre}。你的数字与今日之数一同流动——好好把握。'],mid:['今天是平衡的一天。能量平稳流动，带着清晰的意图行事，不过度，不焦虑。','今日力量均衡，{nombre}。若要行动，请带着平静的心，而非冲动。','平稳的一天，{nombre}。相信内心的觉察，而非外在的冲动，看清方向再走。'],no:['今天宜静不宜动。你的能量与今日之数尚未完全共振——保存力量，等待更好的时机。','今天适合放慢脚步，{nombre}。这不是冒进的时刻，明天能量会转换。','今日提示耐心。机会很快会回来，届时力量更足。']},q2:['今天你的核心数字是 {poder}，辅助的是 {a} 和 {b}，与之呼应的颜色是 {color}。','今日你共振于 {poder}。你的支撑数字是 {a} 和 {b} · 颜色 {color}。','{poder} 是你今日的核心，{nombre}。你此刻的能量数字：{a} 与 {b} · 颜色 {color}。'],q3:{yes:['今天适合行动。能量在你这边——若你感到内心的驱动，就跟随它。','现在是你的时刻，{nombre}。在这样的日子里，清醒的行动会带来收获。','今日力量充沛。若你要迈步，就在今天，带着信心前行。'],no:['今天能量偏静。这是观察与积蓄的时刻，而非冲动行事——等能量回升再出发。','稳住，{nombre}。今天的能量更偏向暂停与内省，而非向外用力。','今天需要清醒的头脑，{nombre}。观察、等待，当能量召唤你时再行动。']},q4:{1:{k:'推动力 · 新的开始',t:'今天你处于主导的能量中。适合开启新事，踏出第一步，无所畏惧。'},2:{k:'平静 · 平衡',t:'今天能量平和。适合耐心、协调，让事情自然展开。'},3:{k:'创造力 · 喜悦',t:'你的能量在闪耀。适合表达自我、与人联结，享受你所热爱的一切。'},4:{k:'结构 · 踏实',t:'今天适合建造。专注于秩序、稳健的行动与扎实的根基。'},5:{k:'变化 · 流动',t:'今天需要行动力。变化与探索的能量正在涌动，对未知保持开放。'},6:{k:'关爱 · 家庭',t:'今天内心温柔。适合关注情感、家人，以及你所珍视的人与事。'},7:{k:'直觉 · 内省',t:'向内探寻的好时机。你的直觉此刻敏锐——做决定前，先聆听内心。'},8:{k:'意志 · 丰盛',t:'充满意志力的一天。适合处理现实事务，做出重要的决定。'},9:{k:'圆满 · 收束',t:'今天是收束与释放的时刻。放下旧有，为将至之事腾出空间。'},11:{k:'主数 · 高阶直觉',t:'今天你共振于 11——启明之数。你的感知力正处高峰。在分析之前，先信任你所感受到的。'},22:{k:'主数 · 建造之力',t:'今天 22 与你同在——宇宙的建筑师。适合带着意图去成就一件大事。你的能量有把想法化为现实的力量。'},33:{k:'主数 · 爱与奉献',t:'今天 33 在回响——无条件之爱的频率。适合给予、创造和谐，从内心最深处与人联结。'}}};
 const NUMA_DATA={
   questions:{
     es:[
@@ -1760,9 +1763,9 @@ function numaRand(arr){return arr[Math.floor(Math.random()*arr.length)]}
 function numaVars(){
   const lr=STATE.lastResult,r=lr?.result,p=STATE.profile,lang=STATE.lang||'es';
   let lp=r?.lp;if(!lp&&p?.full_name&&p?.birth_date){try{lp=lifePath(p.full_name,p.birth_date)}catch(e){}}lp=lp||5;
-  const dn=numaGetDayNum(),nombre=(p?.full_name||'').split(' ')[0]||'amigo';
+  const dn=numaGetDayNum(),nombre=(p?.full_name||'').split(' ')[0]||'朋友';
   const poder=r?.golden||lp,nums=r?.nums||[],a=nums[0]||lp,b=nums[1]||numReduce(lp+dn);
-  const color=lang==='en'?(lp%2===0?'Red':'Black'):(lp%2===0?'Rojo':'Negro');
+  const color=lang==='en'?(lp%2===0?'Red':'Black'):(lp%2===0?'红色':'黑色');
   return{lp,dayNum:dn,nombre,poder,a,b,color,score:numaHarmony(lp,dn),personal:lp,dia:dn};
 }
 function numaAddBubble(html,fromUser,delay){setTimeout(()=>{const chat=document.getElementById('numa-chat');if(!chat)return;const div=document.createElement('div');div.className='numa-bubble '+(fromUser?'nbfu':'nbfn');div.innerHTML=html;chat.appendChild(div);setTimeout(()=>{chat.scrollTop=chat.scrollHeight},30);},delay||0);}
@@ -1771,14 +1774,14 @@ function numaOpen(){
   const statusEl=document.getElementById('numa-status-line');
   const lbl=document.getElementById('numa-chips-label');
   const chipsEl=document.getElementById('numa-chips');
-  if(statusEl)statusEl.textContent=lang==='en'?'● Reads your numbers · Answers your questions':'● Lee tus números · Responde tus preguntas';
+  if(statusEl)statusEl.textContent=lang==='en'?'● Reads your numbers · Answers your questions':'● 解读你的数字 · 陪你更懂自己';
   if(lbl)lbl.textContent=lang==='en'?'✦ TAP A QUESTION':'✦ 选择你的问题';
-  if(chipsEl){const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es;chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" data-qid="${q.id}">${q.label}</button>`).join('');chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{let _touched=false;btn.addEventListener('touchend',function(e){e.preventDefault();_touched=true;numaAsk(this.dataset.qid);setTimeout(()=>{_touched=false},500);});btn.addEventListener('click',function(){if(!_touched)numaAsk(this.dataset.qid);});})}
+  if(chipsEl){const qs=(lang==='zh'?NUMA_ZH.questions:(NUMA_DATA.questions[lang]||NUMA_DATA.questions.es));chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" data-qid="${q.id}">${q.label}</button>`).join('');chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{let _touched=false;btn.addEventListener('touchend',function(e){e.preventDefault();_touched=true;numaAsk(this.dataset.qid);setTimeout(()=>{_touched=false},500);});btn.addEventListener('click',function(){if(!_touched)numaAsk(this.dataset.qid);});})}
   const chat=document.getElementById('numa-chat');
   if(chat&&chat.children.length===0)numaGreet();
 }
 function numaGreet(){
-  const lang=STATE.lang||'es',vars=numaVars(),g=NUMA_DATA.greet[lang]||NUMA_DATA.greet.es;
+  const lang=STATE.lang||'es',vars=numaVars(),g=lang==='zh'?NUMA_ZH.greet:(NUMA_DATA.greet[lang]||NUMA_DATA.greet.es);
   const py=(typeof goldYesterday==='function')?goldYesterday():null;
   if(py!=null&&lang!=='zh'){
     const line=(lang==='en')?('Yesterday you were vibrating with the '+py+'. Today your energy moves toward the '+vars.poder+'…'):('Ayer vibrabas con el '+py+'. Hoy tu energía se mueve hacia el '+vars.poder+'…');
@@ -1790,21 +1793,21 @@ function numaClose(){showTab(STATE.prevTab||'form');}
 function numaAsk(q){
   try{
     const lang=STATE.lang||'es',vars=numaVars();
-    const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es,chip=qs.find(x=>x.id===q);
+    const qs=(lang==='zh'?NUMA_ZH.questions:(NUMA_DATA.questions[lang]||NUMA_DATA.questions.es)),chip=qs.find(x=>x.id===q);
     if(!chip||chip.locked)return;
     numaAddBubble(chip.label,true);
-    const scoreLabel=lang==='en'?'Day harmony':'Armonía del día';
+    const scoreLabel=lang==='en'?'Day harmony':'今日和谐度';
     let resp='';
-    if(q==='buen-dia'){const tier=vars.score>=70?'yes':vars.score>=40?'mid':'no';const d=(NUMA_DATA.q1[lang]||NUMA_DATA.q1.es)[tier];resp=numaFill(numaRand(d),vars)+`<br><span class="numa-score">${scoreLabel} · ${vars.score}/100</span>`;}
-    else if(q==='numero'){const d=NUMA_DATA.q2[lang]||NUMA_DATA.q2.es;resp=numaFill(numaRand(d),vars);}
-    else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=(NUMA_DATA.q3[lang]||NUMA_DATA.q3.es)[tier];resp=numaFill(numaRand(d),vars);}
-    else if(q==='energia'){const q4L=NUMA_DATA.q4[lang]||NUMA_DATA.q4.es;const d=q4L[vars.dayNum]||q4L[1];resp=lang==='en'?`<strong style="color:var(--gold)">Today you vibrate in ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`:`<strong style="color:var(--gold)">Hoy vibras en ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`;}
+    if(q==='buen-dia'){const tier=vars.score>=70?'yes':vars.score>=40?'mid':'no';const d=(lang==='zh'?NUMA_ZH.q1:(NUMA_DATA.q1[lang]||NUMA_DATA.q1.es))[tier];resp=numaFill(numaRand(d),vars)+`<br><span class="numa-score">${scoreLabel} · ${vars.score}/100</span>`;}
+    else if(q==='numero'){const d=lang==='zh'?NUMA_ZH.q2:(NUMA_DATA.q2[lang]||NUMA_DATA.q2.es);resp=numaFill(numaRand(d),vars);}
+    else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=(lang==='zh'?NUMA_ZH.q3:(NUMA_DATA.q3[lang]||NUMA_DATA.q3.es))[tier];resp=numaFill(numaRand(d),vars);}
+    else if(q==='energia'){const q4L=lang==='zh'?NUMA_ZH.q4:(NUMA_DATA.q4[lang]||NUMA_DATA.q4.es);const d=q4L[vars.dayNum]||q4L[1];resp=lang==='en'?`<strong style="color:var(--gold)">Today you vibrate in ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`:`<strong style="color:var(--gold)">今天你共振于 ${vars.dayNum}：${d.k}。</strong><br>${d.t}`;}
     if(resp)numaAddBubble(resp,false,700);
-    else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ La energía está procesando tu pregunta...',false,700);
-  }catch(e){console.error('[NUMA]',e);numaAddBubble(lang==='en'?'✦ The stars are aligning... try again.':'✦ Los astros se están alineando... intenta de nuevo.',false,400);}
+    else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ 能量正在处理你的问题……',false,700);
+  }catch(e){console.error('[NUMA]',e);numaAddBubble(lang==='en'?'✦ The stars are aligning... try again.':'✦ 星辰正在对齐……请再试一次。',false,400);}
 }
-function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='es'||l==='en'){try{localStorage.setItem('no_lang',l)}catch(e){}location.href='index.html';return}if(l==='zh'){return}STATE.lang=l;document.title=l==='en'?'NUMBERS ORACLE ✦ — Your Golden Number for Today':'NUMBERS ORACLE ✦ — Tu Número de Oro del Día';document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.lang-btn[data-lang="'+l+'"]').forEach(x=>x.classList.add('active'));try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}try{const tabR=document.getElementById('tab-result');if(tabR&&!tabR.classList.contains('hidden')&&STATE.lastResult){const r=STATE.lastResult.result;const games=I18N_NEW[l==='en'?'en':'es'].games;const rg=document.getElementById('result-game');if(rg&&STATE.game)rg.textContent=games[STATE.game]||STATE.game;const phi=document.getElementById('golden-phi');if(phi&&r){phi.innerHTML=l==='en'?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`:`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`}}}catch(e){}}
-function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('创建账号','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('已有账号？<span onclick="toggleAuth()">登录</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
+function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='es'||l==='en'){try{localStorage.setItem('no_lang',l)}catch(e){}location.href='index.html';return}if(l==='zh'){return}STATE.lang=l;document.title=l==='en'?'NUMBERS ORACLE ✦ — Your Golden Number for Today':'NUMBERS ORACLE ✦ — Tu Número de Oro del Día';document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.lang-btn[data-lang="'+l+'"]').forEach(x=>x.classList.add('active'));try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}try{const tabR=document.getElementById('tab-result');if(tabR&&!tabR.classList.contains('hidden')&&STATE.lastResult){const r=STATE.lastResult.result;const games=I18N_NEW[l==='en'?'en':'es'].games;const rg=document.getElementById('result-game');if(rg&&STATE.game)rg.textContent=games[STATE.game]||STATE.game;const phi=document.getElementById('golden-phi');if(phi&&r){phi.innerHTML=l==='en'?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`:`这个数字<strong>不是你的生命数字</strong>——它不同，也更有力量：它诞生于<strong>你五种力量与今日能量的交融</strong>。你的生命数字（${r.lp}）恒定不变，而黄金数字每天都随月相、中国历法与当日的能量流转。正是从这场交融中，浮现出<strong>${r.golden}</strong>——此刻与你最契合的数字。`}}}catch(e){}}
+function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('创建账号','Create account'):L('登录','Log in');document.getElementById('auth-toggle').innerHTML=t?L('已有账号？<span onclick="toggleAuth()">登录</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('还没有账号？<span onclick="toggleAuth()">注册</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('为你，写一份只属于你的神谕。','Create your personal oracle'):L('欢迎回来，数字一直记得你。','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
 function selSport(el){
@@ -1818,8 +1821,8 @@ function selSport(el){
   document.getElementById('inp-team-a').value='';
   document.getElementById('inp-team-b').value='';
   const isIndividual=STATE.sport==='tennis'||STATE.sport==='boxing';
-  document.getElementById('inp-team-a').placeholder=isIndividual?L('Ej: Djokovic, Alcaraz, Canelo...','E.g.: Djokovic, Alcaraz, Canelo...'):L('Ej: Real Madrid, Lakers, Colombia...','E.g.: Real Madrid, Lakers, Colombia...');
-  document.getElementById('inp-team-b').placeholder=isIndividual?L('Ej: Federer, Sinner, GGG...','E.g.: Federer, Sinner, GGG...'):L('Ej: Barcelona, Celtics, Argentina...','E.g.: Barcelona, Celtics, Argentina...');
+  document.getElementById('inp-team-a').placeholder=isIndividual?L('例如：德约科维奇、阿尔卡拉斯、卡内洛……','E.g.: Djokovic, Alcaraz, Canelo...'):L('例如：皇家马德里、湖人、哥伦比亚……','E.g.: Real Madrid, Lakers, Colombia...');
+  document.getElementById('inp-team-b').placeholder=isIndividual?L('例如：费德勒、辛纳、GGG……','E.g.: Federer, Sinner, GGG...'):L('例如：巴塞罗那、凯尔特人、阿根廷……','E.g.: Barcelona, Celtics, Argentina...');
 }
 function selectChance(n){STATE.chanceCount=n;document.querySelectorAll('#chance-seg span').forEach(s=>s.classList.toggle('on',+s.dataset.n===n));}
 function selGame(el){
@@ -1840,8 +1843,8 @@ function selGame(el){
   if(isMundial){
     document.getElementById('label-team-a').textContent=L('🔵 球队A / 主队','🔵 Team A / Home');
     document.getElementById('label-team-b').textContent=L('🔴 球队B / 客队','🔴 Team B / Away');
-    document.getElementById('inp-team-a').placeholder=L('Ej: Argentina, Brasil, México...','E.g.: Argentina, Brazil, Mexico...');
-    document.getElementById('inp-team-b').placeholder=L('Ej: Francia, España, Alemania...','E.g.: France, Spain, Germany...');
+    document.getElementById('inp-team-a').placeholder=L('例如：阿根廷、巴西、墨西哥……','E.g.: Argentina, Brazil, Mexico...');
+    document.getElementById('inp-team-b').placeholder=L('例如：法国、西班牙、德国……','E.g.: France, Spain, Germany...');
   }
   if(isDuel){
     const dl=document.getElementById('wc-teams-list');
@@ -1863,7 +1866,7 @@ function renderConsultaSel(){
   const gl=(src.querySelector('.gl')||{}).textContent||'';
   const gd=(src.querySelector('.gd')||{}).textContent||'';
   box.dataset.g=g;
-  box.innerHTML='<div class="cs-gi">'+gi+'</div><div class="cs-mid"><div class="cs-eyebrow">'+L('Tu consulta','Your reading')+'</div><div class="cs-name">'+gl+'</div><div class="cs-desc">'+gd+'</div></div><div class="cs-change" onclick="showTab(\'oraculos\')">'+L('Cambiar','Change')+' →</div>';
+  box.innerHTML='<div class="cs-gi">'+gi+'</div><div class="cs-mid"><div class="cs-eyebrow">'+L('你的探索','Your reading')+'</div><div class="cs-name">'+gl+'</div><div class="cs-desc">'+gd+'</div></div><div class="cs-change" onclick="showTab(\'oraculos\')">'+L('更改','Change')+' →</div>';
 }
 function renderDuelResult(duel,name){
   resetCompatView();
@@ -1995,11 +1998,11 @@ function generateCompat(){
   const l=uiLang();
   const partnerName=document.getElementById('inp-compat-name').value.trim();
   const partnerBirth=document.getElementById('inp-compat-birth').value;
-  if(!partnerName)return showError('error-toast',l==='en'?'Enter your partner\'s name':'Ingresa el nombre de tu pareja');
-  if(!partnerBirth)return showError('error-toast',l==='en'?'Enter your partner\'s date of birth':'Ingresa la fecha de nacimiento de tu pareja');
+  if(!partnerName)return showError('error-toast',l==='en'?'Enter your partner\'s name':'请输入对方的姓名');
+  if(!partnerBirth)return showError('error-toast',l==='en'?'Enter your partner\'s date of birth':'请输入对方的出生日期');
   const userName=document.getElementById('inp-name').value.trim();
   const userBirth=document.getElementById('inp-birth').value;
-  if(!userName||!userBirth)return showError('error-toast',l==='en'?'Complete your personal data first':'Completa tus datos personales primero');
+  if(!userName||!userBirth)return showError('error-toast',l==='en'?'Complete your personal data first':'请先完善你的个人资料');
   const uLP=calculateLP(userBirth);
   const pLP=calculateLP(partnerBirth);
   const key=Math.min(uLP.base,pLP.base)+'_'+Math.max(uLP.base,pLP.base);
@@ -2056,14 +2059,14 @@ function accLockProfile(){
   const h4=document.querySelector('#acc-4 .acc-head');
   if(h4&&!h4.querySelector('.acc-lock-edit')){
     const lnk=document.createElement('span');lnk.className='acc-lock-edit';
-    lnk.textContent=STATE.lang==='en'?'📍 change':'📍 cambiar';
+    lnk.textContent=STATE.lang==='en'?'📍 change':'📍 更改';
     lnk.onclick=function(e){e.stopPropagation();document.getElementById('acc-4').classList.remove('profile-locked');accOpenStep(4,true)};
     h4.appendChild(lnk);
   }
   const s5=document.getElementById('acc-5');
   if(s5&&!s5.querySelector('.acc-profile-edit-hint')){
     const d=document.createElement('div');d.className='acc-profile-edit-hint';
-    d.innerHTML='<span onclick="showTab(\'profile\')" style="cursor:pointer;text-decoration:underline">✏️ '+(STATE.lang==='en'?'Edit your data → Profile':'Editar datos → Perfil')+'</span>';
+    d.innerHTML='<span onclick="showTab(\'profile\')" style="cursor:pointer;text-decoration:underline">✏️ '+(STATE.lang==='en'?'Edit your data → Profile':'编辑资料 → 我的')+'</span>';
     s5.appendChild(d);
   }
 }
@@ -2085,7 +2088,7 @@ function accUpdate(){
       else{sum.textContent=i===2?accFmtDate(document.getElementById('inp-birth').value):accVal(i)}
     }
   }
-  const p=document.getElementById('acc-progress');if(p)p.textContent=L('Paso ','Step ')+ACC_OPEN+L(' de 5',' of 5');
+  const p=document.getElementById('acc-progress');if(p)p.textContent=L('第 ','Step ')+ACC_OPEN+L(' / 5 步',' of 5');
 }
 function accInit(){try{accLockProfile()}catch(e){}accOpenStep(accFirstEmpty(),false)}
 function editProfileData(){for(let i=1;i<=4;i++){const el=document.getElementById('acc-'+i);if(el)el.classList.remove('profile-locked');}showTab('form');accOpenStep(1,true);}
@@ -2136,51 +2139,51 @@ function showSuccess(id,msg){const el=document.getElementById(id);el.textContent
 
 async function doForgotPw(){
   const email=document.getElementById('forgot-email').value.trim();
-  if(!email)return showError('forgot-error','Ingresa tu correo electrónico');
+  if(!email)return showError('forgot-error','请输入你的电子邮箱');
   const btn=document.getElementById('forgot-btn');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Enviando...','Sending...');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('发送中...','Sending...');
   try{
     const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://www.numbersoracle.com'});
     if(error)throw error;
-    showSuccess('forgot-success','✦ Enlace enviado. Revisa tu correo (incluyendo spam) y haz clic en el enlace para crear tu nueva contraseña.');
-    btn.textContent=L('¡Enviado! Revisa tu correo','Sent! Check your email');
+    showSuccess('forgot-success','✦ 链接已发送。请检查你的邮箱（含垃圾邮件），点击链接设置新密码。');
+    btn.textContent=L('已发送！请查收邮箱','Sent! Check your email');
   }catch(e){
-    showError('forgot-error',e.message||'Error al enviar el enlace. Intenta de nuevo.');
+    showError('forgot-error',e.message||'发送失败，请重试。');
     btn.disabled=false;btn.innerHTML=L('✦ 发送找回链接 ✦','✦ Send recovery link ✦');
   }
 }
 async function doResetPw(){
   const pass=document.getElementById('resetpw-pass').value;
   const pass2=document.getElementById('resetpw-pass2').value;
-  if(!pass||pass.length<6)return showError('resetpw-error','La contraseña debe tener al menos 6 caracteres');
-  if(pass!==pass2)return showError('resetpw-error','Las contraseñas no coinciden');
+  if(!pass||pass.length<6)return showError('resetpw-error','密码至少需要6个字符');
+  if(pass!==pass2)return showError('resetpw-error','两次密码不一致');
   const btn=document.getElementById('resetpw-btn');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Guardando...','Saving...');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('保存中...','Saving...');
   try{
     const{error}=await sb.auth.updateUser({password:pass});
     if(error)throw error;
-    showSuccess('resetpw-success','✦ ¡Contraseña actualizada! Iniciando sesión...');
+    showSuccess('resetpw-success','✦ 密码已更新！正在登录...');
     setTimeout(async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user)await afterLogin(session.user);else goAuth('login');},2000);
   }catch(e){
-    showError('resetpw-error',e.message||'Error al actualizar la contraseña. El enlace puede haber expirado.');
+    showError('resetpw-error',e.message||'更新密码失败，链接可能已过期。');
     btn.disabled=false;btn.innerHTML=L('✦ 保存新密码 ✦','✦ Save new password ✦');
   }
 }
 async function doAuth(){
   const email=document.getElementById('auth-email').value.trim();const pass=document.getElementById('auth-pass').value;const name=document.getElementById('auth-name').value.trim();const btn=document.getElementById('auth-btn-main');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Procesando...','Processing...');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('处理中...','Processing...');
   try{
     if(STATE.authMode==='register'){
-      if(!name)throw new Error(L('Ingresa tu nombre completo','Enter your full name'));if(!email)throw new Error(L('Ingresa tu correo electrónico','Enter your email'));if(!pass||pass.length<6)throw new Error(L('La contraseña debe tener al menos 6 caracteres','Password must be at least 6 characters'));
+      if(!name)throw new Error(L('请输入你的全名','Enter your full name'));if(!email)throw new Error(L('请输入你的电子邮箱','Enter your email'));if(!pass||pass.length<6)throw new Error(L('密码至少需要6个字符','Password must be at least 6 characters'));
       const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});if(error)throw error;
       if(data.session&&data.user){await afterLogin(data.user);}
-      else if(data.user){const r2=await sb.auth.signInWithPassword({email,password:pass});if(r2.data&&r2.data.user){await afterLogin(r2.data.user);}else{showSuccess('auth-success',L('¡Cuenta creada! Ya puedes iniciar sesión.','Account created! You can now log in.'));setTimeout(()=>toggleAuth(),2500);}}
+      else if(data.user){const r2=await sb.auth.signInWithPassword({email,password:pass});if(r2.data&&r2.data.user){await afterLogin(r2.data.user);}else{showSuccess('auth-success',L('账号已创建！你现在可以登录。','Account created! You can now log in.'));setTimeout(()=>toggleAuth(),2500);}}
     }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
-  }catch(e){showError('auth-error',e.message||L('Error en la autenticación','Authentication error'))}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?L('创建账号','Create account'):L('Iniciar sesión','Log in')}
+  }catch(e){showError('auth-error',e.message||L('认证出错，请重试。','Authentication error'))}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?L('创建账号','Create account'):L('登录','Log in')}
 }
-async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Error con Google')}}
+async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Google 登录出错')}}
 async function afterLogin(user){
-  STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
+  STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'用户'),email:user.email,plan:'free'};STATE.profile=profile;
   if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}try{chargeMotors()}catch(e){}
   await loadHistory();await loadQuota();goTo('screen-main');openHoy();updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
 }
@@ -2191,7 +2194,7 @@ async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(s
 async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
 async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
 async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}
-function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const isWc=STATE.game==='mundial';const isSignals=STATE.game==='signals';if(isPro){bar.innerHTML=L('<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas','<strong>✦ Pro Plan Active</strong> — Unlimited readings');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isWc){bar.innerHTML=L('<strong>🏆 世界杯 2026 — Gratis para todos</strong> · No consume tu consulta del día','<strong>🏆 World Cup 2026 — Free for everyone</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isSignals){bar.innerHTML=L('<strong>🌌 数字共鸣 — Gratis e ilimitado</strong> · No consume tu consulta del día','<strong>🌌 Synchronies — Free &amp; unlimited</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(STATE.consultsToday>=1){bar.innerHTML=L('<strong>Límite alcanzado hoy</strong> — El 世界杯 2026 🏆 sigue gratis · Pro para ilimitadas','<strong>Daily limit reached</strong> — World Cup 2026 🏆 is still free · Pro for unlimited');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas','<strong>Free reading of the day</strong> — Upgrade to Pro for unlimited');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
+function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const isWc=STATE.game==='mundial';const isSignals=STATE.game==='signals';if(isPro){bar.innerHTML=L('<strong>✦ Pro 计划已激活</strong> — 无限探索','<strong>✦ Pro Plan Active</strong> — Unlimited readings');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isWc){bar.innerHTML=L('<strong>🏆 世界杯 2026 — 人人免费</strong> · 不消耗你今日的探索次数','<strong>🏆 World Cup 2026 — Free for everyone</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isSignals){bar.innerHTML=L('<strong>🌌 数字共鸣 — 免费无限</strong> · 不消耗你今日的探索次数','<strong>🌌 Synchronies — Free &amp; unlimited</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(STATE.consultsToday>=1){bar.innerHTML=L('<strong>今日已达上限</strong> — 世界杯 2026 🏆 仍然免费 · 升级 Pro 无限畅享','<strong>Daily limit reached</strong> — World Cup 2026 🏆 is still free · Pro for unlimited');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>每日免费探索</strong> — 升级 Pro 无限畅享','<strong>Free reading of the day</strong> — Upgrade to Pro for unlimited');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
   document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
@@ -2199,15 +2202,15 @@ async function generate(){
   if(STATE.game==='signals'){generateSignals(name,birth);return;}
   if(STATE.game==='compat'){generateCompat();return;}
   if(!name||!birth||!cityB||!cityN){try{accOpenStep(accFirstEmpty(),true)}catch(e){}}
-  if(!name)return showError('error-toast',L('Ingresa tu nombre completo','Enter your full name'));if(!birth)return showError('error-toast',L('Ingresa tu fecha de nacimiento','Enter your date of birth'));if(!cityB)return showError('error-toast',L('Ingresa tu ciudad de nacimiento','Enter your city of birth'));if(!cityN)return showError('error-toast',L('Ingresa tu ciudad actual','Enter your current city'));
+  if(!name)return showError('error-toast',L('请输入你的全名','Enter your full name'));if(!birth)return showError('error-toast',L('请输入你的出生日期','Enter your date of birth'));if(!cityB)return showError('error-toast',L('请输入你的出生城市','Enter your city of birth'));if(!cityN)return showError('error-toast',L('请输入你的当前城市','Enter your current city'));
   const isDuelMode=GAME_CFG[STATE.game]?.duel;
   if(isDuelMode){
     const tA=document.getElementById('inp-team-a').value.trim();
     const tB=document.getElementById('inp-team-b').value.trim();
-    if(!tA)return showError('error-toast',L('Ingresa el nombre del Equipo A','Enter the name of Team A'));
-    if(!tB)return showError('error-toast',L('Ingresa el nombre del Equipo B','Enter the name of Team B'));
+    if(!tA)return showError('error-toast',L('请输入球队A的名称','Enter the name of Team A'));
+    if(!tB)return showError('error-toast',L('请输入球队B的名称','Enter the name of Team B'));
   }
-  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1&&STATE.game!=='mundial')return showError('error-toast',L('Has alcanzado tu límite gratuito de hoy. El 世界杯 2026 🏆 sigue gratis. Actualiza a Pro para ilimitadas.','You have reached your free limit for today. World Cup 2026 🏆 is still free. Upgrade to Pro for unlimited.'));
+  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1&&STATE.game!=='mundial')return showError('error-toast',L('你已达到今日免费上限。世界杯 2026 🏆 仍然免费。升级 Pro 无限畅享。','You have reached your free limit for today. World Cup 2026 🏆 is still free. Upgrade to Pro for unlimited.'));
   showTab('loading');
   const firstName=name.split(' ')[0];
   const msgs=uiLang()==='en'?[
@@ -2251,7 +2254,7 @@ async function generate(){
     updateFreemiumBar();
   }catch(e){
     console.error('Error generando:',e);
-    showTab('form');showError('error-toast',L('Hubo un problema al generar. Intenta de nuevo.','There was a problem generating. Try again.'));
+    showTab('form');showError('error-toast',L('生成时出现问题，请重试。','There was a problem generating. Try again.'));
   }
 }
 function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
@@ -2264,19 +2267,19 @@ function playConvergence(e,m,golden){
     const stage=document.getElementById('conv-stage');
     const center=document.getElementById('conv-center');
     document.getElementById('conv-num').textContent=golden;
-    document.getElementById('conv-lbl').textContent=L('Número de Oro','Golden Number');
+    document.getElementById('conv-lbl').textContent=L('黄金数字','Golden Number');
     const cap=document.getElementById('conv-cap');
     ov.classList.remove('fade');ov.style.display='flex';
     stage.querySelectorAll('.conv-ring').forEach(r=>r.remove());
     center.classList.remove('show');
     const motors=[
-      ['☿','#7bd0ff',e.num,L('La numerología despierta…','Numerology awakens…')],
-      ['♈','#ff9ec7',e.ast,L('Los astros entran en órbita…','The stars enter orbit…')],
-      ['🌙','#cdd6ff',m.day+'d',L('La luna marca su fase…','The moon marks its phase…')],
-      ['🐉','#ffcaa6',e.chi,L('El calendario chino se alinea…','The Chinese calendar aligns…')],
-      ['🌎','#7bf0b0',e.geo,L('La geoenergía cierra el círculo…','Geoenergy closes the circle…')]
+      ['☿','#7bd0ff',e.num,L('命理正在苏醒……','Numerology awakens…')],
+      ['♈','#ff9ec7',e.ast,L('星辰进入轨道……','The stars enter orbit…')],
+      ['🌙','#cdd6ff',m.day+'d',L('月亮标出它的相位……','The moon marks its phase…')],
+      ['🐉','#ffcaa6',e.chi,L('中国历法正在对齐……','The Chinese calendar aligns…')],
+      ['🌎','#7bf0b0',e.geo,L('地能合上这个圆环……','Geoenergy closes the circle…')]
     ];
-    cap.textContent=L('Calculando tu vibración…','Calculating your vibration…');
+    cap.textContent=L('正在解读你的振动……','Calculating your vibration…');
     motors.forEach((mo,i)=>{
       const dia=290-i*52;
       const r=document.createElement('div');r.className='conv-ring';
@@ -2286,7 +2289,7 @@ function playConvergence(e,m,golden){
       setTimeout(()=>{r.classList.add('show','spin');r.style.animationDuration=(13+i*4)+'s';r.style.animationDirection=(i%2?'reverse':'normal');cap.style.opacity=0;setTimeout(()=>{cap.textContent=mo[3];cap.style.opacity=1;},160);},380+i*480);
     });
     const tc=380+motors.length*480+340;
-    setTimeout(()=>{cap.style.opacity=0;setTimeout(()=>{cap.textContent=L('Cinco fuerzas convergen en ti.','Five forces converge in you.');cap.style.opacity=1;},160);center.classList.add('show');stage.querySelectorAll('.conv-ring').forEach(r=>r.style.animationDuration='40s');},tc);
+    setTimeout(()=>{cap.style.opacity=0;setTimeout(()=>{cap.textContent=L('五种力量在你身上交汇。','Five forces converge in you.');cap.style.opacity=1;},160);center.classList.add('show');stage.querySelectorAll('.conv-ring').forEach(r=>r.style.animationDuration='40s');},tc);
     setTimeout(resolve,tc+1300);
   });
 }
@@ -2348,10 +2351,10 @@ function renderResult(r,name){
   buildOrbit(r);
   document.getElementById('golden-phi').innerHTML=uiLang()==='en'
     ?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`
-    :`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
+    :`这个数字<strong>不是你的生命数字</strong>——它不同，也更有力量：它诞生于<strong>你五种力量与今日能量的交融</strong>。你的生命数字（${r.lp}）恒定不变，而黄金数字每天都随月相、中国历法与当日的能量流转。正是从这场交融中，浮现出<strong>${r.golden}</strong>——此刻与你最契合的数字。`;
   const inplayEl=document.getElementById('golden-inplay');
-  if(r.goldenInPlay){inplayEl.textContent=L('✦ Presente en tu energía de hoy','✦ Present in your energy today');inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
-  else{inplayEl.textContent=L('✦ Número ceremonial de inspiración','✦ Ceremonial number of inspiration');inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
+  if(r.goldenInPlay){inplayEl.textContent=L('✦ 已融入你今日的能量','✦ Present in your energy today');inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
+  else{inplayEl.textContent=L('✦ 启迪你的仪式数字','✦ Ceremonial number of inspiration');inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
   r.nums.forEach((n,i)=>{const b=document.createElement('div');b.className='nball'+(n===r.golden&&r.goldenInPlay?' is-golden':'');b.textContent=n<10&&cfg.max>9?'0'+n:n;b.style.animationDelay=(i*.14)+'s';d.appendChild(b)});
   (function(){const ch=document.getElementById('chance-hint');if(!ch)return;ch.style.display='none';document.getElementById('seal-sub').textContent=L('五种古老智慧在你的数字中交汇','Five cosmic forces converge in your numbers');})();
@@ -2363,25 +2366,25 @@ function renderResult(r,name){
     {icon:'🐉',label:'Chinese Cal.',val:r.engines.chi,text:`The millennial Chinese calendar assigns the <strong>${r.engines.chi}</strong> to this moment. Five thousand years of observing the cosmos converge in this sacred number.`},
     {icon:'🌎',label:'Geoenergy',val:r.geo,text:`The geomagnetic energy of <strong>where you were born</strong> and <strong>where you live today</strong> generates the <strong>${r.geo}</strong>. The place we inhabit shapes part of our destiny.`}
   ]:[
-    {icon:'☿',label:'Numerología',val:r.lp,text:`Tu vibración personal. Nace de la reducción de tu nombre completo y fecha de nacimiento. Es tu firma energética única en este universo — el número que te define.`},
-    {icon:'♈',label:'Astrología',val:r.engines.ast,text:`La posición de los astros hoy, combinada con tu signo <strong>${r.zodiac.sign}</strong> y el planeta <strong>${r.zodiac.planet}</strong>. Los cielos imprimen esta frecuencia en cada decisión que tomas hoy.`},
-    {icon:'🌙',label:'Luna',val:r.moon.day+'d',text:`Estamos en el día <strong>${r.moon.day}</strong> del ciclo lunar — luna <strong>${r.moon.name}</strong>. Desde el principio del tiempo la luna guía la intuición humana. Hoy su pulso se funde con el tuyo.`},
-    {icon:'🐉',label:'Cal. Chino',val:r.engines.chi,text:`El calendario milenario chino asigna el <strong>${r.engines.chi}</strong> a este momento. Cinco mil años de observación del cosmos convergen en este número sagrado.`},
-    {icon:'🌎',label:'Geoenergía',val:r.geo,text:`La energía geomagnética de <strong>donde naciste</strong> y <strong>donde vives hoy</strong> genera el <strong>${r.geo}</strong>. El lugar que habitamos moldea parte de nuestro destino.`}
+    {icon:'☿',label:'命理',val:r.lp,text:`你的个人振动。由你的全名与出生日期归约而来，是你在这宇宙中独一无二的能量印记——定义你的那个数字。`},
+    {icon:'♈',label:'星象',val:r.engines.ast,text:`今日星辰的位置，与你的星座<strong>${tZH(SIGN_ZH,r.zodiac.sign)}</strong>及主宰行星<strong>${tZH(PLANET_ZH,r.zodiac.planet)}</strong>交织。苍穹把这一频率，印刻在你今日的每个抉择里。`},
+    {icon:'🌙',label:'月相',val:r.moon.day+'d',text:`此刻是月相周期的第<strong>${r.moon.day}</strong>天——<strong>${tZH(MOON_ZH,r.moon.name)}</strong>。自太初以来，月亮便指引着人的直觉。今日，它的脉动与你相融。`},
+    {icon:'🐉',label:'中国历法',val:r.engines.chi,text:`千年的中国历法，为此刻赋予<strong>${r.engines.chi}</strong>。五千年仰观宇宙的智慧，汇聚于这个神圣的数字。`},
+    {icon:'🌎',label:'地能',val:r.geo,text:`<strong>你出生之地</strong>与<strong>你此刻所居之地</strong>的地磁能量，生成了<strong>${r.geo}</strong>。我们栖居的土地，塑造着命运的一部分。`}
   ];
   document.getElementById('motors-explain').innerHTML=motorData.map(m=>`<div class="mexpl-row"><div class="mexpl-icon">${m.icon}</div><div class="mexpl-body"><div class="mexpl-head"><span class="mexpl-label">${m.label}</span><span class="mexpl-num">${m.val}</span></div><div class="mexpl-text">${m.text}</div></div></div>`).join('');
   // TEXTO GANADOR METAFÍSICO
   document.getElementById('combo-winner').innerHTML=uiLang()==='en'
     ?`<div class="combo-winner-title">✦ Why this combination is yours ✦</div><div class="combo-winner-text">The cosmos never delivers the same combination twice. Your <strong>${r.nums.length} numbers</strong> are born from the exact intersection of <strong>five cosmic forces</strong> — your numerological essence, today's stars, the lunar cycle, five millennia of Chinese wisdom and the energy of the earth you walk on. At this precise instant, these forces aligned only for you. <strong>This combination belongs to no one else in the world.</strong></div>`
-    :`<div class="combo-winner-title">✦ Por qué esta combinación es tuya ✦</div><div class="combo-winner-text">El cosmos no entrega dos veces la misma combinación. Tus <strong>${r.nums.length} números</strong> nacen de la intersección exacta de <strong>cinco fuerzas cósmicas</strong> — tu esencia numerológica, los astros de hoy, el ciclo lunar, cinco milenios de sabiduría china y la energía de la tierra que pisas. En este instante preciso, estas fuerzas se alinearon solo para ti. <strong>Esta combinación no le pertenece a nadie más en el mundo.</strong></div>`;
+    :`<div class="combo-winner-title">✦ 为什么这组数字属于你 ✦</div><div class="combo-winner-text">宇宙从不把同一组数字给出两次。你的<strong>${r.nums.length}个数字</strong>，诞生于<strong>五种古老智慧</strong>的精确交汇——你的命理本质、今日的星辰、月相周期、五千年的中华智慧，以及你脚下大地的能量。就在此刻，这些力量只为你对齐。<strong>这组数字，世上再无第二人拥有。</strong></div>`;
   // NARRATIVA DE PODER EXPANDIDA
   const firstName=name.split(' ')[0];
   document.getElementById('interp-text').innerHTML=uiLang()==='en'
     ?`${firstName}, your <strong>life number is ${r.lp}</strong> — permanent, born from your name and date of birth. <strong>Today's Golden Number is ${r.golden}</strong>, a different one: it emerges from fusing your ${r.lp} with the four forces of today's universe. This number resonates with <strong>${tEN(PLANET_EN,r.zodiac.planet)}</strong>, the ruling planet of <strong>${tEN(SIGN_EN,r.zodiac.sign)}</strong>, whose <strong>${tEN(ELEM_EN,r.zodiac.element)}</strong> element energy governs your chart. Today, the <strong>${tEN(MOON_EN,r.moon.name)} moon</strong> is on day ${r.moon.day} of its cycle, amplifying your personal magnetic field with a force that will not repeat the same way tomorrow. The <strong>${tEN(ANIMAL_EN,r.chinese.animal)}</strong> of your Chinese year brings its sacred number, and the fused geoenergy of your cities vibrates in <strong>resonance ${r.geo}</strong>. When these five forces align in a single seed, these numbers emerge — and only these.`
-    :`${firstName}, tu <strong>número de vida es el ${r.lp}</strong> — permanente, nace de tu nombre y fecha de nacimiento. El <strong>Número de Oro de hoy es el ${r.golden}</strong>, diferente: emerge de fusionar tu ${r.lp} con las cuatro fuerzas del universo de hoy. Este número resuena con <strong>${r.zodiac.planet}</strong>, el planeta regente de <strong>${r.zodiac.sign}</strong>, cuya energía de elemento <strong>${r.zodiac.element}</strong> rige tu carta. Hoy, la <strong>luna ${r.moon.name}</strong> se encuentra en el día ${r.moon.day} de su ciclo, amplificando tu campo magnético personal con una fuerza que no se repetirá igual mañana. El <strong>${r.chinese.animal}</strong> de tu año chino aporta su número sagrado, y la geoenergía fusionada de tus ciudades vibra en <strong>resonancia ${r.geo}</strong>. Cuando estas cinco fuerzas se alinean en una sola semilla, emergen estos números, y solo estos.`;
-  document.getElementById('interp-closer').innerHTML=L('Ningún otro ser en el mundo comparte esta combinación exacta hoy. Es tuya, sellada por el cosmos para este día.','No other being in the world shares this exact combination today. It is yours, sealed by the cosmos for this day.');
+    :`${firstName}，你的<strong>生命数字是 ${r.lp}</strong>——恒定不变，源自你的姓名与生日。而<strong>今日的黄金数字是 ${r.golden}</strong>，与之不同：它由你的 ${r.lp} 与今日宇宙的四种力量交融而来。这个数字与<strong>${tZH(PLANET_ZH,r.zodiac.planet)}</strong>共振——它是<strong>${tZH(SIGN_ZH,r.zodiac.sign)}</strong>的主宰行星，其<strong>${tZH(ELEM_ZH,r.zodiac.element)}</strong>元素的能量主导着你的星盘。今日，<strong>${tZH(MOON_ZH,r.moon.name)}</strong>正处于周期的第 ${r.moon.day} 天，放大你个人的磁场，而这股力量明日不会再以同样的方式浮现。你生肖<strong>${tZH(ANIMAL_ZH,r.chinese.animal)}</strong>之年带来它神圣的数字，你双城交融的地能在<strong>共振 ${r.geo}</strong>中震动。当这五种力量在同一颗种子里对齐，便浮现出这些数字——且仅有这些。`;
+  document.getElementById('interp-closer').innerHTML=L('世上再没有任何人拥有今天这组一模一样的数字。它属于你，是宇宙为这一天为你封印的。','No other being in the world shares this exact combination today. It is yours, sealed by the cosmos for this day.');
   // SELLO según juego
-  const seals=uiLang()==='en'?{daily:'VIBRATION SEALED',lottery:'VIBRATION SEALED',chance:'DIGITS REVEALED',destiny:'SEQUENCE REVEALED',casino:'SEQUENCE REVEALED',sports:'SPORTS ENERGY'}:{daily:'VIBRACIÓN SELLADA',lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',destiny:'SECUENCIA REVELADA',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
+  const seals=uiLang()==='en'?{daily:'VIBRATION SEALED',lottery:'VIBRATION SEALED',chance:'DIGITS REVEALED',destiny:'SEQUENCE REVEALED',casino:'SEQUENCE REVEALED',sports:'SPORTS ENERGY'}:{daily:'振动已封印',lottery:'振动已封印',chance:'数字已揭示',destiny:'序列已揭示',casino:'序列已揭示',sports:'体育能量'};
   document.getElementById('seal-text').textContent=seals[STATE.game]||L('组合已封印','COMBINATION SEALED');
 }
 function newConsult(){goBackToForm()}
@@ -2455,6 +2458,12 @@ const ELEM_EN={'Tierra':'Earth','Aire':'Air','Agua':'Water','Fuego':'Fire'};
 const ANIMAL_EN={'Rata':'Rat','Buey':'Ox','Tigre':'Tiger','Conejo':'Rabbit','Dragón':'Dragon','Serpiente':'Snake','Caballo':'Horse','Cabra':'Goat','Mono':'Monkey','Gallo':'Rooster','Perro':'Dog','Cerdo':'Pig'};
 const MOON_EN={'Nueva':'New','Creciente':'Waxing','Cuarto creciente':'First quarter','Gibosa creciente':'Waxing gibbous','Llena':'Full','Gibosa menguante':'Waning gibbous','Cuarto menguante':'Last quarter','Menguante':'Waning'};
 function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
+const SIGN_ZH={'Capricornio':'摩羯座','Acuario':'水瓶座','Piscis':'双鱼座','Aries':'白羊座','Tauro':'金牛座','Géminis':'双子座','Cáncer':'巨蟹座','Leo':'狮子座','Virgo':'处女座','Libra':'天秤座','Escorpio':'天蝎座','Sagitario':'射手座'};
+const PLANET_ZH={'Saturno':'土星','Urano':'天王星','Neptuno':'海王星','Marte':'火星','Venus':'金星','Mercurio':'水星','Luna':'月亮','Sol':'太阳','Plutón':'冥王星','Júpiter':'木星'};
+const ELEM_ZH={'Tierra':'土','Aire':'风','Agua':'水','Fuego':'火'};
+const ANIMAL_ZH={'Rata':'鼠','Buey':'牛','Tigre':'虎','Conejo':'兔','Dragón':'龙','Serpiente':'蛇','Caballo':'马','Cabra':'羊','Mono':'猴','Gallo':'鸡','Perro':'狗','Cerdo':'猪'};
+const MOON_ZH={'Nueva':'新月','Creciente':'娥眉月','Cuarto creciente':'上弦月','Gibosa creciente':'盈凸月','Llena':'满月','Gibosa menguante':'亏凸月','Cuarto menguante':'下弦月','Menguante':'残月'};
+function tZH(m,v){return m[v]||v}
 const UI_EN=[
 ['.landing-eyebrow','✦ numeric oracle ✦'],
 ['.landing-headline','Five forces of the Cosmos<br>converge in your life.','html'],
@@ -2890,7 +2899,7 @@ function detectRegionPricing(){
     // China: paquetes de créditos (sin trial, sin consulta individual)
     if(badge) badge.style.display='none';
     rp.innerHTML=`
-      <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择您的访问方式 ✦</div>
+      <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择你的访问方式 ✦</div>
       <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
           <div style="font-size:15px;color:var(--text);font-weight:500">3 次解读</div>
@@ -2975,12 +2984,12 @@ async function submitNotify(){
     document.getElementById('notify-success-text').textContent=L(`✦ ¡Perfecto! Te avisaremos a ${email} cuando el Plan Pro esté listo.`,`✦ Perfect! We'll notify ${email} when Pro is ready.`);
     setTimeout(closeModal,3500);
   }catch(e){
-    btn.textContent=L('Reintentar','Retry');btn.disabled=false;
+    btn.textContent=L('重试','Retry');btn.disabled=false;
   }
 }
 
 function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
-function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||L('Usuario','User');document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?L('Plan Pro · Ilimitadas','Pro Plan · Unlimited'):L('免费计划 · 每天1次探索','Freemium Plan · 1 reading/day');document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:15px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">'+L('Sin consultas aún','No readings yet')+'</div>';return}const games=I18N_NEW[uiLang()].games;el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
+function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||L('用户','User');document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?L('Pro 计划 · 无限探索','Pro Plan · Unlimited'):L('免费计划 · 每天1次探索','Freemium Plan · 1 reading/day');document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:15px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">'+L('还没有探索记录','No readings yet')+'</div>';return}const games=I18N_NEW[uiLang()].games;el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{
   // Detectar si el usuario viene desde un enlace de recuperación de contraseña
   const hash=new URLSearchParams(window.location.hash.replace('#',''));
@@ -3001,6 +3010,7 @@ function renderProfile(){if(!STATE.profile)return;document.getElementById('profi
 
 /* ─── SINCRONÍAS — banco de interpretaciones ─── */
 const SIGNALS_DB={
+zh:{0:{name:'门槛',hook:'宇宙在新事物开始之前，向你显现 0。它是一个周期收束、另一个尚未成形之间的寂静。',depth:'在命理中，0 是纯粹的潜能——不是虚空，而是一切尚未诞生之物。',energy:['潜能','起点','圆融'],area:'一个新的周期正在酝酿。可能在你的事业、一段关系，或你的内在。'},1:{name:'火花',hook:'1 是宇宙最直接的信号：是时候行动了。若它反复出现，说明你内在已准备好开始——即使头脑仍在犹豫。',depth:'在命理中，它是领导、独立与创造意志之数。',energy:['行动','领导','新的开始'],area:'有个你拖延已久的决定。1 说：就是现在。'},2:{name:'镜子',hook:'当宇宙希望你在行动前先聆听时，2 会出现。你的关系或悬而未决的抉择里，有些事需要更多留意。',depth:'在命理中，它是二元、耐心与直觉之数。它要求先合作，再行动。',energy:['平衡','耐心','联结'],area:'一段重要的关系或抉择，需要你在行动前顾及双方。'},3:{name:'声音',hook:'当你压抑某样东西已久——一个想法、一份才华、一个真相——3 会到来。宇宙在提醒你：你有话要说。',depth:'在命理中，它是创造、沟通与喜悦之数。',energy:['创造','表达','喜悦'],area:'你的创造或社交生活需要更多空间。你想创造或想说的，值得被表达。'},4:{name:'根基',hook:'4 不是柔和的信号——它是一条指令：去建造。宇宙在要求你，从梦想走向结构。',depth:'在命理中，它是秩序、纪律与长久稳定之数。',energy:['纪律','稳定','建造'],area:'你的生活、健康或某个长期计划，此刻需要更坚实的根基。'},5:{name:'风',hook:'5 出现在变化之前。它带来一个你一直回避的决定。宇宙并没有在征求你的许可。',depth:'在命理中，它是系统里最不安分的数字：自由、流动、不可避免的转变。',energy:['变化','自由','流动'],area:'一场过渡正在临近——或有个重要决定，你已拖延了太久。'},6:{name:'家',hook:'当宇宙希望你回到最重要的事物——你所爱的人、你的平衡、你亲密的世界——6 会出现。',depth:'在命理中，它是爱、责任与和谐之数，也指向自我照顾。',energy:['爱','责任','和谐'],area:'家人、伴侣或自我照顾——你亲密圈中有人需要你，或你需要他们。'},7:{name:'追寻者',hook:'宇宙用 7 召唤那些从不满足于表面的人。若它出现在你生命中，是邀请你质疑习以为常之事，走向更深处。',depth:'在命理中，7 是隐藏真相的永恒追寻者——理性、善于分析、深具灵性。它的陷阱：太依赖理智，有时会错过只存在于寂静中的答案。',energy:['追寻','深度','隐藏的真相'],area:'你生命中有些事需要更深入地探究——一个不对劲的处境，一个你回避已久的问题。'},8:{name:'力量',hook:'8 是丰盛与力量的信号——不是白得的，而是挣得的。当它出现，宇宙在告诉你：回馈的周期正在启动。',depth:'在命理中，8 是最纯粹的现实之数：你所建造的、给予的、承担的——一切即将完成它的循环。',energy:['丰盛','力量','因果'],area:'你的事业或个人的影响力，正处于一个转折点。8 不白给——它回馈。'},9:{name:'释放',hook:'当某事走向终结，9 会出现——那不是失去，而是释放。宇宙在为你准备，放下已完成使命的事物。',depth:'在命理中，它是圆满与普世慈悲之数。放下，也意味着宽恕——宽恕他人，或宽恕自己。',energy:['收束','慈悲','转化'],area:'一个阶段、一段关系，或你的某个版本正在结束。放下，是下一个开始的第一步。'},11:{name:'启明',hook:'11 不低语——它直接说话。它是系统中最易辨识的高频数字，当它跟随你，宇宙有一条紧急的讯息：多信任直觉，少依赖理性头脑。',depth:'在命理中，11 是第一个主数。它把 1 的双倍能量与 2 的深层敏感结合——被放大的直觉、灵性的觉醒。',energy:['直觉','启明','觉醒'],area:'你的人生使命正在被激活。留意接下来几天的直觉与共时性。'},22:{name:'建筑师',hook:'22 是最有力量、能把宏大梦想化为现实的数字。当它反复出现，讯息具体而紧急：你面前有一个巨大的机会——你需要现在就抓住它。',depth:'在命理中，22 把 11 的直觉与 4 的务实结合：愿景与结构合为一数。大建造者。',energy:['愿景','建造','传承'],area:'一个项目、一个决定、一扇门——某样看似太大的事，正等你认真对待。22 不会敲第二次门。'},33:{name:'导师',hook:'33 是主数中最崇高的一个。当它跟随你，讯息不只是你有东西可教——而是有一位老师正向你走来。敞开你的心。',depth:'在命理中，33 把 3 的创造与 6 的负责之爱结合。它最鲜明的特质：真诚的奉献。众师之师。',energy:['慈悲','教导','提升'],area:'一个人、一本书、一段经历——某样带着你此刻所需课题的东西正在路上。别让它悄然错过。'}},
 es:{
   0:{name:'El Umbral',hook:'El universo te muestra el 0 justo antes de que algo nuevo comience. Es el silencio entre un ciclo que cierra y otro que todavía no tiene forma.',depth:'En numerología, el 0 es el potencial puro — no es vacío, es todo lo que aún no ha nacido.',energy:['Potencial','Inicio','Totalidad'],area:'Un nuevo ciclo se está gestando. Puede ser en tu carrera, en una relación, o en tu interior.'},
   1:{name:'La Chispa',hook:'El 1 es la señal más directa del universo: es hora de actuar. Si no para de aparecer, algo en ti ya está listo para comenzar — aunque la mente todavía dude.',depth:'En numerología, es el número del liderazgo, la independencia y la voluntad creadora.',energy:['Acción','Liderazgo','Nuevo comienzo'],area:'Hay una decisión que llevas tiempo posponiendo. El 1 dice: es ahora.'},
@@ -3033,6 +3043,7 @@ en:{
 }};
 
 const SIGNALS_SEQ={
+zh:{0:{text:'重复的 0 放大神圣的恩典——宇宙在确认它对你的守护。感恩会打开吸引更多的通道。'},1:{text:'111 是显化之门。此刻你的念头有着不寻常的力量——留意你所观想的，因为它正在加速成形。'},2:{text:'222 是你走在正确道路上的信号，即使看起来并非如此。宇宙请你耐心与信任——有些事正在深处酝酿。'},3:{text:'333 宣告灵性导师就在近旁。这是主动守护的信号。你所经历的，你并非独自经历。'},4:{text:'444 是系统中最令人安心的信号：你被守护着。宇宙正在你周围建起一张支持之网。你正处在你该在的位置。'},5:{text:'555 宣告你近期最重要的一次转变。别去阻拦——顺流而行。抗拒，才是唯一真正的障碍。'},6:{text:'666 不是阴暗的信号——它是重新平衡的提醒。宇宙请你回到真正重要的事：真实的联结、爱与家。'},7:{text:'777 是与宇宙完美对齐的信号。你正走在智慧之路上。你所寻的答案已然可得——你只需停下来聆听。'},8:{text:'888 是系统中最有力量的丰盛信号。丰盛正流向你——或即将到来。准备好去承接它。'},9:{text:'999 宣告一个重大周期的收束。它可能带来痛，可能像失去——但 9 总是先于 1。收束之处，开启更大之物。'}},
 es:{
   0:{text:'El 0 repetido amplifica la gracia divina — el universo está confirmando su protección sobre ti. La gratitud abre los canales que atraen aún más.'},
   1:{text:'El 111 es la puerta de la manifestación. Tus pensamientos tienen un poder inusual ahora — cuida lo que visualizas, porque se está acelerando.'},
@@ -3083,7 +3094,7 @@ function buildSignalCard(n,interp,idx,lang){
   const energyPills=interp.energy.map(function(e){return'<div class="signal-energy-pill">'+e+'</div>';}).join('');
   let subNote='';
   if(!interp.isSeq&&interp.originalN!=null){
-    const noteText=lang==='en'?('The '+interp.originalN+' reduces numerologically to the <strong>'+interp.reducedTo+'</strong>.'):('El '+interp.originalN+' se reduce numerológicamente al <strong>'+interp.reducedTo+'</strong>.');
+    const noteText=lang==='en'?('The '+interp.originalN+' reduces numerologically to the <strong>'+interp.reducedTo+'</strong>.'):(interp.originalN+' 在命理中归约为 <strong>'+interp.reducedTo+'</strong>。');
     subNote='<div style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:var(--faint);margin-bottom:.75rem;text-align:center">'+noteText+'</div>';
   }
   let mainText='';
@@ -3092,17 +3103,17 @@ function buildSignalCard(n,interp,idx,lang){
   }else{
     mainText='<div class="signal-card-text">'+interp.hook+'</div><div class="signal-card-text" style="font-size:16px;margin-top:.4rem;opacity:.8">'+interp.depth+'</div>';
   }
-  const whereLabel=lang==='en'?'Where it acts now:':'Dónde actúa ahora:';
+  const whereLabel=lang==='en'?'Where it acts now:':'此刻作用于：';
   return'<div class="signal-card" style="animation-delay:'+delay+'s"><div class="signal-card-num">'+n+'</div><div class="signal-card-name">'+interp.name+'</div>'+subNote+mainText+'<div class="signal-card-energy">'+energyPills+'</div><div class="signal-card-area"><strong>'+whereLabel+'</strong> '+interp.area+'</div></div>';
 }
 
 function generateSignals(name,birth){
   const raw=document.getElementById('inp-signals').value.trim();
-  if(!raw)return showError('error-toast',L('Ingresa el número o números que no puedes dejar de ver','Enter the number or numbers you can\'t stop seeing'));
+  if(!raw)return showError('error-toast',L('请输入反复出现在你眼前的数字（一个或多个）','Enter the number or numbers you can\'t stop seeing'));
   const parts=raw.replace(/[,;]/g,' ').split(/\s+/).map(function(s){return s.trim();}).filter(function(s){return/^\d+$/.test(s)&&s.length>0;});
-  if(parts.length===0)return showError('error-toast',L('Ingresa al menos un número válido','Enter at least one valid number'));
+  if(parts.length===0)return showError('error-toast',L('请至少输入一个有效数字','Enter at least one valid number'));
   const nums=parts.map(function(s){return parseInt(s,10);}).filter(function(n){return!isNaN(n)&&n>=0;});
-  if(nums.length===0)return showError('error-toast',L('Ingresa al menos un número válido','Enter at least one valid number'));
+  if(nums.length===0)return showError('error-toast',L('请至少输入一个有效数字','Enter at least one valid number'));
   const lang=uiLang();
   const firstName=name.split(' ')[0];
   // Individual cards
@@ -3113,7 +3124,7 @@ function generateSignals(name,birth){
     const total=nums.reduce(function(a,b){return a+b;},0);
     const reduced=numReduce(total);
     const di=getSignalInterp(reduced,lang);
-    const dlabel=lang==='en'?'The directing number of your sequence':'El número que dirige la secuencia';
+    const dlabel=lang==='en'?'The directing number of your sequence':'引领这组序列的数字';
     const dsub=lang==='en'?('Combined energy reduces to the <strong>'+reduced+'</strong> — '+di.name):('La energía combinada reduce al <strong>'+reduced+'</strong> — '+di.name);
     dominantHTML='<div class="signal-dominant"><div class="signal-dominant-label">'+dlabel+'</div><div class="signal-dominant-num">'+reduced+'</div><div class="signal-dominant-sub">'+dsub+'</div></div>';
   }
@@ -3123,16 +3134,16 @@ function generateSignals(name,birth){
     try{
       const lp=lifePath(name,birth);
       const ptitle=lang==='en'?'This number didn\'t come for just anyone — it came for you':'Este número no llegó a cualquiera — llegó a ti';
-      const pblurred=lang==='en'?'The resonance between your personal vibration and this signal activates a pattern only a few can perceive.':'La resonancia entre tu vibración personal y esta señal activa un patrón que pocos pueden percibir.';
+      const pblurred=lang==='en'?'The resonance between your personal vibration and this signal activates a pattern only a few can perceive.':'你个人的振动与这个信号之间的共振，激活了一种只有少数人能感知的模式。';
       const ptext=lang==='en'?('<strong>'+firstName+'</strong>, your life number is <strong>'+lp+'</strong>. The connection between your life number and the signal you are receiving reveals exactly why this number keeps finding you. <span style="filter:blur(4px);user-select:none">'+pblurred+'</span>'):('<strong>'+firstName+'</strong>, tu número de vida es el <strong>'+lp+'</strong>. La conexión entre tu número de vida y la señal que estás recibiendo revela exactamente por qué este número te sigue encontrando. <span style="filter:blur(4px);user-select:none">'+pblurred+'</span>');
-      const pbtn=lang==='en'?'Unlock this connection → Pro':'Descubrir esta conexión → Pro';
+      const pbtn=lang==='en'?'Unlock this connection → Pro':'解锁这层联结 → Pro';
       proHTML='<div class="signal-pro-hook"><div class="signal-pro-title">✦ '+ptitle+' ✦</div><div class="signal-pro-text">'+ptext+'</div><button class="btn-unlock" onclick="showTab(\'upgrade\')">'+pbtn+'</button></div>';
     }catch(e){}
   }
   // Header
-  const hookTitle=lang==='en'?'A number is following you.':'Un número te sigue.';
-  const hookSub=lang==='en'?'When a number appears again and again in your life,<br>there is a message waiting to be read.':'Cuando un número aparece una y otra vez en tu vida,<br>hay un mensaje esperando ser leído.';
-  const newLabel=lang==='en'?'New reading':'Nueva consulta';
+  const hookTitle=lang==='en'?'A number is following you.':'一个数字在跟随你。';
+  const hookSub=lang==='en'?'When a number appears again and again in your life,<br>there is a message waiting to be read.':'当一个数字在你生命中一再出现，<br>便有一则讯息，等你去读。';
+  const newLabel=lang==='en'?'New reading':'新的探索';
   const disclaim=lang==='en'?'ℹ️ Numbers is entertainment and personal inspiration.':'ℹ️ 数字神谕是娱乐与个人启示工具。';
   const html='<div class="signals-hook"><div class="signals-hook-title">🌌 '+hookTitle+'</div><div class="signals-hook-sub">'+hookSub+'</div></div>'+dominantHTML+cards+proHTML+'<div class="action-row" style="margin:1.25rem 0 .5rem"><button class="btn-new" onclick="newConsult()" style="flex:1">↺ '+newLabel+'</button></div><div class="disclaimer-text">'+disclaim+'</div>';
   // Show signals result
