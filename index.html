@@ -2127,7 +2127,7 @@ function quickLaunch(el){
         setTimeout(()=>el.closest('.field')?.classList.remove('field-missing'),3200);
       }
     });
-  }
+  }else{try{accOpenStep(5,false)}catch(e){}}
 }
 function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
 function showSuccess(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
