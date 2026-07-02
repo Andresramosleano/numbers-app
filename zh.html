@@ -219,7 +219,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-unlock{padding:12px 26px;background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.12));border:1px solid var(--gold2);border-radius:99px;color:var(--gold3);font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 0 18px rgba(201,168,76,.2)}
 .disclaimer-text{font-size:16px;color:#b8a888;text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem;background:rgba(201,168,76,.04);border:.5px solid var(--border);border-radius:var(--r);padding:10px 14px}
 .action-row{display:flex;gap:10px;margin-bottom:1rem}
-.btn-whatsapp{flex:1;padding:13px;background:rgba(37,211,102,.1);border:.5px solid rgba(37,211,102,.35);border-radius:var(--r);cursor:pointer;color:#25d366;font-size:15px;font-family:'JetBrains Mono',monospace}
+.btn-whatsapp{flex:1;padding:13px;background:rgba(7,193,96,.1);border:.5px solid rgba(7,193,96,.35);border-radius:var(--r);cursor:pointer;color:#07C160;font-size:15px;font-family:'JetBrains Mono',monospace}
 .btn-share-main{display:block;width:100%;padding:15px;margin:1.25rem 0 .4rem;background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.07));border:1px solid var(--gold2);border-radius:var(--r);color:var(--gold3);font-family:'Cinzel Decorative',serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.06em;animation:sharePulse 2.8s ease-in-out infinite;transition:transform .15s ease}
 .btn-share-main:active{transform:scale(.97)}
 @keyframes sharePulse{0%,100%{box-shadow:0 0 16px rgba(201,168,76,.15)}50%{box-shadow:0 0 34px rgba(201,168,76,.38)}}
@@ -799,7 +799,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
       <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ 分享我的数字 ✦</button>
       <div class="share-hint" id="share-hint">送给今天想更懂自己的人 ✨</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
-        <button class="btn-whatsapp" onclick="shareWA()">📱 分享</button>
+        <button class="btn-whatsapp" onclick="shareWA()">💬 微信分享</button>
         <button class="btn-new" onclick="newConsult()">↺ 新探索</button>
       </div>
       <div class="numa-cta-card" id="numa-cta" onclick="showTab('numa')">
@@ -1149,7 +1149,7 @@ const TRANSLATIONS={zh:{
   cosmicFavors:'✦ 宇宙眷顾 ✦',
   accordionMotors:'☿ 为什么是这些数字？— 点击查看',
   accordionInterp:'✦ 揭示你数字的含义 — 点击查看',
-  btnWA:'📱 WhatsApp',
+  btnWA:'💬 微信分享',
   btnNewSmall:'↺ 新咨询',
   disclaimerResult:'ℹ️ Numbers 是娱乐与个人启示。',
   profilePlanFree:'免费计划 · 每天1次咨询',
@@ -1658,7 +1658,7 @@ function showTab(t){
 }
 function setLang(l,b){STATE.lang=l;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');applyLang(l)}
 function goLang(l){try{localStorage.setItem('no_lang',l)}catch(e){}location.href='index.html';}
-function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'Crear cuenta':'Iniciar sesión';document.getElementById('auth-toggle').innerHTML=t?'¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>':'¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>';document.getElementById('auth-sub').textContent=t?'Crea tu oráculo personal':'Bienvenido de vuelta';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
+function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?'创建账号':'登录';document.getElementById('auth-toggle').innerHTML=t?'已有账号？<span onclick="toggleAuth()">登录</span>':'还没有账号？<span onclick="toggleAuth()">注册</span>';document.getElementById('auth-sub').textContent=t?'为你，写一份只属于你的神谕。':'欢迎回来，数字一直记得你。';document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
 function selSport(el){
@@ -1850,51 +1850,51 @@ function showSuccess(id,msg){const el=document.getElementById(id);el.textContent
 
 async function doForgotPw(){
   const email=document.getElementById('forgot-email').value.trim();
-  if(!email)return showError('forgot-error','Ingresa tu correo electrónico');
+  if(!email)return showError('forgot-error','请输入你的电子邮箱');
   const btn=document.getElementById('forgot-btn');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Enviando...';
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>发送中...';
   try{
     const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://www.numbersoracle.com'});
     if(error)throw error;
-    showSuccess('forgot-success','✦ Enlace enviado. Revisa tu correo (incluyendo spam) y haz clic en el enlace para crear tu nueva contraseña.');
-    btn.textContent='¡Enviado! Revisa tu correo';
+    showSuccess('forgot-success','✦ 链接已发送。请检查你的邮箱（含垃圾邮件），点击链接设置新密码。');
+    btn.textContent='已发送！请查收邮箱';
   }catch(e){
-    showError('forgot-error',e.message||'Error al enviar el enlace. Intenta de nuevo.');
+    showError('forgot-error',e.message||'发送失败，请重试。');
     btn.disabled=false;btn.innerHTML='✦ 发送恢复链接 ✦';
   }
 }
 async function doResetPw(){
   const pass=document.getElementById('resetpw-pass').value;
   const pass2=document.getElementById('resetpw-pass2').value;
-  if(!pass||pass.length<6)return showError('resetpw-error','La contraseña debe tener al menos 6 caracteres');
-  if(pass!==pass2)return showError('resetpw-error','Las contraseñas no coinciden');
+  if(!pass||pass.length<6)return showError('resetpw-error','密码至少需要6个字符');
+  if(pass!==pass2)return showError('resetpw-error','两次密码不一致');
   const btn=document.getElementById('resetpw-btn');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Guardando...';
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>保存中...';
   try{
     const{error}=await sb.auth.updateUser({password:pass});
     if(error)throw error;
-    showSuccess('resetpw-success','✦ ¡Contraseña actualizada! Iniciando sesión...');
+    showSuccess('resetpw-success','✦ 密码已更新！正在登录...');
     setTimeout(async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user)await afterLogin(session.user);else goAuth('login');},2000);
   }catch(e){
-    showError('resetpw-error',e.message||'Error al actualizar la contraseña. El enlace puede haber expirado.');
+    showError('resetpw-error',e.message||'更新密码失败，链接可能已过期。');
     btn.disabled=false;btn.innerHTML='✦ 保存新密码 ✦';
   }
 }
 async function doAuth(){
   const email=document.getElementById('auth-email').value.trim();const pass=document.getElementById('auth-pass').value;const name=document.getElementById('auth-name').value.trim();const btn=document.getElementById('auth-btn-main');
-  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>Procesando...';
+  btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>处理中...';
   try{
     if(STATE.authMode==='register'){
-      if(!name)throw new Error('Ingresa tu nombre completo');if(!email)throw new Error('Ingresa tu correo electrónico');if(!pass||pass.length<6)throw new Error('La contraseña debe tener al menos 6 caracteres');
+      if(!name)throw new Error('请输入你的全名');if(!email)throw new Error('请输入你的电子邮箱');if(!pass||pass.length<6)throw new Error('密码至少需要6个字符');
       const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});if(error)throw error;
       if(data.session&&data.user){await afterLogin(data.user);}
       else if(data.user){const r2=await sb.auth.signInWithPassword({email,password:pass});if(r2.data&&r2.data.user){await afterLogin(r2.data.user);}else{showSuccess('auth-success','账号已创建！你现在可以登录。');setTimeout(()=>toggleAuth(),2500);}}
     }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
-  }catch(e){showError('auth-error',e.message||'Error en la autenticación')}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?'Crear cuenta':'Iniciar sesión'}
+  }catch(e){showError('auth-error',e.message||'认证出错，请重试。')}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?'创建账号':'登录'}
 }
-async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Error con Google')}}
+async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Google 登录出错')}}
 async function afterLogin(user){
-  STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
+  STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'用户'),email:user.email,plan:'free'};STATE.profile=profile;
   if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;
   await loadHistory();await loadQuota();goTo('screen-main');showTab('form');updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
   if(STATE.lang==='zh')applyLang('zh');
