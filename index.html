@@ -650,17 +650,19 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .numa-chip:active{background:rgba(201,168,76,.08);border-color:var(--gold)}
 .numa-chip.locked{grid-column:1/-1;color:var(--muted);border-style:dashed;cursor:default;opacity:.65;text-align:center}
 </style>
-<!-- OneSignal Web Push -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<!-- OneSignal Web Push — SOLO en producción (en previews de Vercel redirige/rompe: dominio no autorizado) -->
 <script>
-window.OneSignalDeferred=window.OneSignalDeferred||[];
-OneSignalDeferred.push(async function(OneSignal){
-  await OneSignal.init({
-    appId:"a3e91790-46be-41ed-b09f-1de1af26a467",
-    notifyButton:{enable:false},
-    promptOptions:{slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"🔮 Recibe tu número del día cada mañana",acceptButton:"Sí, actívame",cancelButton:"Ahora no"}}]}}
+if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
+  var osTag=document.createElement('script');osTag.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';osTag.defer=true;document.head.appendChild(osTag);
+  window.OneSignalDeferred=window.OneSignalDeferred||[];
+  OneSignalDeferred.push(async function(OneSignal){
+    await OneSignal.init({
+      appId:"a3e91790-46be-41ed-b09f-1de1af26a467",
+      notifyButton:{enable:false},
+      promptOptions:{slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"🔮 Recibe tu número del día cada mañana",acceptButton:"Sí, actívame",cancelButton:"Ahora no"}}]}}
+    });
   });
-});
+}
 </script>
 </head>
 <body>
