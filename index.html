@@ -226,6 +226,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-hoy .hoy-sub b{color:var(--gold2)}
 #tab-hoy .hoy-cominfo{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);letter-spacing:.06em;margin-top:12px;cursor:pointer}
 #tab-hoy .hoy-wc{display:block;width:100%;margin:20px 0 2px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--gold2);background:linear-gradient(90deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:.5px solid rgba(201,168,76,.26);border-radius:13px;padding:12px}
+.hoy-streak{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold2);text-align:center;margin:2px auto 14px;letter-spacing:.02em;min-height:1.2em}
+.hoy-streak.milestone{animation:streakGlow 1.5s ease}
+@keyframes streakGlow{0%{text-shadow:none}40%{text-shadow:0 0 18px rgba(201,168,76,.85)}100%{text-shadow:none}}
 #tab-hoy .hoy-numa{margin-top:18px;background:linear-gradient(180deg,rgba(123,208,255,.07),rgba(232,194,107,.05));border:1px solid var(--border);border-radius:16px;padding:15px 16px;text-align:left}
 #tab-hoy .hoy-numa-who{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase}
 #tab-hoy .hoy-numa p{font-size:16px;line-height:1.55;color:var(--text)}
@@ -765,6 +768,7 @@ OneSignalDeferred.push(async function(OneSignal){
         <div class="hoy-ring r3"></div>
         <div class="hoy-gold"><div class="hoy-n" id="hoy-golden">7</div><div class="hoy-goldlbl" id="hoy-goldlbl">Número de Oro</div></div>
       </div>
+      <div class="hoy-streak" id="hoy-streak"></div>
       <div class="hoy-sub" id="hoy-combo-sub"><b>Tu combinación del día.</b> Seis números que el cosmos alineó solo para ti hoy.</div>
       <div class="hoy-combo" id="hoy-combo"></div>
       <div class="hoy-cominfo" id="hoy-cominfo" onclick="openComboInfoHoy()">✦ ¿Cómo nace tu Número de Oro? →</div>
@@ -1611,6 +1615,48 @@ function renderHoyView(r,name){
   if(t)t.textContent=L(
     'Hoy tu Número de Oro es el '+r.golden+', '+first+'. Nace de fundir tus cinco fuerzas con la energía de hoy: es el número más alineado contigo en este momento. Deja que guíe tus decisiones del día.',
     'Today your Golden Number is '+r.golden+', '+first+'. It is born from fusing your five forces with today’s energy: the number most aligned with you right now. Let it guide your decisions today.');
+  goldRemember(r.golden);renderStreak();
+}
+// ─── FASE 4 — Racha diaria + memoria del Número de Oro ───
+function streakTouch(){
+  try{
+    const today=new Date().toISOString().split('T')[0];
+    let s={n:0,last:''};
+    try{s=JSON.parse(localStorage.getItem('no_streak'))||s}catch(e){}
+    if(s.last===today)return{n:s.n,fresh:false};
+    const y=new Date(Date.now()-864e5).toISOString().split('T')[0];
+    s.n=(s.last===y)?(s.n+1):1;s.last=today;
+    localStorage.setItem('no_streak',JSON.stringify(s));
+    return{n:s.n,fresh:true};
+  }catch(e){return{n:0,fresh:false};}
+}
+function renderStreak(){
+  const el=document.getElementById('hoy-streak');if(!el)return;
+  const st=streakTouch();if(!st.n){el.textContent='';return;}
+  const en=(typeof uiLang==='function'&&uiLang()==='en'),n=st.n;
+  let txt;
+  if(n>=21)txt=en?('✦ Day '+n+' — your constancy is now a ritual'):('✦ Día '+n+' — tu constancia ya es un ritual');
+  else if(n===7)txt=en?'✦ Day 7 — a week in tune with yourself':'✦ Día 7 — una semana en sintonía contigo';
+  else txt=en?('✦ Day '+n+' in tune with your number'):('✦ Día '+n+' en sintonía con tu número');
+  el.textContent=txt;
+  el.classList.remove('milestone');
+  if(st.fresh&&(n===3||n===7||n===21)){void el.offsetWidth;el.classList.add('milestone');}
+}
+function goldRemember(g){
+  try{
+    const today=new Date().toISOString().split('T')[0];
+    let m={};try{m=JSON.parse(localStorage.getItem('no_gold'))||{}}catch(e){}
+    if(m.date!==today){m.prevDate=m.date;m.prevNum=m.num;}
+    m.date=today;m.num=g;
+    localStorage.setItem('no_gold',JSON.stringify(m));
+  }catch(e){}
+}
+function goldYesterday(){
+  try{
+    const m=JSON.parse(localStorage.getItem('no_gold'))||{};
+    const y=new Date(Date.now()-864e5).toISOString().split('T')[0];
+    return(m.prevDate===y&&m.prevNum!=null)?m.prevNum:null;
+  }catch(e){return null;}
 }
 function placeHoyMotors(r){
   const o=document.getElementById('hoy-orbit');if(!o)return;
@@ -1715,7 +1761,15 @@ function numaOpen(){
   const chat=document.getElementById('numa-chat');
   if(chat&&chat.children.length===0)numaGreet();
 }
-function numaGreet(){const lang=STATE.lang||'es',vars=numaVars(),g=NUMA_DATA.greet[lang]||NUMA_DATA.greet.es;numaAddBubble(numaFill(numaRand(g),vars),false);}
+function numaGreet(){
+  const lang=STATE.lang||'es',vars=numaVars(),g=NUMA_DATA.greet[lang]||NUMA_DATA.greet.es;
+  const py=(typeof goldYesterday==='function')?goldYesterday():null;
+  if(py!=null&&lang!=='zh'){
+    const line=(lang==='en')?('Yesterday you were vibrating with the '+py+'. Today your energy moves toward the '+vars.poder+'…'):('Ayer vibrabas con el '+py+'. Hoy tu energía se mueve hacia el '+vars.poder+'…');
+    numaAddBubble(line,false);
+    numaAddBubble(numaFill(numaRand(g),vars),false,900);
+  }else{numaAddBubble(numaFill(numaRand(g),vars),false);}
+}
 function numaClose(){showTab(STATE.prevTab||'form');}
 function numaAsk(q){
   try{
