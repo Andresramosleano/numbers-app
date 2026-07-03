@@ -138,7 +138,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .error-toast.show{display:block}
 .wc-ribbon{display:block;background:rgba(201,168,76,.08);border-bottom:.5px solid rgba(201,168,76,.35);padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold2);cursor:pointer;letter-spacing:.03em;text-align:center;transition:background .2s}
 .wc-ribbon:hover{background:rgba(201,168,76,.15)}
-.acc-progress{text-align:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted);letter-spacing:.12em;margin:-0.75rem 0 1rem}
 .acc-step{border:.5px solid var(--border);border-radius:var(--rr);margin-bottom:10px;overflow:hidden;transition:border-color .25s,opacity .25s,background .25s}
 .acc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:13px 16px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--muted);letter-spacing:.04em}
 .acc-sum{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold2);font-style:italic;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -793,7 +792,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <button class="btn-outline-hoy" id="hoy-numa-btn" onclick="showTab('numa')">Pregúntale a NUMA →</button>
       </div>
       <div class="hoy-sect" id="hoy-sect">Por qué estos números</div>
-      <p class="hoy-sub2" id="hoy-sub2">Toca cualquier motor en el orbital para ver qué aportó hoy. Cada fuerza dejó su huella en tu combinación.</p>
+      <p class="hoy-sub2" id="hoy-sub2">Toca cualquiera de tus 5 fuerzas para ver qué aportó hoy. Cada una dejó su huella en tu combinación.</p>
       <p class="hoy-disc" id="hoy-disc">ℹ️ Numbers es entretenimiento e inspiración personal.</p>
     </div>
     <div class="hoy-sheet-bg" id="hoy-sheet-bg" onclick="if(event.target===this)closeHoySheet()"><div class="hoy-sheet" id="hoy-sheet"></div></div>
@@ -801,8 +800,8 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
     <div class="form-screen" id="tab-form">
       <div class="form-title">✦ Ingresa tu energía ✦</div>
       <div class="mcharge" id="mcharge">
-        <div class="mcharge-lead" id="mcharge-lead">Carga tus 5 motores</div>
-        <div class="mcharge-sub" id="mcharge-sub">Cada dato enciende un motor. Cuando los cinco brillen, nace tu Número de Oro.</div>
+        <div class="mcharge-lead" id="mcharge-lead">Carga tus 5 fuerzas</div>
+        <div class="mcharge-sub" id="mcharge-sub">Cada dato enciende una fuerza. Cuando las cinco brillen, nace tu Número de Oro.</div>
         <div class="mchips" id="mchips">
           <div class="mchip" data-m="0"><div class="mchip-dot">☿</div><div class="mchip-lbl">Numerología</div></div>
           <div class="mchip" data-m="1"><div class="mchip-dot">♈</div><div class="mchip-lbl">Astrología</div></div>
@@ -810,9 +809,8 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           <div class="mchip" data-m="3"><div class="mchip-dot">🐉</div><div class="mchip-lbl">Chino</div></div>
           <div class="mchip" data-m="4"><div class="mchip-dot">🌎</div><div class="mchip-lbl">Geo</div></div>
         </div>
-        <div class="mcharge-count" id="mcharge-count">0 de 5 motores encendidos</div>
+        <div class="mcharge-count" id="mcharge-count">0 de 5 fuerzas encendidas</div>
       </div>
-      <div class="acc-progress" id="acc-progress">Paso 1 de 5</div>
       <div class="error-toast" id="error-toast"></div>
       <div class="acc-step acc-simple" id="acc-1">
         <div class="acc-head" onclick="accToggle(1)"><span class="acc-tit">1 · Tu nombre</span><span class="acc-sum" id="acc-sum-1"></span></div>
@@ -1592,7 +1590,7 @@ function chargeMotors(){
   });
   const count=on.filter(Boolean).length;
   const el=document.getElementById('mcharge-count');
-  if(el){el.textContent=count+L(' de 5 motores encendidos',' of 5 engines charged');el.classList.toggle('done',count===5);}
+  if(el){el.textContent=count+L(' de 5 fuerzas encendidas',' of 5 forces charged');el.classList.toggle('done',count===5);}
   try{if((document.getElementById('consulta-sel')||{}).dataset&&document.getElementById('consulta-sel').dataset.g!==(STATE.game||'daily'))renderConsultaSel();}catch(e){}
 }
 // ─── HOY: muestra el Número de Oro del día (orbital) en modo solo-lectura, sin gastar la consulta diaria ───
@@ -1613,7 +1611,7 @@ function openHoy(){
 }
 // ─── HOY v2 — render de la pantalla limpia (fiel al prototipo) ───
 const HOY_MOTORS=[
-  ['num','☿','#7bd0ff','Numerología','La Numerología destila tu nombre y tu fecha en el {v}. Es tu motor base — la vibración con la que el cosmos te reconoce.','Numerology','Numerology distills your name and date into the {v}. It is your base engine — the vibration the cosmos recognizes you by.'],
+  ['num','☿','#7bd0ff','Numerología','La Numerología destila tu nombre y tu fecha en el {v}. Es tu fuerza base — la vibración con la que el cosmos te reconoce.','Numerology','Numerology distills your name and date into the {v}. It is your base force — the vibration the cosmos recognizes you by.'],
   ['ast','♈','#ff9ec7','Astrología','El cielo de hoy marca el {v}: la frecuencia de tu expresión y de tus encuentros de la jornada.','Astrology','Today’s sky marks the {v}: the frequency of your expression and encounters today.'],
   ['moon','🌙','#cdd6ff','Luna','La Luna va en el día {v} de su ciclo. Su fase afina tu intuición y tu ritmo interno de hoy.','Moon','The Moon is on day {v} of its cycle. Its phase tunes your intuition and inner rhythm today.'],
   ['chi','🐉','#ffcaa6','Cal. Chino','El calendario chino imprime el {v} a este día: sabiduría milenaria sobre tu paciencia y tu tiempo.','Chinese Cal.','The Chinese calendar imprints the {v} today: ancient wisdom about your patience and timing.'],
@@ -1692,7 +1690,7 @@ function openHoySheet(i){
   const m=HOY_MOTORS[i];const r=(STATE.lastResult&&STATE.lastResult.result)||null;const v=r?hoyMotorVals(r)[m[0]]:'';
   const en=(typeof uiLang==='function'&&uiLang()==='en');
   const label=en?m[5]:m[3];const txt=(en?m[6]:m[4]).replace('{v}',v);
-  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic" style="color:'+m[2]+'">'+m[1]+'</div><div class="hs-horizon">'+L('Motor','Engine')+' · '+label+'</div><h2>'+L('Hoy aportó el ','Today it added the ')+v+'</h2><p>'+txt+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
+  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic" style="color:'+m[2]+'">'+m[1]+'</div><div class="hs-horizon">'+L('Fuerza','Force')+' · '+label+'</div><h2>'+L('Hoy aportó el ','Today it added the ')+v+'</h2><p>'+txt+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
   document.getElementById('hoy-sheet-bg').classList.add('show');
 }
 function closeHoySheet(){const bg=document.getElementById('hoy-sheet-bg');if(bg)bg.classList.remove('show');}
@@ -2085,7 +2083,6 @@ function accUpdate(){
       else{sum.textContent=i===2?accFmtDate(document.getElementById('inp-birth').value):accVal(i)}
     }
   }
-  const p=document.getElementById('acc-progress');if(p)p.textContent=L('Paso ','Step ')+ACC_OPEN+L(' de 5',' of 5');
 }
 function accInit(){try{accLockProfile()}catch(e){}accOpenStep(accFirstEmpty(),false)}
 function editProfileData(){for(let i=1;i<=4;i++){const el=document.getElementById('acc-'+i);if(el)el.classList.remove('profile-locked');}showTab('form');accOpenStep(1,true);}
@@ -2479,7 +2476,7 @@ const UI_EN=[
 ['#hoy-numa-who','🔮 NUMA read your numbers today'],
 ['#hoy-numa-btn','Ask NUMA →'],
 ['#hoy-sect','Why these numbers'],
-['#hoy-sub2','Tap any engine in the orbit to see what it added today. Each force left its mark on your combination.'],
+['#hoy-sub2','Tap any of your 5 forces to see what it added today. Each one left its mark on your combination.'],
 ['#hoy-disc','ℹ️ Numbers is entertainment and personal inspiration.'],
 ['#landing-btns-user .btn-primary','✦ See my numbers today ✦'],
 ['.landing-disclaimer','ℹ️ Entertainment · Personal inspiration · Self-knowledge'],
@@ -2510,8 +2507,8 @@ const UI_EN=[
 ['#eng-chi .eng-name','Chinese'],
 ['#eng-geo .eng-name','Geoenergy'],
 ['.form-title','✦ Enter your energy ✦'],
-['#mcharge-lead','Charge your 5 engines'],
-['#mcharge-sub','Each detail lights an engine. When all five glow, your Golden Number is born.'],
+['#mcharge-lead','Charge your 5 forces'],
+['#mcharge-sub','Each detail lights a force. When all five glow, your Golden Number is born.'],
 ['#mchips .mchip[data-m="0"] .mchip-lbl','Numerology'],
 ['#mchips .mchip[data-m="1"] .mchip-lbl','Astrology'],
 ['#mchips .mchip[data-m="2"] .mchip-lbl','Moon'],
