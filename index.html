@@ -1803,7 +1803,7 @@ function numaAsk(q){
     else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ La energía está procesando tu pregunta...',false,700);
   }catch(e){console.error('[NUMA]',e);numaAddBubble(lang==='en'?'✦ The stars are aligning... try again.':'✦ Los astros se están alineando... intenta de nuevo.',false,400);}
 }
-function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.title=l==='en'?'NUMBERS ORACLE ✦ — Your Golden Number for Today':'NUMBERS ORACLE ✦ — Tu Número de Oro del Día';document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.lang-btn[data-lang="'+l+'"]').forEach(x=>x.classList.add('active'));try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}try{const tabR=document.getElementById('tab-result');if(tabR&&!tabR.classList.contains('hidden')&&STATE.lastResult){const r=STATE.lastResult.result;const games=I18N_NEW[l==='en'?'en':'es'].games;const rg=document.getElementById('result-game');if(rg&&STATE.game)rg.textContent=games[STATE.game]||STATE.game;const phi=document.getElementById('golden-phi');if(phi&&r){phi.innerHTML=l==='en'?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`:`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`}}}catch(e){}}
+function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.title=l==='en'?'NUMBERS ORACLE ✦ — Your Golden Number for Today':'NUMBERS ORACLE ✦ — Tu Número de Oro del Día';document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.lang-btn[data-lang="'+l+'"]').forEach(x=>x.classList.add('active'));try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{accUpdate()}catch(e){}try{const tf=document.getElementById('tab-form');if(tf&&!tf.classList.contains('hidden'))chargeMotors();}catch(e){}try{const tn=document.getElementById('tab-numa');if(tn&&!tn.classList.contains('hidden'))numaOpen();}catch(e){}try{const tcy=document.getElementById('tab-ciclos');if(tcy&&!tcy.classList.contains('hidden'))renderCiclos(STATE.cicloActivo||'dia');}catch(e){}try{const tabR=document.getElementById('tab-result');if(tabR&&!tabR.classList.contains('hidden')&&STATE.lastResult){const r=STATE.lastResult.result;const games=I18N_NEW[l==='en'?'en':'es'].games;const rg=document.getElementById('result-game');if(rg&&STATE.game)rg.textContent=games[STATE.game]||STATE.game;const phi=document.getElementById('golden-phi');if(phi&&r){phi.innerHTML=l==='en'?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`:`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`}}}catch(e){}}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
@@ -2136,33 +2136,33 @@ function showSuccess(id,msg){const el=document.getElementById(id);el.textContent
 
 async function doForgotPw(){
   const email=document.getElementById('forgot-email').value.trim();
-  if(!email)return showError('forgot-error','Ingresa tu correo electrónico');
+  if(!email)return showError('forgot-error',L('Ingresa tu correo electrónico','Enter your email'));
   const btn=document.getElementById('forgot-btn');
   btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Enviando...','Sending...');
   try{
     const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://www.numbersoracle.com'});
     if(error)throw error;
-    showSuccess('forgot-success','✦ Enlace enviado. Revisa tu correo (incluyendo spam) y haz clic en el enlace para crear tu nueva contraseña.');
+    showSuccess('forgot-success',L('✦ Enlace enviado. Revisa tu correo (incluyendo spam) y haz clic en el enlace para crear tu nueva contraseña.','✦ Link sent. Check your email (including spam) and click the link to create your new password.'));
     btn.textContent=L('¡Enviado! Revisa tu correo','Sent! Check your email');
   }catch(e){
-    showError('forgot-error',e.message||'Error al enviar el enlace. Intenta de nuevo.');
+    showError('forgot-error',e.message||L('Error al enviar el enlace. Intenta de nuevo.','Error sending the link. Please try again.'));
     btn.disabled=false;btn.innerHTML=L('✦ Enviar enlace de recuperación ✦','✦ Send recovery link ✦');
   }
 }
 async function doResetPw(){
   const pass=document.getElementById('resetpw-pass').value;
   const pass2=document.getElementById('resetpw-pass2').value;
-  if(!pass||pass.length<6)return showError('resetpw-error','La contraseña debe tener al menos 6 caracteres');
-  if(pass!==pass2)return showError('resetpw-error','Las contraseñas no coinciden');
+  if(!pass||pass.length<6)return showError('resetpw-error',L('La contraseña debe tener al menos 6 caracteres','Password must be at least 6 characters'));
+  if(pass!==pass2)return showError('resetpw-error',L('Las contraseñas no coinciden','Passwords do not match'));
   const btn=document.getElementById('resetpw-btn');
   btn.disabled=true;btn.innerHTML='<span class="spinner-mini"></span>'+L('Guardando...','Saving...');
   try{
     const{error}=await sb.auth.updateUser({password:pass});
     if(error)throw error;
-    showSuccess('resetpw-success','✦ ¡Contraseña actualizada! Iniciando sesión...');
+    showSuccess('resetpw-success',L('✦ ¡Contraseña actualizada! Iniciando sesión...','✦ Password updated! Logging in...'));
     setTimeout(async()=>{const{data:{session}}=await sb.auth.getSession();if(session?.user)await afterLogin(session.user);else goAuth('login');},2000);
   }catch(e){
-    showError('resetpw-error',e.message||'Error al actualizar la contraseña. El enlace puede haber expirado.');
+    showError('resetpw-error',e.message||L('Error al actualizar la contraseña. El enlace puede haber expirado.','Error updating password. The link may have expired.'));
     btn.disabled=false;btn.innerHTML=L('✦ Guardar nueva contraseña ✦','✦ Save new password ✦');
   }
 }
@@ -2178,7 +2178,7 @@ async function doAuth(){
     }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
   }catch(e){showError('auth-error',e.message||L('Error en la autenticación','Authentication error'))}finally{btn.disabled=false;btn.textContent=STATE.authMode==='register'?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in')}
 }
-async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||'Error con Google')}}
+async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||L('Error con Google','Error with Google'))}}
 async function afterLogin(user){
   STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
   if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}try{chargeMotors()}catch(e){}
@@ -2616,7 +2616,8 @@ const UI_EN=[
 ['.profile-stats .stat-box:nth-child(1) .stat-label','Readings today'],
 ['.profile-stats .stat-box:nth-child(2) .stat-label','History total'],
 ['#tab-profile .btn-primary','⬆ Activate Pro — from $3.99 USD/mo'],
-['#tab-profile .btn-secondary','Log out'],
+['#tab-profile button[onclick="editProfileData()"]','✏️ Edit my data'],
+['#tab-profile button[onclick="logout()"]','Log out'],
 ['.history-title','Reading history'],
 ['.upgrade-sub','Unlock the full power of the five cosmic engines. No limits. No restrictions.'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(1)','<span class="check">✓</span>1 free reading per day','html'],
@@ -2637,16 +2638,16 @@ const UI_EN=[
 ['.plan-card.featured .plan-features li:nth-child(6)','<span class="check">✓</span>No daily limit','html'],
 ['.plan-card.featured .plan-cta','Notify me →'],
 ['.perks-title','✦ Why Pro is worth it ✦'],
-['.upgrade-perks .perk-row:nth-of-type(2) .perk-name','Unlimited readings'],
-['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Ask as many times a day as you want. Try different games, different energies. No restrictions.'],
-['.upgrade-perks .perk-row:nth-of-type(3) .perk-name','Full 30-day history'],
-['.upgrade-perks .perk-row:nth-of-type(3) .perk-desc','Review every combination the cosmos has revealed to you. Find patterns in your numeric energy.'],
-['.upgrade-perks .perk-row:nth-of-type(4) .perk-name','Golden Number every day'],
-['.upgrade-perks .perk-row:nth-of-type(4) .perk-desc','Your golden-ratio number calculated fresh every day, integrated into your game combination.'],
-['.upgrade-perks .perk-row:nth-of-type(5) .perk-name','All 3 languages and every game'],
-['.upgrade-perks .perk-row:nth-of-type(5) .perk-desc','Numbers of the Day, Pulse of the Moment, Destiny and Sports. In Spanish, English or Mandarin Chinese. With active cultural rules.'],
-['.upgrade-perks .perk-row:nth-of-type(6) .perk-name','Priority on new features'],
-['.upgrade-perks .perk-row:nth-of-type(6) .perk-desc','Pro users access every new oracle capability before everyone else.'],
+['.upgrade-perks .perk-row:nth-of-type(1) .perk-name','Unlimited readings'],
+['.upgrade-perks .perk-row:nth-of-type(1) .perk-desc','Ask as many times a day as you want. Try different games, different energies. No restrictions.'],
+['.upgrade-perks .perk-row:nth-of-type(2) .perk-name','Full 30-day history'],
+['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Review every combination the cosmos has revealed to you. Find patterns in your numeric energy.'],
+['.upgrade-perks .perk-row:nth-of-type(3) .perk-name','Golden Number every day'],
+['.upgrade-perks .perk-row:nth-of-type(3) .perk-desc','Your golden-ratio number calculated fresh every day, integrated into your game combination.'],
+['.upgrade-perks .perk-row:nth-of-type(4) .perk-name','All 3 languages and every game'],
+['.upgrade-perks .perk-row:nth-of-type(4) .perk-desc','Numbers of the Day, Pulse of the Moment, Destiny and Sports. In Spanish, English or Mandarin Chinese. With active cultural rules.'],
+['.upgrade-perks .perk-row:nth-of-type(5) .perk-name','Priority on new features'],
+['.upgrade-perks .perk-row:nth-of-type(5) .perk-desc','Pro users access every new oracle capability before everyone else.'],
 ['#region-pricing > div:first-child','✦ Choose how you want access ✦'],
 ['div:has(> #price-monthly) > div:first-child','Monthly subscription'],
 ['div:has(> div > #price-monthly) > div:last-child','Unlimited access for 30 days. Renews automatically. Cancel anytime.'],
@@ -2684,7 +2685,13 @@ const UI_EN=[
 ['#compat-label-inp-name','Your partner\'s name'],
 ['#compat-label-inp-birth','Your partner\'s date of birth'],
 ['#inp-compat-name','Full name','ph'],
-['#inp-compat-birth','','ph']
+['#inp-compat-birth','','ph'],
+['.field:has(#inp-compat-birth) .field-hint','✦ Their life path number will reveal the secret language of this bond'],
+['.ciclos-title','Cycles'],
+['.ciclos-sub','Your energy at three distances. To understand and balance yourself, not to predict.'],
+['.ciclo-tab-row .ciclo-tab-btn:nth-child(1)','Day'],
+['.ciclo-tab-row .ciclo-tab-btn:nth-child(2)','Month'],
+['.ciclo-tab-row .ciclo-tab-btn:nth-child(3)','Year']
 ];
 const CHIP_ES={football:['⚽ Fútbol','🔵 Equipo Local','🔴 Equipo Visitante'],basketball:['🏀 Básquet','🔵 Equipo Local','🔴 Equipo Visitante'],tennis:['🎾 Tenis','🔵 Jugador A','🔴 Jugador B'],baseball:['⚾ Béisbol','🔵 Equipo Local','🔴 Equipo Visitante'],volleyball:['🏐 Voleibol','🔵 Equipo A','🔴 Equipo B'],boxing:['🥊 Boxeo','🔵 Boxeador A','🔴 Boxeador B'],americanfootball:['🏈 F. Americano','🔵 Equipo Local','🔴 Equipo Visitante'],other:['🏆 Otro','🔵 Opción A','🔴 Opción B']};
 const CHIP_EN={football:['⚽ Soccer','🔵 Home Team','🔴 Away Team'],basketball:['🏀 Basketball','🔵 Home Team','🔴 Away Team'],tennis:['🎾 Tennis','🔵 Player A','🔴 Player B'],baseball:['⚾ Baseball','🔵 Home Team','🔴 Away Team'],volleyball:['🏐 Volleyball','🔵 Team A','🔴 Team B'],boxing:['🥊 Boxing','🔵 Boxer A','🔴 Boxer B'],americanfootball:['🏈 Am. Football','🔵 Home Team','🔴 Away Team'],other:['🏆 Other','🔵 Option A','🔴 Option B']};
