@@ -509,9 +509,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes wcGlow{0%,100%{box-shadow:0 0 10px rgba(201,168,76,.15)}50%{box-shadow:0 0 26px rgba(201,168,76,.4)}}.game-card[data-game="mundial"]{position:relative;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));animation:wcGlow 2.6s ease-in-out infinite;padding:18px 20px}.game-card[data-game="mundial"] .gi{font-size:38px}.game-card[data-game="mundial"] .gl{font-size:18px;color:var(--gold2);letter-spacing:.06em;font-weight:700}.game-card[data-game="mundial"] .gd{font-size:14.5px;color:var(--text);margin-top:4px}.game-card[data-game="mundial"] .pro-preview{font-size:16px}
 .free-badge{position:absolute;top:6px;right:7px;font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--teal);background:rgba(61,191,168,.12);border:.5px solid rgba(61,191,168,.4);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
 .wc-upsell{display:none;margin:1.1rem auto 0;max-width:340px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.5;color:var(--gold2);border:1px solid rgba(201,168,76,.45);border-radius:var(--r);padding:13px 16px;cursor:pointer;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.06))}
-.wc-upsell:hover{border-color:var(--gold);background:rgba(201,168,76,.14)}
-#wc-result-card{margin:1.2rem auto 0;max-width:480px;cursor:pointer}
-.duel-fields-intro{font-size:16px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
+.wc-upsell:hover{border-color:var(--gold);background:rgba(201,168,76,.14)}.duel-fields-intro{font-size:16px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
 /* ─── SPORT SELECTOR ─── */
 .sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
 .sport-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:99px;padding:7px 13px;cursor:pointer;font-size:15px;color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all .2s;white-space:nowrap}
@@ -613,9 +611,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-result.signals-mode .golden-section,
 #tab-result.signals-mode #pro-cta-mid,
 #tab-result.signals-mode .motors-row,
-#tab-result.signals-mode #motor-panel,
-#tab-result.signals-mode #wc-result-card,
-#tab-result.signals-mode #btn-share-main,
+#tab-result.signals-mode #motor-panel,#tab-result.signals-mode #btn-share-main,
 #tab-result.signals-mode .share-hint,
 #tab-result.signals-mode .action-row,
 #tab-result.signals-mode .accordion-block,
@@ -892,7 +888,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <!-- Intro para Mundial -->
         <div id="mundial-duel-intro" class="hidden">
           <div class="duel-fields-intro">🏆 Elige los dos equipos del partido a predecir</div>
-          <div class="field" style="margin-top:.5rem"><label id="wc-match-label">📅 Partido oficial — Cronograma FIFA</label><select id="wc-match-select" onchange="selWcMatch()"></select><div class="field-hint" id="wc-match-hint">✦ La fecha y la sede del partido alimentan los 5 motores</div></div>
+          <div class="field" style="margin-top:.5rem"><label id="wc-match-label">📅 Partido oficial — Cronograma FIFA</label><select id="wc-match-select" onchange="selWcMatch()"></select><div class="field-hint" id="wc-match-hint">✦ La fecha y la sede del partido alimentan tus 5 fuerzas</div></div>
         </div>
         <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
         <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
@@ -1004,9 +1000,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="motor-chip" onclick="openMotorPanel('chi')"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">Chino</div></div>
         <div class="motor-chip" onclick="openMotorPanel('geo')"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">Geo.</div></div>
       </div>
-      <div id="motor-panel" class="hidden"></div>
-      <div class="game-card" id="wc-result-card" data-game="mundial" onclick="wcFromResult()" style="display:none"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">¿Quién gana el próximo partido? Tus 5 motores lo predicen · Gratis e ilimitado</div></div>
-      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
+      <div id="motor-panel" class="hidden"></div>      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
       <div class="share-hint" id="share-hint">Comparte tu energía del día con alguien especial ✦</div>
       <div class="action-row" style="margin:.5rem 0 .5rem">
         <button class="btn-whatsapp" onclick="shareWA()">📱 WhatsApp</button>
@@ -1075,7 +1069,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="upgrade-hero">
         <span class="upgrade-crown">👑</span>
         <div class="upgrade-title">NUMBERS PRO</div>
-        <div class="upgrade-sub">Desbloquea el poder completo de los cinco motores cósmicos. Sin límites. Sin restricciones.</div>
+        <div class="upgrade-sub">Desbloquea el poder completo de las cinco fuerzas cósmicas. Sin límites. Sin restricciones.</div>
       </div>
 
       <div class="plans-grid">
@@ -1346,22 +1340,22 @@ const WC_GS=[
 const WC_KO=[{d:'2026-06-28',v:'LAX',r:'R32'},{d:'2026-06-29',v:'BOS',r:'R32'},{d:'2026-06-29',v:'MTY',r:'R32'},{d:'2026-06-29',v:'HOU',r:'R32'},{d:'2026-06-30',v:'NYC',r:'R32'},{d:'2026-06-30',v:'DAL',r:'R32'},{d:'2026-06-30',v:'MEX',r:'R32'},{d:'2026-07-01',v:'ATL',r:'R32'},{d:'2026-07-01',v:'SFO',r:'R32'},{d:'2026-07-01',v:'SEA',r:'R32'},{d:'2026-07-02',v:'TOR',r:'R32'},{d:'2026-07-02',v:'LAX',r:'R32'},{d:'2026-07-02',v:'VAN',r:'R32'},{d:'2026-07-03',v:'MIA',r:'R32'},{d:'2026-07-03',v:'KCY',r:'R32'},{d:'2026-07-03',v:'DAL',r:'R32'},{d:'2026-07-04',v:'PHI',r:'R16'},{d:'2026-07-04',v:'HOU',r:'R16'},{d:'2026-07-05',v:'NYC',r:'R16'},{d:'2026-07-05',v:'MEX',r:'R16'},{d:'2026-07-06',v:'DAL',r:'R16'},{d:'2026-07-06',v:'SEA',r:'R16'},{d:'2026-07-07',v:'ATL',r:'R16'},{d:'2026-07-07',v:'VAN',r:'R16'},{d:'2026-07-09',v:'BOS',r:'QF'},{d:'2026-07-10',v:'LAX',r:'QF'},{d:'2026-07-11',v:'MIA',r:'QF'},{d:'2026-07-11',v:'KCY',r:'QF'},{d:'2026-07-14',v:'DAL',r:'SF'},{d:'2026-07-15',v:'ATL',r:'SF'},{d:'2026-07-18',v:'MIA',r:'TP'},{d:'2026-07-19',v:'NYC',r:'F'}];
 const WC_KO_R={R32:['Dieciseisavos de final','Round of 32','32强赛'],R16:['Octavos de final','Round of 16','16强赛'],QF:['Cuartos de final','Quarter-final','四分之一决赛'],SF:['Semifinal','Semi-final','半决赛'],TP:['Tercer puesto','Third place','季军赛'],F:['LA GRAN FINAL','THE FINAL','总决赛']};
 const WC_I18N={
-es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan los 5 motores',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}',fieldLabel:'CAMPO ENERGÉTICO',favorLabel:'✦ El Cosmos Favorece A ✦',drawLabel:'✦ Las Energías se Entrelazan ✦',drawName:'EMPATE CÓSMICO',sealT:'PREDICCIÓN CÓSMICA',sealS:'Los cinco motores midieron el campo energético del partido',goldT:'✦ Energía del Favorecido ✦',goldTD:'✦ Equilibrio Energético ✦',goldName:'La resonancia dominante del encuentro',goldS:'Porción del campo energético que domina hoy',goldSD:'Las vibraciones se neutralizan en este encuentro',
+es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan tus 5 fuerzas',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}',fieldLabel:'CAMPO ENERGÉTICO',favorLabel:'✦ El Cosmos Favorece A ✦',drawLabel:'✦ Las Energías se Entrelazan ✦',drawName:'EMPATE CÓSMICO',sealT:'PREDICCIÓN CÓSMICA',sealS:'Los cinco motores midieron el campo energético del partido',goldT:'✦ Energía del Favorecido ✦',goldTD:'✦ Equilibrio Energético ✦',goldName:'La resonancia dominante del encuentro',goldS:'Porción del campo energético que domina hoy',goldSD:'Las vibraciones se neutralizan en este encuentro',
 phi:'La raíz pitagórica del nombre de <strong>{win}</strong> entra en conjugación armónica con el número de la fecha del encuentro y la geoenergía de la sede, bajo la <strong>luna {moon}</strong> (día {day}). Esa resonancia le entrega el <strong>{wp}%</strong> del campo energético del partido.',
 phiD:'El cosmos midió la conjugación numerológica de <strong>{a}</strong> y <strong>{b}</strong> bajo la <strong>luna {moon}</strong> (día {day}), el número de la fecha y la geoenergía de la sede. Las dos vibraciones se reflejan como espejos: ninguna logra dominar el campo. En el fútbol, el empate también es un designio del cosmos.',
 interp:'{n}, la conjugación de los números revela por qué este resultado puede manifestarse: la vibración del nombre de <strong>{win}</strong>, el número de la fecha y la energía de la sede se alinean en una misma frecuencia — y sus jugadores atraviesan un gran momento vibracional, esa convergencia interior que los místicos llaman estado de gracia. <strong>{win}</strong> domina el <strong>{wp}%</strong> del campo frente al {lpct}% de <strong>{lose}</strong>{rk}.',
-interpD:'{n}, los motores conjugaron los números de ambas escuadras para esta fecha y esta sede, y el resultado es extraordinario: <strong>{a}</strong> ({pa}%) y <strong>{b}</strong> ({pb}%) vibran en frecuencias casi gemelas. Cuando dos campos energéticos se espejan así, el cosmos sugiere reparto de puntos: el empate es un desenlace plenamente posible.',
+interpD:'{n}, las fuerzas conjugaron los números de ambas escuadras para esta fecha y esta sede, y el resultado es extraordinario: <strong>{a}</strong> ({pa}%) y <strong>{b}</strong> ({pb}%) vibran en frecuencias casi gemelas. Cuando dos campos energéticos se espejan así, el cosmos sugiere reparto de puntos: el empate es un desenlace plenamente posible.',
 rankTail:' — y la balanza terrenal del ranking FIFA (#{rw} frente a #{rl}) confirma lo que los números susurran',
 closer:'Esta lectura refleja las energías del cosmos hoy — el fútbol, como la vida, siempre puede sorprender. Numbers es entretenimiento e inspiración.',
-confDraw:'⚡ Vibraciones casi idénticas — el empate es un desenlace muy probable',confKO:'⚡ Energías casi gemelas — la definición llegará en los detalles más finos',confLeve:'⚡ Ventaja cósmica leve — partido muy parejo, cualquiera puede ganar',confMod:'⚡ Ventaja moderada — la energía inclina la balanza',confClara:'⚡ Ventaja cósmica clara — los cinco motores apuntan en una dirección'},
+confDraw:'⚡ Vibraciones casi idénticas — el empate es un desenlace muy probable',confKO:'⚡ Energías casi gemelas — la definición llegará en los detalles más finos',confLeve:'⚡ Ventaja cósmica leve — partido muy parejo, cualquiera puede ganar',confMod:'⚡ Ventaja moderada — la energía inclina la balanza',confClara:'⚡ Ventaja cósmica clara — las cinco fuerzas apuntan en una dirección'},
 en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}',fieldLabel:'ENERGY FIELD',favorLabel:'✦ The Cosmos Favors ✦',drawLabel:'✦ The Energies Intertwine ✦',drawName:'COSMIC DRAW',sealT:'COSMIC PREDICTION',sealS:'The five engines measured the energy field of this match',goldT:'✦ Energy of the Favored ✦',goldTD:'✦ Energetic Balance ✦',goldName:'The dominant resonance of this match',goldS:'Share of the energy field dominated today',goldSD:'The vibrations neutralize each other in this match',
 phi:'The Pythagorean root of the name of <strong>{win}</strong> enters harmonic conjugation with the number of the match date and the geo-energy of the venue, under the <strong>{moon} moon</strong> (day {day}). That resonance grants it <strong>{wp}%</strong> of the energy field of this match.',
 phiD:'The cosmos measured the numerological conjugation of <strong>{a}</strong> and <strong>{b}</strong> under the <strong>{moon} moon</strong> (day {day}), the number of the date and the geo-energy of the venue. The two vibrations mirror each other: neither dominates the field. In football, a draw is also a design of the cosmos.',
 interp:'{n}, the conjugation of the numbers reveals why this result can manifest: the vibration of the name of <strong>{win}</strong>, the number of the date and the energy of the venue align on the same frequency — and its players are living a great vibrational moment, that inner convergence mystics call a state of grace. <strong>{win}</strong> dominates <strong>{wp}%</strong> of the field against {lpct}% for <strong>{lose}</strong>{rk}.',
-interpD:'{n}, the engines conjugated the numbers of both squads for this date and this venue, and the result is extraordinary: <strong>{a}</strong> ({pa}%) and <strong>{b}</strong> ({pb}%) vibrate on almost twin frequencies. When two energy fields mirror each other like this, the cosmos suggests shared points: a draw is an entirely possible outcome.',
+interpD:'{n}, the forces conjugated the numbers of both squads for this date and this venue, and the result is extraordinary: <strong>{a}</strong> ({pa}%) and <strong>{b}</strong> ({pb}%) vibrate on almost twin frequencies. When two energy fields mirror each other like this, the cosmos suggests shared points: a draw is an entirely possible outcome.',
 rankTail:' — and the earthly balance of the FIFA Ranking (#{rw} vs #{rl}) confirms what the numbers whisper',
 closer:'This reading reflects the energies of the cosmos today — football, like life, can always surprise. Numbers is entertainment and inspiration.',
-confDraw:'⚡ Nearly identical vibrations — a draw is a very likely outcome',confKO:'⚡ Twin energies — it will be decided by the finest details',confLeve:'⚡ Slight cosmic edge — very even match, anyone can win',confMod:'⚡ Moderate edge — the energy tips the scale',confClara:'⚡ Clear cosmic edge — all five engines point in one direction'},
+confDraw:'⚡ Nearly identical vibrations — a draw is a very likely outcome',confKO:'⚡ Twin energies — it will be decided by the finest details',confLeve:'⚡ Slight cosmic edge — very even match, anyone can win',confMod:'⚡ Moderate edge — the energy tips the scale',confClara:'⚡ Clear cosmic edge — all five forces point in one direction'},
 zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙解读',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
 phi:'在<strong>{moon}</strong>（第{day}天）之下，<strong>{win}</strong>名称的毕达哥拉斯之根与比赛日期数字、场地地能进入和谐共振。这种共振为其赢得本场比赛<strong>{wp}%</strong>的能量场。',
 phiD:'宇宙在<strong>{moon}</strong>（第{day}天）之下，测算了<strong>{a}</strong>与<strong>{b}</strong>的数字融合、日期数字与场地地能。两股振动如镜像相互映照：无一方能主宰能量场。在足球中，平局也是宇宙的安排。',
@@ -1913,8 +1907,7 @@ function renderDuelResult(duel,name){
   document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}','');
   document.getElementById('interp-closer').innerHTML=T.closer;
   // Tarjeta Mundial bajo motores: oculta si el resultado YA es Mundial · Upsell dorado solo en Mundial
-  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display=STATE.game==='mundial'?'none':'block';
-  const up=document.getElementById('wc-upsell');if(!up)return;
+  (function(){const up=document.getElementById('wc-upsell');if(!up)return;
   if(STATE.game!=='mundial'||isPro()){up.style.display='none';return;}
   const used=STATE.consultsToday>=1;
   up.innerHTML=L==='zh'?(used?'✦ 想要更多？用 <strong>Pro</strong> 解锁无限解读 →':'✦ 看看<strong>你的专属数字</strong>今天如何振动 → 免费个人解读')
@@ -2007,7 +2000,7 @@ function generateCompat(){
   showTab('result');
   const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode','orbit-mode');}
   // Ocultar secciones normales, mostrar compat
-  const hide=['golden-section','combo-title-wrap-top','numbers-display','wc-nums-hint','chance-hint','power-seal','duel-result-section','pro-cta-mid','motors-row','motor-panel','wc-result-card'];
+  const hide=['golden-section','combo-title-wrap-top','numbers-display','wc-nums-hint','chance-hint','power-seal','duel-result-section','pro-cta-mid','motors-row','motor-panel'];
   hide.forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='none';el.classList.add('hidden');}});
   document.getElementById('compat-result-section').classList.remove('hidden');
   // Header
@@ -2328,7 +2321,7 @@ function renderResult(r,name){
   if(proCta) proCta.style.display=isPro()?'none':'block';
   if(proBannerBottom) proBannerBottom.style.display='none'; // siempre oculto, CTA mid es suficiente
   // Tarjeta Mundial bajo los 5 motores (resultado personal) · upsell oculto
-  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display='block';const up=document.getElementById('wc-upsell');if(up)up.style.display='none';})();
+  (function(){const up=document.getElementById('wc-upsell');if(up)up.style.display='none';})();
   // Ocultar sección duelo y mostrar numbers-display en modo normal
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
@@ -2573,13 +2566,11 @@ const UI_EN=[
 ['#tab-oraculos .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
 ['#tab-oraculos .game-card[data-game="mundial"] .gd','Who wins the match? Free and unlimited.'],
 ['#tab-oraculos .game-card[data-game="sports"] .gd','Predict any match of the year.'],
-['.game-card[data-game="mundial"] .free-badge','✦ FREE'],
-['#wc-result-card .gd','Who wins the next match? Your 5 engines predict it · Free & unlimited'],
-['#card-hint','↑ Complete your personal details to reveal your numbers'],
+['.game-card[data-game="mundial"] .free-badge','✦ FREE'],['#card-hint','↑ Complete your personal details to reveal your numbers'],
 ['#sport-selector-wrap .duel-fields-intro','🏆 Select the sport and the two rivals'],
 ['#mundial-duel-intro .duel-fields-intro','🏆 Choose the two teams of the match to predict'],
 ['#wc-match-label','📅 Official match — FIFA schedule'],
-['#wc-match-hint','✦ The match date and venue feed the 5 engines'],
+['#wc-match-hint','✦ The match date and venue feed your 5 forces'],
 ['#label-team-a','🔵 Team A / Home'],
 ['#label-team-b','🔴 Team B / Away'],
 ['#inp-team-a','E.g.: Argentina, Brazil, Real Madrid...','ph'],
@@ -2616,7 +2607,7 @@ const UI_EN=[
 ['#tab-profile button[onclick="editProfileData()"]','✏️ Edit my data'],
 ['#tab-profile button[onclick="logout()"]','Log out'],
 ['.history-title','Reading history'],
-['.upgrade-sub','Unlock the full power of the five cosmic engines. No limits. No restrictions.'],
+['.upgrade-sub','Unlock the full power of the five cosmic forces. No limits. No restrictions.'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(1)','<span class="check">✓</span>1 free reading per day','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(2)','<span class="check">✓</span>3 games (Day + Quick + World Cup 🏆)','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(3)','<span class="check">✓</span>Golden Number of the day','html'],
