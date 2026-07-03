@@ -981,7 +981,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="compat-lp-pair">
           <div class="compat-lp-box">
             <div class="compat-lp-orb" id="compat-orb-user">?</div>
-            <div class="compat-lp-label" id="compat-label-user">Tú</div>
+            <div class="compat-lp-label" id="compat-label-user">你</div>
           </div>
           <div class="compat-heart">♡</div>
           <div class="compat-lp-box">
@@ -1099,7 +1099,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           <div class="plan-badge" id="plan-pro-badge">✦ 即将推出</div>
           <div class="plan-name">✦ Pro</div>
           <ul class="plan-features">
-            <li><span class="check">✓</span>Consultas ilimitadas</li>
+            <li><span class="check">✓</span>无限探索</li>
             <li><span class="check">✓</span>五款解读全部开放</li>
             <li><span class="check">✓</span>每日黄金数字</li>
             <li><span class="check">✓</span>多语言界面</li>
@@ -1115,7 +1115,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="perk-row">
           <div class="perk-icon">🔮</div>
           <div class="perk-text">
-            <div class="perk-name">Consultas ilimitadas</div>
+            <div class="perk-name">无限探索</div>
             <div class="perk-desc">每天随心探索，尝试不同的解读与能量。毫无限制。</div>
           </div>
         </div>
@@ -3125,7 +3125,7 @@ function generateSignals(name,birth){
     const reduced=numReduce(total);
     const di=getSignalInterp(reduced,lang);
     const dlabel=lang==='en'?'The directing number of your sequence':'引领这组序列的数字';
-    const dsub=lang==='en'?('Combined energy reduces to the <strong>'+reduced+'</strong> — '+di.name):('La energía combinada reduce al <strong>'+reduced+'</strong> — '+di.name);
+    const dsub=lang==='en'?('Combined energy reduces to the <strong>'+reduced+'</strong> — '+di.name):('合并后的能量归约为 <strong>'+reduced+'</strong> — '+di.name);
     dominantHTML='<div class="signal-dominant"><div class="signal-dominant-label">'+dlabel+'</div><div class="signal-dominant-num">'+reduced+'</div><div class="signal-dominant-sub">'+dsub+'</div></div>';
   }
   // Pro hook (personalized with life number)
@@ -3133,9 +3133,9 @@ function generateSignals(name,birth){
   if(typeof isPro==='function'&&!isPro()){
     try{
       const lp=lifePath(name,birth);
-      const ptitle=lang==='en'?'This number didn\'t come for just anyone — it came for you':'Este número no llegó a cualquiera — llegó a ti';
+      const ptitle=lang==='en'?'This number didn\'t come for just anyone — it came for you':'这个数字不是随便来的——它是为你而来';
       const pblurred=lang==='en'?'The resonance between your personal vibration and this signal activates a pattern only a few can perceive.':'你个人的振动与这个信号之间的共振，激活了一种只有少数人能感知的模式。';
-      const ptext=lang==='en'?('<strong>'+firstName+'</strong>, your life number is <strong>'+lp+'</strong>. The connection between your life number and the signal you are receiving reveals exactly why this number keeps finding you. <span style="filter:blur(4px);user-select:none">'+pblurred+'</span>'):('<strong>'+firstName+'</strong>, tu número de vida es el <strong>'+lp+'</strong>. La conexión entre tu número de vida y la señal que estás recibiendo revela exactamente por qué este número te sigue encontrando. <span style="filter:blur(4px);user-select:none">'+pblurred+'</span>');
+      const ptext=lang==='en'?('<strong>'+firstName+'</strong>, your life number is <strong>'+lp+'</strong>. The connection between your life number and the signal you are receiving reveals exactly why this number keeps finding you. <span style="filter:blur(4px);user-select:none">'+pblurred+'</span>'):('<strong>'+firstName+'</strong>，你的生命数字是 <strong>'+lp+'</strong>。你的生命数字与你正在接收的信号之间的联结，恰恰揭示了为什么这个数字一再找到你。<span style="filter:blur(4px);user-select:none">'+pblurred+'</span>');
       const pbtn=lang==='en'?'Unlock this connection → Pro':'解锁这层联结 → Pro';
       proHTML='<div class="signal-pro-hook"><div class="signal-pro-title">✦ '+ptitle+' ✦</div><div class="signal-pro-text">'+ptext+'</div><button class="btn-unlock" onclick="showTab(\'upgrade\')">'+pbtn+'</button></div>';
     }catch(e){}
@@ -3192,8 +3192,8 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="sm-sub" id="sm-sub">一个数字反复出现在你身边——绝非偶然。</div>
     <label class="sm-label" id="sm-lbl">哪个数字反复出现在你眼前？</label>
     <input type="text" id="inp-sm" placeholder="例如：7 · 1111 · 3 14 22" autocomplete="off" inputmode="text" onkeydown="if(event.key==='Enter')smReveal()">
-    <div class="sm-hint" id="sm-hint">✦ Escribe uno o varios. Sepáralos con espacio o coma.</div>
-    <button class="btn-sm-rev" id="sm-btn" onclick="smReveal()">✦ Revelar ✦</button>
+    <div class="sm-hint" id="sm-hint">✦ 写下一个或多个数字。多个时用空格或逗号分隔。</div>
+    <button class="btn-sm-rev" id="sm-btn" onclick="smReveal()">✦ 揭示 ✦</button>
     <button class="btn-sm-close" onclick="smClose()">← 返回</button>
   </div>
 </div>
@@ -3217,7 +3217,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </style>
 <div id="conv-overlay">
   <div class="conv-stage" id="conv-stage">
-    <div class="conv-center" id="conv-center"><div class="conv-num" id="conv-num">7</div><div class="conv-lbl" id="conv-lbl">Número de Oro</div></div>
+    <div class="conv-center" id="conv-center"><div class="conv-num" id="conv-num">7</div><div class="conv-lbl" id="conv-lbl">黄金数字</div></div>
   </div>
   <div class="conv-cap" id="conv-cap"></div>
 </div>
