@@ -1735,14 +1735,28 @@ const NUMA_DATA={
       {id:'numero',label:'🔢 ¿Mi número del día?'},
       {id:'arriesgar',label:'⚡ ¿Es momento de actuar?'},
       {id:'energia',label:'✨ ¿Cómo vibro hoy?'},
-      {id:'libre',label:'🔒 Pregunta libre — pronto',locked:true}
+      {id:'amor',label:'💗 ¿Y en el amor?'},
+      {id:'trabajo',label:'💼 ¿Y en el trabajo?'},
+      {id:'dinero',label:'💰 ¿Y en el dinero?'},
+      {id:'cuidar',label:'🛡 ¿Qué debo cuidar hoy?'},
+      {id:'fuerza',label:'🌟 ¿Mi fuerza más alta?'},
+      {id:'conecto',label:'🤝 ¿Con quién conecto?'},
+      {id:'eleva',label:'🔋 ¿Cómo elevo mi energía?'},
+      {id:'semana',label:'🗓 ¿Qué me trae la semana?'}
     ],
     en:[
       {id:'buen-dia',label:'🌟 Is this my moment?'},
       {id:'numero',label:'🔢 My number today?'},
       {id:'arriesgar',label:'⚡ Time to act today?'},
       {id:'energia',label:'✨ How do I vibrate today?'},
-      {id:'libre',label:'🔒 Free question — soon',locked:true}
+      {id:'amor',label:'💗 And in love?'},
+      {id:'trabajo',label:'💼 And at work?'},
+      {id:'dinero',label:'💰 And with money?'},
+      {id:'cuidar',label:'🛡 What to watch today?'},
+      {id:'fuerza',label:'🌟 My strongest force?'},
+      {id:'conecto',label:'🤝 Who do I connect with?'},
+      {id:'eleva',label:'🔋 How to raise my energy?'},
+      {id:'semana',label:'🗓 What does the week bring?'}
     ]
   },
   greet:{
@@ -1779,6 +1793,16 @@ const NUMA_DATA={
     es:{1:{k:'Impulso · nuevos comienzos',t:'Hoy lideras. Es un día para empezar algo y dar el primer paso sin miedo.'},2:{k:'Calma · equilibrio',t:'Hoy vibras en calma. Día de paciencia, acuerdos y dejar que las cosas fluyan.'},3:{k:'Creatividad · alegría',t:'Tu energía brilla. Día de expresarte, socializar y disfrutar lo que te gusta.'},4:{k:'Estructura · esfuerzo',t:'Hoy es de construir. Día de orden, trabajo firme y bases sólidas.'},5:{k:'Cambio · movimiento',t:'El día pide acción. Energía de cambio, aventura y abrirte a lo inesperado.'},6:{k:'Amor · hogar',t:'Hoy late el corazón. Día de afectos, familia y cuidar lo que importa.'},7:{k:'Intuición · misterio',t:'Día de mirar adentro. Tu intuición está fina: escúchala antes de decidir.'},8:{k:'Poder · abundancia',t:'Energía de poder y abundancia. Día fuerte para lo material y las grandes decisiones.'},9:{k:'Cierre · culminación',t:'Día de cerrar ciclos. Suelta lo viejo para hacer espacio a lo que viene.'},11:{k:'Número maestro · intuición elevada',t:'Vibras en el 11 hoy: el número de la iluminación. Tu sensibilidad está en su pico más alto. Confía en lo que percibes antes de analizarlo.'},22:{k:'Número maestro · poder de construir',t:'Hoy el 22 te acompaña: el arquitecto del cosmos. Es un día para hacer algo grande con intención. Tu energía tiene el poder de materializar ideas.'},33:{k:'Número maestro · amor y servicio',t:'El 33 resuena hoy: la frecuencia del amor incondicional. Día de dar, crear armonía y conectar desde lo más profundo.'}},
     en:{1:{k:'Impulse · new beginnings',t:'You lead today. A day to start something and take the first step without fear.'},2:{k:'Calm · balance',t:'You vibrate in calm today. Day of patience, agreements and letting things flow.'},3:{k:'Creativity · joy',t:'Your energy shines. Day to express yourself, socialize and enjoy what you love.'},4:{k:'Structure · effort',t:'Today is for building. Day of order, solid work and firm foundations.'},5:{k:'Change · movement',t:'The day calls for action. Energy of change, adventure and openness to the unexpected.'},6:{k:'Love · home',t:'The heart beats today. Day of affection, family and caring for what matters.'},7:{k:'Intuition · mystery',t:'Day to look inward. Your intuition is sharp: listen to it before deciding.'},8:{k:'Power · abundance',t:'Energy of power and abundance. A strong day for material matters and big decisions.'},9:{k:'Closure · culmination',t:'Day to close cycles. Release the old to make space for what is coming.'},11:{k:'Master number · elevated intuition',t:'You vibrate on 11 today: the number of illumination. Your sensitivity is at its peak. Trust what you perceive before you analyze it.'},22:{k:'Master number · power to build',t:'The 22 is with you today: the cosmic architect. A day to do something great with intention. Your energy has the power to bring ideas into reality.'},33:{k:'Master number · love and service',t:'The 33 resonates today: the frequency of unconditional love. A day to give, create harmony and connect from your deepest self.'}}
   }
+};
+NUMA_DATA.extra={
+  amor:{es:['En el amor hoy, {nombre}, tu energía ({personal}) pide autenticidad. Muéstrate tal como eres — la conexión verdadera nace de ahí.','El corazón está receptivo hoy. Un gesto sincero vale más que mil palabras. Deja que fluya, {nombre}.'],en:['In love today, {nombre}, your energy ({personal}) calls for authenticity. Show up as you are — true connection is born there.','The heart is receptive today. A sincere gesture is worth more than a thousand words. Let it flow, {nombre}.']},
+  trabajo:{es:['En el trabajo hoy tu número de poder es el {poder}: canaliza esa energía en una sola tarea importante y termínala.','Día para avanzar con foco, {nombre}. Menos dispersión, más profundidad — ahí está tu ventaja hoy.'],en:['At work today your power number is {poder}: channel that energy into one important task and finish it.','A day to move with focus, {nombre}. Less scattering, more depth — that is your edge today.']},
+  dinero:{es:['Con el dinero hoy, {nombre}: claridad antes que impulso. Revisa bien antes de decidir y evita gastos por emoción.','Día de orden con lo material. Tu número {poder} favorece las decisiones pensadas, no las apresuradas.'],en:['With money today, {nombre}: clarity before impulse. Review carefully before deciding and avoid emotional spending.','A day for order with material matters. Your number {poder} favors thoughtful decisions, not rushed ones.']},
+  cuidar:{es:['Hoy cuida tu energía, {nombre}: no la gastes en discusiones que no llevan a nada. Elige tus batallas.','Vigila el exceso hoy — de trabajo, de prisa o de palabras. El equilibrio es tu mejor aliado.'],en:['Today guard your energy, {nombre}: do not spend it on arguments that lead nowhere. Choose your battles.','Watch out for excess today — of work, haste or words. Balance is your best ally.']},
+  fuerza:{es:['Tu fuerza más alta hoy es tu intuición, {nombre}. Confía en esa primera sensación antes de razonarla.','Hoy tu mayor fuerza es la constancia. Lo pequeño y sostenido te lleva más lejos que un gran impulso.'],en:['Your strongest force today is your intuition, {nombre}. Trust that first feeling before you reason it away.','Today your greatest strength is constancy. Small and steady takes you further than one big push.']},
+  conecto:{es:['Hoy conectas mejor con quien comparte tu calma, {nombre}. Busca conversaciones que sumen, no que agoten.','La energía de hoy te acerca a personas afines. Una charla honesta puede abrir algo nuevo.'],en:['Today you connect best with those who share your calm, {nombre}. Seek conversations that add, not drain.','Today energy brings you closer to like-minded people. An honest talk may open something new.']},
+  eleva:{es:['Para elevar tu energía hoy, {nombre}: muévete, respira profundo y suelta lo que no controlas.','Un pequeño ritual te recarga hoy — agua, aire libre o música. Vuelve a tu centro y el resto se acomoda.'],en:['To raise your energy today, {nombre}: move, breathe deep and release what you do not control.','A small ritual recharges you today — water, fresh air or music. Return to your center and the rest falls into place.']},
+  semana:{es:['La semana trae movimiento, {nombre}. Tu energía ({personal}) sube hacia el {poder}: úsala para empezar algo que venías posponiendo.','Semana de siembra. Lo que pongas en marcha ahora con intención dará fruto en los próximos días.'],en:['The week brings movement, {nombre}. Your energy ({personal}) rises toward {poder}: use it to start something you have been postponing.','A week for sowing. What you set in motion now with intention will bear fruit in the coming days.']}
 };
 function numaGetDayNum(){const t=new Date(),s=`${t.getFullYear()}${t.getMonth()+1}${t.getDate()}`;return numReduce([...s].reduce((a,c)=>a+parseInt(c),0));}
 function numaHarmony(lp,dn){const s=numReduce(lp+dn);const m={1:82,2:58,3:36,4:42,5:88,6:65,7:72,8:92,9:60,11:91,22:96,33:88};const b=m[s]||65,v=((new Date().getDate()+new Date().getMonth())%7)*2-6;return Math.min(98,Math.max(18,b+v));}
@@ -1826,6 +1850,7 @@ function numaAsk(q){
     else if(q==='numero'){const d=NUMA_DATA.q2[lang]||NUMA_DATA.q2.es;resp=numaFill(numaRand(d),vars);}
     else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=(NUMA_DATA.q3[lang]||NUMA_DATA.q3.es)[tier];resp=numaFill(numaRand(d),vars);}
     else if(q==='energia'){const q4L=NUMA_DATA.q4[lang]||NUMA_DATA.q4.es;const d=q4L[vars.dayNum]||q4L[1];resp=lang==='en'?`<strong style="color:var(--gold)">Today you vibrate in ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`:`<strong style="color:var(--gold)">Hoy vibras en ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`;}
+    else if(NUMA_DATA.extra&&NUMA_DATA.extra[q]){const d=NUMA_DATA.extra[q][lang]||NUMA_DATA.extra[q].es;resp=numaFill(numaRand(d),vars);}
     if(resp)numaAddBubble(resp,false,700);
     else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ La energía está procesando tu pregunta...',false,700);
   }catch(e){console.error('[NUMA]',e);numaAddBubble(lang==='en'?'✦ The stars are aligning... try again.':'✦ Los astros se están alineando... intenta de nuevo.',false,400);}
