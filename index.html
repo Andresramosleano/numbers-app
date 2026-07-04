@@ -265,6 +265,19 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .gsat:active{transform:scale(.88)}
 .gsat b{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;margin-top:1px}
 #tab-result .motors-row{display:none}
+#tab-fuerzas{padding:0 20px 96px}
+.fuerzas-head{display:flex;align-items:center;gap:12px;padding:14px 0 6px}
+.fz-back{background:transparent;border:none;color:var(--gold);font-size:24px;cursor:pointer;padding:2px 6px}
+.fz-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:600;color:var(--gold3);line-height:1.1}
+.fz-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.fz-num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:72px;font-feature-settings:'lnum' 1;color:var(--gold3);text-align:center;text-shadow:0 0 40px rgba(201,168,76,.5);line-height:1;margin:14px 0 2px}
+.fz-hint{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--muted);margin-bottom:20px}
+.fz-card{display:flex;gap:14px;align-items:flex-start;border:.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px;background:var(--bg2)}
+.fz-badge{flex:none;width:48px;height:48px;border-radius:12px;border:1px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg3)}
+.fz-ic{font-size:17px;line-height:1}
+.fz-val{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;margin-top:1px}
+.fz-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--gold3);margin-bottom:3px}
+.fz-text{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--muted);line-height:1.4}
 @keyframes orbitConverge{from{opacity:0;transform:rotate(-30deg) scale(1.45)}to{opacity:1;transform:rotate(0) scale(1)}}
 .motor-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:8px;padding:10px 4px;text-align:center}
 .motor-icon{font-size:19px;margin-bottom:3px}
@@ -999,7 +1012,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       </div>
       <div id="motor-panel" class="hidden"></div>
       <div class="accordion-block">
-        <button class="accordion-toggle" onclick="toggleAccordion('acc-motors')">☿ ¿Por qué estos números? — Toca para ver <span class="acc-arrow">↓</span></button>
+        <button class="accordion-toggle" onclick="showFuerzas()">✦ ¿Qué aportó cada una de tus 5 fuerzas? →</button>
         <div class="accordion-body" id="acc-motors">
           <div class="motors-explain" id="motors-explain"></div>
           <div class="combo-winner" id="combo-winner"></div>
@@ -1036,6 +1049,19 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="pro-perks">Consultas ilimitadas · Historial 30 días · Todos los juegos · desde $3.99 USD/mes</div>
         <button class="btn-pro" onclick="showTab('upgrade')">Ver plan Pro →</button>
       </div>
+    </div>
+
+    <div class="result-screen hidden" id="tab-fuerzas">
+      <div class="fuerzas-head">
+        <button class="fz-back" onclick="showTab('result')">←</button>
+        <div>
+          <div class="fz-title" id="fz-title">Tus 5 Fuerzas</div>
+          <div class="fz-sub" id="fz-sub">Cómo nace tu Número de Oro</div>
+        </div>
+      </div>
+      <div class="fz-num" id="fz-num">—</div>
+      <div class="fz-hint" id="fz-hint">Cada fuerza aportó su parte a tu número.</div>
+      <div id="fuerzas-list"></div>
     </div>
 
     <div class="profile-screen hidden" id="tab-profile">
@@ -1562,7 +1588,7 @@ function renderCiclos(tipo){
   body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
 }
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos','fuerzas'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos',fuerzas:'nav-hoy'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
 // ─── ONBOARDING: cada dato enciende un motor (nombre→Numerología; nacimiento→Astro+Luna+Chino; ciudades→Geo) ───
 const MCHIP_COLORS=['#7bd0ff','#ff9ec7','#cdd6ff','#ffcaa6','#7bf0b0'];
 function chargeMotors(){
@@ -1682,6 +1708,21 @@ function openHoySheet(i){
   document.getElementById('hoy-sheet-bg').classList.add('show');
 }
 function closeHoySheet(){const bg=document.getElementById('hoy-sheet-bg');if(bg)bg.classList.remove('show');}
+function showFuerzas(){
+  var lr=STATE.lastResult,r=lr&&lr.result,en=(typeof uiLang==='function'&&uiLang()==='en');
+  var setT=function(id,es,e2){var el=document.getElementById(id);if(el)el.textContent=en?e2:es;};
+  setT('fz-title','Tus 5 Fuerzas','Your 5 Forces');
+  setT('fz-sub','Cómo nace tu Número de Oro','How your Golden Number is born');
+  setT('fz-hint','Cada fuerza aportó su parte a tu número.','Each force added its part to your number.');
+  var g=document.getElementById('fz-num');if(g)g.textContent=r?r.golden:'—';
+  var vals=r?hoyMotorVals(r):{};
+  var html=HOY_MOTORS.map(function(m){
+    var label=en?m[5]:m[3];var v=(vals[m[0]]!=null?vals[m[0]]:'—');var txt=(en?m[6]:m[4]).replace('{v}',v);
+    return '<div class="fz-card"><div class="fz-badge" style="color:'+m[2]+';border-color:'+m[2]+'66"><span class="fz-ic">'+m[1]+'</span><span class="fz-val">'+v+'</span></div><div><div class="fz-name">'+label+'</div><div class="fz-text">'+txt+'</div></div></div>';
+  }).join('');
+  var list=document.getElementById('fuerzas-list');if(list)list.innerHTML=html;
+  showTab('fuerzas');
+}
 function openComboInfoHoy(){
   document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic">✦</div><div class="hs-horizon">'+L('Tu combinación → tu Número de Oro','Your combination → your Golden Number')+'</div><h2>'+L('De seis números, uno de poder','From six numbers, one of power')+'</h2><p>'+L('Tus 5 fuerzas cósmicas generan juntas seis números: tu combinación del día. De esa combinación, la proporción áurea destila el más potente: tu Número de Oro.','Your 5 cosmic forces together generate six numbers: your combination of the day. From it, the golden ratio distills the most powerful one: your Golden Number.')+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
   document.getElementById('hoy-sheet-bg').classList.add('show');
@@ -2587,7 +2628,7 @@ const UI_EN=[
 ['#pro-cta-mid .btn-pct','I want to be among the first →'],
 ['.motors-row .motor-chip:nth-child(3) .motor-name','Moon'],
 ['.motors-row .motor-chip:nth-child(4) .motor-name','Chinese'],
-['.accordion-block:has(#acc-motors) .accordion-toggle','☿ Why these numbers? — Tap to view <span class="acc-arrow">↓</span>','html'],
+['.accordion-block:has(#acc-motors) .accordion-toggle','✦ What did each of your 5 forces add? →','html'],
 ['.accordion-block:has(#acc-interp) .accordion-toggle','✦ Reveal the meaning of your numbers — Tap to view <span class="acc-arrow">↓</span>','html'],
 ['#interp-power','✦ Why these numbers are powerful ✦'],
 ['.disclaimer-text','ℹ️ Numbers is entertainment and personal inspiration.'],
