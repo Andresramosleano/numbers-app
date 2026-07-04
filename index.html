@@ -2398,7 +2398,7 @@ function renderResult(r,name){
   document.getElementById('golden-phi').innerHTML=uiLang()==='en'
     ?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`
     :`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
-  const inplayEl=document.getElementById('golden-inplay');
+  const inplayEl=document.getElementById('golden-inplay');inplayEl.style.display='';
   if(r.goldenInPlay){inplayEl.textContent=L('✦ Presente en tu energía de hoy','✦ Present in your energy today');inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
   else{inplayEl.textContent=L('✦ Número ceremonial de inspiración','✦ Ceremonial number of inspiration');inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
@@ -2432,6 +2432,19 @@ function renderResult(r,name){
   // SELLO según juego
   const seals=uiLang()==='en'?{daily:'VIBRATION SEALED',lottery:'VIBRATION SEALED',chance:'DIGITS REVEALED',destiny:'SEQUENCE REVEALED',casino:'SEQUENCE REVEALED',sports:'SPORTS ENERGY'}:{daily:'VIBRACIÓN SELLADA',lottery:'VIBRACIÓN SELLADA',chance:'CIFRAS REVELADAS',destiny:'SECUENCIA REVELADA',casino:'SECUENCIA REVELADA',sports:'ENERGÍA DEPORTIVA'};
   document.getElementById('seal-text').textContent=seals[STATE.game]||L('COMBINACIÓN SELLADA','COMBINATION SEALED');
+  if(STATE.game==='destiny'){
+    var _en=uiLang()==='en',_lp=r.lp;
+    var _q4=(NUMA_DATA.q4&&NUMA_DATA.q4[_en?'en':'es'])||{};var _dm=_q4[_lp]||_q4[1]||{k:'',t:''};
+    var _go=document.getElementById('golden-orb');if(_go){_go.textContent=_lp;_go.style.fontSize='';}
+    var _gl=document.getElementById('golden-label');if(_gl)_gl.textContent=_en?'✦ Your Destiny Number ✦':'✦ Tu Número del Destino ✦';
+    var _gs=document.getElementById('golden-sublabel');if(_gs)_gs.textContent=_en?'The number you were born with · it never changes':'El número con el que naciste · no cambia nunca';
+    var _gp=document.getElementById('golden-phi');
+    if(_gp)_gp.innerHTML=_en
+      ?('Your destiny number is <strong>'+_lp+'</strong> — <strong>'+_dm.k+'</strong>. Unlike your daily number, this one <strong>never changes</strong>: it is the vibration you were born with, distilled from your full name and date of birth — the core of who you are. '+_dm.t)
+      :('Tu número del destino es el <strong>'+_lp+'</strong> — <strong>'+_dm.k+'</strong>. A diferencia de tu número del día, este <strong>no cambia nunca</strong>: es la vibración con la que naciste, destilada de tu nombre completo y fecha de nacimiento — el núcleo de quién eres. '+_dm.t);
+    var _ip=document.getElementById('golden-inplay');if(_ip)_ip.style.display='none';
+    var _rc=document.getElementById('renew-countdown');if(_rc)_rc.style.display='none';
+  }
 }
 function newConsult(){goBackToForm()}
 function toggleAccordion(id){const body=document.getElementById(id);const btn=body.previousElementSibling;const arrow=btn.querySelector('.acc-arrow');const isOpen=body.classList.contains('open');body.classList.toggle('open');arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)'}
@@ -2762,6 +2775,8 @@ zh:{unlockT:'\u2726 \u60a8\u7684\u89e3\u8bfb\u7ed3\u5c3e\u5df2\u88ab\u5c01\u5370
 function applyShareI18n(){const t=I18N_NEW[uiLang()];const b=document.getElementById('btn-share-main');if(b)b.textContent=t.shareBtn;const h=document.getElementById('share-hint');if(h)h.textContent=t.shareHint;updateRenewCountdown();}
 function updateRenewCountdown(){
   const el=document.getElementById('renew-countdown');if(!el)return;
+  if(typeof STATE!=='undefined'&&STATE.game==='destiny'){el.style.display='none';return;}
+  el.style.display='';
   const now=new Date();const mid=new Date(now);mid.setHours(24,0,0,0);
   const diff=mid-now;const h=Math.floor(diff/3600000);const m=Math.floor(diff%3600000/60000);
   el.textContent=I18N_NEW[uiLang()].renew.replace('{h}',h).replace('{m}',m);
