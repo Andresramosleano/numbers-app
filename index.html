@@ -185,9 +185,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes goldIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
 .golden-label{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem}.golden-sublabel{font-size:15px;color:#b8a888;font-family:'Cormorant Garamond',Georgia,serif;text-align:center;margin-bottom:.5rem;font-style:italic}
 .golden-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.85rem}
-.golden-orb{width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:48px;font-weight:600;font-feature-settings:'lnum' 1;color:#fff7e0;border:2px solid var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.4),rgba(201,168,76,.16) 55%,var(--bg2));box-shadow:0 0 50px rgba(201,168,76,.4),0 0 90px rgba(201,168,76,.18),inset 0 2px 8px rgba(255,247,224,.2);position:relative;z-index:2}
-.golden-halo{position:absolute;inset:-14px;border-radius:50%;border:.5px solid rgba(201,168,76,.35);animation:halo 3.5s ease-in-out infinite}
-.golden-halo2{position:absolute;inset:-26px;border-radius:50%;border:.5px solid rgba(201,168,76,.18);animation:halo 3.5s ease-in-out infinite .4s}
+.golden-orb{display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:80px;font-weight:600;font-feature-settings:'lnum' 1;color:var(--gold3);text-shadow:0 0 40px rgba(201,168,76,.5);position:relative;z-index:2;line-height:1}
+.golden-halo,.golden-halo2{display:none}
 @keyframes halo{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.06);opacity:1}}
 .golden-rays{position:absolute;inset:-26px;z-index:1;animation:spin 30s linear infinite}
 .golden-name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:21px;color:var(--gold3);letter-spacing:.02em;margin-bottom:.5rem}
@@ -265,7 +264,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .gsat{position:absolute;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1;cursor:pointer;pointer-events:auto;transition:transform .15s}
 .gsat:active{transform:scale(.88)}
 .gsat b{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;margin-top:1px}
-#tab-result.orbit-mode .motors-row{display:none}
+#tab-result .motors-row{display:none}
 @keyframes orbitConverge{from{opacity:0;transform:rotate(-30deg) scale(1.45)}to{opacity:1;transform:rotate(0) scale(1)}}
 .motor-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:8px;padding:10px 4px;text-align:center}
 .motor-icon{font-size:19px;margin-bottom:3px}
@@ -998,16 +997,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="motor-chip" onclick="openMotorPanel('chi')"><div class="motor-icon">🐉</div><div class="motor-val" id="mv-chi">—</div><div class="motor-name">Chino</div></div>
         <div class="motor-chip" onclick="openMotorPanel('geo')"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">Geo.</div></div>
       </div>
-      <div id="motor-panel" class="hidden"></div>      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
-      <div class="share-hint" id="share-hint">Comparte tu energía del día con alguien especial ✦</div>
-      <div class="numa-cta-card" id="numa-cta" onclick="showTab('numa')">
-        <div class="numa-cta-orb">🔮</div>
-        <div>
-          <div class="numa-cta-title">NUMA tiene algo que decirte</div>
-          <div class="numa-cta-sub">Tu oráculo personal ha leído los números de hoy. Pregúntale.</div>
-        </div>
-        <div class="numa-cta-arrow">→</div>
-      </div>
+      <div id="motor-panel" class="hidden"></div>
       <div class="accordion-block">
         <button class="accordion-toggle" onclick="toggleAccordion('acc-motors')">☿ ¿Por qué estos números? — Toca para ver <span class="acc-arrow">↓</span></button>
         <div class="accordion-body" id="acc-motors">
@@ -1030,6 +1020,16 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           </div>
         </div>
       </div>
+      <div class="numa-cta-card" id="numa-cta" onclick="showTab('numa')">
+        <div class="numa-cta-orb">🔮</div>
+        <div>
+          <div class="numa-cta-title">NUMA tiene algo que decirte</div>
+          <div class="numa-cta-sub">Tu oráculo personal ha leído los números de hoy. Pregúntale.</div>
+        </div>
+        <div class="numa-cta-arrow">→</div>
+      </div>
+      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
+      <div class="share-hint" id="share-hint">Comparte tu energía del día con alguien especial ✦</div>
       <div class="disclaimer-text">ℹ️ Numbers es entretenimiento e inspiración personal.</div>
       <div class="pro-banner" id="pro-banner-bottom" style="display:none">
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
@@ -2329,7 +2329,6 @@ function renderResult(r,name){
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   // NÚMERO DE ORO
   document.getElementById('golden-orb').textContent=r.golden;document.getElementById('golden-orb').style.fontSize='';
-  buildOrbit(r);
   document.getElementById('golden-phi').innerHTML=uiLang()==='en'
     ?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`
     :`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`;
