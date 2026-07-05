@@ -138,7 +138,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .error-toast.show{display:block}
 .wc-ribbon{display:block;background:rgba(201,168,76,.08);border-bottom:.5px solid rgba(201,168,76,.35);padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold2);cursor:pointer;letter-spacing:.03em;text-align:center;transition:background .2s}
 .wc-ribbon:hover{background:rgba(201,168,76,.15)}
-.acc-progress{text-align:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted);letter-spacing:.12em;margin:-0.75rem 0 1rem}
 .acc-step{border:.5px solid var(--border);border-radius:var(--rr);margin-bottom:10px;overflow:hidden;transition:border-color .25s,opacity .25s,background .25s}
 .acc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:13px 16px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--muted);letter-spacing:.04em}
 .acc-sum{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold2);font-style:italic;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -186,9 +185,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes goldIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
 .golden-label{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem}.golden-sublabel{font-size:15px;color:#b8a888;font-family:'Cormorant Garamond',Georgia,serif;text-align:center;margin-bottom:.5rem;font-style:italic}
 .golden-orb-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.85rem}
-.golden-orb{width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:42px;font-weight:900;color:#fff7e0;border:2px solid var(--gold2);background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.4),rgba(201,168,76,.16) 55%,var(--bg2));box-shadow:0 0 50px rgba(201,168,76,.4),0 0 90px rgba(201,168,76,.18),inset 0 2px 8px rgba(255,247,224,.2);position:relative;z-index:2}
-.golden-halo{position:absolute;inset:-14px;border-radius:50%;border:.5px solid rgba(201,168,76,.35);animation:halo 3.5s ease-in-out infinite}
-.golden-halo2{position:absolute;inset:-26px;border-radius:50%;border:.5px solid rgba(201,168,76,.18);animation:halo 3.5s ease-in-out infinite .4s}
+.golden-orb{display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:80px;font-weight:600;font-feature-settings:'lnum' 1;color:var(--gold3);text-shadow:0 0 40px rgba(201,168,76,.5);position:relative;z-index:2;line-height:1}
+.golden-halo,.golden-halo2{display:none}
 @keyframes halo{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.06);opacity:1}}
 .golden-rays{position:absolute;inset:-26px;z-index:1;animation:spin 30s linear infinite}
 .golden-name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:21px;color:var(--gold3);letter-spacing:.02em;margin-bottom:.5rem}
@@ -209,23 +207,19 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 /* ===== HOY v2 — pantalla limpia fiel al prototipo ===== */
 #tab-hoy{text-align:center}
 #tab-hoy .hoy-daypill{font-family:'JetBrains Mono',monospace;display:inline-block;margin:2px auto 0;font-size:10.5px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:6px 14px;letter-spacing:.08em;text-transform:uppercase}
-#tab-hoy .hoy-orbit{position:relative;width:236px;height:236px;margin:16px auto 4px}
-#tab-hoy .hoy-ring{position:absolute;left:50%;top:50%;border-radius:50%;border:1px dashed;pointer-events:none}
-#tab-hoy .hoy-ring.r1{width:236px;height:236px;margin:-118px 0 0 -118px;border-color:rgba(123,208,255,.24);animation:spin 46s linear infinite}
-#tab-hoy .hoy-ring.r2{width:184px;height:184px;margin:-92px 0 0 -92px;border-color:rgba(255,158,199,.22);animation:spin 34s linear infinite reverse}
-#tab-hoy .hoy-ring.r3{width:132px;height:132px;margin:-66px 0 0 -66px;border-color:rgba(205,214,255,.22);animation:spin 28s linear infinite}
-#tab-hoy .hoy-gold{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(232,194,107,.30),rgba(232,194,107,.02) 72%)}
-#tab-hoy .hoy-n{font-family:'Cinzel Decorative',serif;font-size:58px;font-weight:900;color:var(--gold3);text-shadow:0 0 22px rgba(201,168,76,.6);line-height:1;animation:goldpulse 2.8s infinite}
+#tab-hoy .hoy-orbit{position:relative;width:284px;height:284px;margin:20px auto 6px}
+#tab-hoy .hoy-ring{position:absolute;left:50%;top:50%;width:232px;height:232px;margin:-116px 0 0 -116px;border-radius:50%;border:1px dashed rgba(201,168,76,.22);pointer-events:none}
+#tab-hoy .hoy-gold{position:absolute;left:50%;top:50%;width:158px;height:158px;margin:-79px 0 0 -79px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(232,194,107,.30),rgba(232,194,107,.02) 72%)}
+#tab-hoy .hoy-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:104px;font-weight:600;font-feature-settings:'lnum' 1;color:var(--gold3);text-shadow:0 0 34px rgba(201,168,76,.55);line-height:1;animation:goldpulse 2.8s infinite}
 #tab-hoy .hoy-goldlbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:5px}
-#tab-hoy .hoy-mini{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1;cursor:pointer;transition:transform .15s}
+#tab-hoy .hoy-mini{position:absolute;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px;line-height:1;cursor:pointer;transition:transform .15s}
 #tab-hoy .hoy-mini:active{transform:scale(.9)}
-#tab-hoy .hoy-mini b{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;margin-top:1px}
+#tab-hoy .hoy-mini b{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;margin-top:2px}
 #tab-hoy .hoy-combo{display:flex;justify-content:center;gap:9px;margin:0 0 4px;flex-wrap:wrap}
 #tab-hoy .hoy-combo b{font-family:'JetBrains Mono',monospace;width:40px;height:40px;border-radius:10px;background:var(--bg2);border:1px solid rgba(201,168,76,.38);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--gold2);font-weight:500}
 #tab-hoy .hoy-sub{color:var(--muted);font-size:15.5px;line-height:1.5;max-width:320px;margin:30px auto 14px}
 #tab-hoy .hoy-sub b{color:var(--gold2)}
-#tab-hoy .hoy-cominfo{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);letter-spacing:.06em;margin-top:12px;cursor:pointer}
-#tab-hoy .hoy-wc{display:block;width:100%;margin:20px 0 2px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--gold2);background:linear-gradient(90deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:.5px solid rgba(201,168,76,.26);border-radius:13px;padding:12px}
+#tab-hoy .hoy-door{display:block;width:100%;margin:22px 0 4px;cursor:pointer;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:18.5px;color:var(--gold);background:linear-gradient(180deg,rgba(201,168,76,.10),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.4);border-radius:14px;padding:15px}
 .hoy-streak{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold2);text-align:center;margin:2px auto 14px;letter-spacing:.02em;min-height:1.2em}
 .hoy-streak.milestone{animation:streakGlow 1.5s ease}
 @keyframes streakGlow{0%{text-shadow:none}40%{text-shadow:0 0 18px rgba(201,168,76,.85)}100%{text-shadow:none}}
@@ -233,8 +227,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-hoy .hoy-numa-who{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase}
 #tab-hoy .hoy-numa p{font-size:16px;line-height:1.55;color:var(--text)}
 .btn-outline-hoy{margin-top:12px;width:100%;background:transparent;color:var(--gold);border:1px solid var(--border);border-radius:12px;padding:12px;font-family:'Cinzel Decorative',serif;font-size:13.5px;cursor:pointer}
-#tab-hoy .hoy-sect{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin:22px 4px 10px;text-align:left}
-#tab-hoy .hoy-sub2{color:var(--muted);font-size:14.5px;line-height:1.5;text-align:left;margin:0 4px}
 #tab-hoy .hoy-disc{color:var(--faint);font-size:12px;margin-top:16px;opacity:.85}
 .hoy-sheet-bg{position:fixed;inset:0;z-index:400;background:rgba(4,2,10,.72);display:none;align-items:flex-end;justify-content:center}
 .hoy-sheet-bg.show{display:flex}
@@ -266,7 +258,20 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .gsat{position:absolute;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1;cursor:pointer;pointer-events:auto;transition:transform .15s}
 .gsat:active{transform:scale(.88)}
 .gsat b{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;margin-top:1px}
-#tab-result.orbit-mode .motors-row{display:none}
+#tab-result .motors-row{display:none}
+#tab-fuerzas{padding:0 20px 96px}
+.fuerzas-head{display:flex;align-items:center;gap:12px;padding:14px 0 6px}
+.fz-back{background:transparent;border:none;color:var(--gold);font-size:24px;cursor:pointer;padding:2px 6px}
+.fz-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:600;color:var(--gold3);line-height:1.1}
+.fz-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.fz-num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:72px;font-feature-settings:'lnum' 1;color:var(--gold3);text-align:center;text-shadow:0 0 40px rgba(201,168,76,.5);line-height:1;margin:14px 0 2px}
+.fz-hint{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--muted);margin-bottom:20px}
+.fz-card{display:flex;gap:14px;align-items:flex-start;border:.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px;background:var(--bg2)}
+.fz-badge{flex:none;width:48px;height:48px;border-radius:12px;border:1px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg3)}
+.fz-ic{font-size:17px;line-height:1}
+.fz-val{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;margin-top:1px}
+.fz-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--gold3);margin-bottom:3px}
+.fz-text{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--muted);line-height:1.4}
 @keyframes orbitConverge{from{opacity:0;transform:rotate(-30deg) scale(1.45)}to{opacity:1;transform:rotate(0) scale(1)}}
 .motor-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:8px;padding:10px 4px;text-align:center}
 .motor-icon{font-size:19px;margin-bottom:3px}
@@ -299,7 +304,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-unlock{padding:12px 26px;background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.12));border:1px solid var(--gold2);border-radius:99px;color:var(--gold3);font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 0 18px rgba(201,168,76,.2)}
 .disclaimer-text{font-size:16px;color:#b8a888;text-align:center;font-family:'JetBrains Mono',monospace;line-height:1.6;margin-bottom:1.25rem;background:rgba(201,168,76,.04);border:.5px solid var(--border);border-radius:var(--r);padding:10px 14px}
 .action-row{display:flex;gap:10px;margin-bottom:1rem}
-.btn-whatsapp{flex:1;padding:13px;background:rgba(37,211,102,.1);border:.5px solid rgba(37,211,102,.35);border-radius:var(--r);cursor:pointer;color:#25d366;font-size:15px;font-family:'JetBrains Mono',monospace}
 .btn-share-main{display:block;width:100%;padding:15px;margin:1.25rem 0 .4rem;background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.07));border:1px solid var(--gold2);border-radius:var(--r);color:var(--gold3);font-family:'Cinzel Decorative',serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.06em;animation:sharePulse 2.8s ease-in-out infinite;transition:transform .15s ease}
 .btn-share-main:active{transform:scale(.97)}
 @keyframes sharePulse{0%,100%{box-shadow:0 0 16px rgba(201,168,76,.15)}50%{box-shadow:0 0 34px rgba(201,168,76,.38)}}
@@ -355,12 +359,12 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .history-date{font-size:15px;color:var(--faint);font-family:'JetBrains Mono',monospace;min-width:76px}
 .history-game{font-size:15px;color:var(--muted)}
 .history-nums{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);margin-left:auto}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;border-top:.5px solid var(--border);background:rgba(8,5,16,.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:.55rem 0 calc(.55rem + env(safe-area-inset-bottom));max-width:640px;margin:0 auto;width:100%}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;cursor:pointer;padding:.4rem .2rem}
-.nav-icon{font-size:20px;line-height:1}
-.nav-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
-.nav-btn.active .nav-label{color:var(--gold)}
-.nav-btn.active .nav-icon{filter:drop-shadow(0 0 6px rgba(232,201,122,.5))}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;border-top:1px solid rgba(201,168,76,.35);background:#0b0817;box-shadow:0 -6px 20px rgba(0,0,0,.45);padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom));max-width:640px;margin:0 auto;width:100%}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:none;cursor:pointer;padding:.35rem .2rem}
+.nav-icon{font-size:22px;line-height:1;opacity:.5;padding:5px 14px;border-radius:14px;transition:opacity .18s ease,background .18s ease}
+.nav-label{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase;opacity:.7}
+.nav-btn.active .nav-icon{opacity:1;background:rgba(201,168,76,.15);filter:drop-shadow(0 0 6px rgba(232,201,122,.4))}
+.nav-btn.active .nav-label{color:var(--gold);font-weight:700;opacity:1}
 /* ─── ORÁCULOS TAB ─── */
 .oraculos-header{text-align:center;padding:1.8rem 1rem .8rem}
 .oraculos-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:29px;color:var(--gold3);letter-spacing:.01em;margin-bottom:.3rem}
@@ -511,7 +515,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .free-badge{position:absolute;top:6px;right:7px;font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--teal);background:rgba(61,191,168,.12);border:.5px solid rgba(61,191,168,.4);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
 .wc-upsell{display:none;margin:1.1rem auto 0;max-width:340px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.5;color:var(--gold2);border:1px solid rgba(201,168,76,.45);border-radius:var(--r);padding:13px 16px;cursor:pointer;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.06))}
 .wc-upsell:hover{border-color:var(--gold);background:rgba(201,168,76,.14)}
-#wc-result-card{margin:1.2rem auto 0;max-width:480px;cursor:pointer}
 .duel-fields-intro{font-size:16px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
 /* ─── SPORT SELECTOR ─── */
 .sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
@@ -615,7 +618,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-result.signals-mode #pro-cta-mid,
 #tab-result.signals-mode .motors-row,
 #tab-result.signals-mode #motor-panel,
-#tab-result.signals-mode #wc-result-card,
 #tab-result.signals-mode #btn-share-main,
 #tab-result.signals-mode .share-hint,
 #tab-result.signals-mode .action-row,
@@ -777,23 +779,18 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
     <div class="form-screen hidden" id="tab-hoy">
       <div class="hoy-daypill" id="hoy-daypill">✦ 你今日的黄金数字 · 每24小时焕新</div>
       <div class="hoy-orbit" id="hoy-orbit">
-        <div class="hoy-ring r1"></div>
-        <div class="hoy-ring r2"></div>
-        <div class="hoy-ring r3"></div>
+        <div class="hoy-ring"></div>
         <div class="hoy-gold"><div class="hoy-n" id="hoy-golden">7</div><div class="hoy-goldlbl" id="hoy-goldlbl">黄金数字</div></div>
       </div>
       <div class="hoy-streak" id="hoy-streak"></div>
       <div class="hoy-sub" id="hoy-combo-sub"><b>你今日的组合。</b>六个数字，宇宙今日只为你对齐。</div>
       <div class="hoy-combo" id="hoy-combo"></div>
-      <div class="hoy-cominfo" id="hoy-cominfo" onclick="openComboInfoHoy()">✦ 你的黄金数字如何诞生？ →</div>
-      <div class="hoy-wc" id="hoy-wc" onclick="wcRibbonGo()">🏆 2026世界杯 — 解读免费无限 →</div>
+      <div class="hoy-door" id="hoy-door" onclick="showFuerzas()">✦ 你的五种力量，各带来了什么？ →</div>
       <div class="hoy-numa">
         <div class="hoy-numa-who" id="hoy-numa-who">🔮 NUMA 解读了你今日的数字</div>
         <p id="hoy-numa-text">—</p>
         <button class="btn-outline-hoy" id="hoy-numa-btn" onclick="showTab('numa')">问问 NUMA →</button>
       </div>
-      <div class="hoy-sect" id="hoy-sect">为什么是这些数字</div>
-      <p class="hoy-sub2" id="hoy-sub2">点触轨道上的任意一颗，看它今日带来了什么。每一种力量都在你的组合中留下印记。</p>
       <p class="hoy-disc" id="hoy-disc">ℹ️ 数字神谕是娱乐与个人启示工具。</p>
     </div>
     <div class="hoy-sheet-bg" id="hoy-sheet-bg" onclick="if(event.target===this)closeHoySheet()"><div class="hoy-sheet" id="hoy-sheet"></div></div>
@@ -812,7 +809,6 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
         <div class="mcharge-count" id="mcharge-count">已点亮 0 / 5 种力量</div>
       </div>
-      <div class="acc-progress" id="acc-progress">第 1 步 · 共 5 步</div>
       <div class="error-toast" id="error-toast"></div>
       <div class="acc-step acc-simple" id="acc-1">
         <div class="acc-head" onclick="accToggle(1)"><span class="acc-tit">1 · 你的姓名</span><span class="acc-sum" id="acc-sum-1"></span></div>
@@ -1007,23 +1003,8 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="motor-chip" onclick="openMotorPanel('geo')"><div class="motor-icon">🌎</div><div class="motor-val" id="mv-geo">—</div><div class="motor-name">地能</div></div>
       </div>
       <div id="motor-panel" class="hidden"></div>
-      <div class="game-card" id="wc-result-card" data-game="mundial" onclick="wcFromResult()" style="display:none"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">世界杯 2026</div><div class="gd">下一场谁的能量更强？五种力量为你解读 · 免费无限</div></div>
-      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ 分享我的数字 ✦</button>
-      <div class="share-hint" id="share-hint">把今日的能量，分享给某个特别的人 ✦</div>
-      <div class="action-row" style="margin:.5rem 0 .5rem">
-        <button class="btn-whatsapp" onclick="shareWA()">💬 微信分享</button>
-        <button class="btn-new" onclick="newConsult()">↺ 新的探索</button>
-      </div>
-      <div class="numa-cta-card" id="numa-cta" onclick="showTab('numa')">
-        <div class="numa-cta-orb">🔮</div>
-        <div>
-          <div class="numa-cta-title">NUMA 有话对你说</div>
-          <div class="numa-cta-sub">你的神谕已解读今天的数字。来问它吧。</div>
-        </div>
-        <div class="numa-cta-arrow">→</div>
-      </div>
       <div class="accordion-block">
-        <button class="accordion-toggle" onclick="toggleAccordion('acc-motors')">☿ 为什么是这些数字？— 点击查看 <span class="acc-arrow">↓</span></button>
+        <button class="accordion-toggle" onclick="showFuerzas()">✦ 你的五种力量，各带来了什么？ →</button>
         <div class="accordion-body" id="acc-motors">
           <div class="motors-explain" id="motors-explain"></div>
           <div class="combo-winner" id="combo-winner"></div>
@@ -1044,12 +1025,35 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           </div>
         </div>
       </div>
+      <div class="numa-cta-card" id="numa-cta" onclick="showTab('numa')">
+        <div class="numa-cta-orb">🔮</div>
+        <div>
+          <div class="numa-cta-title">NUMA 有话对你说</div>
+          <div class="numa-cta-sub">你的神谕已解读今天的数字。来问它吧。</div>
+        </div>
+        <div class="numa-cta-arrow">→</div>
+      </div>
+      <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ 分享我的数字 ✦</button>
+      <div class="share-hint" id="share-hint">把今日的能量，分享给某个特别的人 ✦</div>
       <div class="disclaimer-text">ℹ️ 数字神谕是娱乐与个人启示工具。</div>
       <div class="pro-banner" id="pro-banner-bottom" style="display:none">
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
         <div class="pro-perks">无限探索 · 30天历史 · 全部解读 · 解读套餐 ¥48起</div>
         <button class="btn-pro" onclick="showTab('upgrade')">查看 Pro 计划 →</button>
       </div>
+    </div>
+
+    <div class="result-screen hidden" id="tab-fuerzas">
+      <div class="fuerzas-head">
+        <button class="fz-back" onclick="showTab('result')">←</button>
+        <div>
+          <div class="fz-title" id="fz-title">你的五种力量</div>
+          <div class="fz-sub" id="fz-sub">黄金数字如何诞生</div>
+        </div>
+      </div>
+      <div class="fz-num" id="fz-num">—</div>
+      <div class="fz-hint" id="fz-hint">每一种力量，都为你的数字贡献了一部分。</div>
+      <div id="fuerzas-list"></div>
     </div>
 
     <div class="profile-screen hidden" id="tab-profile">
@@ -1364,14 +1368,14 @@ interpD:'{n}, the engines conjugated the numbers of both squads for this date an
 rankTail:' — and the earthly balance of the FIFA Ranking (#{rw} vs #{rl}) confirms what the numbers whisper',
 closer:'This reading reflects the energies of the cosmos today — football, like life, can always surprise. Numbers is entertainment and inspiration.',
 confDraw:'⚡ Nearly identical vibrations — a draw is a very likely outcome',confKO:'⚡ Twin energies — it will be decided by the finest details',confLeve:'⚡ Slight cosmic edge — very even match, anyone can win',confMod:'⚡ Moderate edge — the energy tips the scale',confClara:'⚡ Clear cosmic edge — all five engines point in one direction'},
-zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙解读',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
+zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地，将激活你的五种力量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙解读',sealS:'五种力量测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
 phi:'在<strong>{moon}</strong>（第{day}天）之下，<strong>{win}</strong>名称的毕达哥拉斯之根与比赛日期数字、场地地能进入和谐共振。这种共振为其赢得本场比赛<strong>{wp}%</strong>的能量场。',
 phiD:'宇宙在<strong>{moon}</strong>（第{day}天）之下，测算了<strong>{a}</strong>与<strong>{b}</strong>的数字融合、日期数字与场地地能。两股振动如镜像相互映照：无一方能主宰能量场。在足球中，平局也是宇宙的安排。',
 interp:'{n}，数字的融合揭示了这一结果为何可能显现：<strong>{win}</strong>名称的振动、比赛日期的数字与场地的能量汇聚于同一频率 — 他们的球员正处于巅峰的振动时刻，即神秘学所称的恩典状态。<strong>{win}</strong>掌控<strong>{wp}%</strong>的能量场，而<strong>{lose}</strong>为{lpct}%{rk}。',
-interpD:'{n}，引擎为这一日期与场地融合了两队的数字，结果非凡：<strong>{a}</strong>（{pa}%）与<strong>{b}</strong>（{pb}%）以近乎孪生的频率振动。当两个能量场如此相互映照时，宇宙暗示平分秋色：平局是完全可能的结局。',
+interpD:'{n}，五种力量为这一日期与场地融合了两队的数字，结果非凡：<strong>{a}</strong>（{pa}%）与<strong>{b}</strong>（{pb}%）以近乎孪生的频率振动。当两个能量场如此相互映照时，宇宙暗示平分秋色：平局是完全可能的结局。',
 rankTail:' — FIFA排名（第{rw}位 对 第{rl}位）这一人间印记也印证了数字的低语',
 closer:'本解读反映今日宇宙能量 — 足球如人生，总有惊喜。Numbers 是娱乐与灵感。',
-confDraw:'⚡ 振动几乎相同 — 平局是非常可能的结果',confKO:'⚡ 能量如双生 — 将由最微小的细节决定',confLeve:'⚡ 宇宙优势轻微 — 势均力敌，胜负难料',confMod:'⚡ 优势适中 — 能量倾斜天平',confClara:'⚡ 宇宙优势明显 — 五大引擎指向同一方向'}};
+confDraw:'⚡ 振动几乎相同 — 平局是非常可能的结果',confKO:'⚡ 能量如双生 — 将由最微小的细节决定',confLeve:'⚡ 宇宙优势轻微 — 势均力敌，胜负难料',confMod:'⚡ 优势适中 — 能量倾斜天平',confClara:'⚡ 宇宙优势明显 — 五种力量指向同一方向'}};
 function wcLang(){try{if(typeof uiLang==='function')return uiLang()}catch(e){}return(typeof STATE!=='undefined'&&STATE.lang==='zh')?'zh':'es'}
 function wcLi(){const l=wcLang();return l==='en'?1:l==='zh'?2:0}
 function wcTeamLabel(t){const l=wcLang();return l==='en'?(WC_TEAM_EN[t]||t):l==='zh'?(WC_TEAM_ZH[t]||t):t}
@@ -1578,7 +1582,7 @@ function renderCiclos(tipo){
   body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
 }
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos','fuerzas'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos',fuerzas:'nav-hoy'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
 // ─── ONBOARDING: cada dato enciende un motor (nombre→Numerología; nacimiento→Astro+Luna+Chino; ciudades→Geo) ───
 const MCHIP_COLORS=['#7bd0ff','#ff9ec7','#cdd6ff','#ffcaa6','#7bf0b0'];
 function chargeMotors(){
@@ -1679,7 +1683,7 @@ function goldYesterday(){
 function placeHoyMotors(r){
   const o=document.getElementById('hoy-orbit');if(!o)return;
   o.querySelectorAll('.hoy-mini').forEach(m=>m.remove());
-  const vals=hoyMotorVals(r), R=92, c=118;
+  const vals=hoyMotorVals(r), R=112, c=142;
   HOY_MOTORS.forEach((m,i)=>{
     const a=(i/HOY_MOTORS.length)*2*Math.PI - Math.PI/2;
     const x=c+R*Math.cos(a), y=c+R*Math.sin(a);
@@ -1698,12 +1702,33 @@ function openHoySheet(i){
   document.getElementById('hoy-sheet-bg').classList.add('show');
 }
 function closeHoySheet(){const bg=document.getElementById('hoy-sheet-bg');if(bg)bg.classList.remove('show');}
-function openComboInfoHoy(){
-  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic">✦</div><div class="hs-horizon">'+L('你的组合 → 你的黄金数字','Your combination → your Golden Number')+'</div><h2>'+L('六个数字中，一个是力量之数','From six numbers, one of power')+'</h2><p>'+L('你的五种古老智慧共同生成六个数字：你今日的组合。再由黄金比例，从中凝出最有力量的一个：你的黄金数字。','Your 5 cosmic forces together generate six numbers: your combination of the day. From it, the golden ratio distills the most powerful one: your Golden Number.')+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('明白了 ✦','Got it ✦')+'</button>';
-  document.getElementById('hoy-sheet-bg').classList.add('show');
+function showFuerzas(){
+  var lr=STATE.lastResult,r=lr&&lr.result,en=(typeof uiLang==='function'&&uiLang()==='en');
+  var setT=function(id,zh,e2){var el=document.getElementById(id);if(el)el.textContent=en?e2:zh;};
+  setT('fz-title','你的五种力量','Your 5 Forces');
+  setT('fz-sub','黄金数字如何诞生','How your Golden Number is born');
+  setT('fz-hint','每一种力量，都为你的数字贡献了一部分。','Each force added its part to your number.');
+  var g=document.getElementById('fz-num');if(g)g.textContent=r?r.golden:'—';
+  var vals=r?hoyMotorVals(r):{};
+  var html=HOY_MOTORS.map(function(m){
+    var label=en?m[5]:m[3];var v=(vals[m[0]]!=null?vals[m[0]]:'—');var txt=(en?m[6]:m[4]).replace('{v}',v);
+    return '<div class="fz-card"><div class="fz-badge" style="color:'+m[2]+';border-color:'+m[2]+'66"><span class="fz-ic">'+m[1]+'</span><span class="fz-val">'+v+'</span></div><div><div class="fz-name">'+label+'</div><div class="fz-text">'+txt+'</div></div></div>';
+  }).join('');
+  var list=document.getElementById('fuerzas-list');if(list)list.innerHTML=html;
+  showTab('fuerzas');
 }
 // ─── NUMA — Oráculo Guiado ───
-const NUMA_ZH={questions:[{id:'buen-dia',label:'🌟 今天的能量适合我吗？'},{id:'numero',label:'🔢 我今天的数字是？'},{id:'arriesgar',label:'⚡ 现在适合行动吗？'},{id:'energia',label:'✨ 今天我的能量如何？'},{id:'libre',label:'🔒 自由提问 — 即将开放',locked:true}],greet:['{nombre} ✦ 此刻的能量刚刚落定。我是 NUMA——不替你决定，只帮你更听得懂自己。今天，你想探索哪一面？','你好，{nombre} 🔮 我是 NUMA，你的能量向导。今日的数字在你身上落下了一些痕迹，我陪你一起照见。你想问什么？','{nombre}，我在这儿等你 ✨ 我是 NUMA。今天的数字，我已替你听过一遍——想从哪里说起？'],q1:{yes:['适合，而且很适合。✨ 你的数字（{personal}）与今日的能量（{dia}）正好合拍——像两条河汇到了一处。心里那件事，今天推它一把，会走得比你想的更顺。','信号都站在你这边，{nombre}。今天你的能量与当日的能量同频，稳稳往前走就好。','今天顺，{nombre}。你的数字和今日之数一起流动——别让这股势白白过去。'],mid:['今天是平的一天。能量不推也不拦——带着清楚的心意做事，不用力过猛，也不必焦虑。','力量各半，{nombre}。若要动，就带着一份安静去动，而不是一时冲动。','平稳的一天，{nombre}。信里面的那份觉察，别信外面的催促；看清方向，再迈步。'],no:['今天，静比动好。你的能量还没和今日之数对上——把力气留给更合适的时机。','今天适合放慢，{nombre}。不是冒进的日子，明天能量会换一副样子。','今天，耐心是上策。机会会回来的，而且到时你更有底气。']},q2:['今天，{poder} 是你的核心之数；{a} 和 {b} 在旁边托着你；与你相应的颜色是{color}。把它们放在心上，你会在今天的小事里，一次次遇见它们。','今日你共振于 {poder}，{nombre}。{a} 与 {b} 是你的帮手 · 颜色{color}。','{poder} 是你今天的中心。此刻陪着你的能量数字：{a} 与 {b} · 颜色{color}。留意它们，它们也在留意你。'],q3:{yes:['今天，可以动。能量站在你这边——若心里有股劲儿，就跟着它走。','现在是你的时刻，{nombre}。这样的日子，清醒地出手，会有回响。','今天有力。若要迈步，就在今天，带着底气往前。'],no:['今天，能量偏静。这是观察和蓄力的时候，别急着出手——等它回升，再走。','稳住，{nombre}。今天的能量更想让你停一停、往内看，而不是向外用力。','今天需要一颗冷静的头脑，{nombre}。看着、等着，当能量叫你的时候，再动。']},q4:{1:{k:'起步 · 新的开始',t:'你正站在能量的最前头。若有个“想开始却没敢开始”的念头，今天，就是替它迈出第一步的日子。别怕。'},2:{k:'平静 · 协作',t:'今天的能量很柔。适合耐心、倾听与配合，让事情按它自己的节奏慢慢展开。'},3:{k:'创造 · 喜悦',t:'你的能量在发光。今天适合表达、与人相聚，做那些让你打心底高兴的事。'},4:{k:'扎实 · 根基',t:'今天适合把地基打牢。专注在秩序、稳当的行动和能长久的东西上。'},5:{k:'变化 · 流动',t:'今天有股想动的劲儿。变化与探索的能量在涌，对没料到的事，保持一点好奇和开放。'},6:{k:'温柔 · 家',t:'今天心是软的。适合把目光放回感情、家人，和那些你真正在乎的人事上。'},7:{k:'直觉 · 向内',t:'今天，是往里看的日子。你的直觉此刻很准——做决定前，先听听心里的声音。'},8:{k:'意志 · 丰盛',t:'今天你有底气。适合处理实实在在的事，做那些需要担当的决定。'},9:{k:'圆满 · 收束',t:'今天是收尾与放下的时候。松开旧的，才有空间迎接要来的。'},11:{k:'高阶直觉 · 启明',t:'你的感受力正处高峰。在动脑分析之前，先信一信你直接感受到的。'},22:{k:'建造之力 · 愿景',t:'22 是宇宙的建筑师。今天适合带着心意去做一件大事——你的能量，有把想法落成真实的力量。'},33:{k:'爱与奉献 · 提升',t:'33 是无条件之爱的频率。今天适合给予、把和谐带给身边，从心最深处与人相连。'}}};
+const NUMA_ZH={questions:[{id:'buen-dia',label:'🌟 今天的能量适合我吗？'},{id:'numero',label:'🔢 我今天的数字是？'},{id:'arriesgar',label:'⚡ 现在适合行动吗？'},{id:'energia',label:'✨ 今天我的能量如何？'},{id:'amor',label:'💗 那爱情呢？'},{id:'trabajo',label:'💼 那工作呢？'},{id:'dinero',label:'💰 那金钱呢？'},{id:'cuidar',label:'🛡 今天该留意什么？'},{id:'fuerza',label:'🌟 我最高的力量是？'},{id:'conecto',label:'🤝 我该与谁相连？'},{id:'eleva',label:'🔋 如何提升我的能量？'},{id:'semana',label:'🗓 这一周会带来什么？'}],greet:['{nombre} ✦ 此刻的能量刚刚落定。我是 NUMA——不替你决定，只帮你更听得懂自己。今天，你想探索哪一面？','你好，{nombre} 🔮 我是 NUMA，你的能量向导。今日的数字在你身上落下了一些痕迹，我陪你一起照见。你想问什么？','{nombre}，我在这儿等你 ✨ 我是 NUMA。今天的数字，我已替你听过一遍——想从哪里说起？'],q1:{yes:['适合，而且很适合。✨ 你的数字（{personal}）与今日的能量（{dia}）正好合拍——像两条河汇到了一处。心里那件事，今天推它一把，会走得比你想的更顺。','信号都站在你这边，{nombre}。今天你的能量与当日的能量同频，稳稳往前走就好。','今天顺，{nombre}。你的数字和今日之数一起流动——别让这股势白白过去。'],mid:['今天是平的一天。能量不推也不拦——带着清楚的心意做事，不用力过猛，也不必焦虑。','力量各半，{nombre}。若要动，就带着一份安静去动，而不是一时冲动。','平稳的一天，{nombre}。信里面的那份觉察，别信外面的催促；看清方向，再迈步。'],no:['今天，静比动好。你的能量还没和今日之数对上——把力气留给更合适的时机。','今天适合放慢，{nombre}。不是冒进的日子，明天能量会换一副样子。','今天，耐心是上策。机会会回来的，而且到时你更有底气。']},q2:['今天，{poder} 是你的核心之数；{a} 和 {b} 在旁边托着你；与你相应的颜色是{color}。把它们放在心上，你会在今天的小事里，一次次遇见它们。','今日你共振于 {poder}，{nombre}。{a} 与 {b} 是你的帮手 · 颜色{color}。','{poder} 是你今天的中心。此刻陪着你的能量数字：{a} 与 {b} · 颜色{color}。留意它们，它们也在留意你。'],q3:{yes:['今天，可以动。能量站在你这边——若心里有股劲儿，就跟着它走。','现在是你的时刻，{nombre}。这样的日子，清醒地出手，会有回响。','今天有力。若要迈步，就在今天，带着底气往前。'],no:['今天，能量偏静。这是观察和蓄力的时候，别急着出手——等它回升，再走。','稳住，{nombre}。今天的能量更想让你停一停、往内看，而不是向外用力。','今天需要一颗冷静的头脑，{nombre}。看着、等着，当能量叫你的时候，再动。']},q4:{1:{k:'起步 · 新的开始',t:'你正站在能量的最前头。若有个“想开始却没敢开始”的念头，今天，就是替它迈出第一步的日子。别怕。'},2:{k:'平静 · 协作',t:'今天的能量很柔。适合耐心、倾听与配合，让事情按它自己的节奏慢慢展开。'},3:{k:'创造 · 喜悦',t:'你的能量在发光。今天适合表达、与人相聚，做那些让你打心底高兴的事。'},4:{k:'扎实 · 根基',t:'今天适合把地基打牢。专注在秩序、稳当的行动和能长久的东西上。'},5:{k:'变化 · 流动',t:'今天有股想动的劲儿。变化与探索的能量在涌，对没料到的事，保持一点好奇和开放。'},6:{k:'温柔 · 家',t:'今天心是软的。适合把目光放回感情、家人，和那些你真正在乎的人事上。'},7:{k:'直觉 · 向内',t:'今天，是往里看的日子。你的直觉此刻很准——做决定前，先听听心里的声音。'},8:{k:'意志 · 丰盛',t:'今天你有底气。适合处理实实在在的事，做那些需要担当的决定。'},9:{k:'圆满 · 收束',t:'今天是收尾与放下的时候。松开旧的，才有空间迎接要来的。'},11:{k:'高阶直觉 · 启明',t:'你的感受力正处高峰。在动脑分析之前，先信一信你直接感受到的。'},22:{k:'建造之力 · 愿景',t:'22 是宇宙的建筑师。今天适合带着心意去做一件大事——你的能量，有把想法落成真实的力量。'},33:{k:'爱与奉献 · 提升',t:'33 是无条件之爱的频率。今天适合给予、把和谐带给身边，从心最深处与人相连。'}},
+extra:{
+amor:['今天的爱里，{nombre}，你的能量（{personal}）想要的是真实。做你自己就好——真正的连接，从这里开始生长。','今天，心是敞开的。一个真诚的举动，胜过千言万语。让它自然流动吧，{nombre}。'],
+trabajo:['今天在工作上，你的力量之数是 {poder}：把这股能量收拢在一件要紧的事上，把它做完。','今天适合专注前行，{nombre}。少一分分散，多一分深入——这就是你今天的优势。'],
+dinero:['今天谈钱，{nombre}：清醒先于冲动。做决定前多看一眼，别让情绪替你花钱。','今天适合把物质上的事情理清楚。你的数字 {poder} 更偏爱深思熟虑，而非仓促决定。'],
+cuidar:['今天，好好守着自己的能量，{nombre}：别把它耗在无谓的争执上。选你真正要打的仗。','今天留意过度——工作过度、匆忙过度，或言语过度。平衡，是你今天最好的同伴。'],
+fuerza:['你今天最高的力量，是直觉，{nombre}。先信那第一感觉，再去分析它。','今天，你最大的力量是坚持。细水长流，比一时的冲劲走得更远。'],
+conecto:['今天，你与那些和你一样平静的人最合拍，{nombre}。多找滋养你的对话，少些消耗你的。','今天的能量，把志趣相投的人带到你身边。一次真诚的交谈，可能开启新的一页。'],
+eleva:['想要提升今天的能量，{nombre}：动起来，深呼吸，放开那些你控制不了的事。','一个小小的仪式今天就能为你充电——水、户外的风，或一段音乐。回到你的中心，其余的自会归位。'],
+semana:['这一周带着流动而来，{nombre}。你的能量（{personal}）正朝 {poder} 上升：用它去开始一件你一直拖延的事。','这是播种的一周。此刻带着心意开始的事，会在未来几天结出果实。']
+}};
 const NUMA_DATA={
   questions:{
     es:[
@@ -1711,14 +1736,28 @@ const NUMA_DATA={
       {id:'numero',label:'🔢 ¿Mi número del día?'},
       {id:'arriesgar',label:'⚡ ¿Es momento de actuar?'},
       {id:'energia',label:'✨ ¿Cómo vibro hoy?'},
-      {id:'libre',label:'🔒 Pregunta libre — pronto',locked:true}
+      {id:'amor',label:'💗 ¿Y en el amor?'},
+      {id:'trabajo',label:'💼 ¿Y en el trabajo?'},
+      {id:'dinero',label:'💰 ¿Y en el dinero?'},
+      {id:'cuidar',label:'🛡 ¿Qué debo cuidar hoy?'},
+      {id:'fuerza',label:'🌟 ¿Mi fuerza más alta?'},
+      {id:'conecto',label:'🤝 ¿Con quién conecto?'},
+      {id:'eleva',label:'🔋 ¿Cómo elevo mi energía?'},
+      {id:'semana',label:'🗓 ¿Qué me trae la semana?'}
     ],
     en:[
       {id:'buen-dia',label:'🌟 Is this my moment?'},
       {id:'numero',label:'🔢 My number today?'},
       {id:'arriesgar',label:'⚡ Time to act today?'},
       {id:'energia',label:'✨ How do I vibrate today?'},
-      {id:'libre',label:'🔒 Free question — soon',locked:true}
+      {id:'amor',label:'💗 And in love?'},
+      {id:'trabajo',label:'💼 And at work?'},
+      {id:'dinero',label:'💰 And with money?'},
+      {id:'cuidar',label:'🛡 What to watch today?'},
+      {id:'fuerza',label:'🌟 My strongest force?'},
+      {id:'conecto',label:'🤝 Who do I connect with?'},
+      {id:'eleva',label:'🔋 How to raise my energy?'},
+      {id:'semana',label:'🗓 What does the week bring?'}
     ]
   },
   greet:{
@@ -1755,6 +1794,16 @@ const NUMA_DATA={
     es:{1:{k:'Impulso · nuevos comienzos',t:'Hoy lideras. Es un día para empezar algo y dar el primer paso sin miedo.'},2:{k:'Calma · equilibrio',t:'Hoy vibras en calma. Día de paciencia, acuerdos y dejar que las cosas fluyan.'},3:{k:'Creatividad · alegría',t:'Tu energía brilla. Día de expresarte, socializar y disfrutar lo que te gusta.'},4:{k:'Estructura · esfuerzo',t:'Hoy es de construir. Día de orden, trabajo firme y bases sólidas.'},5:{k:'Cambio · movimiento',t:'El día pide acción. Energía de cambio, aventura y abrirte a lo inesperado.'},6:{k:'Amor · hogar',t:'Hoy late el corazón. Día de afectos, familia y cuidar lo que importa.'},7:{k:'Intuición · misterio',t:'Día de mirar adentro. Tu intuición está fina: escúchala antes de decidir.'},8:{k:'Poder · abundancia',t:'Energía de poder y abundancia. Día fuerte para lo material y las grandes decisiones.'},9:{k:'Cierre · culminación',t:'Día de cerrar ciclos. Suelta lo viejo para hacer espacio a lo que viene.'},11:{k:'Número maestro · intuición elevada',t:'Vibras en el 11 hoy: el número de la iluminación. Tu sensibilidad está en su pico más alto. Confía en lo que percibes antes de analizarlo.'},22:{k:'Número maestro · poder de construir',t:'Hoy el 22 te acompaña: el arquitecto del cosmos. Es un día para hacer algo grande con intención. Tu energía tiene el poder de materializar ideas.'},33:{k:'Número maestro · amor y servicio',t:'El 33 resuena hoy: la frecuencia del amor incondicional. Día de dar, crear armonía y conectar desde lo más profundo.'}},
     en:{1:{k:'Impulse · new beginnings',t:'You lead today. A day to start something and take the first step without fear.'},2:{k:'Calm · balance',t:'You vibrate in calm today. Day of patience, agreements and letting things flow.'},3:{k:'Creativity · joy',t:'Your energy shines. Day to express yourself, socialize and enjoy what you love.'},4:{k:'Structure · effort',t:'Today is for building. Day of order, solid work and firm foundations.'},5:{k:'Change · movement',t:'The day calls for action. Energy of change, adventure and openness to the unexpected.'},6:{k:'Love · home',t:'The heart beats today. Day of affection, family and caring for what matters.'},7:{k:'Intuition · mystery',t:'Day to look inward. Your intuition is sharp: listen to it before deciding.'},8:{k:'Power · abundance',t:'Energy of power and abundance. A strong day for material matters and big decisions.'},9:{k:'Closure · culmination',t:'Day to close cycles. Release the old to make space for what is coming.'},11:{k:'Master number · elevated intuition',t:'You vibrate on 11 today: the number of illumination. Your sensitivity is at its peak. Trust what you perceive before you analyze it.'},22:{k:'Master number · power to build',t:'The 22 is with you today: the cosmic architect. A day to do something great with intention. Your energy has the power to bring ideas into reality.'},33:{k:'Master number · love and service',t:'The 33 resonates today: the frequency of unconditional love. A day to give, create harmony and connect from your deepest self.'}}
   }
+};
+NUMA_DATA.extra={
+  amor:{es:['En el amor hoy, {nombre}, tu energía ({personal}) pide autenticidad. Muéstrate tal como eres — la conexión verdadera nace de ahí.','El corazón está receptivo hoy. Un gesto sincero vale más que mil palabras. Deja que fluya, {nombre}.'],en:['In love today, {nombre}, your energy ({personal}) calls for authenticity. Show up as you are — true connection is born there.','The heart is receptive today. A sincere gesture is worth more than a thousand words. Let it flow, {nombre}.']},
+  trabajo:{es:['En el trabajo hoy tu número de poder es el {poder}: canaliza esa energía en una sola tarea importante y termínala.','Día para avanzar con foco, {nombre}. Menos dispersión, más profundidad — ahí está tu ventaja hoy.'],en:['At work today your power number is {poder}: channel that energy into one important task and finish it.','A day to move with focus, {nombre}. Less scattering, more depth — that is your edge today.']},
+  dinero:{es:['Con el dinero hoy, {nombre}: claridad antes que impulso. Revisa bien antes de decidir y evita gastos por emoción.','Día de orden con lo material. Tu número {poder} favorece las decisiones pensadas, no las apresuradas.'],en:['With money today, {nombre}: clarity before impulse. Review carefully before deciding and avoid emotional spending.','A day for order with material matters. Your number {poder} favors thoughtful decisions, not rushed ones.']},
+  cuidar:{es:['Hoy cuida tu energía, {nombre}: no la gastes en discusiones que no llevan a nada. Elige tus batallas.','Vigila el exceso hoy — de trabajo, de prisa o de palabras. El equilibrio es tu mejor aliado.'],en:['Today guard your energy, {nombre}: do not spend it on arguments that lead nowhere. Choose your battles.','Watch out for excess today — of work, haste or words. Balance is your best ally.']},
+  fuerza:{es:['Tu fuerza más alta hoy es tu intuición, {nombre}. Confía en esa primera sensación antes de razonarla.','Hoy tu mayor fuerza es la constancia. Lo pequeño y sostenido te lleva más lejos que un gran impulso.'],en:['Your strongest force today is your intuition, {nombre}. Trust that first feeling before you reason it away.','Today your greatest strength is constancy. Small and steady takes you further than one big push.']},
+  conecto:{es:['Hoy conectas mejor con quien comparte tu calma, {nombre}. Busca conversaciones que sumen, no que agoten.','La energía de hoy te acerca a personas afines. Una charla honesta puede abrir algo nuevo.'],en:['Today you connect best with those who share your calm, {nombre}. Seek conversations that add, not drain.','Today energy brings you closer to like-minded people. An honest talk may open something new.']},
+  eleva:{es:['Para elevar tu energía hoy, {nombre}: muévete, respira profundo y suelta lo que no controlas.','Un pequeño ritual te recarga hoy — agua, aire libre o música. Vuelve a tu centro y el resto se acomoda.'],en:['To raise your energy today, {nombre}: move, breathe deep and release what you do not control.','A small ritual recharges you today — water, fresh air or music. Return to your center and the rest falls into place.']},
+  semana:{es:['La semana trae movimiento, {nombre}. Tu energía ({personal}) sube hacia el {poder}: úsala para empezar algo que venías posponiendo.','Semana de siembra. Lo que pongas en marcha ahora con intención dará fruto en los próximos días.'],en:['The week brings movement, {nombre}. Your energy ({personal}) rises toward {poder}: use it to start something you have been postponing.','A week for sowing. What you set in motion now with intention will bear fruit in the coming days.']}
 };
 function numaGetDayNum(){const t=new Date(),s=`${t.getFullYear()}${t.getMonth()+1}${t.getDate()}`;return numReduce([...s].reduce((a,c)=>a+parseInt(c),0));}
 function numaHarmony(lp,dn){const s=numReduce(lp+dn);const m={1:82,2:58,3:36,4:42,5:88,6:65,7:72,8:92,9:60,11:91,22:96,33:88};const b=m[s]||65,v=((new Date().getDate()+new Date().getMonth())%7)*2-6;return Math.min(98,Math.max(18,b+v));}
@@ -1802,6 +1851,8 @@ function numaAsk(q){
     else if(q==='numero'){const d=lang==='zh'?NUMA_ZH.q2:(NUMA_DATA.q2[lang]||NUMA_DATA.q2.es);resp=numaFill(numaRand(d),vars);}
     else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=(lang==='zh'?NUMA_ZH.q3:(NUMA_DATA.q3[lang]||NUMA_DATA.q3.es))[tier];resp=numaFill(numaRand(d),vars);}
     else if(q==='energia'){const q4L=lang==='zh'?NUMA_ZH.q4:(NUMA_DATA.q4[lang]||NUMA_DATA.q4.es);const d=q4L[vars.dayNum]||q4L[1];resp=lang==='en'?`<strong style="color:var(--gold)">Today you vibrate in ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`:`<strong style="color:var(--gold)">今天你共振于 ${vars.dayNum}：${d.k}。</strong><br>${d.t}`;}
+    else if(lang==='zh'&&NUMA_ZH.extra&&NUMA_ZH.extra[q]){resp=numaFill(numaRand(NUMA_ZH.extra[q]),vars);}
+    else if(NUMA_DATA.extra&&NUMA_DATA.extra[q]){const d=NUMA_DATA.extra[q][lang]||NUMA_DATA.extra[q].es;resp=numaFill(numaRand(d),vars);}
     if(resp)numaAddBubble(resp,false,700);
     else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ 能量正在处理你的问题……',false,700);
   }catch(e){console.error('[NUMA]',e);numaAddBubble(lang==='en'?'✦ The stars are aligning... try again.':'✦ 星辰正在对齐……请再试一次。',false,400);}
@@ -1917,9 +1968,8 @@ function renderDuelResult(duel,name){
   const ipw=document.getElementById('interp-power');if(ipw&&L==='zh'&&typeof TRANSLATIONS!=='undefined'&&TRANSLATIONS.zh&&TRANSLATIONS.zh.interpPower)ipw.textContent=TRANSLATIONS.zh.interpPower;
   document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}','');
   document.getElementById('interp-closer').innerHTML=T.closer;
-  // Tarjeta Mundial bajo motores: oculta si el resultado YA es Mundial · Upsell dorado solo en Mundial
-  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display=STATE.game==='mundial'?'none':'block';
-  const up=document.getElementById('wc-upsell');if(!up)return;
+  // Upsell dorado solo en Mundial
+  (function(){const up=document.getElementById('wc-upsell');if(!up)return;
   if(STATE.game!=='mundial'||isPro()){up.style.display='none';return;}
   const used=STATE.consultsToday>=1;
   up.innerHTML=L==='zh'?(used?'✦ 想要更多？用 <strong>Pro</strong> 解锁无限解读 →':'✦ 看看<strong>你的专属数字</strong>今天如何振动 → 免费个人解读')
@@ -2012,7 +2062,7 @@ function generateCompat(){
   showTab('result');
   const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode','orbit-mode');}
   // Ocultar secciones normales, mostrar compat
-  const hide=['golden-section','combo-title-wrap-top','numbers-display','wc-nums-hint','chance-hint','power-seal','duel-result-section','pro-cta-mid','motors-row','motor-panel','wc-result-card'];
+  const hide=['golden-section','combo-title-wrap-top','numbers-display','wc-nums-hint','chance-hint','power-seal','duel-result-section','pro-cta-mid','motors-row','motor-panel'];
   hide.forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='none';el.classList.add('hidden');}});
   document.getElementById('compat-result-section').classList.remove('hidden');
   // Header
@@ -2088,7 +2138,6 @@ function accUpdate(){
       else{sum.textContent=i===2?accFmtDate(document.getElementById('inp-birth').value):accVal(i)}
     }
   }
-  const p=document.getElementById('acc-progress');if(p)p.textContent=L('第 ','Step ')+ACC_OPEN+L(' / 5 步',' of 5');
 }
 function accInit(){try{accLockProfile()}catch(e){}accOpenStep(accFirstEmpty(),false)}
 function editProfileData(){for(let i=1;i<=4;i++){const el=document.getElementById('acc-'+i);if(el)el.classList.remove('profile-locked');}showTab('form');accOpenStep(1,true);}
@@ -2333,8 +2382,8 @@ function renderResult(r,name){
   const proBannerBottom=document.getElementById('pro-banner-bottom');
   if(proCta) proCta.style.display=isPro()?'none':'block';
   if(proBannerBottom) proBannerBottom.style.display='none'; // siempre oculto, CTA mid es suficiente
-  // Tarjeta Mundial bajo los 5 motores (resultado personal) · upsell oculto
-  (function(){const wc=document.getElementById('wc-result-card');if(wc)wc.style.display='block';const up=document.getElementById('wc-upsell');if(up)up.style.display='none';})();
+  // Upsell oculto en resultado personal
+  (function(){const up=document.getElementById('wc-upsell');if(up)up.style.display='none';})();
   // Ocultar sección duelo y mostrar numbers-display en modo normal
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
@@ -2348,11 +2397,10 @@ function renderResult(r,name){
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   // NÚMERO DE ORO
   document.getElementById('golden-orb').textContent=r.golden;document.getElementById('golden-orb').style.fontSize='';
-  buildOrbit(r);
   document.getElementById('golden-phi').innerHTML=uiLang()==='en'
     ?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`
     :`这个数字<strong>不是你的生命数字</strong>——它不同，也更有力量：它诞生于<strong>你五种力量与今日能量的交融</strong>。你的生命数字（${r.lp}）恒定不变，而黄金数字每天都随月相、中国历法与当日的能量流转。正是从这场交融中，浮现出<strong>${r.golden}</strong>——此刻与你最契合的数字。`;
-  const inplayEl=document.getElementById('golden-inplay');
+  const inplayEl=document.getElementById('golden-inplay');inplayEl.style.display='';
   if(r.goldenInPlay){inplayEl.textContent=L('✦ 已融入你今日的能量','✦ Present in your energy today');inplayEl.style.color='var(--teal)';inplayEl.style.borderColor='rgba(61,191,168,.3)';}
   else{inplayEl.textContent=L('✦ 启迪你的仪式数字','✦ Ceremonial number of inspiration');inplayEl.style.color='var(--gold)';inplayEl.style.borderColor='rgba(201,168,76,.3)';}
   const d=document.getElementById('numbers-display');d.innerHTML='';
@@ -2386,6 +2434,19 @@ function renderResult(r,name){
   // SELLO según juego
   const seals=uiLang()==='en'?{daily:'VIBRATION SEALED',lottery:'VIBRATION SEALED',chance:'DIGITS REVEALED',destiny:'SEQUENCE REVEALED',casino:'SEQUENCE REVEALED',sports:'SPORTS ENERGY'}:{daily:'振动已封印',lottery:'振动已封印',chance:'数字已揭示',destiny:'序列已揭示',casino:'序列已揭示',sports:'体育能量'};
   document.getElementById('seal-text').textContent=seals[STATE.game]||L('组合已封印','COMBINATION SEALED');
+  if(STATE.game==='destiny'){
+    var _en=uiLang()==='en',_lp=r.lp;
+    var _q4=(STATE.lang==='zh'?NUMA_ZH.q4:(NUMA_DATA.q4[_en?'en':'es']))||{};var _dm=_q4[_lp]||_q4[1]||{k:'',t:''};
+    var _go=document.getElementById('golden-orb');if(_go){_go.textContent=_lp;_go.style.fontSize='';}
+    var _gl=document.getElementById('golden-label');if(_gl)_gl.textContent=_en?'✦ Your Destiny Number ✦':'✦ 你的命运数字 ✦';
+    var _gs=document.getElementById('golden-sublabel');if(_gs)_gs.textContent=_en?'The number you were born with · it never changes':'你与生俱来的数字 · 永远不变';
+    var _gp=document.getElementById('golden-phi');
+    if(_gp)_gp.innerHTML=_en
+      ?('Your destiny number is <strong>'+_lp+'</strong> — <strong>'+_dm.k+'</strong>. Unlike your daily number, this one <strong>never changes</strong>: it is the vibration you were born with, distilled from your full name and date of birth — the core of who you are. '+_dm.t)
+      :('你的命运数字是 <strong>'+_lp+'</strong> ——<strong>'+_dm.k+'</strong>。与你的每日数字不同，这个数字<strong>永远不变</strong>：它是你与生俱来的振动，从你的全名与出生日期中提炼而来——是你之所以为你的核心。'+_dm.t);
+    var _ip=document.getElementById('golden-inplay');if(_ip)_ip.style.display='none';
+    var _rc=document.getElementById('renew-countdown');if(_rc)_rc.style.display='none';
+  }
 }
 function newConsult(){goBackToForm()}
 function toggleAccordion(id){const body=document.getElementById(id);const btn=body.previousElementSibling;const arrow=btn.querySelector('.acc-arrow');const isOpen=body.classList.contains('open');body.classList.toggle('open');arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)'}
@@ -2483,12 +2544,9 @@ const UI_EN=[
 ['#hoy-daypill','✦ Your Golden Number today · changes in 24 h'],
 ['#hoy-goldlbl','Golden Number'],
 ['#hoy-combo-sub','<b>Your combination of the day.</b> Six numbers the cosmos aligned just for you today.','html'],
-['#hoy-cominfo','✦ How is your Golden Number born? →'],
-['#hoy-wc','🏆 World Cup 2026 — Free unlimited prediction →'],
+['#hoy-door','✦ What did each of your 5 forces add? →'],
 ['#hoy-numa-who','🔮 NUMA read your numbers today'],
 ['#hoy-numa-btn','Ask NUMA →'],
-['#hoy-sect','Why these numbers'],
-['#hoy-sub2','Tap any engine in the orbit to see what it added today. Each force left its mark on your combination.'],
 ['#hoy-disc','ℹ️ Numbers is entertainment and personal inspiration.'],
 ['#landing-btns-user .btn-primary','✦ See my numbers today ✦'],
 ['.landing-disclaimer','ℹ️ Entertainment · Personal inspiration · Self-knowledge'],
@@ -2519,8 +2577,8 @@ const UI_EN=[
 ['#eng-chi .eng-name','Chinese'],
 ['#eng-geo .eng-name','Geoenergy'],
 ['.form-title','✦ Enter your energy ✦'],
-['#mcharge-lead','Charge your 5 engines'],
-['#mcharge-sub','Each detail lights an engine. When all five glow, your Golden Number is born.'],
+['#mcharge-lead','Charge your 5 forces'],
+['#mcharge-sub','Each detail lights a force. When all five glow, your Golden Number is born.'],
 ['#mchips .mchip[data-m="0"] .mchip-lbl','Numerology'],
 ['#mchips .mchip[data-m="1"] .mchip-lbl','Astrology'],
 ['#mchips .mchip[data-m="2"] .mchip-lbl','Moon'],
@@ -2586,12 +2644,11 @@ const UI_EN=[
 ['#tab-oraculos .game-card[data-game="mundial"] .gd','Who wins the match? Free and unlimited.'],
 ['#tab-oraculos .game-card[data-game="sports"] .gd','Predict any match of the year.'],
 ['.game-card[data-game="mundial"] .free-badge','✦ FREE'],
-['#wc-result-card .gd','Who wins the next match? Your 5 engines predict it · Free & unlimited'],
 ['#card-hint','↑ Complete your personal details to reveal your numbers'],
 ['#sport-selector-wrap .duel-fields-intro','🏆 Select the sport and the two rivals'],
 ['#mundial-duel-intro .duel-fields-intro','🏆 Choose the two teams of the match to predict'],
 ['#wc-match-label','📅 Official match — FIFA schedule'],
-['#wc-match-hint','✦ The match date and venue feed the 5 engines'],
+['#wc-match-hint','✦ The match date and venue feed your 5 forces'],
 ['#label-team-a','🔵 Team A / Home'],
 ['#label-team-b','🔴 Team B / Away'],
 ['#inp-team-a','E.g.: Argentina, Brazil, Real Madrid...','ph'],
@@ -2615,7 +2672,7 @@ const UI_EN=[
 ['#pro-cta-mid .btn-pct','I want to be among the first →'],
 ['.motors-row .motor-chip:nth-child(3) .motor-name','Moon'],
 ['.motors-row .motor-chip:nth-child(4) .motor-name','Chinese'],
-['.accordion-block:has(#acc-motors) .accordion-toggle','☿ Why these numbers? — Tap to view <span class="acc-arrow">↓</span>','html'],
+['.accordion-block:has(#acc-motors) .accordion-toggle','✦ What did each of your 5 forces add? →','html'],
 ['.accordion-block:has(#acc-interp) .accordion-toggle','✦ Reveal the meaning of your numbers — Tap to view <span class="acc-arrow">↓</span>','html'],
 ['#interp-power','✦ Why these numbers are powerful ✦'],
 ['.disclaimer-text','ℹ️ Numbers is entertainment and personal inspiration.'],
@@ -2627,7 +2684,7 @@ const UI_EN=[
 ['#tab-profile .btn-primary','⬆ Activate Pro — from $3.99 USD/mo'],
 ['#tab-profile .btn-secondary','Log out'],
 ['.history-title','Reading history'],
-['.upgrade-sub','Unlock the full power of the five cosmic engines. No limits. No restrictions.'],
+['.upgrade-sub','Unlock the full power of the five cosmic forces. No limits. No restrictions.'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(1)','<span class="check">✓</span>1 free reading per day','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(2)','<span class="check">✓</span>3 games (Day + Quick + World Cup 🏆)','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(3)','<span class="check">✓</span>Golden Number of the day','html'],
@@ -2715,6 +2772,8 @@ zh:{unlockT:'\u2726 \u60a8\u7684\u89e3\u8bfb\u7ed3\u5c3e\u5df2\u88ab\u5c01\u5370
 function applyShareI18n(){const t=I18N_NEW[uiLang()];const b=document.getElementById('btn-share-main');if(b)b.textContent=t.shareBtn;const h=document.getElementById('share-hint');if(h)h.textContent=t.shareHint;updateRenewCountdown();}
 function updateRenewCountdown(){
   const el=document.getElementById('renew-countdown');if(!el)return;
+  if(typeof STATE!=='undefined'&&STATE.game==='destiny'){el.style.display='none';return;}
+  el.style.display='';
   const now=new Date();const mid=new Date(now);mid.setHours(24,0,0,0);
   const diff=mid-now;const h=Math.floor(diff/3600000);const m=Math.floor(diff%3600000/60000);
   el.textContent=I18N_NEW[uiLang()].renew.replace('{h}',h).replace('{m}',m);
@@ -3210,7 +3269,7 @@ document.addEventListener('DOMContentLoaded',function(){
 .conv-orb b{font-family:'JetBrains Mono',monospace;font-size:10px;position:absolute;bottom:-15px;font-weight:500;white-space:nowrap}
 .conv-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.4);width:120px;height:120px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;background:radial-gradient(circle at 50% 40%,rgba(201,168,76,.32),rgba(201,168,76,.02) 70%);transition:opacity .8s ease,transform .8s cubic-bezier(.2,1.4,.4,1)}
 .conv-center.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.conv-num{font-family:'Cinzel Decorative',serif;font-size:60px;font-weight:900;color:#f5e4b0;text-shadow:0 0 26px rgba(201,168,76,.7);animation:convpulse 2.6s infinite ease-in-out}
+.conv-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:66px;font-weight:600;font-feature-settings:'lnum' 1;color:#f5e4b0;text-shadow:0 0 26px rgba(201,168,76,.7);animation:convpulse 2.6s infinite ease-in-out}
 .conv-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:#a99fc4;text-transform:uppercase;margin-top:6px}
 @keyframes convpulse{0%,100%{text-shadow:0 0 20px rgba(201,168,76,.5)}50%{text-shadow:0 0 40px rgba(201,168,76,.95)}}
 .conv-cap{margin-top:30px;font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:#e8c97a;text-align:center;min-height:26px;padding:0 24px;transition:opacity .3s}
