@@ -207,23 +207,18 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 /* ===== HOY v2 — pantalla limpia fiel al prototipo ===== */
 #tab-hoy{text-align:center}
 #tab-hoy .hoy-daypill{font-family:'JetBrains Mono',monospace;display:inline-block;margin:2px auto 0;font-size:10.5px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:6px 14px;letter-spacing:.08em;text-transform:uppercase}
-#tab-hoy .hoy-orbit{position:relative;width:236px;height:236px;margin:16px auto 4px}
-#tab-hoy .hoy-ring{position:absolute;left:50%;top:50%;border-radius:50%;border:1px dashed;pointer-events:none}
-#tab-hoy .hoy-ring.r1{width:236px;height:236px;margin:-118px 0 0 -118px;border-color:rgba(123,208,255,.24);animation:spin 46s linear infinite}
-#tab-hoy .hoy-ring.r2{width:184px;height:184px;margin:-92px 0 0 -92px;border-color:rgba(255,158,199,.22);animation:spin 34s linear infinite reverse}
-#tab-hoy .hoy-ring.r3{width:132px;height:132px;margin:-66px 0 0 -66px;border-color:rgba(205,214,255,.22);animation:spin 28s linear infinite}
-#tab-hoy .hoy-gold{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(232,194,107,.30),rgba(232,194,107,.02) 72%)}
-#tab-hoy .hoy-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:64px;font-weight:600;font-feature-settings:'lnum' 1;color:var(--gold3);text-shadow:0 0 22px rgba(201,168,76,.6);line-height:1;animation:goldpulse 2.8s infinite}
+#tab-hoy .hoy-orbit{position:relative;width:284px;height:284px;margin:20px auto 6px}
+#tab-hoy .hoy-ring{position:absolute;left:50%;top:50%;width:232px;height:232px;margin:-116px 0 0 -116px;border-radius:50%;border:1px dashed rgba(201,168,76,.22);pointer-events:none}
+#tab-hoy .hoy-gold{position:absolute;left:50%;top:50%;width:158px;height:158px;margin:-79px 0 0 -79px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(232,194,107,.30),rgba(232,194,107,.02) 72%)}
+#tab-hoy .hoy-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:104px;font-weight:600;font-feature-settings:'lnum' 1;color:var(--gold3);text-shadow:0 0 34px rgba(201,168,76,.55);line-height:1;animation:goldpulse 2.8s infinite}
 #tab-hoy .hoy-goldlbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:5px}
-#tab-hoy .hoy-mini{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1;cursor:pointer;transition:transform .15s}
-#tab-hoy .hoy-mini:active{transform:scale(.9)}
-#tab-hoy .hoy-mini b{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;margin-top:1px}
+#tab-hoy .hoy-mini{position:absolute;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px;line-height:1}
+#tab-hoy .hoy-mini b{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;margin-top:2px}
 #tab-hoy .hoy-combo{display:flex;justify-content:center;gap:9px;margin:0 0 4px;flex-wrap:wrap}
 #tab-hoy .hoy-combo b{font-family:'JetBrains Mono',monospace;width:40px;height:40px;border-radius:10px;background:var(--bg2);border:1px solid rgba(201,168,76,.38);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--gold2);font-weight:500}
 #tab-hoy .hoy-sub{color:var(--muted);font-size:15.5px;line-height:1.5;max-width:320px;margin:30px auto 14px}
 #tab-hoy .hoy-sub b{color:var(--gold2)}
-#tab-hoy .hoy-cominfo{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);letter-spacing:.06em;margin-top:12px;cursor:pointer}
-#tab-hoy .hoy-wc{display:block;width:100%;margin:20px 0 2px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--gold2);background:linear-gradient(90deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:.5px solid rgba(201,168,76,.26);border-radius:13px;padding:12px}
+#tab-hoy .hoy-door{display:block;width:100%;margin:22px 0 4px;cursor:pointer;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:18.5px;color:var(--gold);background:linear-gradient(180deg,rgba(201,168,76,.10),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.4);border-radius:14px;padding:15px}
 .hoy-streak{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold2);text-align:center;margin:2px auto 14px;letter-spacing:.02em;min-height:1.2em}
 .hoy-streak.milestone{animation:streakGlow 1.5s ease}
 @keyframes streakGlow{0%{text-shadow:none}40%{text-shadow:0 0 18px rgba(201,168,76,.85)}100%{text-shadow:none}}
@@ -231,8 +226,6 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-hoy .hoy-numa-who{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase}
 #tab-hoy .hoy-numa p{font-size:16px;line-height:1.55;color:var(--text)}
 .btn-outline-hoy{margin-top:12px;width:100%;background:transparent;color:var(--gold);border:1px solid var(--border);border-radius:12px;padding:12px;font-family:'Cinzel Decorative',serif;font-size:13.5px;cursor:pointer}
-#tab-hoy .hoy-sect{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin:22px 4px 10px;text-align:left}
-#tab-hoy .hoy-sub2{color:var(--muted);font-size:14.5px;line-height:1.5;text-align:left;margin:0 4px}
 #tab-hoy .hoy-disc{color:var(--faint);font-size:12px;margin-top:16px;opacity:.85}
 .hoy-sheet-bg{position:fixed;inset:0;z-index:400;background:rgba(4,2,10,.72);display:none;align-items:flex-end;justify-content:center}
 .hoy-sheet-bg.show{display:flex}
@@ -782,23 +775,18 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
     <div class="form-screen hidden" id="tab-hoy">
       <div class="hoy-daypill" id="hoy-daypill">✦ Tu Número de Oro de hoy · cambia en 24 h</div>
       <div class="hoy-orbit" id="hoy-orbit">
-        <div class="hoy-ring r1"></div>
-        <div class="hoy-ring r2"></div>
-        <div class="hoy-ring r3"></div>
+        <div class="hoy-ring"></div>
         <div class="hoy-gold"><div class="hoy-n" id="hoy-golden">7</div><div class="hoy-goldlbl" id="hoy-goldlbl">Número de Oro</div></div>
       </div>
       <div class="hoy-streak" id="hoy-streak"></div>
       <div class="hoy-sub" id="hoy-combo-sub"><b>Tu combinación del día.</b> Seis números que el cosmos alineó solo para ti hoy.</div>
       <div class="hoy-combo" id="hoy-combo"></div>
-      <div class="hoy-cominfo" id="hoy-cominfo" onclick="openComboInfoHoy()">✦ ¿Cómo nace tu Número de Oro? →</div>
-      <div class="hoy-wc" id="hoy-wc" onclick="wcRibbonGo()">🏆 Mundial 2026 — Predicción gratis e ilimitada →</div>
+      <div class="hoy-door" id="hoy-door" onclick="showFuerzas()">✦ ¿Qué aportó cada una de tus 5 fuerzas? →</div>
       <div class="hoy-numa">
         <div class="hoy-numa-who" id="hoy-numa-who">🔮 NUMA leyó tus números de hoy</div>
         <p id="hoy-numa-text">—</p>
         <button class="btn-outline-hoy" id="hoy-numa-btn" onclick="showTab('numa')">Pregúntale a NUMA →</button>
       </div>
-      <div class="hoy-sect" id="hoy-sect">Por qué estos números</div>
-      <p class="hoy-sub2" id="hoy-sub2">Toca cualquiera de tus 5 fuerzas para ver qué aportó hoy. Cada una dejó su huella en tu combinación.</p>
       <p class="hoy-disc" id="hoy-disc">ℹ️ Numbers es entretenimiento e inspiración personal.</p>
     </div>
     <div class="hoy-sheet-bg" id="hoy-sheet-bg" onclick="if(event.target===this)closeHoySheet()"><div class="hoy-sheet" id="hoy-sheet"></div></div>
@@ -1689,7 +1677,7 @@ function goldYesterday(){
 function placeHoyMotors(r){
   const o=document.getElementById('hoy-orbit');if(!o)return;
   o.querySelectorAll('.hoy-mini').forEach(m=>m.remove());
-  const vals=hoyMotorVals(r), R=92, c=118;
+  const vals=hoyMotorVals(r), R=112, c=142;
   HOY_MOTORS.forEach((m,i)=>{
     const a=(i/HOY_MOTORS.length)*2*Math.PI - Math.PI/2;
     const x=c+R*Math.cos(a), y=c+R*Math.sin(a);
@@ -1722,10 +1710,6 @@ function showFuerzas(){
   }).join('');
   var list=document.getElementById('fuerzas-list');if(list)list.innerHTML=html;
   showTab('fuerzas');
-}
-function openComboInfoHoy(){
-  document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic">✦</div><div class="hs-horizon">'+L('Tu combinación → tu Número de Oro','Your combination → your Golden Number')+'</div><h2>'+L('De seis números, uno de poder','From six numbers, one of power')+'</h2><p>'+L('Tus 5 fuerzas cósmicas generan juntas seis números: tu combinación del día. De esa combinación, la proporción áurea destila el más potente: tu Número de Oro.','Your 5 cosmic forces together generate six numbers: your combination of the day. From it, the golden ratio distills the most powerful one: your Golden Number.')+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('Entendido ✦','Got it ✦')+'</button>';
-  document.getElementById('hoy-sheet-bg').classList.add('show');
 }
 // ─── NUMA — Oráculo Guiado ───
 const NUMA_DATA={
@@ -2536,12 +2520,9 @@ const UI_EN=[
 ['#hoy-daypill','✦ Your Golden Number today · changes in 24 h'],
 ['#hoy-goldlbl','Golden Number'],
 ['#hoy-combo-sub','<b>Your combination of the day.</b> Six numbers the cosmos aligned just for you today.','html'],
-['#hoy-cominfo','✦ How is your Golden Number born? →'],
-['#hoy-wc','🏆 World Cup 2026 — Free unlimited prediction →'],
+['#hoy-door','✦ What did each of your 5 forces add? →'],
 ['#hoy-numa-who','🔮 NUMA read your numbers today'],
 ['#hoy-numa-btn','Ask NUMA →'],
-['#hoy-sect','Why these numbers'],
-['#hoy-sub2','Tap any of your 5 forces to see what it added today. Each one left its mark on your combination.'],
 ['#hoy-disc','ℹ️ Numbers is entertainment and personal inspiration.'],
 ['#landing-btns-user .btn-primary','✦ See my numbers today ✦'],
 ['.landing-disclaimer','ℹ️ Entertainment · Personal inspiration · Self-knowledge'],
