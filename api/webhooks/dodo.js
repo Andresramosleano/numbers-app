@@ -62,8 +62,15 @@ export async function POST(request) {
     seenWebhookIds.add(webhookId);
   }
 
-  // Responder rápido (Dodo da 15s de margen) y procesar después.
-  processEvent(event).catch((err) => console.error('Error procesando webhook Dodo:', err));
+  // Procesar ANTES de responder. No usar "fire-and-forget" aquí: el runtime serverless
+  // puede congelar/matar la función en cuanto se envía la respuesta, dejando la actualización
+  // a Supabase a medias (esto pasó en producción: log mostraba "No outgoing requests" pese a
+  // responder 200). Dodo da 15s de margen, de sobra para un solo UPDATE a Supabase.
+  try {
+    await processEvent(event);
+  } catch (err) {
+    console.error('Error procesando webhook Dodo:', err);
+  }
 
   return Response.json({ received: true });
 }
