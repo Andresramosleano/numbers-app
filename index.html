@@ -2947,8 +2947,9 @@ function detectRegionPricing(){
   const rp=document.getElementById('region-pricing');
   if(!rp) return;
   if(isChina){
-    // China: paquetes de créditos (sin trial, sin consulta individual)
+    // China: paquetes de créditos (sin trial, sin consulta individual). Fase 2 (10 jul 2026): checkout real vía Dodo.
     if(badge) badge.style.display='none';
+    const btn=(plan,label)=>'<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem;width:100%" onclick="startCheckout(\''+plan+'\',this)">'+label+'</button>';
     rp.innerHTML=`
       <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择您的访问方式 ✦</div>
       <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
@@ -2958,6 +2959,7 @@ function detectRegionPricing(){
           <div style="font-size:20px;font-weight:500;color:var(--gold2)">¥48</div>
         </div>
         <div style="font-size:15px;color:var(--muted)">30天不限次数解读 · 单次付款，不自动续费</div>
+        ${btn('china_unlimited','立即解锁 →')}
       </div>
       <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
@@ -2965,6 +2967,7 @@ function detectRegionPricing(){
           <div style="font-size:20px;font-weight:500;color:var(--text)">¥38</div>
         </div>
         <div style="font-size:15px;color:var(--muted)">每次 ¥7.6 · 永久有效</div>
+        ${btn('china_pack5','购买 →')}
       </div>
       <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.5rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
@@ -2972,23 +2975,25 @@ function detectRegionPricing(){
           <div style="font-size:20px;font-weight:500;color:var(--text)">¥28</div>
         </div>
         <div style="font-size:15px;color:var(--muted)">每次 ¥9.3 · 入门之选</div>
+        ${btn('china_pack3','购买 →')}
       </div>
     `;
+    const notifyCn=document.getElementById('upgrade-notify');
+    if(notifyCn) notifyCn.style.display='none';
   } else {
-    // No-China: precios regionales + badge trial 3 días
+    // No-China: precios regionales + badge trial 3 días. Fase 2 (10 jul 2026): las 3 zonas tienen producto real en Dodo.
     if(badge){ badge.style.display=''; badge.textContent=L('✦ 3 días gratis','✦ 3 free days'); }
     let monthly='$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
     let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
-    // canCheckout: solo el mercado USA/Global tiene producto real creado en Dodo hoy.
-    // Latam/SEA muestran "avisarme" hasta que se creen sus productos en Dodo (pendiente).
-    let canCheckout=false;
+    let planKey='latam_monthly';
     if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe')||tz.includes('Australia'))){
       monthly='$6.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
       consult='$1.99 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
-      canCheckout=true;
+      planKey='usa_monthly';
     } else if(tz.includes('Asia')){
       monthly='$4.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
       consult='$1.49 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+      planKey='sea_monthly';
     }
     // Precios v3 (Jun 2026): Latam/E.Europa $3.99/$1.29 · USA/Eur.Occ $6.99/$1.99 · SEA $4.99/$1.49
     const pm=document.getElementById('price-monthly');
@@ -2997,13 +3002,14 @@ function detectRegionPricing(){
     if(pc) pc.innerHTML=consult;
     const cta=document.getElementById('checkout-cta');
     const notify=document.getElementById('upgrade-notify');
-    if(cta) cta.innerHTML = canCheckout ? '<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem" onclick="startCheckout(\'usa_monthly\',this)">'+L('Suscribirme ahora →','Subscribe now →')+'</button>' : '';
-    if(notify) notify.style.display = canCheckout ? 'none' : '';
+    if(cta) cta.innerHTML = '<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem" onclick="startCheckout(\''+planKey+'\',this)">'+L('Suscribirme ahora →','Subscribe now →')+'</button>';
+    if(notify) notify.style.display = 'none';
   }
 }
 
 // Inicia el checkout real con Dodo Payments para el plan indicado.
-// Hoy solo existe el producto "usa_monthly" ($6.99) — ampliar ALLOWED_PRODUCTS en /api/create-checkout.js antes de sumar más planes aquí.
+// Los 6 planes de zona (usa_monthly, latam_monthly, sea_monthly, china_unlimited, china_pack5, china_pack3)
+// están mapeados a su product_id real en /api/create-checkout.js (Fase 2, 10 jul 2026).
 async function startCheckout(plan,btn){
   if(!STATE.user||!STATE.profile){
     showError('error-toast',L('Inicia sesión primero para suscribirte.','Log in first to subscribe.'));

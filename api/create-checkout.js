@@ -9,10 +9,15 @@
 import DodoPayments from 'dodopayments';
 
 // Catálogo de planes permitidos → product_id real en Dodo.
-// Hoy solo existe el producto USA/Global ($6.99/mes). Sumar aquí cuando se creen
-// los productos de Latam, SEA y China en el dashboard de Dodo (ver tarea pendiente).
+// Fase 2 (10 jul 2026): los 6 productos de zona ya existen en el dashboard de Dodo,
+// verificados uno a uno (nombre + precio + tipo) antes de copiar aquí sus IDs.
 const ALLOWED_PRODUCTS = {
-  usa_monthly: 'pdt_0NiqRHmCOwWgCt7EEVl8D',
+  usa_monthly: 'pdt_0NiqRHmCOwWgCt7EEVl8D',       // USA/Europa Occ. — $6.99/mes
+  latam_monthly: 'pdt_0Nit6PJFVOzOuLNQVCZzf',     // Latam/Europa Del Este — $3.99/mes
+  sea_monthly: 'pdt_0Nit7S6DoSKX8fGrlrOG3',       // SEA — $4.99/mes
+  china_unlimited: 'pdt_0NitCW6L6XHHBTyNR3ouS',   // China — Ilimitado Mensual — ¥48 pago único
+  china_pack5: 'pdt_0NitGsFkXcwTKnL6U3iqJ',       // China — Pack 5 Créditos — ¥38 pago único
+  china_pack3: 'pdt_0NitJ7IrkmwULtMD1qPeU',       // China — Pack 3 Créditos — ¥28 pago único
 };
 
 export const config = { api: { bodyParser: true } };

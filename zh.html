@@ -1175,7 +1175,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
       </div>
 
-      <div class="upgrade-notify">
+      <div class="upgrade-notify" id="upgrade-notify">
         <div class="notify-title">🔔 即将推出</div>
         <div class="notify-sub">我们正在开通支付。留下你的邮箱，第一时间知道订阅开放。</div>
         <button class="btn-notify" onclick="showNotifyModal()">开放时通知我</button>
@@ -2955,8 +2955,9 @@ function detectRegionPricing(){
   const rp=document.getElementById('region-pricing');
   if(!rp) return;
   if(isChina){
-    // China: paquetes de créditos (sin trial, sin consulta individual)
+    // China: paquetes de créditos (sin trial, sin consulta individual). Fase 2 (10 jul 2026): checkout real vía Dodo.
     if(badge) badge.style.display='none';
+    const btn=(plan,label)=>'<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem;width:100%" onclick="startCheckout(\''+plan+'\',this)">'+label+'</button>';
     rp.innerHTML=`
       <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择你的访问方式 ✦</div>
       <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
@@ -2966,6 +2967,7 @@ function detectRegionPricing(){
           <div style="font-size:20px;font-weight:500;color:var(--gold2)">¥48</div>
         </div>
         <div style="font-size:15px;color:var(--muted)">30天不限次数解读 · 单次付款，不自动续费</div>
+        ${btn('china_unlimited','立即解锁 →')}
       </div>
       <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
@@ -2973,6 +2975,7 @@ function detectRegionPricing(){
           <div style="font-size:20px;font-weight:500;color:var(--text)">¥38</div>
         </div>
         <div style="font-size:15px;color:var(--muted)">每次 ¥7.6 · 永久有效</div>
+        ${btn('china_pack5','购买 →')}
       </div>
       <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.5rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
@@ -2980,8 +2983,11 @@ function detectRegionPricing(){
           <div style="font-size:20px;font-weight:500;color:var(--text)">¥28</div>
         </div>
         <div style="font-size:15px;color:var(--muted)">每次 ¥9.3 · 入门之选</div>
+        ${btn('china_pack3','购买 →')}
       </div>
     `;
+    const notifyCn=document.getElementById('upgrade-notify');
+    if(notifyCn) notifyCn.style.display='none';
   } else {
     // No-China: precios regionales + badge trial 3 días
     if(badge){ badge.style.display=''; badge.textContent=L('✦ 3 días gratis','✦ 3 free days'); }
@@ -2999,6 +3005,30 @@ function detectRegionPricing(){
     const pc=document.getElementById('price-consult');
     if(pm) pm.innerHTML=monthly;
     if(pc) pc.innerHTML=consult;
+  }
+}
+
+// Inicia el checkout real con Dodo Payments para el plan indicado (Fase 2, 10 jul 2026).
+async function startCheckout(plan,btn){
+  if(!STATE.user||!STATE.profile){
+    showError('error-toast',L('请先登录','Log in first'));
+    return;
+  }
+  const originalText=btn?btn.textContent:'';
+  try{
+    if(btn){btn.disabled=true;btn.textContent=L('跳转中…','Redirecting…');}
+    const res=await fetch('/api/create-checkout',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:STATE.profile.email,user_id:STATE.user.id,plan})
+    });
+    const data=await res.json();
+    if(res.ok&&data.checkout_url){ window.location.href=data.checkout_url; }
+    else{ throw new Error(data.error||'no checkout_url'); }
+  }catch(e){
+    console.error('startCheckout error:',e);
+    showError('error-toast',L('支付未能启动，请重试。','Could not start checkout. Please try again.'));
+    if(btn){btn.disabled=false;btn.textContent=originalText;}
   }
 }
 
