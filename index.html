@@ -1161,6 +1161,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
             <div style="font-size:20px;font-weight:500;color:var(--gold2)" id="price-monthly">$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span></div>
           </div>
           <div style="font-size:15px;color:var(--muted);line-height:1.6">Acceso ilimitado durante 30 días. Se renueva automáticamente. Cancela cuando quieras.</div>
+          <div id="checkout-cta"></div>
         </div>
         <!-- Opción 2: Por consulta -->
         <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem">
@@ -1172,7 +1173,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
       </div>
 
-      <div class="upgrade-notify">
+      <div class="upgrade-notify" id="upgrade-notify">
         <div class="notify-title">🔔 Próximamente disponible</div>
         <div class="notify-sub">Estamos activando los pagos. Déjanos tu email y serás el primero en saber cuándo puedes suscribirte.</div>
         <button class="btn-notify" onclick="showNotifyModal()">Avisarme cuando esté listo</button>
@@ -2978,9 +2979,13 @@ function detectRegionPricing(){
     if(badge){ badge.style.display=''; badge.textContent=L('✦ 3 días gratis','✦ 3 free days'); }
     let monthly='$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
     let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+    // canCheckout: solo el mercado USA/Global tiene producto real creado en Dodo hoy.
+    // Latam/SEA muestran "avisarme" hasta que se creen sus productos en Dodo (pendiente).
+    let canCheckout=false;
     if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe')||tz.includes('Australia'))){
       monthly='$6.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
       consult='$1.99 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+      canCheckout=true;
     } else if(tz.includes('Asia')){
       monthly='$4.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
       consult='$1.49 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
@@ -2990,6 +2995,35 @@ function detectRegionPricing(){
     const pc=document.getElementById('price-consult');
     if(pm) pm.innerHTML=monthly;
     if(pc) pc.innerHTML=consult;
+    const cta=document.getElementById('checkout-cta');
+    const notify=document.getElementById('upgrade-notify');
+    if(cta) cta.innerHTML = canCheckout ? '<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem" onclick="startCheckout(\'usa_monthly\',this)">'+L('Suscribirme ahora →','Subscribe now →')+'</button>' : '';
+    if(notify) notify.style.display = canCheckout ? 'none' : '';
+  }
+}
+
+// Inicia el checkout real con Dodo Payments para el plan indicado.
+// Hoy solo existe el producto "usa_monthly" ($6.99) — ampliar ALLOWED_PRODUCTS en /api/create-checkout.js antes de sumar más planes aquí.
+async function startCheckout(plan,btn){
+  if(!STATE.user||!STATE.profile){
+    showError('error-toast',L('Inicia sesión primero para suscribirte.','Log in first to subscribe.'));
+    return;
+  }
+  const originalText=btn?btn.textContent:'';
+  try{
+    if(btn){btn.disabled=true;btn.textContent=L('Redirigiendo…','Redirecting…');}
+    const res=await fetch('/api/create-checkout',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:STATE.profile.email,user_id:STATE.user.id,plan})
+    });
+    const data=await res.json();
+    if(res.ok&&data.checkout_url){ window.location.href=data.checkout_url; }
+    else{ throw new Error(data.error||'no checkout_url'); }
+  }catch(e){
+    console.error('startCheckout error:',e);
+    showError('error-toast',L('No se pudo iniciar el pago. Intenta de nuevo.','Could not start checkout. Please try again.'));
+    if(btn){btn.disabled=false;btn.textContent=originalText;}
   }
 }
 

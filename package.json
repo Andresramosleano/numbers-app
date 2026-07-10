@@ -1,0 +1,11 @@
+{
+  "name": "numbers-oracle-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Funciones serverless de numbersoracle.com (checkout y webhooks de Dodo Payments). El sitio en si sigue siendo HTML estatico.",
+  "dependencies": {
+    "dodopayments": "^2.42.2",
+    "@supabase/supabase-js": "^2.106.1"
+  }
+}
