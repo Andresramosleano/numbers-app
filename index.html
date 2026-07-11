@@ -1163,13 +1163,23 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           <div style="font-size:15px;color:var(--muted);line-height:1.6">Acceso ilimitado durante 30 días. Se renueva automáticamente. Cancela cuando quieras.</div>
           <div id="checkout-cta"></div>
         </div>
-        <!-- Opción 2: Por consulta -->
+        <!-- Opción 2: Anual -->
+        <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+            <div style="font-size:15px;color:var(--text);font-weight:500">Suscripción anual</div>
+            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-annual">$29.99 <span style="font-size:15px;color:var(--muted)">USD/año</span></div>
+          </div>
+          <div style="font-size:15px;color:var(--muted);line-height:1.6">Acceso ilimitado 12 meses. El ahorro frente al mensual. Se renueva una vez al año.</div>
+          <div id="checkout-cta-annual"></div>
+        </div>
+        <!-- Opción 3: Por consulta -->
         <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
             <div style="font-size:15px;color:var(--text);font-weight:500">Pago por consulta</div>
             <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-consult">$1.29 <span style="font-size:15px;color:var(--muted)">USD</span></div>
           </div>
           <div style="font-size:15px;color:var(--muted);line-height:1.6">Una sola consulta, sin compromiso. Ideal si quieres probar antes de suscribirte.</div>
+          <div id="checkout-cta-consult"></div>
         </div>
       </div>
 
@@ -2694,6 +2704,8 @@ const UI_EN=[
 ['#region-pricing > div:first-child','✦ Choose how you want access ✦'],
 ['div:has(> #price-monthly) > div:first-child','Monthly subscription'],
 ['div:has(> div > #price-monthly) > div:last-child','Unlimited access for 30 days. Renews automatically. Cancel anytime.'],
+['div:has(> #price-annual) > div:first-child','Annual subscription'],
+['div:has(> div > #price-annual) > div:last-child','Unlimited access for 12 months. The savings vs. paying monthly. Renews once a year.'],
 ['div:has(> #price-consult) > div:first-child','Pay per reading'],
 ['div:has(> div > #price-consult) > div:last-child','A single reading, no commitment. Ideal to try before subscribing.'],
 ['.upgrade-notify .notify-title','🔔 Coming soon'],
@@ -2981,28 +2993,44 @@ function detectRegionPricing(){
     const notifyCn=document.getElementById('upgrade-notify');
     if(notifyCn) notifyCn.style.display='none';
   } else {
-    // No-China: precios regionales + badge trial 3 días. Fase 2 (10 jul 2026): las 3 zonas tienen producto real en Dodo.
+    // No-China: precios regionales + badge trial 3 días. Fase 3 (11 jul 2026): + anual y consulta reales en Dodo.
     if(badge){ badge.style.display=''; badge.textContent=L('✦ 3 días gratis','✦ 3 free days'); }
     let monthly='$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
+    let annual='$29.99 <span style="font-size:15px;color:var(--muted)">USD/año</span>';
     let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
     let planKey='latam_monthly';
+    let planKeyAnnual='latam_annual';
+    let planKeyConsult='latam_consult';
     if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe')||tz.includes('Australia'))){
       monthly='$6.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
+      annual='$59.99 <span style="font-size:15px;color:var(--muted)">USD/año</span>';
       consult='$1.99 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
       planKey='usa_monthly';
+      planKeyAnnual='usa_annual';
+      planKeyConsult='usa_consult';
     } else if(tz.includes('Asia')){
       monthly='$4.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
+      annual='$39.99 <span style="font-size:15px;color:var(--muted)">USD/año</span>';
       consult='$1.49 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
       planKey='sea_monthly';
+      planKeyAnnual='sea_annual';
+      planKeyConsult='sea_consult';
     }
     // Precios v3 (Jun 2026): Latam/E.Europa $3.99/$1.29 · USA/Eur.Occ $6.99/$1.99 · SEA $4.99/$1.49
+    // Precios Fase 3 (11 jul 2026): anual = ~7x mensual (ahorro ~40% vs 12 pagos mensuales)
     const pm=document.getElementById('price-monthly');
+    const pa=document.getElementById('price-annual');
     const pc=document.getElementById('price-consult');
     if(pm) pm.innerHTML=monthly;
+    if(pa) pa.innerHTML=annual;
     if(pc) pc.innerHTML=consult;
     const cta=document.getElementById('checkout-cta');
+    const ctaAnnual=document.getElementById('checkout-cta-annual');
+    const ctaConsult=document.getElementById('checkout-cta-consult');
     const notify=document.getElementById('upgrade-notify');
     if(cta) cta.innerHTML = '<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem" onclick="startCheckout(\''+planKey+'\',this)">'+L('Suscribirme ahora →','Subscribe now →')+'</button>';
+    if(ctaAnnual) ctaAnnual.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--gold2);border:0.5px solid var(--gold2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyAnnual+'\',this)">'+L('Elegir plan anual →','Choose annual plan →')+'</button>';
+    if(ctaConsult) ctaConsult.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--text);border:0.5px solid var(--border2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyConsult+'\',this)">'+L('Comprar consulta →','Buy consultation →')+'</button>';
     if(notify) notify.style.display = 'none';
   }
 }
