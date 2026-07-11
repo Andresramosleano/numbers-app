@@ -115,11 +115,15 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .field input:focus,.field select:focus{border-color:var(--gold)}
 .field input::placeholder{color:var(--faint);font-style:italic}
 .field-hint{font-size:15px;color:var(--gold2);opacity:.75;font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:7px;letter-spacing:.03em;line-height:1.5}
-.city-suggest{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--bg3);border:.5px solid var(--border2);border-radius:var(--r);max-height:230px;overflow-y:auto;z-index:80;display:none;box-shadow:0 10px 28px rgba(0,0,0,.45)}
+.city-suggest{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--bg3);border:.5px solid var(--border2);border-radius:var(--r);max-height:min(340px,48vh);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;z-index:80;display:none;box-shadow:0 10px 28px rgba(0,0,0,.45);scrollbar-width:thin;scrollbar-color:var(--gold) var(--bg2)}
 .city-suggest.show{display:block}
-.city-suggest-item{padding:11px 15px;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:16.5px;color:var(--text);border-bottom:.5px solid var(--border);transition:background .15s}
+.city-suggest::-webkit-scrollbar{width:7px}
+.city-suggest::-webkit-scrollbar-track{background:var(--bg2)}
+.city-suggest::-webkit-scrollbar-thumb{background:var(--golddim);border-radius:4px}
+.city-suggest::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+.city-suggest-item{padding:14px 15px;min-height:44px;box-sizing:border-box;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:16.5px;color:var(--text);border-bottom:.5px solid var(--border);transition:background .15s}
 .city-suggest-item:last-child{border-bottom:none}
-.city-suggest-item:hover{background:var(--bg4)}
+.city-suggest-item:hover,.city-suggest-item:active{background:var(--bg4)}
 .city-suggest-item .csi-country{color:var(--faint);font-size:14.5px;font-style:italic}
 .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
 .game-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);padding:13px 8px;cursor:pointer;text-align:center;transition:all .2s}
@@ -1349,7 +1353,7 @@ function citySearch(field,val){
     let matches=d.cities.filter(c=>normCity(c[0]).indexOf(q)===0);
     if(matches.length<6)matches=matches.concat(d.cities.filter(c=>normCity(c[0]).indexOf(q)>0));
     matches.sort((a,b)=>b[2]-a[2]);
-    matches=matches.slice(0,8);
+    matches=matches.slice(0,12);
     CITY_LAST_MATCHES[field]=matches;
     if(!matches.length){box.classList.remove('show');box.innerHTML='';return}
     const idx=(typeof uiLang==='function'&&uiLang()==='en')?1:2;
