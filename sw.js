@@ -1,5 +1,5 @@
-// Numbers Oracle — Service Worker v1.31
-const CACHE_NAME = 'numbers-oracle-v1.31';
+// Numbers Oracle — Service Worker v1.32
+const CACHE_NAME = 'numbers-oracle-v1.32';
 
 // Archivos esenciales a cachear para modo offline básico
 const STATIC_ASSETS = [
