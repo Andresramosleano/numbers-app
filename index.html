@@ -1107,7 +1107,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
             <li><span class="check">✓</span>Historial 30 días</li>
             <li><span class="check">✓</span>Sin límite diario</li>
           </ul>
-          <button class="plan-cta soon" onclick="showNotifyModal()">Notificarme →</button>
+          <button class="plan-cta soon" onclick="document.getElementById('region-pricing').scrollIntoView({behavior:'smooth'})">Ver planes →</button>
         </div>
       </div>
 
@@ -2689,7 +2689,7 @@ const UI_EN=[
 ['.plan-card.featured .plan-features li:nth-child(4)','<span class="check">✓</span>3 languages','html'],
 ['.plan-card.featured .plan-features li:nth-child(5)','<span class="check">✓</span>30-day history','html'],
 ['.plan-card.featured .plan-features li:nth-child(6)','<span class="check">✓</span>No daily limit','html'],
-['.plan-card.featured .plan-cta','Notify me →'],
+['.plan-card.featured .plan-cta','View plans →'],
 ['.perks-title','✦ Why Pro is worth it ✦'],
 ['.upgrade-perks .perk-row:nth-of-type(2) .perk-name','Unlimited readings'],
 ['.upgrade-perks .perk-row:nth-of-type(2) .perk-desc','Ask as many times a day as you want. Try different games, different energies. No restrictions.'],
@@ -2993,8 +2993,9 @@ function detectRegionPricing(){
     const notifyCn=document.getElementById('upgrade-notify');
     if(notifyCn) notifyCn.style.display='none';
   } else {
-    // No-China: precios regionales + badge trial 3 días. Fase 3 (11 jul 2026): + anual y consulta reales en Dodo.
-    if(badge){ badge.style.display=''; badge.textContent=L('✦ 3 días gratis','✦ 3 free days'); }
+    // No-China: precios regionales. Fase 3 (11 jul 2026): + anual y consulta reales en Dodo.
+    // Badge oculto: no existe periodo de prueba real configurado en Dodo (el cobro es inmediato al suscribirse).
+    if(badge){ badge.style.display='none'; }
     let monthly='$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
     let annual='$29.99 <span style="font-size:15px;color:var(--muted)">USD/año</span>';
     let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';

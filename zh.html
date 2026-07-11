@@ -1110,7 +1110,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
             <li><span class="check">✓</span>30天历史记录</li>
             <li><span class="check">✓</span>无每日限制</li>
           </ul>
-          <button class="plan-cta soon" onclick="showNotifyModal()">通知我 →</button>
+          <button class="plan-cta soon" onclick="document.getElementById('region-pricing').scrollIntoView({behavior:'smooth'})">查看方案 →</button>
         </div>
       </div>
 
@@ -2989,8 +2989,8 @@ function detectRegionPricing(){
     const notifyCn=document.getElementById('upgrade-notify');
     if(notifyCn) notifyCn.style.display='none';
   } else {
-    // No-China: precios regionales + badge trial 3 días
-    if(badge){ badge.style.display=''; badge.textContent=L('✦ 3 días gratis','✦ 3 free days'); }
+    // No-China: precios regionales. Badge oculto: no existe periodo de prueba real configurado en Dodo.
+    if(badge){ badge.style.display='none'; }
     let monthly='¥58 <span style="font-size:15px;color:var(--muted)">CNY/月</span>';
     let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
     if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe')||tz.includes('Australia'))){
