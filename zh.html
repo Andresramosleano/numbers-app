@@ -109,12 +109,18 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .eng-name{font-size:15px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-weight:500}
 .form-screen{padding:1.5rem 1.5rem calc(80px + env(safe-area-inset-bottom));flex:1;overflow-y:auto;width:100%;max-width:520px;margin:0 auto}
 .form-title{font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold);letter-spacing:.1em;text-align:center;margin-bottom:1.5rem}
-.field{margin-bottom:1.2rem}
+.field{margin-bottom:1.2rem;position:relative}
 .field label{display:block;font-size:16px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:8px}
 .field input,.field select{width:100%;background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);color:var(--text);padding:12px 15px;font-family:'Cormorant Garamond',serif;font-size:17px;outline:none;-webkit-appearance:none}
 .field input:focus,.field select:focus{border-color:var(--gold)}
 .field input::placeholder{color:var(--faint);font-style:italic}
 .field-hint{font-size:15px;color:var(--gold2);opacity:.75;font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:7px;letter-spacing:.03em;line-height:1.5}
+.city-suggest{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--bg3);border:.5px solid var(--border2);border-radius:var(--r);max-height:230px;overflow-y:auto;z-index:80;display:none;box-shadow:0 10px 28px rgba(0,0,0,.45)}
+.city-suggest.show{display:block}
+.city-suggest-item{padding:11px 15px;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:16.5px;color:var(--text);border-bottom:.5px solid var(--border);transition:background .15s}
+.city-suggest-item:last-child{border-bottom:none}
+.city-suggest-item:hover{background:var(--bg4)}
+.city-suggest-item .csi-country{color:var(--faint);font-size:14.5px;font-style:italic}
 .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
 .game-card{background:var(--bg2);border:.5px solid var(--border);border-radius:var(--r);padding:13px 8px;cursor:pointer;text-align:center;transition:all .2s}
 .game-card.sel{border-color:var(--gold);background:rgba(201,168,76,.08)}
@@ -827,14 +833,14 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="acc-step acc-simple" id="acc-3">
         <div class="acc-head" onclick="accToggle(3)"><span class="acc-tit">3 · 你的出生地</span><span class="acc-sum" id="acc-sum-3"></span></div>
         <div class="acc-body">
-          <div class="field"><label>出生城市</label><input type="text" id="inp-cityb" placeholder="城市, 国家 — 例如：北京, 中国" oninput="chargeMotors()"><div class="field-hint">✦ 请写上国家（不同国家可能有同名城市）。你出生的土地，落下了你最初的能量。</div></div>
+          <div class="field"><label>出生城市</label><input type="text" id="inp-cityb" placeholder="城市, 国家 — 例如：北京, 中国" autocomplete="off" oninput="chargeMotors();citySearch('cityb',this.value)" onfocus="citySearch('cityb',this.value)" onblur="setTimeout(function(){citySuggestHide('cityb')},200)"><div class="city-suggest" id="citysug-cityb"></div><div class="field-hint">✦ 输入后从列表中选择你的城市（若未出现，也可直接手写）。你出生的土地，落下了你最初的能量。</div></div>
           <button class="acc-next" onclick="accNext(3)">继续 ↓</button>
         </div>
       </div>
       <div class="acc-step acc-simple" id="acc-4">
         <div class="acc-head" onclick="accToggle(4)"><span class="acc-tit">4 · 你当前的能量</span><span class="acc-sum" id="acc-sum-4"></span></div>
         <div class="acc-body">
-          <div class="field"><label>当前城市</label><input type="text" id="inp-cityn" placeholder="城市, 国家 — 例如：上海, 中国" oninput="chargeMotors()"><div class="field-hint">✦ 请写上国家。你此刻脚下的土地，是宇宙为你倾听的起点。</div></div>
+          <div class="field"><label>当前城市</label><input type="text" id="inp-cityn" placeholder="城市, 国家 — 例如：上海, 中国" autocomplete="off" oninput="chargeMotors();citySearch('cityn',this.value)" onfocus="citySearch('cityn',this.value)" onblur="setTimeout(function(){citySuggestHide('cityn')},200)"><div class="city-suggest" id="citysug-cityn"></div><div class="field-hint">✦ 输入后从列表中选择你的城市（若未出现，也可直接手写）。你此刻脚下的土地，是宇宙为你倾听的起点。</div></div>
           <button class="acc-next" onclick="accNext(4)">继续 ↓</button>
         </div>
       </div>
@@ -1322,6 +1328,46 @@ const CHINESE=[{animal:'Rata',num:1},{animal:'Buey',num:2},{animal:'Tigre',num:3
 function getChinese(y){return CHINESE[(y-1900)%12]}
 function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
 function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
+/* ─── CIUDADES (autocompletar + geoenergía real por coordenadas) ─── */
+function geoFromCoords(lat,lon){const h=Math.round(Math.abs(lat*1000))+Math.round(Math.abs(lon*1000));return numReduce(h%90+1)}
+const CITY_GEO={cityb:null,cityn:null};
+const CITY_LAST_MATCHES={cityb:[],cityn:[]};
+let CITY_DATA=null,CITY_DATA_LOADING=null;
+function loadCityData(){if(CITY_DATA)return Promise.resolve(CITY_DATA);if(CITY_DATA_LOADING)return CITY_DATA_LOADING;CITY_DATA_LOADING=fetch('cities.json').then(r=>r.json()).then(d=>{CITY_DATA=d;return d}).catch(()=>null);return CITY_DATA_LOADING}
+function normCity(s){return(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim()}
+function cityGeoVal(field,text){const g=CITY_GEO[field];if(g)return geoFromCoords(g.lat,g.lon);return cityEnergy(text||'')}
+function citySearch(field,val){
+  CITY_GEO[field]=null;
+  const box=document.getElementById('citysug-'+field);
+  if(!box)return;
+  if(!val||val.trim().length<2){box.classList.remove('show');box.innerHTML='';return}
+  loadCityData().then(d=>{
+    if(!d)return;
+    const cur=(document.getElementById('inp-'+field)||{}).value;
+    if(normCity(cur)!==normCity(val))return;
+    const q=normCity(val);
+    let matches=d.cities.filter(c=>normCity(c[0]).indexOf(q)===0);
+    if(matches.length<6)matches=matches.concat(d.cities.filter(c=>normCity(c[0]).indexOf(q)>0));
+    matches.sort((a,b)=>b[2]-a[2]);
+    matches=matches.slice(0,8);
+    CITY_LAST_MATCHES[field]=matches;
+    if(!matches.length){box.classList.remove('show');box.innerHTML='';return}
+    const idx=(typeof uiLang==='function'&&uiLang()==='en')?1:2;
+    box.innerHTML=matches.map((c,i)=>{const cn=(d.countries[c[1]]||[c[1],c[1],c[1]])[idx];return `<div class="city-suggest-item" onmousedown="citySelect('${field}',${i})">${c[0]}<span class="csi-country">, ${cn}</span></div>`}).join('');
+    box.classList.add('show');
+  });
+}
+function citySelect(field,i){
+  const m=CITY_LAST_MATCHES[field][i];if(!m||!CITY_DATA)return;
+  const idx=(typeof uiLang==='function'&&uiLang()==='en')?1:2;
+  const cn=(CITY_DATA.countries[m[1]]||[m[1],m[1],m[1]])[idx];
+  const inp=document.getElementById('inp-'+field);
+  if(inp)inp.value=m[0]+', '+cn;
+  CITY_GEO[field]={lat:m[3],lon:m[4]};
+  const box=document.getElementById('citysug-'+field);if(box)box.classList.remove('show');
+  try{chargeMotors()}catch(e){}
+}
+function citySuggestHide(field){const box=document.getElementById('citysug-'+field);if(box)box.classList.remove('show')}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
 const GAME_CFG={daily:{count:6,max:45},lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},destiny:{count:5,max:36},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true},signals:{signals:true},compat:{compat:true}};
 const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
@@ -1457,7 +1503,7 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
   // v3: campo energético en %, 30% cósmico + 70% ranking FIFA, empates permitidos en fase de grupos
   const cA=wcResolveTeam(teamA),cB=wcResolveTeam(teamB);
   const effDate=(match&&match.d)?match.d:today;
-  const lp=lifePath(name,birth),moon=getMoon(effDate),geoB=cityEnergy(cityB),geoN=cityEnergy(cityN);
+  const lp=lifePath(name,birth),moon=getMoon(effDate),geoB=cityGeoVal('cityb',cityB),geoN=cityGeoVal('cityn',cityN);
   const venueGeo=(match&&match.v&&WC_VENUES[match.v])?cityEnergy(WC_VENUES[match.v][1]):0;
   const geo=numReduce(geoB+geoN+venueGeo);
   const todayN=numReduce(effDate.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
@@ -1502,7 +1548,7 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
 }
 function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
 function computeNumbers(name,birth,cityB,cityN,game,lang,today){
-  const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear()),moon=getMoon(today),eB=cityEnergy(cityB),eN=cityEnergy(cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+  const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear()),moon=getMoon(today),eB=cityGeoVal('cityb',cityB),eN=cityGeoVal('cityn',cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
   const astV=numReduce(zodiac.num+getDayRuler(today).n),chiV=numReduce(chinese.num+getChinese(parseInt(today.slice(0,4))).num);
   const seed=Math.abs(lp*137+astV*29+chiV*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
   const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
@@ -2598,10 +2644,10 @@ const UI_EN=[
 ['.field:has(#inp-birth) .field-hint','✦ Tap to open the calendar and pick day, month and year'],
 ['.field:has(#inp-cityb) label','City of birth'],
 ['#inp-cityb','City, Country — e.g. Bogotá, Colombia','ph'],
-['.field:has(#inp-cityb) .field-hint','✦ Include the country (some cities share names across countries). Anchors your origin energy'],
+['.field:has(#inp-cityb) .field-hint','✦ Type and pick your city from the list (or type it freely if it doesn\'t appear). Anchors your origin energy'],
 ['.field:has(#inp-cityn) label','Current city'],
 ['#inp-cityn','City, Country — e.g. Madrid, Spain','ph'],
-['.field:has(#inp-cityn) .field-hint','✦ Include the country. Sets your present energy field from where you are today'],
+['.field:has(#inp-cityn) .field-hint','✦ Type and pick your city from the list (or type it freely if it doesn\'t appear). Sets your present energy field from where you are today'],
 ['.game-card[data-game="daily"] .gl','Numbers of the Day'],
 ['.game-card[data-game="daily"] .gd','Your 6 guiding numbers for today. They change tomorrow.'],
 ['.game-card[data-game="chance"] .gl','Pulse of the Moment'],
