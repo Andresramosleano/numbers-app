@@ -1331,13 +1331,15 @@ function withTimeout(promise,ms,fallback){
 const STATE={lang:'es',user:null,profile:null,game:'daily',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register',chanceCount:3};
 
 function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
-function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
+function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
 function birthNum(d){return numReduce(d.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0))}
 function lifePath(n,b){return numReduce(nameNum(n)+birthNum(b))}
 const ZODIAC=[{sign:'Capricornio',dates:[[1,1],[1,19]],planet:'Saturno',num:8,element:'Tierra'},{sign:'Acuario',dates:[[1,20],[2,18]],planet:'Urano',num:4,element:'Aire'},{sign:'Piscis',dates:[[2,19],[3,20]],planet:'Neptuno',num:7,element:'Agua'},{sign:'Aries',dates:[[3,21],[4,19]],planet:'Marte',num:9,element:'Fuego'},{sign:'Tauro',dates:[[4,20],[5,20]],planet:'Venus',num:6,element:'Tierra'},{sign:'Géminis',dates:[[5,21],[6,20]],planet:'Mercurio',num:5,element:'Aire'},{sign:'Cáncer',dates:[[6,21],[7,22]],planet:'Luna',num:2,element:'Agua'},{sign:'Leo',dates:[[7,23],[8,22]],planet:'Sol',num:1,element:'Fuego'},{sign:'Virgo',dates:[[8,23],[9,22]],planet:'Mercurio',num:5,element:'Tierra'},{sign:'Libra',dates:[[9,23],[10,22]],planet:'Venus',num:6,element:'Aire'},{sign:'Escorpio',dates:[[10,23],[11,21]],planet:'Plutón',num:9,element:'Agua'},{sign:'Sagitario',dates:[[11,22],[12,21]],planet:'Júpiter',num:3,element:'Fuego'},{sign:'Capricornio',dates:[[12,22],[12,31]],planet:'Saturno',num:8,element:'Tierra'}];
-function getZodiac(d){const dt=new Date(d),m=dt.getMonth()+1,day=dt.getDate();for(const z of ZODIAC){if((m===z.dates[0][0]&&day>=z.dates[0][1])||(m===z.dates[1][0]&&day<=z.dates[1][1]))return z}return ZODIAC[0]}
+function getZodiac(d){const p=d.split('-'),m=+p[1],day=+p[2];for(const z of ZODIAC){if((m===z.dates[0][0]&&day>=z.dates[0][1])||(m===z.dates[1][0]&&day<=z.dates[1][1]))return z}return ZODIAC[0]}
 const CHINESE=[{animal:'Rata',num:1},{animal:'Buey',num:2},{animal:'Tigre',num:3},{animal:'Conejo',num:4},{animal:'Dragón',num:5},{animal:'Serpiente',num:6},{animal:'Caballo',num:7},{animal:'Cabra',num:8},{animal:'Mono',num:9},{animal:'Gallo',num:1},{animal:'Perro',num:2},{animal:'Cerdo',num:3}];
 function getChinese(y){return CHINESE[(y-1900)%12]}
+const CNY_DATES={1920:'2-20',1921:'2-8',1922:'1-28',1923:'2-16',1924:'2-5',1925:'1-25',1926:'2-13',1927:'2-2',1928:'1-23',1929:'2-10',1930:'1-30',1931:'2-17',1932:'2-6',1933:'1-26',1934:'2-14',1935:'2-4',1936:'1-24',1937:'2-11',1938:'1-31',1939:'2-19',1940:'2-8',1941:'1-27',1942:'2-15',1943:'2-5',1944:'1-25',1945:'2-13',1946:'2-2',1947:'1-22',1948:'2-10',1949:'1-29',1950:'2-17',1951:'2-6',1952:'1-27',1953:'2-14',1954:'2-3',1955:'1-24',1956:'2-12',1957:'1-31',1958:'2-18',1959:'2-8',1960:'1-28',1961:'2-15',1962:'2-5',1963:'1-25',1964:'2-13',1965:'2-2',1966:'1-21',1967:'2-9',1968:'1-30',1969:'2-17',1970:'2-6',1971:'1-27',1972:'2-15',1973:'2-3',1974:'1-23',1975:'2-11',1976:'1-31',1977:'2-18',1978:'2-7',1979:'1-28',1980:'2-16',1981:'2-5',1982:'1-25',1983:'2-13',1984:'2-2',1985:'2-20',1986:'2-9',1987:'1-29',1988:'2-17',1989:'2-6',1990:'1-27',1991:'2-15',1992:'2-4',1993:'1-23',1994:'2-10',1995:'1-31',1996:'2-19',1997:'2-7',1998:'1-28',1999:'2-16',2000:'2-5',2001:'1-24',2002:'2-12',2003:'2-1',2004:'1-22',2005:'2-9',2006:'1-29',2007:'2-18',2008:'2-7',2009:'1-26',2010:'2-14',2011:'2-3',2012:'1-23',2013:'2-10',2014:'1-31',2015:'2-19',2016:'2-8',2017:'1-28',2018:'2-16',2019:'2-5',2020:'1-25',2021:'2-12',2022:'2-1',2023:'1-22',2024:'2-10',2025:'1-29',2026:'2-17',2027:'2-6',2028:'1-26',2029:'2-13',2030:'2-3'};
+function getChineseFromDate(dateStr){const p=String(dateStr).split('-'),y=+p[0],m=+p[1],day=+p[2],cny=CNY_DATES[y];let effY=y;if(cny){const cp=cny.split('-'),cm=+cp[0],cd=+cp[1];if(m<cm||(m===cm&&day<cd))effY=y-1}return CHINESE[((effY-1900)%12+12)%12]}
 function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
 function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
 /* ─── CIUDADES (autocompletar + geoenergía real por coordenadas) ─── */
@@ -1484,7 +1486,7 @@ function openMotorPanel(key){
   const rulerName=L==='en'?ruler.en:L==='zh'?ruler.zh:ruler.p;
   const moonName=(L==='zh'&&typeof tMoon==='function')?tMoon(r.moon.name):L==='en'?(MOON_EN[r.moon.name]||r.moon.name):r.moon.name;
   const sign=(L==='zh'&&typeof tZodiac==='function')?tZodiac(r.zodiac.sign):L==='en'?(SIGN_EN[r.zodiac.sign]||r.zodiac.sign):r.zodiac.sign;
-  const yAni=getChinese(parseInt(today.slice(0,4)));
+  const yAni=getChineseFromDate(today);
   const yan=(L==='zh'&&typeof tAnimal==='function')?tAnimal(yAni.animal):L==='en'?(ANIMAL_EN[yAni.animal]||yAni.animal):yAni.animal;
   const ani=(L==='zh'&&typeof tAnimal==='function')?tAnimal(r.chinese.animal):L==='en'?(ANIMAL_EN[r.chinese.animal]||r.chinese.animal):r.chinese.animal;
   const planetName=L==='en'?(PLANET_EN[r.zodiac.planet]||r.zodiac.planet):r.zodiac.planet;
@@ -1519,8 +1521,8 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
   const venueGeo=(match&&match.v&&WC_VENUES[match.v])?cityEnergy(WC_VENUES[match.v][1]):0;
   const geo=numReduce(geoB+geoN+venueGeo);
   const todayN=numReduce(effDate.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
-  const zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear());
-  const astV=numReduce(zodiac.num+getDayRuler(effDate).n),chiV=numReduce(chinese.num+getChinese(parseInt(effDate.slice(0,4))).num);
+  const zodiac=getZodiac(birth),chinese=getChineseFromDate(birth);
+  const astV=numReduce(zodiac.num+getDayRuler(effDate).n),chiV=numReduce(chinese.num+getChineseFromDate(effDate).num);
   const rankA=WC_RANK[cA],rankB=WC_RANK[cB];
   function cosmicScore(canon){
     const tn=nameNum(canon);
@@ -1560,8 +1562,8 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
 }
 function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
 function computeNumbers(name,birth,cityB,cityN,game,lang,today){
-  const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChinese(new Date(birth).getFullYear()),moon=getMoon(today),eB=cityGeoVal('cityb',cityB),eN=cityGeoVal('cityn',cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
-  const astV=numReduce(zodiac.num+getDayRuler(today).n),chiV=numReduce(chinese.num+getChinese(parseInt(today.slice(0,4))).num);
+  const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChineseFromDate(birth),moon=getMoon(today),eB=cityGeoVal('cityb',cityB),eN=cityGeoVal('cityn',cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
+  const astV=numReduce(zodiac.num+getDayRuler(today).n),chiV=numReduce(chinese.num+getChineseFromDate(today).num);
   const seed=Math.abs(lp*137+astV*29+chiV*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
   const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
   const userPicks=!!cfg.pick;
