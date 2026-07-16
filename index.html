@@ -1182,6 +1182,15 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           <div style="font-size:15px;color:var(--muted);line-height:1.6">Acceso ilimitado durante 30 días. Se renueva automáticamente. Cancela cuando quieras.</div>
           <div id="checkout-cta"></div>
         </div>
+        <!-- Opción 1.5: Pase Semanal -->
+        <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+            <div style="font-size:15px;color:var(--text);font-weight:500">Pase Semanal</div>
+            <div style="font-size:20px;font-weight:500;color:var(--text)" id="price-weekly">$1.99 <span style="font-size:15px;color:var(--muted)">USD/7 días</span></div>
+          </div>
+          <div style="font-size:15px;color:var(--muted);line-height:1.6">Acceso ilimitado durante 7 días. Pago único, sin renovación automática.</div>
+          <div id="checkout-cta-weekly"></div>
+        </div>
         <!-- Opción 2: Anual -->
         <div style="border:0.5px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
@@ -2768,6 +2777,8 @@ const UI_EN=[
 ['#region-pricing > div:first-child','✦ Choose how you want access ✦'],
 ['div:has(> #price-monthly) > div:first-child','Monthly subscription'],
 ['div:has(> div > #price-monthly) > div:nth-last-child(2)','Unlimited access for 30 days. Renews automatically. Cancel anytime.'],
+['div:has(> #price-weekly) > div:first-child','Weekly Pass'],
+['div:has(> div > #price-weekly) > div:nth-last-child(2)','Unlimited access for 7 days. One-time payment, no auto-renewal.'],
 ['div:has(> #price-annual) > div:first-child','Annual subscription'],
 ['div:has(> div > #price-annual) > div:nth-last-child(2)','Unlimited access for 12 months. The savings vs. paying monthly. Renews once a year.'],
 ['div:has(> #price-consult) > div:first-child','Pay per reading'],
@@ -3063,46 +3074,57 @@ function detectRegionPricing(){
     let monthly='$3.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
     let annual='$29.99 <span style="font-size:15px;color:var(--muted)">USD/año</span>';
     let consult='$1.29 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+    let weekly='$1.99 <span style="font-size:15px;color:var(--muted)">USD/7 días</span>';
     let planKey='latam_monthly';
     let planKeyAnnual='latam_annual';
     let planKeyConsult='latam_consult';
+    let planKeyWeekly='latam_weekly';
     if(lang.startsWith('en')&&(tz.includes('America')||tz.includes('Europe')||tz.includes('Australia'))){
       monthly='$6.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
       annual='$59.99 <span style="font-size:15px;color:var(--muted)">USD/año</span>';
       consult='$1.99 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+      weekly='$2.99 <span style="font-size:15px;color:var(--muted)">USD/7 días</span>';
       planKey='usa_monthly';
       planKeyAnnual='usa_annual';
       planKeyConsult='usa_consult';
+      planKeyWeekly='usa_weekly';
     } else if(tz.includes('Asia')){
       monthly='$4.99 <span style="font-size:15px;color:var(--muted)">USD/mes</span>';
       annual='$39.99 <span style="font-size:15px;color:var(--muted)">USD/año</span>';
       consult='$1.49 <span style="font-size:15px;color:var(--muted)">USD/consulta</span>';
+      weekly='$1.79 <span style="font-size:15px;color:var(--muted)">USD/7 días</span>';
       planKey='sea_monthly';
       planKeyAnnual='sea_annual';
       planKeyConsult='sea_consult';
+      planKeyWeekly='sea_weekly';
     }
     // Precios v3 (Jun 2026): Latam/E.Europa $3.99/$1.29 · USA/Eur.Occ $6.99/$1.99 · SEA $4.99/$1.49
     // Precios Fase 3 (11 jul 2026): anual = ~7x mensual (ahorro ~40% vs 12 pagos mensuales)
+    // Pase Semanal (16 jul 2026): pago único, 7 días de acceso, sin renovación. Latam $1.99/USA $2.99/SEA $1.79. Sin China.
     const pm=document.getElementById('price-monthly');
     const pa=document.getElementById('price-annual');
     const pc=document.getElementById('price-consult');
+    const pw=document.getElementById('price-weekly');
     if(pm) pm.innerHTML=monthly;
     if(pa) pa.innerHTML=annual;
     if(pc) pc.innerHTML=consult;
+    if(pw) pw.innerHTML=weekly;
     const cta=document.getElementById('checkout-cta');
     const ctaAnnual=document.getElementById('checkout-cta-annual');
     const ctaConsult=document.getElementById('checkout-cta-consult');
+    const ctaWeekly=document.getElementById('checkout-cta-weekly');
     const notify=document.getElementById('upgrade-notify');
     if(cta) cta.innerHTML = '<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem" onclick="startCheckout(\''+planKey+'\',this)">'+L('Suscribirme ahora →','Subscribe now →')+'</button>';
     if(ctaAnnual) ctaAnnual.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--gold2);border:0.5px solid var(--gold2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyAnnual+'\',this)">'+L('Elegir plan anual →','Choose annual plan →')+'</button>';
     if(ctaConsult) ctaConsult.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--text);border:0.5px solid var(--border2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyConsult+'\',this)">'+L('Comprar consulta →','Buy consultation →')+'</button>';
+    if(ctaWeekly) ctaWeekly.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--text);border:0.5px solid var(--border2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyWeekly+'\',this)">'+L('Comprar pase semanal →','Buy weekly pass →')+'</button>';
     if(notify) notify.style.display = 'none';
   }
 }
 
 // Inicia el checkout real con Dodo Payments para el plan indicado.
-// Los 6 planes de zona (usa_monthly, latam_monthly, sea_monthly, china_unlimited, china_pack5, china_pack3)
-// están mapeados a su product_id real en /api/create-checkout.js (Fase 2, 10 jul 2026).
+// Todos los planes de zona (mensual/anual/consulta/semanal por zona + los 3 de China)
+// están mapeados a su product_id real en /api/create-checkout.js (ALLOWED_PRODUCTS).
 async function startCheckout(plan,btn){
   try{posthog.capture('clic_checkout',{plan:plan});}catch(e){}
   if(!STATE.user||!STATE.profile){

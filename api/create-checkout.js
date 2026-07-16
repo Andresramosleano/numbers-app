@@ -25,6 +25,10 @@ const ALLOWED_PRODUCTS = {
   usa_annual: 'pdt_0NiyWHrKEgr8ArEOAlr4q',        // USA/Europa Occ. — Suscripción Anual — $59.99
   sea_consult: 'pdt_0NiyWj1UPOlZMw3bw9P1V',       // SEA — Pago Por Consulta — $1.49
   sea_annual: 'pdt_0NiyX9NQWlNQ3W8KLqP9U',        // SEA — Suscripción Anual — $39.99
+  // Pase Semanal (16 jul 2026): pago único, 7 días de acceso, sin renovación. Sin China.
+  latam_weekly: 'pdt_0NjKTZyyja2WigEq4GxNP',      // Latam/Europa Del Este — Pase Semanal — $1.99
+  usa_weekly: 'pdt_0NjKUI5fYy87vAseMZRhh',        // USA/Europa Occ. — Pase Semanal — $2.99
+  sea_weekly: 'pdt_0NjKUIQEI14v9Zz6rXIGr',        // SEA — Pase Semanal — $1.79
 };
 
 export const config = { api: { bodyParser: true } };
