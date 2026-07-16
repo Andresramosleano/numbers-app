@@ -20,6 +20,11 @@
   }catch(e){}
 })();
 </script>
+<!-- PostHog — analítica de producto (16 jul 2026). Envuelto en try/catch: si falla no rompe la app. -->
+<script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_BZgnA2o5pngoJDb7WzKuNGwNdzHZqEC8oR6ZmWv9zM72',{api_host:'https://us.i.posthog.com',defaults:'2026-05-30',person_profiles:'identified_only'})
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#080510">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2271,6 +2276,7 @@ async function doAuth(){
     if(STATE.authMode==='register'){
       if(!name)throw new Error(L('Ingresa tu nombre completo','Enter your full name'));if(!email)throw new Error(L('Ingresa tu correo electrónico','Enter your email'));if(!pass||pass.length<6)throw new Error(L('La contraseña debe tener al menos 6 caracteres','Password must be at least 6 characters'));
       const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});if(error)throw error;
+      try{posthog.capture('registro',{method:'email'});posthog.identify(data.user.id,{email:email});}catch(e){}
       if(data.session&&data.user){await afterLogin(data.user);}
       else if(data.user){const r2=await sb.auth.signInWithPassword({email,password:pass});if(r2.data&&r2.data.user){await afterLogin(r2.data.user);}else{showSuccess('auth-success',L('¡Cuenta creada! Ya puedes iniciar sesión.','Account created! You can now log in.'));setTimeout(()=>toggleAuth(),2500);}}
     }else{const{data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;await afterLogin(data.user)}
@@ -2279,7 +2285,7 @@ async function doAuth(){
 async function loginWithGoogle(){try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(e){showError('auth-error',e.message||L('Error con Google','Error with Google'))}}
 async function afterLogin(user){
   STATE.user=user;const res=await withTimeout(sb.from('profiles').select('*').eq('id',user.id).single(),5000,{data:null});const profile=res?.data||{full_name:user.user_metadata?.full_name||(user.email?user.email.split('@')[0]:'Usuario'),email:user.email,plan:'free'};STATE.profile=profile;
-  if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}try{chargeMotors()}catch(e){}
+  if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}try{chargeMotors()}catch(e){}try{posthog.identify(user.id,{email:user.email});}catch(e){}
   await loadHistory();await loadQuota();goTo('screen-main');openHoy();updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
 }
 function showLandingLoggedIn(){document.getElementById('landing-btns-guest').style.display='none';document.getElementById('landing-btns-user').style.display='block';}
@@ -2333,6 +2339,7 @@ async function generate(){
       const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today,STATE.game==='mundial'?STATE.wcMatch:null);
       STATE.lastResult={duel,name,game:STATE.game,isDuel:true};
       renderDuelResult(duel,name);updateEngines(duel.engines,duel.moon);showTab('result');history.pushState({tab:'result'},'','');
+      try{posthog.capture('consulta',{game:STATE.game,mode:'duel'});}catch(e){}
       try{
         await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:[duel.scoreA,duel.scoreB],life_path:duel.lp,zodiac_sign:duel.zodiac.sign,moon_phase:duel.moon.name,chinese_animal:duel.chinese.animal,geo_resonance:duel.geo,market:STATE.lang}),5000,null);
         await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null);
@@ -2344,6 +2351,7 @@ async function generate(){
       await playConvergence(result.engines,result.moon,result.golden);
       showTab('result');history.pushState({tab:'result'},'','');
       hideConvergence();
+      try{posthog.capture('consulta',{game:STATE.game,mode:'single'});}catch(e){}
       try{await saveConsultation(result,name);await incrementQuota();await loadHistory();}catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
     }
     updateFreemiumBar();
@@ -3092,6 +3100,7 @@ function detectRegionPricing(){
 // Los 6 planes de zona (usa_monthly, latam_monthly, sea_monthly, china_unlimited, china_pack5, china_pack3)
 // están mapeados a su product_id real en /api/create-checkout.js (Fase 2, 10 jul 2026).
 async function startCheckout(plan,btn){
+  try{posthog.capture('clic_checkout',{plan:plan});}catch(e){}
   if(!STATE.user||!STATE.profile){
     showError('error-toast',L('Inicia sesión primero para suscribirte.','Log in first to subscribe.'));
     return;
@@ -3349,6 +3358,13 @@ document.addEventListener('DOMContentLoaded',function(){
   try{
     var t=window.__noLang;
     if(t==='en'&&typeof setLang==='function'){setLang('en');}
+  }catch(e){}
+  try{
+    var qp=new URLSearchParams(window.location.search);
+    if(qp.get('pro')==='success'){
+      posthog.capture('venta');
+      history.replaceState({},'',window.location.pathname);
+    }
   }catch(e){}
 });
 </script>
