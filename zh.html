@@ -675,6 +675,10 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
   OneSignalDeferred.push(async function(OneSignal){
     await OneSignal.init({
       appId:"a3e91790-46be-41ed-b09f-1de1af26a467",
+      // Scope propio (16 jul 2026): el sw.js de la PWA ya ocupa la raíz '/'; sin esto,
+      // el service worker de OneSignal nunca se registraba y quedábamos con 0 suscriptores.
+      serviceWorkerParam:{scope:"/OneSignal/"},
+      serviceWorkerPath:"/OneSignal/OneSignalSDKWorker.js",
       notifyButton:{enable:false},
       promptOptions:{slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"🔮 Recibe tu número del día cada mañana",acceptButton:"Sí, actívame",cancelButton:"Ahora no"}}]}}
     });
