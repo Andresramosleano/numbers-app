@@ -905,6 +905,11 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
             <div class="sport-chip" data-sport="americanfootball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏈 F. Americano</div>
             <div class="sport-chip" data-sport="other" data-label-a="🔵 Opción A" data-label-b="🔴 Opción B" onclick="selSport(this)">🏆 Otro</div>
           </div>
+          <div class="field hidden" id="sport-match-wrap" style="margin-top:.5rem">
+            <label id="sport-match-label">📅 Partido de hoy o mañana</label>
+            <select id="sport-match-select" onchange="selSportMatch()"></select>
+            <div class="field-hint" id="sport-match-hint">✦ La fecha y la sede del partido alimentan tus 5 fuerzas</div>
+          </div>
         </div>
         <!-- Intro para Mundial -->
         <div id="mundial-duel-intro" class="hidden">
@@ -1349,7 +1354,7 @@ function withTimeout(promise,ms,fallback){
     new Promise(resolve=>setTimeout(()=>{console.warn('Supabase call timed out after',ms,'ms');resolve(fallback)},ms))
   ]);
 }
-const STATE={lang:'es',user:null,profile:null,game:'daily',sport:'football',lastResult:null,history:[],consultsToday:0,authMode:'register',chanceCount:3};
+const STATE={lang:'es',user:null,profile:null,game:'daily',sport:'football',sportMatch:null,lastResult:null,history:[],consultsToday:0,authMode:'register',chanceCount:3};
 
 function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
 function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
@@ -1539,7 +1544,7 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
   const cA=wcResolveTeam(teamA),cB=wcResolveTeam(teamB);
   const effDate=(match&&match.d)?match.d:today;
   const lp=lifePath(name,birth),moon=getMoon(effDate),geoB=cityGeoVal('cityb',cityB),geoN=cityGeoVal('cityn',cityN);
-  const venueGeo=(match&&match.v&&WC_VENUES[match.v])?cityEnergy(WC_VENUES[match.v][1]):0;
+  const venueGeo=(match&&match.v&&WC_VENUES[match.v])?cityEnergy(WC_VENUES[match.v][1]):(match&&match.venueText)?cityEnergy(match.venueText):0;
   const geo=numReduce(geoB+geoN+venueGeo);
   const todayN=numReduce(effDate.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
   const zodiac=getZodiac(birth),chinese=getChineseFromDate(birth);
@@ -1928,10 +1933,84 @@ function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
+// ===== Deportes: calendario automático por API (TheSportsDB, key pública 123) =====
+// Solo deportes por equipos tienen strHomeTeam/strAwayTeam confiables en la API gratuita.
+// Tenis y Boxeo devuelven esos campos en null (torneos/carteleras, no partidos 1v1) — quedan manuales.
+const SPORT_API_PARAM={football:'Soccer',basketball:'Basketball',baseball:'Baseball',volleyball:'Volleyball',americanfootball:'American Football'};
+const SPORT_MATCH_I18N={
+es:{label:'📅 Partido de hoy o mañana',hint:'✦ La fecha y la sede del partido alimentan tus 5 fuerzas',loading:'Cargando calendario...',error:'No pudimos cargar el calendario de hoy — escribe los equipos',none:'Sin partidos hoy ni mañana — escribe los equipos',free:'✍️ Escribir otro partido',today:'hoy',tomorrow:'mañana'},
+en:{label:"📅 Today or tomorrow's match",hint:'✦ Match date and venue feed your 5 forces',loading:'Loading schedule...',error:"We couldn't load today's schedule — type the teams",none:'No matches today or tomorrow — type the teams',free:'✍️ Write another match',today:'today',tomorrow:'tomorrow'}};
+let SPORT_EVENTS=[];
+function sptI18n(){return SPORT_MATCH_I18N[uiLang()==='en'?'en':'es']}
+async function fetchSportMatches(sport){
+  const param=SPORT_API_PARAM[sport];if(!param)return[];
+  const d0=new Date(),d1=new Date(d0.getTime()+86400000);
+  const s0=d0.toISOString().split('T')[0],s1=d1.toISOString().split('T')[0];
+  const cacheKey='no_sport_'+sport+'_'+s0;
+  try{const c=sessionStorage.getItem(cacheKey);if(c)return JSON.parse(c);}catch(e){}
+  try{
+    const[r0,r1]=await Promise.all([
+      fetch('https://www.thesportsdb.com/api/v1/json/123/eventsday.php?d='+s0+'&s='+encodeURIComponent(param)),
+      fetch('https://www.thesportsdb.com/api/v1/json/123/eventsday.php?d='+s1+'&s='+encodeURIComponent(param))
+    ]);
+    const[j0,j1]=await Promise.all([r0.json(),r1.json()]);
+    const events=[].concat(j0.events||[],j1.events||[]).filter(e=>e.strHomeTeam&&e.strAwayTeam);
+    try{sessionStorage.setItem(cacheKey,JSON.stringify(events));}catch(e){}
+    return events;
+  }catch(e){console.warn('[sportMatches]',e);return null;}
+}
+async function populateSportMatches(sport){
+  const wrap=document.getElementById('sport-match-wrap'),sel=document.getElementById('sport-match-select');
+  if(!wrap||!sel)return;
+  const param=SPORT_API_PARAM[sport];
+  const T=sptI18n();
+  if(!param){wrap.classList.add('hidden');SPORT_EVENTS=[];STATE.sportMatch=null;return;}
+  wrap.classList.remove('hidden');
+  document.getElementById('sport-match-label').textContent=T.label;
+  document.getElementById('sport-match-hint').textContent=T.hint;
+  sel.innerHTML='<option value="">'+T.loading+'</option>';sel.disabled=true;
+  const events=await fetchSportMatches(sport);
+  if(STATE.sport!==sport)return; // el usuario ya cambió de deporte mientras cargaba
+  sel.innerHTML='';sel.disabled=false;
+  if(events===null){
+    SPORT_EVENTS=[];
+    document.getElementById('sport-match-hint').textContent=T.error;
+    const o=document.createElement('option');o.value='free';o.textContent=T.free;sel.appendChild(o);
+    STATE.sportMatch=null;return;
+  }
+  SPORT_EVENTS=events;
+  const today=new Date().toISOString().split('T')[0];
+  if(events.length===0){
+    document.getElementById('sport-match-hint').textContent=T.none;
+  }else{
+    events.forEach(function(e,i){
+      const o=document.createElement('option');o.value='m'+i;
+      const dLabel=e.dateEvent===today?T.today:T.tomorrow;
+      const time=e.strTimeLocal?e.strTimeLocal.slice(0,5):'';
+      o.textContent=e.strHomeTeam+' vs '+e.strAwayTeam+' · '+(e.strLeague||'')+' · '+dLabel+(time?(' '+time):'');
+      sel.appendChild(o);
+    });
+  }
+  const oFree=document.createElement('option');oFree.value='free';oFree.textContent=T.free;sel.appendChild(oFree);
+  selSportMatch();
+}
+function selSportMatch(){
+  const sel=document.getElementById('sport-match-select');if(!sel)return;
+  const v=sel.value;const a=document.getElementById('inp-team-a'),b=document.getElementById('inp-team-b');
+  if(v&&v.charAt(0)==='m'&&SPORT_EVENTS[parseInt(v.slice(1))]){
+    const e=SPORT_EVENTS[parseInt(v.slice(1))];
+    const venueText=[e.strVenue,e.strCity,e.strCountry].filter(Boolean).join(', ');
+    STATE.sportMatch={d:e.dateEvent,venueText:venueText};
+    if(a)a.value=e.strHomeTeam;if(b)b.value=e.strAwayTeam;
+  }else{
+    STATE.sportMatch=null;if(a)a.value='';if(b)b.value='';
+  }
+}
 function selSport(el){
   document.querySelectorAll('.sport-chip').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
   STATE.sport=el.dataset.sport;
+  STATE.sportMatch=null;
   // Update team labels dynamically
   document.getElementById('label-team-a').textContent=el.dataset.labelA||L('🔵 Equipo A / Local','🔵 Team A / Home');
   document.getElementById('label-team-b').textContent=el.dataset.labelB||L('🔴 Equipo B / Visitante','🔴 Team B / Away');
@@ -1941,6 +2020,7 @@ function selSport(el){
   const isIndividual=STATE.sport==='tennis'||STATE.sport==='boxing';
   document.getElementById('inp-team-a').placeholder=isIndividual?L('Ej: Djokovic, Alcaraz, Canelo...','E.g.: Djokovic, Alcaraz, Canelo...'):L('Ej: Real Madrid, Lakers, Colombia...','E.g.: Real Madrid, Lakers, Colombia...');
   document.getElementById('inp-team-b').placeholder=isIndividual?L('Ej: Federer, Sinner, GGG...','E.g.: Federer, Sinner, GGG...'):L('Ej: Barcelona, Celtics, Argentina...','E.g.: Barcelona, Celtics, Argentina...');
+  if(SPORT_API_PARAM[STATE.sport]){populateSportMatches(STATE.sport);}else{const w=document.getElementById('sport-match-wrap');if(w)w.classList.add('hidden');}
 }
 function selectChance(n){STATE.chanceCount=n;document.querySelectorAll('#chance-seg span').forEach(s=>s.classList.toggle('on',+s.dataset.n===n));}
 function selGame(el){
@@ -1957,6 +2037,7 @@ function selGame(el){
   document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
   document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
   if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
+  if(isSports){if(SPORT_API_PARAM[STATE.sport]){populateSportMatches(STATE.sport);}else{const w=document.getElementById('sport-match-wrap');if(w)w.classList.add('hidden');}}else{STATE.sportMatch=null;}
   // Reset labels for mundial
   if(isMundial){
     document.getElementById('label-team-a').textContent=L('🔵 Equipo A / Local','🔵 Team A / Home');
@@ -2352,7 +2433,7 @@ async function generate(){
     if(GAME_CFG[STATE.game]?.duel){
       const teamA=document.getElementById('inp-team-a').value.trim();
       const teamB=document.getElementById('inp-team-b').value.trim();
-      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today,STATE.game==='mundial'?STATE.wcMatch:null);
+      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today,STATE.game==='mundial'?STATE.wcMatch:(STATE.game==='sports'?STATE.sportMatch:null));
       STATE.lastResult={duel,name,game:STATE.game,isDuel:true};
       renderDuelResult(duel,name);updateEngines(duel.engines,duel.moon);showTab('result');history.pushState({tab:'result'},'','');
       try{posthog.capture('consulta',{game:STATE.game,mode:'duel'});}catch(e){}
@@ -2712,6 +2793,8 @@ const UI_EN=[
 ['#mundial-duel-intro .duel-fields-intro','🏆 Choose the two teams of the match to predict'],
 ['#wc-match-label','📅 Official match — FIFA schedule'],
 ['#wc-match-hint','✦ The match date and venue feed your 5 forces'],
+['#sport-match-label',"📅 Today or tomorrow's match"],
+['#sport-match-hint','✦ Match date and venue feed your 5 forces'],
 ['#label-team-a','🔵 Team A / Home'],
 ['#label-team-b','🔴 Team B / Away'],
 ['#inp-team-a','E.g.: Argentina, Brazil, Real Madrid...','ph'],
@@ -2846,6 +2929,7 @@ function applyStaticLang(l){
   applyChipLang(l);
   try{applyShareI18n()}catch(e){}
   try{if(typeof populateWcMatches==='function'&&STATE.game==='mundial')populateWcMatches()}catch(e){}
+  try{if(typeof populateSportMatches==='function'&&STATE.game==='sports'&&SPORT_API_PARAM[STATE.sport])populateSportMatches(STATE.sport)}catch(e){}
 }
 const I18N_NEW={
 es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Comparte tu energ\u00eda del d\u00eda con alguien especial \u2726',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{daily:'N\u00fameros del D\u00eda',lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',destiny:'N\u00fameros del Destino',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026',signals:'Sincron\u00edas',compat:'\ud83d\udc91 Compatibilidad'}},
