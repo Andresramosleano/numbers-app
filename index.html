@@ -486,6 +486,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .notify-sub{font-size:15px;color:var(--muted);margin-bottom:1rem;font-style:italic}
 .btn-notify{background:var(--violet);border:none;border-radius:var(--r);padding:10px 24px;cursor:pointer;color:#fff;font-size:15px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;transition:all .2s}
 .btn-notify:hover{background:var(--violet2)}
+/* ─── CTA de acento: SOLO botones de checkout/pago ─── */
+.btn-cta{background:var(--text);color:#0b0b10;border:none;font-weight:600}
+.btn-cta:hover{background:var(--gold3)}
 
 /* ─── WHATSAPP CANVAS SHARE ─── */
 #wa-canvas{display:none}
@@ -860,7 +863,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="consulta-sel" id="consulta-sel"></div>
       <div class="game-grid">
         <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía para hoy. Cambian mañana.</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu energía numérica de este instante. Elige 1, 2 o 3 números.</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
         <div id="chance-fields" class="hidden">
           <div class="duel-fields-intro" id="chance-intro">✦ Elige cuántos números quieres revelar</div>
           <div class="chance-seg" id="chance-seg">
@@ -870,9 +873,9 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           </div>
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
-        <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">No es casualidad que estén juntos. Sus números lo confirman.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
+        <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
-        <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal. Pregúntale lo que quieras sobre tu día.</div></div>
+        <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal para cualquier pregunta de hoy.</div></div>
         <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
         <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
       </div>
@@ -2328,14 +2331,14 @@ async function generate(){
   showTab('loading');
   const firstName=name.split(' ')[0];
   const msgs=uiLang()==='en'?[
-    `Calculating ${firstName}'s numerological vibration...`,
+    `NUMA is reading ${firstName}'s numerological vibration...`,
     `Aligning the stars with your sign, ${firstName}...`,
     `Syncing with today's lunar phase...`,
     `Consulting the millennial Chinese calendar...`,
     `Fusing the energies of your cities, ${firstName}...`,
     `Sealing your unique cosmic combination...`
   ]:[
-    `Calculando la vibración numerológica de ${firstName}...`,
+    `NUMA está leyendo la vibración numerológica de ${firstName}...`,
     `Alineando los astros con tu signo, ${firstName}...`,
     `Sincronizando con la fase lunar de hoy...`,
     `Consultando el calendario chino milenario...`,
@@ -2666,7 +2669,7 @@ const UI_EN=[
 ['.game-card[data-game="daily"] .gl','Numbers of the Day'],
 ['.game-card[data-game="daily"] .gd','Your 6 guiding numbers for today. They change tomorrow.'],
 ['.game-card[data-game="chance"] .gl','Pulse of the Moment'],
-['.game-card[data-game="chance"] .gd','Your numeric energy for this instant. Choose 1, 2 or 3 numbers.'],
+['.game-card[data-game="chance"] .gd','Your number for this instant. Pick 1, 2 or 3.'],
 ['#chance-intro','✦ Choose how many numbers you want to reveal'],
 ['.game-card[data-game="destiny"] .gl','Destiny Numbers'],
 ['.game-card[data-game="destiny"] .gd','They never change. They are yours. Born with you.'],
@@ -2675,7 +2678,7 @@ const UI_EN=[
 ['.game-card[data-game="sports"] .gd','Who wins today? Cosmic match prediction'],
 ['.game-card[data-game="sports"] .pro-preview','"The home team\'s numeric energy outshines the visitor in vibration today..."'],
 ['.numa-game-card .gl','NUMA'],
-['.numa-game-card .gd','Your personal oracle. Ask anything about your day.'],
+['.numa-game-card .gd','Your personal oracle for any question, today.'],
 ['.game-card[data-game="signals"] .gl','Synchronies'],
 ['.game-card[data-game="signals"] .gd','A number is following you. It\'s not a coincidence.'],
 ['#signals-label','What number can\'t you stop seeing?'],
@@ -2810,7 +2813,7 @@ const UI_EN=[
 ['#duel-name-a','Team A'],
 ['#duel-name-b','Team B'],
 ['.game-card[data-game="compat"] .gl','Compatibility'],
-['.game-grid .game-card[data-game="compat"] .gd','It\'s no coincidence they\'re together. Their numbers confirm it.'],
+['.game-grid .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
 ['.game-card[data-game="compat"] .pro-preview','"Their life paths create a unique signature. NUMA reveals what the universe wrote about this bond..."'],
 ['#compat-label-inp-name','Your partner\'s name'],
 ['#compat-label-inp-birth','Your partner\'s date of birth'],
@@ -3036,7 +3039,7 @@ function detectRegionPricing(){
   if(isChina){
     // China: paquetes de créditos (sin trial, sin consulta individual). Fase 2 (10 jul 2026): checkout real vía Dodo.
     if(badge) badge.style.display='none';
-    const btn=(plan,label)=>'<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem;width:100%" onclick="startCheckout(\''+plan+'\',this)">'+label+'</button>';
+    const btn=(plan,label)=>'<button class="btn-notify btn-cta" style="margin-top:.6rem;width:100%" onclick="startCheckout(\''+plan+'\',this)">'+label+'</button>';
     rp.innerHTML=`
       <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择您的访问方式 ✦</div>
       <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
@@ -3114,10 +3117,10 @@ function detectRegionPricing(){
     const ctaConsult=document.getElementById('checkout-cta-consult');
     const ctaWeekly=document.getElementById('checkout-cta-weekly');
     const notify=document.getElementById('upgrade-notify');
-    if(cta) cta.innerHTML = '<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem" onclick="startCheckout(\''+planKey+'\',this)">'+L('Suscribirme ahora →','Subscribe now →')+'</button>';
-    if(ctaAnnual) ctaAnnual.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--gold2);border:0.5px solid var(--gold2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyAnnual+'\',this)">'+L('Elegir plan anual →','Choose annual plan →')+'</button>';
-    if(ctaConsult) ctaConsult.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--text);border:0.5px solid var(--border2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyConsult+'\',this)">'+L('Comprar consulta →','Buy consultation →')+'</button>';
-    if(ctaWeekly) ctaWeekly.innerHTML = '<button class="btn-notify" style="background:transparent;color:var(--text);border:0.5px solid var(--border2);margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyWeekly+'\',this)">'+L('Comprar pase semanal →','Buy weekly pass →')+'</button>';
+    if(cta) cta.innerHTML = '<button class="btn-notify btn-cta" style="margin-top:.6rem" onclick="startCheckout(\''+planKey+'\',this)">'+L('Suscribirme ahora →','Subscribe now →')+'</button>';
+    if(ctaAnnual) ctaAnnual.innerHTML = '<button class="btn-notify btn-cta" style="margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyAnnual+'\',this)">'+L('Elegir plan anual →','Choose annual plan →')+'</button>';
+    if(ctaConsult) ctaConsult.innerHTML = '<button class="btn-notify btn-cta" style="margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyConsult+'\',this)">'+L('Comprar consulta →','Buy consultation →')+'</button>';
+    if(ctaWeekly) ctaWeekly.innerHTML = '<button class="btn-notify btn-cta" style="margin-top:.6rem;width:100%" onclick="startCheckout(\''+planKeyWeekly+'\',this)">'+L('Comprar pase semanal →','Buy weekly pass →')+'</button>';
     if(notify) notify.style.display = 'none';
   }
 }

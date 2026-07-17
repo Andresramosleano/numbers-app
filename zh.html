@@ -487,6 +487,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .notify-sub{font-size:15px;color:var(--muted);margin-bottom:1rem;font-style:italic}
 .btn-notify{background:var(--violet);border:none;border-radius:var(--r);padding:10px 24px;cursor:pointer;color:#fff;font-size:15px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;transition:all .2s}
 .btn-notify:hover{background:var(--violet2)}
+/* ─── CTA de acento: SOLO botones de checkout/pago ─── */
+.btn-cta{background:var(--text);color:#0b0b10;border:none;font-weight:600}
+.btn-cta:hover{background:var(--gold3)}
 
 /* ─── WHATSAPP CANVAS SHARE ─── */
 #wa-canvas{display:none}
@@ -863,7 +866,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="consulta-sel" id="consulta-sel"></div>
       <div class="game-grid">
         <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">今日数字</div><div class="gd">今天为你引路的六个数字。明日自会焕新。</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">此刻脉动</div><div class="gd">此刻流动在你身边的能量。选 1、2 或 3 个数字。</div></div>
+        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">此刻脉动</div><div class="gd">属于此刻的数字。选 1、2 或 3。</div></div>
         <div id="chance-fields" class="hidden">
           <div class="duel-fields-intro" id="chance-intro">✦ 选择你想揭示几个数字</div>
           <div class="chance-seg" id="chance-seg">
@@ -873,7 +876,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           </div>
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ 免费</div><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">一个数字反复出现在你身边——绝非偶然。</div></div>
-        <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">缘分解读</div><div class="gd">你们的相遇并非偶然，数字自会印证。</div><div class="pro-preview">"你们的生命数字交织成独一无二的印记。NUMA 为你照见宇宙写在这段缘分里的话……"</div></div>
+        <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">缘分解读</div><div class="gd">两颗心之间的联结，由宇宙揭示。</div><div class="pro-preview">"你们的生命数字交织成独一无二的印记。NUMA 为你照见宇宙写在这段缘分里的话……"</div></div>
         <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">🏆</div><div class="gl">世界杯 2026</div><div class="gd">用宇宙能量解读比赛结果 · 世界杯期间免费无限</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ 免费</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">只属于你的神谕。今天的一切，都可以问它。</div></div>
         <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">从不改变，与你俱生，只属于你。</div><div class="pro-preview">"你的主命数，照见宇宙在你出生前为你写下的使命……"</div></div>
@@ -2332,12 +2335,12 @@ async function generate(){
     `Fusing the energies of your cities, ${firstName}...`,
     `Sealing your unique cosmic combination...`
   ]:[
-    `Calculando la vibración numerológica de ${firstName}...`,
-    `Alineando los astros con tu signo, ${firstName}...`,
-    `Sincronizando con la fase lunar de hoy...`,
-    `Consultando el calendario chino milenario...`,
-    `Fusionando las energías de tus ciudades, ${firstName}...`,
-    `Sellando tu combinación cósmica única...`
+    `NUMA 正在解读${firstName}的数字能量…`,
+    `校准你的星座与星辰，${firstName}…`,
+    `同步今日的月相…`,
+    `查照千年历法…`,
+    `融合你所在城市的能量，${firstName}…`,
+    `封存你独一无二的宇宙组合…`
   ];
   const orbs=['☿','♈','🌕','🐉','🌎','✦'];let mi=0;const iv=setInterval(()=>{document.getElementById('loading-msg').textContent=msgs[mi%msgs.length];document.getElementById('loading-orb').textContent=orbs[mi%orbs.length];mi++},900);
   await new Promise(r=>setTimeout(r,1500));clearInterval(iv);
@@ -3021,7 +3024,7 @@ function detectRegionPricing(){
   if(isChina){
     // China: paquetes de créditos (sin trial, sin consulta individual). Fase 2 (10 jul 2026): checkout real vía Dodo.
     if(badge) badge.style.display='none';
-    const btn=(plan,label)=>'<button class="btn-notify" style="background:var(--gold);color:var(--bg);border:none;margin-top:.6rem;width:100%" onclick="startCheckout(\''+plan+'\',this)">'+label+'</button>';
+    const btn=(plan,label)=>'<button class="btn-notify btn-cta" style="margin-top:.6rem;width:100%" onclick="startCheckout(\''+plan+'\',this)">'+label+'</button>';
     rp.innerHTML=`
       <div style="font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold2);text-align:center;margin-bottom:1.2rem;letter-spacing:.08em">✦ 选择你的访问方式 ✦</div>
       <div style="border:0.5px solid var(--border2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.75rem;position:relative">
