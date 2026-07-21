@@ -1,3 +1,7 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/mundial.html", "destination": "/", "permanent": true },
+    { "source": "/mundial", "destination": "/", "permanent": true }
+  ]
 }

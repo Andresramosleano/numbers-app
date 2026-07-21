@@ -493,7 +493,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 /* ─── WHATSAPP CANVAS SHARE ─── */
 #wa-canvas{display:none}
 
-/* ─── CARD MUNDIAL (ancho completo) ─── */
+/* ─── CARD SPORTS (ancho completo) ─── */
 .game-card-full{grid-column:1/-1;flex-direction:row;gap:12px;padding:14px 20px;justify-content:center;border-color:rgba(201,168,76,.35);background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(124,92,191,.04))}
 .numa-game-card{border-color:rgba(201,168,76,.5)!important;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.03))!important}
 .numa-game-card .gl{color:var(--gold2)!important;font-family:'Cinzel Decorative',serif;font-size:15px!important}
@@ -528,10 +528,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 /* ─── DUEL / PREDICTOR DEPORTIVO ─── */
 .field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;color:var(--text);font-family:inherit;font-size:15px;outline:none;cursor:pointer}.field select:focus{border-color:var(--gold)}.wc-nums-hint{text-align:center;font-style:italic;font-size:16px;color:var(--gold2);opacity:.85;margin:.4rem 1.5rem 1rem;line-height:1.6}
 .duel-match-info{text-align:center;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold2);letter-spacing:.06em;margin:.25rem 0 .75rem;line-height:1.6}.duel-rank-info{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted);letter-spacing:.08em;margin-top:.5rem;line-height:1.6}
-@keyframes wcGlow{0%,100%{box-shadow:0 0 10px rgba(201,168,76,.15)}50%{box-shadow:0 0 26px rgba(201,168,76,.4)}}.game-card[data-game="mundial"]{position:relative;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));animation:wcGlow 2.6s ease-in-out infinite;padding:18px 20px}.game-card[data-game="mundial"] .gi{font-size:38px}.game-card[data-game="mundial"] .gl{font-size:18px;color:var(--gold2);letter-spacing:.06em;font-weight:700}.game-card[data-game="mundial"] .gd{font-size:14.5px;color:var(--text);margin-top:4px}.game-card[data-game="mundial"] .pro-preview{font-size:16px}
+@keyframes wcGlow{0%,100%{box-shadow:0 0 10px rgba(201,168,76,.15)}50%{box-shadow:0 0 26px rgba(201,168,76,.4)}}.game-card[data-game="sports"].game-card-full{position:relative;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));animation:wcGlow 2.6s ease-in-out infinite;padding:18px 20px}.game-card[data-game="sports"].game-card-full .gi{font-size:38px}.game-card[data-game="sports"].game-card-full .gl{font-size:18px;color:var(--gold2);letter-spacing:.06em;font-weight:700}.game-card[data-game="sports"].game-card-full .gd{font-size:14.5px;color:var(--text);margin-top:4px}
 .free-badge{position:absolute;top:6px;right:7px;font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--teal);background:rgba(61,191,168,.12);border:.5px solid rgba(61,191,168,.4);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
-.wc-upsell{display:none;margin:1.1rem auto 0;max-width:340px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.5;color:var(--gold2);border:1px solid rgba(201,168,76,.45);border-radius:var(--r);padding:13px 16px;cursor:pointer;background:linear-gradient(135deg,rgba(201,168,76,.10),rgba(124,92,191,.06))}
-.wc-upsell:hover{border-color:var(--gold);background:rgba(201,168,76,.14)}.duel-fields-intro{font-size:16px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
+.duel-fields-intro{font-size:16px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(201,168,76,.05);border:.5px solid var(--border);border-radius:var(--r);line-height:1.6}
+.league-empty-state{font-size:15px;color:var(--muted);font-style:italic;text-align:center;padding:1.1rem 1rem;background:rgba(201,168,76,.04);border:.5px dashed var(--border);border-radius:var(--r);line-height:1.6;margin-top:.5rem}
 /* ─── SPORT SELECTOR ─── */
 .sport-selector{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem}
 .sport-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:99px;padding:7px 13px;cursor:pointer;font-size:15px;color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all .2s;white-space:nowrap}
@@ -717,7 +717,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div id="landing-btns-user" style="display:none;width:100%;max-width:360px">
         <button class="btn-primary" style="width:100%" onclick="enterApp()">✦ Ver mis números de hoy ✦</button>
       </div>
-      <div class="landing-disclaimer">ℹ️ Entretenimiento · Inspiración personal · Autoconocimiento<br><a href="/mundial.html" style="color:var(--gold2);text-decoration:none">🏆 Predicciones Mundial 2026 — gratis hoy →</a></div>
+      <div class="landing-disclaimer">ℹ️ Entretenimiento · Inspiración personal · Autoconocimiento</div>
     </div>
   </div>
 
@@ -793,7 +793,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="eng-item" id="eng-chi"><div class="eng-icon">🐉</div><div class="eng-val" id="ev-chi">—</div><div class="eng-name">Chino</div></div>
       <div class="eng-item" id="eng-geo"><div class="eng-icon">🌎</div><div class="eng-val" id="ev-geo">—</div><div class="eng-name">Geoenergía</div></div>
     </div>
-    <div class="wc-ribbon" id="wc-ribbon" onclick="wcRibbonGo()">🏆 Mundial 2026 — Predicción gratis e ilimitada →</div>
+    <div class="wc-ribbon" id="wc-ribbon" onclick="wcRibbonGo()">✦ NUMBERS ORACLE · Sports — 2 lecturas gratis al día →</div>
 
     <div class="form-screen hidden" id="tab-hoy">
       <div class="hoy-daypill" id="hoy-daypill">✦ Tu Número de Oro de hoy · cambia en 24 h</div>
@@ -874,10 +874,9 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
         <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
-        <div class="game-card game-card-full" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">✦ GRATIS</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">Predice quién gana el partido con energía cósmica · Gratis e ilimitado durante el torneo</div></div>
+        <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">✦ 2 GRATIS AL DÍA</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">Descubre la afinidad numérica del enfrentamiento · Elige deporte, competición y partido real</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal para cualquier pregunta de hoy.</div></div>
         <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
-        <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">¿Quién gana hoy? Predicción cósmica de partidos</div><div class="pro-preview">"La energía numérica del equipo local supera en vibración al visitante hoy..."</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="compat-fields" class="hidden">
@@ -892,33 +891,31 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
       </div>
       <div id="duel-fields" class="hidden">
-        <!-- Selector de deporte (solo para modo Deportes, no Mundial) -->
-        <div id="sport-selector-wrap" class="hidden">
-          <div class="duel-fields-intro">🏆 Selecciona el deporte y los dos rivales</div>
+        <!-- Sports: deporte → competición → partido real. El usuario nunca escribe nada. -->
+        <div id="sport-selector-wrap">
+          <div class="duel-fields-intro">⚽ Elige el deporte</div>
           <div class="sport-selector" id="sport-selector">
-            <div class="sport-chip sel" data-sport="football" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚽ Fútbol</div>
-            <div class="sport-chip" data-sport="basketball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏀 Básquet</div>
-            <div class="sport-chip" data-sport="tennis" data-label-a="🔵 Jugador A" data-label-b="🔴 Jugador B" onclick="selSport(this)">🎾 Tenis</div>
-            <div class="sport-chip" data-sport="baseball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">⚾ Béisbol</div>
-            <div class="sport-chip" data-sport="volleyball" data-label-a="🔵 Equipo A" data-label-b="🔴 Equipo B" onclick="selSport(this)">🏐 Voleibol</div>
-            <div class="sport-chip" data-sport="boxing" data-label-a="🔵 Boxeador A" data-label-b="🔴 Boxeador B" onclick="selSport(this)">🥊 Boxeo</div>
-            <div class="sport-chip" data-sport="americanfootball" data-label-a="🔵 Equipo Local" data-label-b="🔴 Equipo Visitante" onclick="selSport(this)">🏈 F. Americano</div>
-            <div class="sport-chip" data-sport="other" data-label-a="🔵 Opción A" data-label-b="🔴 Opción B" onclick="selSport(this)">🏆 Otro</div>
+            <div class="sport-chip sel" data-sport="football" onclick="selSport(this)">⚽ Fútbol</div>
+            <div class="sport-chip" data-sport="basketball" onclick="selSport(this)">🏀 Básquet</div>
+            <div class="sport-chip" data-sport="americanfootball" onclick="selSport(this)">🏈 F. Americano</div>
+            <div class="sport-chip" data-sport="baseball" onclick="selSport(this)">⚾ Béisbol</div>
+            <div class="sport-chip" data-sport="tennis" onclick="selSport(this)">🎾 Tenis</div>
+          </div>
+          <div id="league-selector-wrap" style="margin-top:.65rem">
+            <div class="duel-fields-intro" id="league-intro">🏆 Elige la competición</div>
+            <div class="sport-selector" id="league-selector"></div>
           </div>
           <div class="field hidden" id="sport-match-wrap" style="margin-top:.5rem">
-            <label id="sport-match-label">📅 Partido de hoy o mañana</label>
+            <label id="sport-match-label">📅 Elige el partido</label>
             <select id="sport-match-select" onchange="selSportMatch()"></select>
             <div class="field-hint" id="sport-match-hint">✦ La fecha y la sede del partido alimentan tus 5 fuerzas</div>
           </div>
+          <div class="league-empty-state hidden" id="league-empty-state"></div>
         </div>
-        <!-- Intro para Mundial -->
-        <div id="mundial-duel-intro" class="hidden">
-          <div class="duel-fields-intro">🏆 Elige los dos equipos del partido a predecir</div>
-          <div class="field" style="margin-top:.5rem"><label id="wc-match-label">📅 Partido oficial — Cronograma FIFA</label><select id="wc-match-select" onchange="selWcMatch()"></select><div class="field-hint" id="wc-match-hint">✦ La fecha y la sede del partido alimentan tus 5 fuerzas</div></div>
+        <div id="duel-team-preview" class="hidden">
+          <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" readonly></div>
+          <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" readonly></div>
         </div>
-        <div class="field"><label id="label-team-a">🔵 Equipo A / Local</label><input type="text" id="inp-team-a" list="wc-teams-list" placeholder="Ej: Argentina, Brasil, Real Madrid..."></div>
-        <div class="field"><label id="label-team-b">🔴 Equipo B / Visitante</label><input type="text" id="inp-team-b" list="wc-teams-list" placeholder="Ej: Francia, Alemania, Barcelona..."></div>
-        <datalist id="wc-teams-list"></datalist>
       </div>
       <div id="signals-fields" class="hidden">
         <div class="field" style="margin-top:.75rem">
@@ -995,7 +992,6 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           <div class="duel-confidence" id="duel-confidence">—</div>
           <div class="duel-rank-info" id="duel-rank-info" style="display:none"></div>
         </div>
-        <div class="wc-upsell" id="wc-upsell" onclick="wcUpsellGo()"></div>
       </div>
       <div id="compat-result-section" class="hidden">
         <div class="compat-lp-pair">
@@ -1113,13 +1109,13 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           <div class="plan-name">✦ Freemium</div>
           <ul class="plan-features">
             <li><span class="check">✓</span>1 consulta gratuita al día</li>
-            <li><span class="check">✓</span>3 juegos (Día + Rápidos + Mundial 🏆)</li>
+            <li><span class="check">✓</span>3 juegos (Día + Rápidos + Sports ⚽)</li>
             <li><span class="check">✓</span>Número de Oro del día</li>
             <li><span class="check">✓</span>3 idiomas</li>
             <li><span class="cross">✗</span><span style="color:var(--faint)">Sin historial</span></li>
             <li><span class="cross">✗</span><span style="color:var(--faint)">Límite diario activo</span></li>
-            <li><span class="check">✓</span>Mundial 2026 gratis e ilimitado</li>
-            <li><span class="cross">✗</span><span style="color:var(--faint)">Destino · Deportes 🔒</span></li>
+            <li><span class="check">✓</span>Sports: 2 lecturas gratis al día</li>
+            <li><span class="cross">✗</span><span style="color:var(--faint)">Destino 🔒</span></li>
           </ul>
           <button class="plan-cta free" onclick="showTab('form')">Plan actual →</button>
         </div>
@@ -1299,10 +1295,9 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
       </div>
       <div class="orac-group">
-        <div class="orac-label" id="orac-lbl-pred">Predicciones</div>
+        <div class="orac-label" id="orac-lbl-pred">Sports</div>
         <div class="orac-grid">
-          <div class="game-card" data-game="mundial" onclick="quickLaunch(this)"><div class="free-badge">Gratis</div><div class="gi">🏆</div><div class="gl">Mundial 2026</div><div class="gd">¿Quién gana el partido? Gratis e ilimitado.</div></div>
-          <div class="game-card pro-locked" data-game="sports" onclick="proLaunch(this)"><div class="gi">⚽</div><div class="gl">Deportes</div><div class="gd">Predice cualquier partido del año.</div></div>
+          <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">2 gratis/día</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">Afinidad numérica de tu partido favorito.</div></div>
         </div>
       </div>
     </div>
@@ -1409,36 +1404,27 @@ function citySelect(field,i){
 }
 function citySuggestHide(field){const box=document.getElementById('citysug-'+field);if(box)box.classList.remove('show')}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
-const GAME_CFG={daily:{count:6,max:45},lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},destiny:{count:5,max:36},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},mundial:{count:2,max:9,duel:true},signals:{signals:true},compat:{compat:true}};
-const MUNDIAL_TEAMS=['Argentina','Brasil','México','España','Francia','Alemania','Portugal','Inglaterra','Países Bajos','Bélgica','Croacia','Uruguay','Colombia','Suiza','Japón','Senegal','Marruecos','Corea del Sur','USA','Canadá','Ecuador','Perú','Australia','Suecia','Polonia','Dinamarca','Irán','Arabia Saudí','Catar','Nigeria','Ghana','Camerún','Túnez','Egipto','Sudáfrica','Costa de Marfil','Costa Rica','Panamá','Jamaica','Honduras','Bolivia','Paraguay','Chile','Venezuela','Escocia','Serbia','Austria','Turquía','Chequia','Eslovenia','Albania','Noruega','Ucrania','Rumania','Hungría','Bosnia y Herzegovina','Haití','Cabo Verde','DR Congo','Uzbekistán','Irak','Jordania','Argelia','Curaçao','Nueva Zelanda','Indonesia'];
-const MUNDIAL_GROUPS={'A':['México','Sudáfrica','Corea del Sur','Chequia'],'B':['Canadá','Bosnia y Herzegovina','Catar','Suiza'],'C':['Brasil','Marruecos','Haití','Escocia'],'D':['USA','Paraguay','Australia','Turquía'],'E':['Alemania','Curaçao','Costa de Marfil','Ecuador'],'F':['Países Bajos','Japón','Suecia','Túnez'],'G':['Bélgica','Egipto','Irán','Nueva Zelanda'],'H':['España','Cabo Verde','Arabia Saudí','Uruguay'],'I':['Francia','Senegal','Irak','Noruega'],'J':['Argentina','Argelia','Austria','Jordania'],'K':['Portugal','DR Congo','Uzbekistán','Colombia'],'L':['Inglaterra','Croacia','Ghana','Panamá']};
-// ═══ MUNDIAL 2026 · CRONOGRAMA OFICIAL FIFA + RANKING FIFA (corte: 10 jun 2026) ═══
-const WC_RANK={'Argentina':1,'España':2,'Francia':3,'Inglaterra':4,'Portugal':5,'Brasil':6,'Marruecos':7,'Países Bajos':8,'Bélgica':9,'Alemania':10,'Croacia':11,'Colombia':13,'México':14,'Senegal':15,'Uruguay':16,'USA':17,'Japón':18,'Suiza':19,'Irán':21,'Turquía':22,'Ecuador':23,'Austria':24,'Corea del Sur':25,'Australia':27,'Argelia':28,'Egipto':29,'Canadá':30,'Noruega':31,'Costa de Marfil':33,'Panamá':34,'Suecia':38,'Chequia':39,'Paraguay':40,'Escocia':42,'DR Congo':45,'Túnez':46,'Uzbekistán':50,'Irak':56,'Catar':57,'Sudáfrica':60,'Arabia Saudí':61,'Jordania':63,'Bosnia y Herzegovina':64,'Cabo Verde':67,'Ghana':73,'Curaçao':82,'Haití':83,'Nueva Zelanda':85};
-const WC_TEAM_EN={'México':'Mexico','Sudáfrica':'South Africa','Corea del Sur':'South Korea','Chequia':'Czechia','Canadá':'Canada','Bosnia y Herzegovina':'Bosnia and Herzegovina','Catar':'Qatar','Suiza':'Switzerland','Brasil':'Brazil','Marruecos':'Morocco','Haití':'Haiti','Escocia':'Scotland','Turquía':'Türkiye','Alemania':'Germany','Costa de Marfil':'Ivory Coast','Países Bajos':'Netherlands','Japón':'Japan','Suecia':'Sweden','Túnez':'Tunisia','Bélgica':'Belgium','Egipto':'Egypt','Irán':'Iran','Nueva Zelanda':'New Zealand','España':'Spain','Cabo Verde':'Cape Verde','Arabia Saudí':'Saudi Arabia','Francia':'France','Irak':'Iraq','Noruega':'Norway','Argelia':'Algeria','Jordania':'Jordan','Uzbekistán':'Uzbekistan','Inglaterra':'England','Croacia':'Croatia','Panamá':'Panama'};
-const WC_TEAM_ZH={'México':'墨西哥','Sudáfrica':'南非','Corea del Sur':'韩国','Chequia':'捷克','Canadá':'加拿大','Bosnia y Herzegovina':'波黑','Catar':'卡塔尔','Suiza':'瑞士','Brasil':'巴西','Marruecos':'摩洛哥','Haití':'海地','Escocia':'苏格兰','USA':'美国','Paraguay':'巴拉圭','Australia':'澳大利亚','Turquía':'土耳其','Alemania':'德国','Curaçao':'库拉索','Costa de Marfil':'科特迪瓦','Ecuador':'厄瓜多尔','Países Bajos':'荷兰','Japón':'日本','Suecia':'瑞典','Túnez':'突尼斯','Bélgica':'比利时','Egipto':'埃及','Irán':'伊朗','Nueva Zelanda':'新西兰','España':'西班牙','Cabo Verde':'佛得角','Arabia Saudí':'沙特阿拉伯','Uruguay':'乌拉圭','Francia':'法国','Senegal':'塞内加尔','Irak':'伊拉克','Noruega':'挪威','Argentina':'阿根廷','Argelia':'阿尔及利亚','Austria':'奥地利','Jordania':'约旦','Portugal':'葡萄牙','DR Congo':'刚果(金)','Uzbekistán':'乌兹别克斯坦','Colombia':'哥伦比亚','Inglaterra':'英格兰','Croacia':'克罗地亚','Ghana':'加纳','Panamá':'巴拿马'};
-const WC_VENUES={MEX:['Ciudad de México','Mexico City','墨西哥城'],GDL:['Guadalajara','Guadalajara','瓜达拉哈拉'],MTY:['Monterrey','Monterrey','蒙特雷'],TOR:['Toronto','Toronto','多伦多'],VAN:['Vancouver','Vancouver','温哥华'],SEA:['Seattle','Seattle','西雅图'],SFO:['San Francisco','San Francisco','旧金山'],LAX:['Los Ángeles','Los Angeles','洛杉矶'],KCY:['Kansas City','Kansas City','堪萨斯城'],DAL:['Dallas','Dallas','达拉斯'],HOU:['Houston','Houston','休斯顿'],ATL:['Atlanta','Atlanta','亚特兰大'],MIA:['Miami','Miami','迈阿密'],BOS:['Boston','Boston','波士顿'],PHI:['Filadelfia','Philadelphia','费城'],NYC:['Nueva York/NJ','New York/NJ','纽约/新泽西']};
-const WC_GS=[
-{d:'2026-06-11',a:'México',b:'Sudáfrica',v:'MEX'},{d:'2026-06-11',a:'Corea del Sur',b:'Chequia',v:'GDL'},
-{d:'2026-06-12',a:'Canadá',b:'Bosnia y Herzegovina',v:'TOR'},{d:'2026-06-12',a:'USA',b:'Paraguay',v:'LAX'},
-{d:'2026-06-13',a:'Catar',b:'Suiza',v:'SFO'},{d:'2026-06-13',a:'Brasil',b:'Marruecos',v:'NYC'},{d:'2026-06-13',a:'Haití',b:'Escocia',v:'BOS'},{d:'2026-06-13',a:'Australia',b:'Turquía',v:'VAN'},
-{d:'2026-06-14',a:'Alemania',b:'Curaçao',v:'HOU'},{d:'2026-06-14',a:'Países Bajos',b:'Japón',v:'DAL'},{d:'2026-06-14',a:'Costa de Marfil',b:'Ecuador',v:'PHI'},{d:'2026-06-14',a:'Suecia',b:'Túnez',v:'MTY'},
-{d:'2026-06-15',a:'España',b:'Cabo Verde',v:'ATL'},{d:'2026-06-15',a:'Bélgica',b:'Egipto',v:'SEA'},{d:'2026-06-15',a:'Arabia Saudí',b:'Uruguay',v:'MIA'},{d:'2026-06-15',a:'Irán',b:'Nueva Zelanda',v:'LAX'},
-{d:'2026-06-16',a:'Francia',b:'Senegal',v:'NYC'},{d:'2026-06-16',a:'Irak',b:'Noruega',v:'BOS'},{d:'2026-06-16',a:'Argentina',b:'Argelia',v:'KCY'},{d:'2026-06-16',a:'Austria',b:'Jordania',v:'SFO'},
-{d:'2026-06-17',a:'Portugal',b:'DR Congo',v:'HOU'},{d:'2026-06-17',a:'Inglaterra',b:'Croacia',v:'DAL'},{d:'2026-06-17',a:'Ghana',b:'Panamá',v:'TOR'},{d:'2026-06-17',a:'Uzbekistán',b:'Colombia',v:'MEX'},
-{d:'2026-06-18',a:'Chequia',b:'Sudáfrica',v:'ATL'},{d:'2026-06-18',a:'Suiza',b:'Bosnia y Herzegovina',v:'LAX'},{d:'2026-06-18',a:'Canadá',b:'Catar',v:'VAN'},{d:'2026-06-18',a:'México',b:'Corea del Sur',v:'GDL'},
-{d:'2026-06-19',a:'USA',b:'Australia',v:'SEA'},{d:'2026-06-19',a:'Escocia',b:'Marruecos',v:'BOS'},{d:'2026-06-19',a:'Brasil',b:'Haití',v:'PHI'},{d:'2026-06-19',a:'Turquía',b:'Paraguay',v:'SFO'},
-{d:'2026-06-20',a:'Países Bajos',b:'Suecia',v:'HOU'},{d:'2026-06-20',a:'Alemania',b:'Costa de Marfil',v:'TOR'},{d:'2026-06-20',a:'Ecuador',b:'Curaçao',v:'KCY'},{d:'2026-06-20',a:'Túnez',b:'Japón',v:'MTY'},
-{d:'2026-06-21',a:'España',b:'Arabia Saudí',v:'ATL'},{d:'2026-06-21',a:'Bélgica',b:'Irán',v:'LAX'},{d:'2026-06-21',a:'Uruguay',b:'Cabo Verde',v:'MIA'},{d:'2026-06-21',a:'Nueva Zelanda',b:'Egipto',v:'VAN'},
-{d:'2026-06-22',a:'Argentina',b:'Austria',v:'DAL'},{d:'2026-06-22',a:'Francia',b:'Irak',v:'PHI'},{d:'2026-06-22',a:'Noruega',b:'Senegal',v:'NYC'},{d:'2026-06-22',a:'Jordania',b:'Argelia',v:'SFO'},
-{d:'2026-06-23',a:'Portugal',b:'Uzbekistán',v:'HOU'},{d:'2026-06-23',a:'Inglaterra',b:'Ghana',v:'BOS'},{d:'2026-06-23',a:'Panamá',b:'Croacia',v:'TOR'},{d:'2026-06-23',a:'Colombia',b:'DR Congo',v:'GDL'},
-{d:'2026-06-24',a:'Suiza',b:'Canadá',v:'VAN'},{d:'2026-06-24',a:'Bosnia y Herzegovina',b:'Catar',v:'SEA'},{d:'2026-06-24',a:'Escocia',b:'Brasil',v:'MIA'},{d:'2026-06-24',a:'Marruecos',b:'Haití',v:'ATL'},{d:'2026-06-24',a:'Chequia',b:'México',v:'MEX'},{d:'2026-06-24',a:'Sudáfrica',b:'Corea del Sur',v:'MTY'},
-{d:'2026-06-25',a:'Ecuador',b:'Alemania',v:'NYC'},{d:'2026-06-25',a:'Curaçao',b:'Costa de Marfil',v:'PHI'},{d:'2026-06-25',a:'Japón',b:'Suecia',v:'DAL'},{d:'2026-06-25',a:'Túnez',b:'Países Bajos',v:'KCY'},{d:'2026-06-25',a:'Turquía',b:'USA',v:'LAX'},{d:'2026-06-25',a:'Paraguay',b:'Australia',v:'SFO'},
-{d:'2026-06-26',a:'Noruega',b:'Francia',v:'BOS'},{d:'2026-06-26',a:'Senegal',b:'Irak',v:'TOR'},{d:'2026-06-26',a:'Cabo Verde',b:'Arabia Saudí',v:'HOU'},{d:'2026-06-26',a:'Uruguay',b:'España',v:'GDL'},{d:'2026-06-26',a:'Egipto',b:'Irán',v:'SEA'},{d:'2026-06-26',a:'Nueva Zelanda',b:'Bélgica',v:'VAN'},
-{d:'2026-06-27',a:'Panamá',b:'Inglaterra',v:'NYC'},{d:'2026-06-27',a:'Croacia',b:'Ghana',v:'PHI'},{d:'2026-06-27',a:'Colombia',b:'Portugal',v:'MIA'},{d:'2026-06-27',a:'DR Congo',b:'Uzbekistán',v:'ATL'},{d:'2026-06-27',a:'Jordania',b:'Argentina',v:'DAL'},{d:'2026-06-27',a:'Argelia',b:'Austria',v:'KCY'}];
-const WC_KO=[{d:'2026-06-28',v:'LAX',r:'R32'},{d:'2026-06-29',v:'BOS',r:'R32'},{d:'2026-06-29',v:'MTY',r:'R32'},{d:'2026-06-29',v:'HOU',r:'R32'},{d:'2026-06-30',v:'NYC',r:'R32'},{d:'2026-06-30',v:'DAL',r:'R32'},{d:'2026-06-30',v:'MEX',r:'R32'},{d:'2026-07-01',v:'ATL',r:'R32'},{d:'2026-07-01',v:'SFO',r:'R32'},{d:'2026-07-01',v:'SEA',r:'R32'},{d:'2026-07-02',v:'TOR',r:'R32'},{d:'2026-07-02',v:'LAX',r:'R32'},{d:'2026-07-02',v:'VAN',r:'R32'},{d:'2026-07-03',v:'MIA',r:'R32'},{d:'2026-07-03',v:'KCY',r:'R32'},{d:'2026-07-03',v:'DAL',r:'R32'},{d:'2026-07-04',v:'PHI',r:'R16'},{d:'2026-07-04',v:'HOU',r:'R16'},{d:'2026-07-05',v:'NYC',r:'R16'},{d:'2026-07-05',v:'MEX',r:'R16'},{d:'2026-07-06',v:'DAL',r:'R16'},{d:'2026-07-06',v:'SEA',r:'R16'},{d:'2026-07-07',v:'ATL',r:'R16'},{d:'2026-07-07',v:'VAN',r:'R16'},{d:'2026-07-09',v:'BOS',r:'QF'},{d:'2026-07-10',v:'LAX',r:'QF'},{d:'2026-07-11',v:'MIA',r:'QF'},{d:'2026-07-11',v:'KCY',r:'QF'},{d:'2026-07-14',v:'DAL',r:'SF'},{d:'2026-07-15',v:'ATL',r:'SF'},{d:'2026-07-18',v:'MIA',r:'TP'},{d:'2026-07-19',v:'NYC',r:'F'}];
-const WC_KO_R={R32:['Dieciseisavos de final','Round of 32','32强赛'],R16:['Octavos de final','Round of 16','16强赛'],QF:['Cuartos de final','Quarter-final','四分之一决赛'],SF:['Semifinal','Semi-final','半决赛'],TP:['Tercer puesto','Third place','季军赛'],F:['LA GRAN FINAL','THE FINAL','总决赛']};
+const GAME_CFG={daily:{count:6,max:45},lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},destiny:{count:5,max:36},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},signals:{signals:true},compat:{compat:true}};
+// ═══ SPORTS: ligas curadas verificadas en vivo contra TheSportsDB (21 jul 2026) ═══
+// El usuario nunca escribe texto libre: deporte → competición real → partido real.
+// Fútbol/Básquet/Béisbol/F.Americano tienen liga(s) confiable(s) vía eventsseason.php.
+// Tenis: la API gratuita no expone jugadores (torneos, no partidos 1v1) — sin liga,
+// se muestra siempre el estado "sin partidos próximos" (nunca texto libre).
+const SPORTS_LEAGUES={
+  football:[{id:4328,es:'Premier League',en:'Premier League'},{id:4335,es:'LaLiga',en:'LaLiga'},{id:4480,es:'Champions League',en:'Champions League'},{id:4332,es:'Serie A',en:'Serie A'},{id:4331,es:'Bundesliga',en:'Bundesliga'},{id:4334,es:'Ligue 1',en:'Ligue 1'}],
+  basketball:[{id:4387,es:'NBA',en:'NBA'}],
+  americanfootball:[{id:4391,es:'NFL',en:'NFL'}],
+  baseball:[{id:4424,es:'MLB',en:'MLB'}],
+  tennis:[]
+};
+function sportsSeasonStr(sport,d){
+  const y=d.getFullYear();
+  if(sport==='football'){const m=d.getMonth()+1;return m>=7?(y+'-'+(y+1)):((y-1)+'-'+y);}
+  if(sport==='americanfootball')return String(d.getMonth()+1<=2?y-1:y);
+  return String(y); // basketball (NBA) y baseball (MLB): temporada = año en curso
+}
 const WC_I18N={
-es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan tus 5 fuerzas',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}',fieldLabel:'CAMPO ENERGÉTICO',favorLabel:'✦ El Cosmos Favorece A ✦',drawLabel:'✦ Las Energías se Entrelazan ✦',drawName:'EMPATE CÓSMICO',sealT:'PREDICCIÓN CÓSMICA',sealS:'Los cinco motores midieron el campo energético del partido',goldT:'✦ Energía del Favorecido ✦',goldTD:'✦ Equilibrio Energético ✦',goldName:'La resonancia dominante del encuentro',goldS:'Porción del campo energético que domina hoy',goldSD:'Las vibraciones se neutralizan en este encuentro',
+es:{matchLabel:'📅 Partido oficial — Cronograma FIFA',matchHint:'✦ La fecha y la sede del partido alimentan tus 5 fuerzas',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}',fieldLabel:'CAMPO ENERGÉTICO',favorLabel:'✦ El Cosmos Favorece A ✦',drawLabel:'✦ Las Energías se Entrelazan ✦',drawName:'EMPATE CÓSMICO',sealT:'ENERGÍA DEPORTIVA',sealS:'Los cinco motores midieron el campo energético del partido',goldT:'✦ Energía del Favorecido ✦',goldTD:'✦ Equilibrio Energético ✦',goldName:'La resonancia dominante del encuentro',goldS:'Porción del campo energético que domina hoy',goldSD:'Las vibraciones se neutralizan en este encuentro',
 phi:'La raíz pitagórica del nombre de <strong>{win}</strong> entra en conjugación armónica con el número de la fecha del encuentro y la geoenergía de la sede, bajo la <strong>luna {moon}</strong> (día {day}). Esa resonancia le entrega el <strong>{wp}%</strong> del campo energético del partido.',
 phiD:'El cosmos midió la conjugación numerológica de <strong>{a}</strong> y <strong>{b}</strong> bajo la <strong>luna {moon}</strong> (día {day}), el número de la fecha y la geoenergía de la sede. Las dos vibraciones se reflejan como espejos: ninguna logra dominar el campo. En el fútbol, el empate también es un designio del cosmos.',
 interp:'{n}, la conjugación de los números revela por qué este resultado puede manifestarse: la vibración del nombre de <strong>{win}</strong>, el número de la fecha y la energía de la sede se alinean en una misma frecuencia — y sus jugadores atraviesan un gran momento vibracional, esa convergencia interior que los místicos llaman estado de gracia. <strong>{win}</strong> domina el <strong>{wp}%</strong> del campo frente al {lpct}% de <strong>{lose}</strong>{rk}.',
@@ -1446,7 +1432,7 @@ interpD:'{n}, las fuerzas conjugaron los números de ambas escuadras para esta f
 rankTail:' — y la balanza terrenal del ranking FIFA (#{rw} frente a #{rl}) confirma lo que los números susurran',
 closer:'Esta lectura refleja las energías del cosmos hoy — el fútbol, como la vida, siempre puede sorprender. Numbers es entretenimiento e inspiración.',
 confDraw:'⚡ Vibraciones casi idénticas — el empate es un desenlace muy probable',confKO:'⚡ Energías casi gemelas — la definición llegará en los detalles más finos',confLeve:'⚡ Ventaja cósmica leve — partido muy parejo, cualquiera puede ganar',confMod:'⚡ Ventaja moderada — la energía inclina la balanza',confClara:'⚡ Ventaja cósmica clara — las cinco fuerzas apuntan en una dirección'},
-en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}',fieldLabel:'ENERGY FIELD',favorLabel:'✦ The Cosmos Favors ✦',drawLabel:'✦ The Energies Intertwine ✦',drawName:'COSMIC DRAW',sealT:'COSMIC PREDICTION',sealS:'The five engines measured the energy field of this match',goldT:'✦ Energy of the Favored ✦',goldTD:'✦ Energetic Balance ✦',goldName:'The dominant resonance of this match',goldS:'Share of the energy field dominated today',goldSD:'The vibrations neutralize each other in this match',
+en:{matchLabel:'📅 Official match — FIFA schedule',matchHint:'✦ Match date and venue feed the 5 engines',tbd:'teams to be defined, type them in',free:'✍️ Another match (type the teams freely)',rankLine:'Earthly balance — FIFA Ranking: {a} #{ra} · {b} #{rb}',fieldLabel:'ENERGY FIELD',favorLabel:'✦ The Cosmos Favors ✦',drawLabel:'✦ The Energies Intertwine ✦',drawName:'COSMIC DRAW',sealT:'SPORTS ENERGY',sealS:'The five engines measured the energy field of this match',goldT:'✦ Energy of the Favored ✦',goldTD:'✦ Energetic Balance ✦',goldName:'The dominant resonance of this match',goldS:'Share of the energy field dominated today',goldSD:'The vibrations neutralize each other in this match',
 phi:'The Pythagorean root of the name of <strong>{win}</strong> enters harmonic conjugation with the number of the match date and the geo-energy of the venue, under the <strong>{moon} moon</strong> (day {day}). That resonance grants it <strong>{wp}%</strong> of the energy field of this match.',
 phiD:'The cosmos measured the numerological conjugation of <strong>{a}</strong> and <strong>{b}</strong> under the <strong>{moon} moon</strong> (day {day}), the number of the date and the geo-energy of the venue. The two vibrations mirror each other: neither dominates the field. In football, a draw is also a design of the cosmos.',
 interp:'{n}, the conjugation of the numbers reveals why this result can manifest: the vibration of the name of <strong>{win}</strong>, the number of the date and the energy of the venue align on the same frequency — and its players are living a great vibrational moment, that inner convergence mystics call a state of grace. <strong>{win}</strong> dominates <strong>{wp}%</strong> of the field against {lpct}% for <strong>{lose}</strong>{rk}.',
@@ -1454,7 +1440,7 @@ interpD:'{n}, the forces conjugated the numbers of both squads for this date and
 rankTail:' — and the earthly balance of the FIFA Ranking (#{rw} vs #{rl}) confirms what the numbers whisper',
 closer:'This reading reflects the energies of the cosmos today — football, like life, can always surprise. Numbers is entertainment and inspiration.',
 confDraw:'⚡ Nearly identical vibrations — a draw is a very likely outcome',confKO:'⚡ Twin energies — it will be decided by the finest details',confLeve:'⚡ Slight cosmic edge — very even match, anyone can win',confMod:'⚡ Moderate edge — the energy tips the scale',confClara:'⚡ Clear cosmic edge — all five forces point in one direction'},
-zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'宇宙解读',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
+zh:{matchLabel:'📅 官方赛程 — FIFA世界杯',matchHint:'✦ 比赛日期与场地为五大引擎注入能量',tbd:'对阵待定，请自行输入',free:'✍️ 其他比赛（自由输入两队）',rankLine:'人间天平 — FIFA排名：{a} 第{ra}位 · {b} 第{rb}位',fieldLabel:'能量场',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ 能量交织 ✦',drawName:'宇宙平局',sealT:'体育能量',sealS:'五大引擎测量了本场比赛的能量场',goldT:'✦ 被眷顾者的能量 ✦',goldTD:'✦ 能量均衡 ✦',goldName:'本场比赛的主导共振',goldS:'今日主宰的能量场份额',goldSD:'本场比赛中两股振动相互抵消',
 phi:'在<strong>{moon}</strong>（第{day}天）之下，<strong>{win}</strong>名称的毕达哥拉斯之根与比赛日期数字、场地地能进入和谐共振。这种共振为其赢得本场比赛<strong>{wp}%</strong>的能量场。',
 phiD:'宇宙在<strong>{moon}</strong>（第{day}天）之下，测算了<strong>{a}</strong>与<strong>{b}</strong>的数字融合、日期数字与场地地能。两股振动如镜像相互映照：无一方能主宰能量场。在足球中，平局也是宇宙的安排。',
 interp:'{n}，数字的融合揭示了这一结果为何可能显现：<strong>{win}</strong>名称的振动、比赛日期的数字与场地的能量汇聚于同一频率 — 他们的球员正处于巅峰的振动时刻，即神秘学所称的恩典状态。<strong>{win}</strong>掌控<strong>{wp}%</strong>的能量场，而<strong>{lose}</strong>为{lpct}%{rk}。',
@@ -1464,9 +1450,6 @@ closer:'本解读反映今日宇宙能量 — 足球如人生，总有惊喜。N
 confDraw:'⚡ 振动几乎相同 — 平局是非常可能的结果',confKO:'⚡ 能量如双生 — 将由最微小的细节决定',confLeve:'⚡ 宇宙优势轻微 — 势均力敌，胜负难料',confMod:'⚡ 优势适中 — 能量倾斜天平',confClara:'⚡ 宇宙优势明显 — 五大引擎指向同一方向'}};
 function wcLang(){try{if(typeof uiLang==='function')return uiLang()}catch(e){}return(typeof STATE!=='undefined'&&STATE.lang==='zh')?'zh':'es'}
 function wcLi(){const l=wcLang();return l==='en'?1:l==='zh'?2:0}
-function wcTeamLabel(t){const l=wcLang();return l==='en'?(WC_TEAM_EN[t]||t):l==='zh'?(WC_TEAM_ZH[t]||t):t}
-function wcResolveTeam(s){if(!s)return s;const n=s.trim();if(WC_RANK[n]!==undefined)return n;const ln=n.toLowerCase();for(const k in WC_RANK){if(k.toLowerCase()===ln)return k;const en=WC_TEAM_EN[k];if(en&&en.toLowerCase()===ln)return k;if(WC_TEAM_ZH[k]===n)return k}return n}
-function wcVenueName(v){const x=WC_VENUES[v];return x?x[wcLi()]:''}
 function wcFmtDate(d){const l=wcLang();const p=d.split('-');const m=+p[1],day=+p[2];if(l==='zh')return m+'月'+day+'日';const mes=l==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return l==='en'?(mes[m-1]+' '+day):(day+' '+mes[m-1])}
 function wcRed9(n){n=numReduce(n);if(n>9)n=(n%9)||9;return n}
 // ═══ LOS 5 ORÁCULOS: regentes planetarios del día + año chino en curso + paneles por motor ═══
@@ -1520,63 +1503,34 @@ function openMotorPanel(key){
   panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-orb">'+dn+'</div><div class="mp-text">'+txt+'</div>';
   panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});
 }
-function populateWcMatches(){
-  const sel=document.getElementById('wc-match-select');if(!sel)return;
-  const T=WC_I18N[wcLang()];
-  const lbl=document.getElementById('wc-match-label');if(lbl)lbl.textContent=T.matchLabel;
-  const hint=document.getElementById('wc-match-hint');if(hint)hint.textContent=T.matchHint;
-  sel.innerHTML='';
-  const today=new Date().toISOString().split('T')[0];
-  WC_GS.forEach(function(m,i){if(m.d>=today){const o=document.createElement('option');o.value='g'+i;o.textContent=wcFmtDate(m.d)+' · '+wcTeamLabel(m.a)+' vs '+wcTeamLabel(m.b)+' · '+wcVenueName(m.v);sel.appendChild(o)}});
-  WC_KO.forEach(function(m,i){if(m.d>=today){const o=document.createElement('option');o.value='k'+i;o.textContent=wcFmtDate(m.d)+' · '+WC_KO_R[m.r][wcLi()]+' · '+wcVenueName(m.v)+' — '+T.tbd;sel.appendChild(o)}});
-  const o=document.createElement('option');o.value='free';o.textContent=T.free;sel.appendChild(o);
-  selWcMatch();
-}
-function selWcMatch(){
-  const sel=document.getElementById('wc-match-select');if(!sel)return;
-  const v=sel.value;const a=document.getElementById('inp-team-a'),b=document.getElementById('inp-team-b');
-  if(v&&v.charAt(0)==='g'){const m=WC_GS[parseInt(v.slice(1))];STATE.wcMatch={d:m.d,v:m.v,stage:'gs'};if(a)a.value=wcTeamLabel(m.a);if(b)b.value=wcTeamLabel(m.b);}
-  else if(v&&v.charAt(0)==='k'){const m=WC_KO[parseInt(v.slice(1))];STATE.wcMatch={d:m.d,v:m.v,stage:'ko'};if(a)a.value='';if(b)b.value='';}
-  else{STATE.wcMatch=null;if(a)a.value='';if(b)b.value='';}
-}
 function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
-  // v3: campo energético en %, 30% cósmico + 70% ranking FIFA, empates permitidos en fase de grupos
-  const cA=wcResolveTeam(teamA),cB=wcResolveTeam(teamB);
+  // Campo energético en %: numerología + astro + luna + chino + geo de los dos rivales. Sin sesgo de ranking externo.
   const effDate=(match&&match.d)?match.d:today;
   const lp=lifePath(name,birth),moon=getMoon(effDate),geoB=cityGeoVal('cityb',cityB),geoN=cityGeoVal('cityn',cityN);
-  const venueGeo=(match&&match.v&&WC_VENUES[match.v])?cityEnergy(WC_VENUES[match.v][1]):(match&&match.venueText)?cityEnergy(match.venueText):0;
+  const venueGeo=(match&&match.venueText)?cityEnergy(match.venueText):0;
   const geo=numReduce(geoB+geoN+venueGeo);
   const todayN=numReduce(effDate.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
   const zodiac=getZodiac(birth),chinese=getChineseFromDate(birth);
   const astV=numReduce(zodiac.num+getDayRuler(effDate).n),chiV=numReduce(chinese.num+getChineseFromDate(effDate).num);
-  const rankA=WC_RANK[cA],rankB=WC_RANK[cB];
-  function cosmicScore(canon){
-    const tn=nameNum(canon);
+  function cosmicScore(teamName){
+    const tn=nameNum(teamName);
     const seed=Math.abs((tn*137+lp*53+todayN*97+moon.day*31+geo*71+venueGeo*43)&0x7fffffff);
     const rand=seededRand(seed);
     let raw=tn+todayN+Math.round(moon.mult*2)+Math.floor(rand()*3);
     return Math.max(1,wcRed9(raw));
   }
-  function strength(canon,rank){
-    const c=cosmicScore(canon);
-    if(rank===undefined)return c;
-    const rs=9-8*(rank-1)/84;
-    return c*0.30+rs*0.70;
-  }
-  const sA=strength(cA,rankA),sB=strength(cB,rankB);
+  const sA=cosmicScore(teamA),sB=cosmicScore(teamB);
   let pctA=Math.round(100*sA*sA/(sA*sA+sB*sB));
   if(wcLang()==='zh'){if(pctA===44)pctA=45;else if(pctA===56)pctA=57;else if(pctA===4)pctA=5;else if(pctA===96)pctA=97;}
   if(pctA<3)pctA=3;if(pctA>97)pctA=97;
   const pctB=100-pctA;
-  const stage=(match&&match.stage)?match.stage:null;
   const diff=Math.abs(pctA-pctB);
   const sportNoDraw=(typeof STATE!=='undefined'&&STATE.game==='sports'&&['tennis','basketball','americanfootball','volleyball','baseball'].indexOf(STATE.sport)>=0);
-  const isDraw=stage!=='ko'&&!sportNoDraw&&diff<=8;
+  const isDraw=!sportNoDraw&&diff<=8;
   let winner,loser;
   if(pctA>pctB){winner=teamA;loser=teamB;}
   else if(pctB>pctA){winner=teamB;loser=teamA;}
-  else if(rankA!==undefined&&rankB!==undefined&&rankA!==rankB){winner=rankA<rankB?teamA:teamB;loser=winner===teamA?teamB:teamA;}
-  else{winner=nameNum(cA)>=nameNum(cB)?teamA:teamB;loser=winner===teamA?teamB:teamA;}
+  else{winner=nameNum(teamA)>=nameNum(teamB)?teamA:teamB;loser=winner===teamA?teamB:teamA;}
   const TC=WC_I18N[wcLang()];
   let confidence;
   if(isDraw)confidence=TC.confDraw;
@@ -1584,7 +1538,7 @@ function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
   else if(diff<=16)confidence=TC.confLeve;
   else if(diff<=30)confidence=TC.confMod;
   else confidence=TC.confClara;
-  return{teamA,teamB,pctA,pctB,scoreA:pctA,scoreB:pctB,isDraw,stage,winner,loser,confidence,match:match||null,rankA,rankB,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo},moon,lp,zodiac,chinese,geo};
+  return{teamA,teamB,pctA,pctB,scoreA:pctA,scoreB:pctB,isDraw,winner,loser,confidence,match:match||null,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo},moon,lp,zodiac,chinese,geo};
 }
 function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
 function computeNumbers(name,birth,cityB,cityN,game,lang,today){
@@ -1933,122 +1887,128 @@ function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('Crear cuenta','Create account'):L('Iniciar sesión','Log in');document.getElementById('auth-toggle').innerHTML=t?L('¿Ya tienes cuenta? <span onclick="toggleAuth()">Inicia sesión</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('¿No tienes cuenta? <span onclick="toggleAuth()">Regístrate</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('Crea tu oráculo personal','Create your personal oracle'):L('Bienvenido de vuelta','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
-// ===== Deportes: calendario automático por API (TheSportsDB, key pública 123) =====
-// Solo deportes por equipos tienen strHomeTeam/strAwayTeam confiables en la API gratuita.
-// Tenis y Boxeo devuelven esos campos en null (torneos/carteleras, no partidos 1v1) — quedan manuales.
-const SPORT_API_PARAM={football:'Soccer',basketball:'Basketball',baseball:'Baseball',volleyball:'Volleyball',americanfootball:'American Football'};
+// ===== Sports: deporte → competición real → partido real (TheSportsDB, key pública 123) =====
+// Carga perezosa: solo se consulta la API al tocar un deporte/liga. Caché: solo los próximos
+// ~15 partidos ya filtrados (no la temporada cruda), por liga y por día, en localStorage.
+// El usuario nunca escribe texto libre — si una liga o deporte no tiene partidos próximos,
+// se oculta (o se muestra un estado vacío elegante), nunca un campo de texto.
 const SPORT_MATCH_I18N={
-es:{label:'📅 Partido de hoy o mañana',hint:'✦ La fecha y la sede del partido alimentan tus 5 fuerzas',loading:'Cargando calendario...',error:'No pudimos cargar el calendario de hoy — escribe los equipos',none:'Sin partidos hoy ni mañana — escribe los equipos',free:'✍️ Escribir otro partido',today:'hoy',tomorrow:'mañana'},
-en:{label:"📅 Today or tomorrow's match",hint:'✦ Match date and venue feed your 5 forces',loading:'Loading schedule...',error:"We couldn't load today's schedule — type the teams",none:'No matches today or tomorrow — type the teams',free:'✍️ Write another match',today:'today',tomorrow:'tomorrow'}};
-let SPORT_EVENTS=[];
+es:{leagueIntro:'🏆 Elige la competición',matchLabel:'📅 Elige el partido',hint:'✦ La fecha y la sede del partido alimentan tus 5 fuerzas',loading:'Cargando partidos...',empty:'Sin partidos próximos en esta competición — prueba con otra',emptySport:'Sin competiciones con partidos próximos en este deporte ahora mismo. Vuelve pronto.'},
+en:{leagueIntro:'🏆 Choose the competition',matchLabel:'📅 Choose the match',hint:'✦ Match date and venue feed your 5 forces',loading:'Loading matches...',empty:'No upcoming matches in this competition — try another',emptySport:'No competitions with upcoming matches in this sport right now. Check back soon.'}};
 function sptI18n(){return SPORT_MATCH_I18N[uiLang()==='en'?'en':'es']}
-async function fetchSportMatches(sport){
-  const param=SPORT_API_PARAM[sport];if(!param)return[];
-  const d0=new Date(),d1=new Date(d0.getTime()+86400000);
-  const s0=d0.toISOString().split('T')[0],s1=d1.toISOString().split('T')[0];
-  const cacheKey='no_sport_'+sport+'_'+s0;
-  try{const c=sessionStorage.getItem(cacheKey);if(c)return JSON.parse(c);}catch(e){}
+let SPORT_EVENTS=[];
+function sportLeagueCacheKey(leagueId){return 'no_sports_league_'+leagueId+'_'+new Date().toISOString().split('T')[0]}
+async function fetchLeagueMatches(leagueId,sport){
+  const ck=sportLeagueCacheKey(leagueId);
+  try{const c=localStorage.getItem(ck);if(c){const p=JSON.parse(c);return p.err?null:p.events;}}catch(e){}
   try{
-    const[r0,r1]=await Promise.all([
-      fetch('https://www.thesportsdb.com/api/v1/json/123/eventsday.php?d='+s0+'&s='+encodeURIComponent(param)),
-      fetch('https://www.thesportsdb.com/api/v1/json/123/eventsday.php?d='+s1+'&s='+encodeURIComponent(param))
-    ]);
-    const[j0,j1]=await Promise.all([r0.json(),r1.json()]);
-    const events=[].concat(j0.events||[],j1.events||[]).filter(e=>e.strHomeTeam&&e.strAwayTeam);
-    try{sessionStorage.setItem(cacheKey,JSON.stringify(events));}catch(e){}
+    const season=sportsSeasonStr(sport,new Date());
+    const r=await fetch('https://www.thesportsdb.com/api/v1/json/123/eventsseason.php?id='+leagueId+'&s='+encodeURIComponent(season));
+    const j=await r.json();
+    const today=new Date().toISOString().split('T')[0];
+    const events=(j.events||[]).filter(e=>e.dateEvent>=today&&e.strStatus==='NS'&&e.strHomeTeam&&e.strAwayTeam).sort((a,b)=>(a.dateEvent+(a.strTime||'')).localeCompare(b.dateEvent+(b.strTime||''))).slice(0,15);
+    try{localStorage.setItem(ck,JSON.stringify({events:events}));}catch(e){}
     return events;
-  }catch(e){console.warn('[sportMatches]',e);return null;}
+  }catch(e){
+    console.warn('[fetchLeagueMatches]',e);
+    try{localStorage.setItem(ck,JSON.stringify({err:true}));}catch(e2){}
+    return null;
+  }
 }
-async function populateSportMatches(sport){
-  const wrap=document.getElementById('sport-match-wrap'),sel=document.getElementById('sport-match-select');
-  if(!wrap||!sel)return;
-  const param=SPORT_API_PARAM[sport];
+function renderLeagueEmptyState(msg){
+  const es=document.getElementById('league-empty-state');if(!es)return;
+  es.textContent=msg||'';es.classList.toggle('hidden',!msg);
+}
+async function populateLeagues(sport){
+  const wrap=document.getElementById('league-selector-wrap'),box=document.getElementById('league-selector');
+  const mwrap=document.getElementById('sport-match-wrap');
   const T=sptI18n();
-  if(!param){wrap.classList.add('hidden');SPORT_EVENTS=[];STATE.sportMatch=null;return;}
-  wrap.classList.remove('hidden');
-  document.getElementById('sport-match-label').textContent=T.label;
-  document.getElementById('sport-match-hint').textContent=T.hint;
-  sel.innerHTML='<option value="">'+T.loading+'</option>';sel.disabled=true;
-  const events=await fetchSportMatches(sport);
+  if(!box)return;
+  box.innerHTML='';if(mwrap)mwrap.classList.add('hidden');STATE.sportMatch=null;SPORT_EVENTS=[];
+  updateTeamPreview();
+  const li=document.getElementById('league-intro');if(li)li.textContent=T.leagueIntro;
+  const leagues=SPORTS_LEAGUES[sport]||[];
+  if(leagues.length===0){wrap.classList.add('hidden');renderLeagueEmptyState(T.emptySport);return;}
+  wrap.classList.remove('hidden');renderLeagueEmptyState('');
+  box.innerHTML='<div class="sport-chip" style="opacity:.6;pointer-events:none">'+T.loading+'</div>';
+  const results=await Promise.all(leagues.map(function(lg){return fetchLeagueMatches(lg.id,sport).then(function(events){return{lg:lg,events:events}})}));
   if(STATE.sport!==sport)return; // el usuario ya cambió de deporte mientras cargaba
-  sel.innerHTML='';sel.disabled=false;
-  if(events===null){
-    SPORT_EVENTS=[];
-    document.getElementById('sport-match-hint').textContent=T.error;
-    const o=document.createElement('option');o.value='free';o.textContent=T.free;sel.appendChild(o);
-    STATE.sportMatch=null;return;
-  }
-  SPORT_EVENTS=events;
-  const today=new Date().toISOString().split('T')[0];
-  if(events.length===0){
-    document.getElementById('sport-match-hint').textContent=T.none;
-  }else{
-    events.forEach(function(e,i){
-      const o=document.createElement('option');o.value='m'+i;
-      const dLabel=e.dateEvent===today?T.today:T.tomorrow;
-      const time=e.strTimeLocal?e.strTimeLocal.slice(0,5):'';
-      o.textContent=e.strHomeTeam+' vs '+e.strAwayTeam+' · '+(e.strLeague||'')+' · '+dLabel+(time?(' '+time):'');
-      sel.appendChild(o);
-    });
-  }
-  const oFree=document.createElement('option');oFree.value='free';oFree.textContent=T.free;sel.appendChild(oFree);
+  box.innerHTML='';
+  const withMatches=results.filter(function(r){return r.events&&r.events.length>0});
+  if(withMatches.length===0){wrap.classList.add('hidden');renderLeagueEmptyState(T.emptySport);return;}
+  withMatches.forEach(function(r,i){
+    const l=uiLang();
+    const chip=document.createElement('div');
+    chip.className='sport-chip'+(i===0?' sel':'');
+    chip.textContent=l==='en'?r.lg.en:r.lg.es;
+    chip.onclick=function(){selLeague(this,r.events)};
+    box.appendChild(chip);
+  });
+  selLeague(box.children[0],withMatches[0].events);
+}
+function selLeague(el,events){
+  document.querySelectorAll('#league-selector .sport-chip').forEach(c=>c.classList.remove('sel'));
+  if(el)el.classList.add('sel');
+  SPORT_EVENTS=events||[];
+  const mwrap=document.getElementById('sport-match-wrap'),sel=document.getElementById('sport-match-select');
+  const T=sptI18n();
+  if(!mwrap||!sel)return;
+  if(SPORT_EVENTS.length===0){mwrap.classList.add('hidden');renderLeagueEmptyState(T.empty);STATE.sportMatch=null;updateTeamPreview();return;}
+  renderLeagueEmptyState('');
+  mwrap.classList.remove('hidden');
+  document.getElementById('sport-match-label').textContent=T.matchLabel;
+  document.getElementById('sport-match-hint').textContent=T.hint;
+  sel.innerHTML='';
+  SPORT_EVENTS.forEach(function(e,i){
+    const o=document.createElement('option');o.value='m'+i;
+    const time=e.strTimeLocal?e.strTimeLocal.slice(0,5):(e.strTime?e.strTime.slice(0,5):'');
+    o.textContent=wcFmtDate(e.dateEvent)+' · '+e.strHomeTeam+' vs '+e.strAwayTeam+(time?(' · '+time):'');
+    sel.appendChild(o);
+  });
   selSportMatch();
 }
 function selSportMatch(){
   const sel=document.getElementById('sport-match-select');if(!sel)return;
-  const v=sel.value;const a=document.getElementById('inp-team-a'),b=document.getElementById('inp-team-b');
+  const v=sel.value;
   if(v&&v.charAt(0)==='m'&&SPORT_EVENTS[parseInt(v.slice(1))]){
     const e=SPORT_EVENTS[parseInt(v.slice(1))];
     const venueText=[e.strVenue,e.strCity,e.strCountry].filter(Boolean).join(', ');
-    STATE.sportMatch={d:e.dateEvent,venueText:venueText};
-    if(a)a.value=e.strHomeTeam;if(b)b.value=e.strAwayTeam;
+    STATE.sportMatch={d:e.dateEvent,venueText:venueText,teamA:e.strHomeTeam,teamB:e.strAwayTeam};
   }else{
-    STATE.sportMatch=null;if(a)a.value='';if(b)b.value='';
+    STATE.sportMatch=null;
+  }
+  updateTeamPreview();
+}
+function updateTeamPreview(){
+  const prev=document.getElementById('duel-team-preview'),a=document.getElementById('inp-team-a'),b=document.getElementById('inp-team-b');
+  if(!prev||!a||!b)return;
+  if(STATE.sportMatch&&STATE.sportMatch.teamA&&STATE.sportMatch.teamB){
+    a.value=STATE.sportMatch.teamA;b.value=STATE.sportMatch.teamB;prev.classList.remove('hidden');
+  }else{
+    a.value='';b.value='';prev.classList.add('hidden');
   }
 }
 function selSport(el){
-  document.querySelectorAll('.sport-chip').forEach(c=>c.classList.remove('sel'));
+  document.querySelectorAll('#sport-selector .sport-chip').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
   STATE.sport=el.dataset.sport;
   STATE.sportMatch=null;
-  // Update team labels dynamically
-  document.getElementById('label-team-a').textContent=el.dataset.labelA||L('🔵 Equipo A / Local','🔵 Team A / Home');
-  document.getElementById('label-team-b').textContent=el.dataset.labelB||L('🔴 Equipo B / Visitante','🔴 Team B / Away');
-  // Clear team inputs when sport changes
-  document.getElementById('inp-team-a').value='';
-  document.getElementById('inp-team-b').value='';
-  const isIndividual=STATE.sport==='tennis'||STATE.sport==='boxing';
-  document.getElementById('inp-team-a').placeholder=isIndividual?L('Ej: Djokovic, Alcaraz, Canelo...','E.g.: Djokovic, Alcaraz, Canelo...'):L('Ej: Real Madrid, Lakers, Colombia...','E.g.: Real Madrid, Lakers, Colombia...');
-  document.getElementById('inp-team-b').placeholder=isIndividual?L('Ej: Federer, Sinner, GGG...','E.g.: Federer, Sinner, GGG...'):L('Ej: Barcelona, Celtics, Argentina...','E.g.: Barcelona, Celtics, Argentina...');
-  if(SPORT_API_PARAM[STATE.sport]){populateSportMatches(STATE.sport);}else{const w=document.getElementById('sport-match-wrap');if(w)w.classList.add('hidden');}
+  document.getElementById('label-team-a').textContent=L('🔵 Equipo A / Local','🔵 Team A / Home');
+  document.getElementById('label-team-b').textContent=L('🔴 Equipo B / Visitante','🔴 Team B / Away');
+  updateTeamPreview();
+  populateLeagues(STATE.sport);
 }
 function selectChance(n){STATE.chanceCount=n;document.querySelectorAll('#chance-seg span').forEach(s=>s.classList.toggle('on',+s.dataset.n===n));}
 function selGame(el){
   document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');STATE.game=el.dataset.game;
-  const isDuel=STATE.game==='sports'||STATE.game==='mundial';
   const isSports=STATE.game==='sports';
-  const isMundial=STATE.game==='mundial';
   const isCompat=STATE.game==='compat';
-  document.getElementById('duel-fields').classList.toggle('hidden',!isDuel);
+  document.getElementById('duel-fields').classList.toggle('hidden',!isSports);
   document.getElementById('compat-fields').classList.toggle('hidden',!isCompat);
   document.getElementById('chance-fields').classList.toggle('hidden',STATE.game!=='chance');
   document.getElementById('signals-fields').classList.toggle('hidden',STATE.game!=='signals');
-  document.getElementById('sport-selector-wrap').classList.toggle('hidden',!isSports);
-  document.getElementById('mundial-duel-intro').classList.toggle('hidden',!isMundial);
-  if(isMundial){populateWcMatches();}else{STATE.wcMatch=null;}
-  if(isSports){if(SPORT_API_PARAM[STATE.sport]){populateSportMatches(STATE.sport);}else{const w=document.getElementById('sport-match-wrap');if(w)w.classList.add('hidden');}}else{STATE.sportMatch=null;}
-  // Reset labels for mundial
-  if(isMundial){
-    document.getElementById('label-team-a').textContent=L('🔵 Equipo A / Local','🔵 Team A / Home');
-    document.getElementById('label-team-b').textContent=L('🔴 Equipo B / Visitante','🔴 Team B / Away');
-    document.getElementById('inp-team-a').placeholder=L('Ej: Argentina, Brasil, México...','E.g.: Argentina, Brazil, Mexico...');
-    document.getElementById('inp-team-b').placeholder=L('Ej: Francia, España, Alemania...','E.g.: France, Spain, Germany...');
-  }
-  if(isDuel){
-    const dl=document.getElementById('wc-teams-list');
-    if(dl.children.length===0){MUNDIAL_TEAMS.forEach(t=>{const o=document.createElement('option');o.value=t;dl.appendChild(o)});}
-  }
+  if(isSports){populateLeagues(STATE.sport);}else{STATE.sportMatch=null;}
   // Hide hint when a card is selected
   document.getElementById('card-hint').classList.remove('show');
   try{updateFreemiumBar()}catch(e){}
@@ -2075,9 +2035,9 @@ function renderDuelResult(duel,name){
   if(proCta) proCta.style.display='none';
   const L=wcLang();const T=WC_I18N[L];
   const sportNames=L==='zh'
-    ?{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',volleyball:'🏐 排球',boxing:'🥊 拳击',americanfootball:'🏈 美式足球',other:'🏆 其他'}
-    :{football:'⚽ Fútbol',basketball:'🏀 Básquet',tennis:'🎾 Tenis',baseball:'⚾ Béisbol',volleyball:'🏐 Voleibol',boxing:'🥊 Boxeo',americanfootball:'🏈 Fútbol Americano',other:'🏆 Deporte'};
-  const gameLabel=STATE.game==='mundial'?(L==='zh'?'🏆 2026世界杯':L==='en'?'🏆 World Cup 2026':'🏆 Mundial 2026'):(sportNames[STATE.sport]||'⚽ Deportes');
+    ?{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',americanfootball:'🏈 美式足球'}
+    :{football:'⚽ Fútbol',basketball:'🏀 Básquet',tennis:'🎾 Tenis',baseball:'⚾ Béisbol',americanfootball:'🏈 Fútbol Americano'};
+  const gameLabel=sportNames[STATE.sport]||'⚽ Sports';
   document.getElementById('result-game').textContent=gameLabel;
   document.getElementById('result-user').textContent=name;
   document.getElementById('seal-text').textContent=T.sealT;
@@ -2095,7 +2055,7 @@ function renderDuelResult(duel,name){
   document.getElementById('duel-winner-name').textContent=duel.isDraw?T.drawName:duel.winner;
   document.getElementById('duel-confidence').textContent=duel.confidence;
   const mi=document.getElementById('duel-match-info');
-  if(mi){mi.textContent=duel.match?('📅 '+wcFmtDate(duel.match.d)+'  ·  🏟 '+wcVenueName(duel.match.v)):'';mi.style.display=duel.match?'block':'none';}
+  if(mi){const vt=(duel.match&&duel.match.venueText)?('  ·  🏟 '+duel.match.venueText):'';mi.textContent=duel.match?('📅 '+wcFmtDate(duel.match.d)+vt):'';mi.style.display=duel.match?'block':'none';}
   const ri=document.getElementById('duel-rank-info');
   if(ri){ri.style.display='none';ri.textContent='';}
   document.getElementById('duel-result-section').classList.remove('hidden');
@@ -2116,16 +2076,11 @@ function renderDuelResult(duel,name){
   const ipw=document.getElementById('interp-power');if(ipw&&L==='zh'&&typeof TRANSLATIONS!=='undefined'&&TRANSLATIONS.zh&&TRANSLATIONS.zh.interpPower)ipw.textContent=TRANSLATIONS.zh.interpPower;
   document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}','');
   document.getElementById('interp-closer').innerHTML=T.closer;
-  // Tarjeta Mundial bajo motores: oculta si el resultado YA es Mundial · Upsell dorado solo en Mundial
-  (function(){const up=document.getElementById('wc-upsell');if(!up)return;
-  if(STATE.game!=='mundial'||isPro()){up.style.display='none';return;}
-  const used=STATE.consultsToday>=1;
-  up.innerHTML=L==='zh'?(used?'✦ 想要更多？用 <strong>Pro</strong> 解锁无限解读 →':'✦ 看看<strong>你的专属数字</strong>今天如何振动 → 免费个人解读')
-    :L==='en'?(used?'✦ Want more? Unlock unlimited readings with <strong>Pro</strong> →':'✦ Discover how <strong>YOUR numbers</strong> vibrate today → Your free personal reading awaits')
-    :(used?'✦ ¿Quieres más? Desbloquea consultas ilimitadas con <strong>Pro</strong> →':'✦ Descubre cómo vibran <strong>TUS números</strong> hoy → Tu lectura personal gratis te espera');
-  up.style.display='block';})();
 }
 function isPro(){return STATE.profile?.plan==='pro'}
+function sportsQuotaKey(){return 'no_sports_'+new Date().toISOString().split('T')[0]}
+function sportsQuotaToday(){try{return parseInt(localStorage.getItem(sportsQuotaKey())||'0',10)}catch(e){return 0}}
+function incrementSportsQuota(){try{localStorage.setItem(sportsQuotaKey(),String(sportsQuotaToday()+1))}catch(e){}}
 function proLaunch(el){
   if(isPro()){quickLaunch(el);return;}
   showTab('upgrade');
@@ -2233,15 +2188,6 @@ function generateCompat(){
   document.getElementById('compat-narration').innerHTML=narr;
   try{accUpdate()}catch(e){}
 }
-function wcFromResult(){
-  goBackToForm();
-  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="mundial"]');if(el){quickLaunch(el)}},200);
-}
-function wcUpsellGo(){
-  if(STATE.consultsToday>=1&&!isPro()){showTab('upgrade');return;}
-  goBackToForm();
-  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="daily"]');if(el){quickLaunch(el)}},200);
-}
 /* ─── Acordeón ritual ─── */
 const ACC_FIELDS={1:'inp-name',2:'inp-birth',3:'inp-cityb',4:'inp-cityn'};
 let ACC_OPEN=1;
@@ -2291,7 +2237,7 @@ function accInit(){try{accLockProfile()}catch(e){}accOpenStep(accFirstEmpty(),fa
 function editProfileData(){for(let i=1;i<=4;i++){const el=document.getElementById('acc-'+i);if(el)el.classList.remove('profile-locked');}showTab('form');accOpenStep(1,true);}
 function wcRibbonGo(){
   showTab('form');accOpenStep(5,false);
-  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="mundial"]');if(el)quickLaunch(el)},200);
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="sports"]');if(el)quickLaunch(el)},200);
 }
 (function(){
   for(let i=1;i<=4;i++){(function(n){
@@ -2392,7 +2338,7 @@ async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(s
 async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
 async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
 async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}
-function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const isWc=STATE.game==='mundial';const isSignals=STATE.game==='signals';if(isPro){bar.innerHTML=L('<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas','<strong>✦ Pro Plan Active</strong> — Unlimited readings');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isWc){bar.innerHTML=L('<strong>🏆 Mundial 2026 — Gratis para todos</strong> · No consume tu consulta del día','<strong>🏆 World Cup 2026 — Free for everyone</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isSignals){bar.innerHTML=L('<strong>🌌 Sincronías — Gratis e ilimitado</strong> · No consume tu consulta del día','<strong>🌌 Synchronies — Free &amp; unlimited</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(STATE.consultsToday>=1){bar.innerHTML=L('<strong>Límite alcanzado hoy</strong> — El Mundial 2026 🏆 sigue gratis · Pro para ilimitadas','<strong>Daily limit reached</strong> — World Cup 2026 🏆 is still free · Pro for unlimited');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas','<strong>Free reading of the day</strong> — Upgrade to Pro for unlimited');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
+function updateFreemiumBar(){const bar=document.getElementById('freemium-bar');const isPro=STATE.profile?.plan==='pro';const isSp=STATE.game==='sports';const isSignals=STATE.game==='signals';if(isPro){bar.innerHTML=L('<strong>✦ Plan Pro Activo</strong> — Consultas ilimitadas','<strong>✦ Pro Plan Active</strong> — Unlimited readings');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(isSp){const used=sportsQuotaToday();if(used>=2){bar.innerHTML=L('<strong>Límite de Sports alcanzado hoy</strong> — 2 de 2 usadas · Pro o Pase Semanal para ilimitadas','<strong>Sports limit reached today</strong> — 2 of 2 used · Pro or Weekly Pass for unlimited');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>⚽ Sports — '+(2-used)+' de 2 lecturas gratis hoy</strong> · No consume tu consulta general','<strong>⚽ Sports — '+(2-used)+' of 2 free readings today</strong> · Does not use your general daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}else if(isSignals){bar.innerHTML=L('<strong>🌌 Sincronías — Gratis e ilimitado</strong> · No consume tu consulta del día','<strong>🌌 Synchronies — Free &amp; unlimited</strong> · Does not use your daily reading');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}else if(STATE.consultsToday>=1){bar.innerHTML=L('<strong>Límite alcanzado hoy</strong> — Actualiza a Pro para ilimitadas','<strong>Daily limit reached</strong> — Upgrade to Pro for unlimited');bar.classList.add('locked');document.getElementById('btn-gen').disabled=true}else{bar.innerHTML=L('<strong>Consulta gratuita del día</strong> — Actualiza a Pro para ilimitadas','<strong>Free reading of the day</strong> — Upgrade to Pro for unlimited');bar.classList.remove('locked');document.getElementById('btn-gen').disabled=false}}
 
 async function generate(){
   document.getElementById('btn-gen').classList.remove('btn-ready','btn-pulse');stopSparkles();
@@ -2408,7 +2354,11 @@ async function generate(){
     if(!tA)return showError('error-toast',L('Ingresa el nombre del Equipo A','Enter the name of Team A'));
     if(!tB)return showError('error-toast',L('Ingresa el nombre del Equipo B','Enter the name of Team B'));
   }
-  if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1&&STATE.game!=='mundial')return showError('error-toast',L('Has alcanzado tu límite gratuito de hoy. El Mundial 2026 🏆 sigue gratis. Actualiza a Pro para ilimitadas.','You have reached your free limit for today. World Cup 2026 🏆 is still free. Upgrade to Pro for unlimited.'));
+  if(STATE.game==='sports'){
+    if(!isPro()&&sportsQuotaToday()>=2)return showError('error-toast',L('Has alcanzado tus 2 lecturas gratis de Sports hoy. Activa Pro o el Pase Semanal para consultas ilimitadas.','You have reached your 2 free Sports readings today. Activate Pro or the Weekly Pass for unlimited readings.'));
+  }else if(STATE.profile?.plan!=='pro'&&STATE.consultsToday>=1){
+    return showError('error-toast',L('Has alcanzado tu límite gratuito de hoy. Actualiza a Pro para ilimitadas.','You have reached your free limit for today. Upgrade to Pro for unlimited.'));
+  }
   showTab('loading');
   const firstName=name.split(' ')[0];
   const msgs=uiLang()==='en'?[
@@ -2433,14 +2383,14 @@ async function generate(){
     if(GAME_CFG[STATE.game]?.duel){
       const teamA=document.getElementById('inp-team-a').value.trim();
       const teamB=document.getElementById('inp-team-b').value.trim();
-      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today,STATE.game==='mundial'?STATE.wcMatch:(STATE.game==='sports'?STATE.sportMatch:null));
+      const duel=computeDuel(teamA,teamB,name,birth,cityB,cityN,today,STATE.game==='sports'?STATE.sportMatch:null);
       STATE.lastResult={duel,name,game:STATE.game,isDuel:true};
       renderDuelResult(duel,name);updateEngines(duel.engines,duel.moon);showTab('result');history.pushState({tab:'result'},'','');
       try{posthog.capture('consulta',{game:STATE.game,mode:'duel'});}catch(e){}
       try{
         await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:[duel.scoreA,duel.scoreB],life_path:duel.lp,zodiac_sign:duel.zodiac.sign,moon_phase:duel.moon.name,chinese_animal:duel.chinese.animal,geo_resonance:duel.geo,market:STATE.lang}),5000,null);
         await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null);
-        if(STATE.game!=='mundial'){await incrementQuota();}await loadHistory();
+        if(STATE.game==='sports'){incrementSportsQuota();}else{await incrementQuota();}await loadHistory();
       }catch(dbErr){console.warn('No se pudo guardar en BD:',dbErr);}
     }else{
       const result=computeNumbers(name,birth,cityB,cityN,STATE.game,STATE.lang,today);STATE.lastResult={result,name,game:STATE.game};
@@ -2533,8 +2483,6 @@ function renderResult(r,name){
   const proBannerBottom=document.getElementById('pro-banner-bottom');
   if(proCta) proCta.style.display=isPro()?'none':'block';
   if(proBannerBottom) proBannerBottom.style.display='none'; // siempre oculto, CTA mid es suficiente
-  // Tarjeta Mundial bajo los 5 motores (resultado personal) · upsell oculto
-  (function(){const up=document.getElementById('wc-upsell');if(up)up.style.display='none';})();
   // Ocultar sección duelo y mostrar numbers-display en modo normal
   document.getElementById('duel-result-section').classList.add('hidden');
   document.getElementById('numbers-display').classList.remove('hidden');
@@ -2729,7 +2677,7 @@ const UI_EN=[
 ['#mchips .mchip[data-m="2"] .mchip-lbl','Moon'],
 ['#mchips .mchip[data-m="3"] .mchip-lbl','Chinese'],
 ['#mchips .mchip[data-m="4"] .mchip-lbl','Geo'],
-['#wc-ribbon','🏆 World Cup 2026 — Free unlimited prediction →'],
+['#wc-ribbon','✦ NUMBERS ORACLE · Sports — 2 free readings a day →'],
 ['#acc-1 .acc-tit','1 · Your name'],
 ['#acc-2 .acc-tit','2 · Your birth'],
 ['#acc-3 .acc-tit','3 · Your land of origin'],
@@ -2755,9 +2703,8 @@ const UI_EN=[
 ['.game-card[data-game="destiny"] .gl','Destiny Numbers'],
 ['.game-card[data-game="destiny"] .gd','They never change. They are yours. Born with you.'],
 ['.game-card[data-game="destiny"] .pro-preview','"Your master number reveals the purpose the cosmos wrote in you before you were born..."'],
-['.game-card[data-game="sports"] .gl','Sports'],
-['.game-card[data-game="sports"] .gd','Who wins today? Cosmic match prediction'],
-['.game-card[data-game="sports"] .pro-preview','"The home team\'s numeric energy outshines the visitor in vibration today..."'],
+['.game-card[data-game="sports"] .gl','NUMBERS ORACLE · Sports'],
+['.game-card[data-game="sports"] .gd','Discover the numeric affinity of the matchup · Choose sport, competition and real match'],
 ['.numa-game-card .gl','NUMA'],
 ['.numa-game-card .gd','Your personal oracle for any question, today.'],
 ['.game-card[data-game="signals"] .gl','Synchronies'],
@@ -2771,14 +2718,12 @@ const UI_EN=[
 ['#inp-sm','Eg: 7  ·  1111  ·  3 14 22','ph'],
 ['#sm-hint','✦ Write one or more. Separate them with a space or comma.'],
 ['#sm-btn','✦ Reveal ✦'],
-['.game-card[data-game="mundial"] .gl','World Cup 2026'],
-['.game-grid .game-card[data-game="mundial"] .gd','Predict who wins the match with cosmic energy · Free & unlimited during the tournament'],
 ['.oraculos-title','Oracles'],
 ['.oraculos-sub','Seven readings, each with its purpose.'],
 ['#orac-lbl-hoy','Today'],
 ['#orac-lbl-ahora','Now'],
 ['#orac-lbl-siempre','Forever'],
-['#orac-lbl-pred','Predictions'],
+['#orac-lbl-pred','Sports'],
 ['.game-card[data-game="compat"] .gl','Compatibility'],
 ['#tab-oraculos .free-badge','Free'],
 ['#tab-oraculos .game-card[data-game="daily"] .gd','Your 6 guiding numbers for today. They change tomorrow.'],
@@ -2786,14 +2731,12 @@ const UI_EN=[
 ['#tab-oraculos .game-card[data-game="signals"] .gd','That number that follows you, decoded.'],
 ['#tab-oraculos .game-card[data-game="destiny"] .gd','The number born with you. It never changes.'],
 ['#tab-oraculos .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
-['#tab-oraculos .game-card[data-game="mundial"] .gd','Who wins the match? Free and unlimited.'],
-['#tab-oraculos .game-card[data-game="sports"] .gd','Predict any match of the year.'],
-['.game-card[data-game="mundial"] .free-badge','✦ FREE'],['#card-hint','↑ Complete your personal details to reveal your numbers'],
-['#sport-selector-wrap .duel-fields-intro','🏆 Select the sport and the two rivals'],
-['#mundial-duel-intro .duel-fields-intro','🏆 Choose the two teams of the match to predict'],
-['#wc-match-label','📅 Official match — FIFA schedule'],
-['#wc-match-hint','✦ The match date and venue feed your 5 forces'],
-['#sport-match-label',"📅 Today or tomorrow's match"],
+['#tab-oraculos .game-card[data-game="sports"] .gl','NUMBERS ORACLE · Sports'],
+['#tab-oraculos .game-card[data-game="sports"] .gd','Numeric affinity for your favorite match.'],
+['#card-hint','↑ Complete your personal details to reveal your numbers'],
+['#sport-selector-wrap .duel-fields-intro','⚽ Choose the sport'],
+['#league-intro','🏆 Choose the competition'],
+['#sport-match-label','📅 Choose the match'],
 ['#sport-match-hint','✦ Match date and venue feed your 5 forces'],
 ['#label-team-a','🔵 Team A / Home'],
 ['#label-team-b','🔴 Team B / Away'],
@@ -2833,13 +2776,13 @@ const UI_EN=[
 ['.history-title','Reading history'],
 ['.upgrade-sub','Unlock the full power of the five cosmic forces. No limits. No restrictions.'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(1)','<span class="check">✓</span>1 free reading per day','html'],
-['.plan-card:not(.featured) .plan-features li:nth-child(2)','<span class="check">✓</span>3 games (Day + Quick + World Cup 🏆)','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(2)','<span class="check">✓</span>3 games (Day + Quick + Sports ⚽)','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(3)','<span class="check">✓</span>Golden Number of the day','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(4)','<span class="check">✓</span>3 languages','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(5)','<span class="cross">✗</span><span style="color:var(--faint)">No history</span>','html'],
 ['.plan-card:not(.featured) .plan-features li:nth-child(6)','<span class="cross">✗</span><span style="color:var(--faint)">Daily limit active</span>','html'],
-['.plan-card:not(.featured) .plan-features li:nth-child(7)','<span class="check">✓</span>World Cup 2026 free & unlimited','html'],
-['.plan-card:not(.featured) .plan-features li:nth-child(8)','<span class="cross">✗</span><span style="color:var(--faint)">Destiny · Sports 🔒</span>','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(7)','<span class="check">✓</span>Sports: 2 free readings a day','html'],
+['.plan-card:not(.featured) .plan-features li:nth-child(8)','<span class="cross">✗</span><span style="color:var(--faint)">Destiny 🔒</span>','html'],
 ['.plan-card:not(.featured) .plan-cta','Current plan →'],
 ['.plan-badge','✦ COMING SOON'],
 ['.plan-card.featured .plan-features li:nth-child(1)','<span class="check">✓</span>Unlimited readings','html'],
@@ -2917,9 +2860,9 @@ const UI_EN=[
 ['#numa-status-line','● Reads your numbers · Answers your questions'],
 ['#numa-chips-label','✦ TAP A QUESTION']
 ];
-const CHIP_ES={football:['⚽ Fútbol','🔵 Equipo Local','🔴 Equipo Visitante'],basketball:['🏀 Básquet','🔵 Equipo Local','🔴 Equipo Visitante'],tennis:['🎾 Tenis','🔵 Jugador A','🔴 Jugador B'],baseball:['⚾ Béisbol','🔵 Equipo Local','🔴 Equipo Visitante'],volleyball:['🏐 Voleibol','🔵 Equipo A','🔴 Equipo B'],boxing:['🥊 Boxeo','🔵 Boxeador A','🔴 Boxeador B'],americanfootball:['🏈 F. Americano','🔵 Equipo Local','🔴 Equipo Visitante'],other:['🏆 Otro','🔵 Opción A','🔴 Opción B']};
-const CHIP_EN={football:['⚽ Soccer','🔵 Home Team','🔴 Away Team'],basketball:['🏀 Basketball','🔵 Home Team','🔴 Away Team'],tennis:['🎾 Tennis','🔵 Player A','🔴 Player B'],baseball:['⚾ Baseball','🔵 Home Team','🔴 Away Team'],volleyball:['🏐 Volleyball','🔵 Team A','🔴 Team B'],boxing:['🥊 Boxing','🔵 Boxer A','🔴 Boxer B'],americanfootball:['🏈 Am. Football','🔵 Home Team','🔴 Away Team'],other:['🏆 Other','🔵 Option A','🔴 Option B']};
-function applyChipLang(l){const T=l==='en'?CHIP_EN:CHIP_ES;document.querySelectorAll('.sport-chip').forEach(ch=>{const t=T[ch.dataset.sport];if(!t)return;ch.textContent=t[0];ch.dataset.labelA=t[1];ch.dataset.labelB=t[2];});}
+const CHIP_ES={football:'⚽ Fútbol',basketball:'🏀 Básquet',tennis:'🎾 Tenis',baseball:'⚾ Béisbol',americanfootball:'🏈 F. Americano'};
+const CHIP_EN={football:'⚽ Soccer',basketball:'🏀 Basketball',tennis:'🎾 Tennis',baseball:'⚾ Baseball',americanfootball:'🏈 Am. Football'};
+function applyChipLang(l){const T=l==='en'?CHIP_EN:CHIP_ES;document.querySelectorAll('#sport-selector .sport-chip').forEach(ch=>{const t=T[ch.dataset.sport];if(!t)return;ch.textContent=t;});}
 let __uiES=null;
 function captureStaticES(){__uiES={};UI_EN.forEach(e=>{const sel=e[0],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{__uiES[sel+'|'+i]=kind==='ph'?el.placeholder:(kind==='html'?el.innerHTML:el.textContent)})}catch(err){}});}
 function applyStaticLang(l){
@@ -2928,13 +2871,12 @@ function applyStaticLang(l){
   UI_EN.forEach(e=>{const sel=e[0],en=e[1],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{const v=l==='en'?en:__uiES[sel+'|'+i];if(v==null)return;if(kind==='ph')el.placeholder=v;else if(kind==='html')el.innerHTML=v;else el.textContent=v})}catch(err){}});
   applyChipLang(l);
   try{applyShareI18n()}catch(e){}
-  try{if(typeof populateWcMatches==='function'&&STATE.game==='mundial')populateWcMatches()}catch(e){}
-  try{if(typeof populateSportMatches==='function'&&STATE.game==='sports'&&SPORT_API_PARAM[STATE.sport])populateSportMatches(STATE.sport)}catch(e){}
+  try{if(typeof populateLeagues==='function'&&STATE.game==='sports')populateLeagues(STATE.sport)}catch(e){}
 }
 const I18N_NEW={
-es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Comparte tu energ\u00eda del d\u00eda con alguien especial \u2726',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{daily:'N\u00fameros del D\u00eda',lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',destiny:'N\u00fameros del Destino',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',mundial:'Mundial 2026',signals:'Sincron\u00edas',compat:'\ud83d\udc91 Compatibilidad'}},
-en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Share your energy of the day with someone special \u2726',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{daily:'Numbers of the Day',lottery:'Numbers of the Day',chance:'Pulse of the Moment',destiny:'Destiny Numbers',casino:'Destiny Numbers',sports:'Sports Numbers',mundial:'World Cup 2026',signals:'Synchronies',compat:'💑 Compatibility'}},
-zh:{unlockT:'\u2726 \u60a8\u7684\u89e3\u8bfb\u7ed3\u5c3e\u5df2\u88ab\u5c01\u5370 \u2726',unlockBtn:'\u7528 Pro \u89e3\u9501 \u2192',renew:'\u2726 \u5b87\u5b99\u5c06\u5728{h}\u5c0f\u65f6{m}\u5206\u540e\u66f4\u65b0\u60a8\u7684\u6570\u5b57 \u2726',shareBtn:'\u2726 \u5206\u4eab\u6211\u7684\u6570\u5b57 \u2726',shareHint:'\u9001\u7ed9\u4eca\u5929\u9700\u8981\u597d\u8fd0\u7684\u4eba \ud83c\udf40',pwaTitle:'\u2726 \u968f\u8eab\u643a\u5e26\u60a8\u7684\u795e\u8c15 \u2726',pwaSub:'\u5c06 NUMBERS \u5b89\u88c5\u5230\u4e3b\u5c4f\u5e55\u3002\u514d\u8d39\uff0c\u65e0\u9700\u5e94\u7528\u5546\u5e97\u3002',pwaIos:'\u70b9\u6309 Safari \u5e95\u90e8\u7684<strong>\u5206\u4eab</strong>\uff0c\u7136\u540e\u9009\u62e9<strong>\u300c\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\u300d</strong>',pwaBtn:'\u5b89\u88c5',shTitle:'\u6211\u7684\u5b87\u5b99\u7ec4\u5408 \u2014 \u6570\u5b57\u795e\u8c15',shGold:'\u6570\u5b57\u795e\u8c15\u63ed\u793a\u4e86\u6211\u7684\u9ec4\u91d1\u6570\u5b57',shCombo:'\u6211\u7684\u7ec4\u5408\uff1a',shCta:'\u514d\u8d39\u83b7\u53d6\u60a8\u7684\u4e13\u5c5e\u6570\u5b57',waLine:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u4eca\u5929\u53ea\u4e3a\u6211\u5bf9\u9f50\u3002',cvHdr:'NUMBERS  \u2726  \u6570\u5b57\u795e\u8c15',cvGold:'\u9ec4\u91d1\u6570\u5b57',cvTag:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u6c47\u805a\u63ed\u793a\u6b64\u7ec4\u5408  \u2726  numbersoracle.com',cvFoot:'\u5a31\u4e50 \u00b7 \u4e2a\u4eba\u7075\u611f \u00b7 \u81ea\u6211\u8ba4\u77e5',games:{daily:'\u4eca\u65e5\u6570\u5b57',lottery:'\u4eca\u65e5\u6570\u5b57',chance:'\u6b64\u523b\u8109\u52a8',destiny:'\u547d\u8fd0\u6570\u5b57',casino:'\u547d\u8fd0\u6570\u5b57',sports:'\u4f53\u80b2\u6570\u5b57',mundial:'2026\u4e16\u754c\u676f',compat:'\ud83d\udc91 \u7f18\u5206\u89e3\u8bfb'}}};
+es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Comparte tu energ\u00eda del d\u00eda con alguien especial \u2726',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{daily:'N\u00fameros del D\u00eda',lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',destiny:'N\u00fameros del Destino',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',signals:'Sincron\u00edas',compat:'\ud83d\udc91 Compatibilidad'}},
+en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Share your energy of the day with someone special \u2726',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{daily:'Numbers of the Day',lottery:'Numbers of the Day',chance:'Pulse of the Moment',destiny:'Destiny Numbers',casino:'Destiny Numbers',sports:'Sports Numbers',signals:'Synchronies',compat:'💑 Compatibility'}},
+zh:{unlockT:'\u2726 \u60a8\u7684\u89e3\u8bfb\u7ed3\u5c3e\u5df2\u88ab\u5c01\u5370 \u2726',unlockBtn:'\u7528 Pro \u89e3\u9501 \u2192',renew:'\u2726 \u5b87\u5b99\u5c06\u5728{h}\u5c0f\u65f6{m}\u5206\u540e\u66f4\u65b0\u60a8\u7684\u6570\u5b57 \u2726',shareBtn:'\u2726 \u5206\u4eab\u6211\u7684\u6570\u5b57 \u2726',shareHint:'\u9001\u7ed9\u4eca\u5929\u9700\u8981\u597d\u8fd0\u7684\u4eba \ud83c\udf40',pwaTitle:'\u2726 \u968f\u8eab\u643a\u5e26\u60a8\u7684\u795e\u8c15 \u2726',pwaSub:'\u5c06 NUMBERS \u5b89\u88c5\u5230\u4e3b\u5c4f\u5e55\u3002\u514d\u8d39\uff0c\u65e0\u9700\u5e94\u7528\u5546\u5e97\u3002',pwaIos:'\u70b9\u6309 Safari \u5e95\u90e8\u7684<strong>\u5206\u4eab</strong>\uff0c\u7136\u540e\u9009\u62e9<strong>\u300c\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\u300d</strong>',pwaBtn:'\u5b89\u88c5',shTitle:'\u6211\u7684\u5b87\u5b99\u7ec4\u5408 \u2014 \u6570\u5b57\u795e\u8c15',shGold:'\u6570\u5b57\u795e\u8c15\u63ed\u793a\u4e86\u6211\u7684\u9ec4\u91d1\u6570\u5b57',shCombo:'\u6211\u7684\u7ec4\u5408\uff1a',shCta:'\u514d\u8d39\u83b7\u53d6\u60a8\u7684\u4e13\u5c5e\u6570\u5b57',waLine:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u4eca\u5929\u53ea\u4e3a\u6211\u5bf9\u9f50\u3002',cvHdr:'NUMBERS  \u2726  \u6570\u5b57\u795e\u8c15',cvGold:'\u9ec4\u91d1\u6570\u5b57',cvTag:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u6c47\u805a\u63ed\u793a\u6b64\u7ec4\u5408  \u2726  numbersoracle.com',cvFoot:'\u5a31\u4e50 \u00b7 \u4e2a\u4eba\u7075\u611f \u00b7 \u81ea\u6211\u8ba4\u77e5',games:{daily:'\u4eca\u65e5\u6570\u5b57',lottery:'\u4eca\u65e5\u6570\u5b57',chance:'\u6b64\u523b\u8109\u52a8',destiny:'\u547d\u8fd0\u6570\u5b57',casino:'\u547d\u8fd0\u6570\u5b57',sports:'\u4f53\u80b2\u6570\u5b57',compat:'\ud83d\udc91 \u7f18\u5206\u89e3\u8bfb'}}};
 function applyShareI18n(){const t=I18N_NEW[uiLang()];const b=document.getElementById('btn-share-main');if(b)b.textContent=t.shareBtn;const h=document.getElementById('share-hint');if(h)h.textContent=t.shareHint;updateRenewCountdown();}
 function updateRenewCountdown(){
   const el=document.getElementById('renew-countdown');if(!el)return;
