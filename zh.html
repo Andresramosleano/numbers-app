@@ -538,6 +538,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .sport-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:99px;padding:7px 13px;cursor:pointer;font-size:15px;color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all .2s;white-space:nowrap}
 .sport-chip.sel{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,.08)}
 .sport-chip:hover{border-color:var(--golddim);color:var(--text)}
+.sport-chip-empty{opacity:.5;border-style:dashed}
+.sport-chip-empty.sel{opacity:.75}
 /* ─── MISSING DATA FEEDBACK ─── */
 @keyframes fieldShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 @keyframes fieldGlow{0%,100%{border-color:rgba(191,92,124,.3)}50%{border-color:var(--rose);box-shadow:0 0 14px rgba(191,92,124,.2)}}
@@ -876,7 +878,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ 免费</div><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">一个数字反复出现在你身边——绝非偶然。</div></div>
         <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">缘分解读</div><div class="gd">两颗心之间的联结，由宇宙揭示。</div><div class="pro-preview">"你们的生命数字交织成独一无二的印记。NUMA 为你照见宇宙写在这段缘分里的话……"</div></div>
-        <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">照见你和对手之间的数字能量 · 选择运动、赛事与真实赛程</div></div>
+        <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">NBA · NFL · 欧冠等真实赛程 · 照见你和对手之间的数字能量</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ 免费</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">只属于你的神谕。今天的一切，都可以问它。</div></div>
         <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">命运数字</div><div class="gd">从不改变，与你俱生，只属于你。</div><div class="pro-preview">"你的主命数，照见宇宙在你出生前为你写下的使命……"</div></div>
       </div>
@@ -1279,7 +1281,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="orac-group">
         <div class="orac-label" id="orac-lbl-pred">赛事解读</div>
         <div class="orac-grid">
-          <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">免费</div><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">照见你和对手之间的数字能量。</div></div>
+          <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">免费</div><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">NBA · NFL · 欧冠等真实赛程。</div></div>
         </div>
       </div>
     </div>
@@ -1926,20 +1928,23 @@ async function populateLeagues(sport){
   if(leagues.length===0){wrap.classList.add('hidden');renderLeagueEmptyState(T.emptySport);return;}
   wrap.classList.remove('hidden');renderLeagueEmptyState('');
   box.innerHTML='<div class="sport-chip" style="opacity:.6;pointer-events:none">'+T.loading+'</div>';
-  const results=await Promise.all(leagues.map(function(lg){return fetchLeagueMatches(lg.id,sport).then(function(events){return{lg:lg,events:events}})}));
+  const results=await Promise.all(leagues.map(function(lg){return fetchLeagueMatches(lg.id,sport).then(function(events){return{lg:lg,events:events||[]}})}));
   if(STATE.sport!==sport)return;
   box.innerHTML='';
-  const withMatches=results.filter(function(r){return r.events&&r.events.length>0});
-  if(withMatches.length===0){wrap.classList.add('hidden');renderLeagueEmptyState(T.emptySport);return;}
-  withMatches.forEach(function(r,i){
+  // Mostramos SIEMPRE todas las ligas curadas (aunque una esté en receso/sin partidos),
+  // con estilo apagado para las vacías — nunca se ocultan, para que el usuario reconozca
+  // marcas como NFL/NBA/欧冠. Al tocar una vacía, verá el aviso "sin partidos".
+  results.forEach(function(r){
     const l=uiLang();
     const chip=document.createElement('div');
-    chip.className='sport-chip'+(i===0?' sel':'');
+    const hasMatches=r.events.length>0;
+    chip.className='sport-chip'+(hasMatches?'':' sport-chip-empty');
     chip.textContent=l==='en'?r.lg.en:(r.lg.zh||r.lg.es);
-    chip.onclick=function(){selLeague(this,r.events)};
+    chip.onclick=function(){selLeague(chip,r.events)};
     box.appendChild(chip);
   });
-  selLeague(box.children[0],withMatches[0].events);
+  const chosen=results.find(function(r){return r.events.length>0})||results[0];
+  selLeague(box.children[results.indexOf(chosen)],chosen.events);
 }
 function selLeague(el,events){
   document.querySelectorAll('#league-selector .sport-chip').forEach(c=>c.classList.remove('sel'));
@@ -2702,7 +2707,7 @@ const UI_EN=[
 ['.game-card[data-game="destiny"] .gd','They never change. They are yours. Born with you.'],
 ['.game-card[data-game="destiny"] .pro-preview','"Your master number reveals the purpose the cosmos wrote in you before you were born..."'],
 ['.game-card[data-game="sports"] .gl','体育解读'],
-['.game-card[data-game="sports"] .gd','Discover the numeric affinity of the matchup · Choose sport, competition and real match'],
+['.game-card[data-game="sports"] .gd','NBA · NFL · Champions League and more real matches — numeric affinity with your rival'],
 ['.numa-game-card .gl','NUMA'],
 ['.numa-game-card .gd','Your personal oracle. Ask anything about your day.'],
 ['.game-card[data-game="signals"] .gl','Synchronies'],
@@ -2730,7 +2735,7 @@ const UI_EN=[
 ['#tab-oraculos .game-card[data-game="destiny"] .gd','The number born with you. It never changes.'],
 ['#tab-oraculos .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
 ['#tab-oraculos .game-card[data-game="sports"] .gl','体育解读'],
-['#tab-oraculos .game-card[data-game="sports"] .gd','Numeric affinity for your favorite match.'],
+['#tab-oraculos .game-card[data-game="sports"] .gd','NBA · NFL · Champions League and more real leagues.'],
 ['#card-hint','↑ Complete your personal details to reveal your numbers'],
 ['#sport-selector-wrap .duel-fields-intro','⚽ Choose the sport'],
 ['#league-intro','🏆 Choose the competition'],

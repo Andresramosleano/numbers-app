@@ -537,6 +537,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .sport-chip{background:var(--bg2);border:.5px solid var(--border);border-radius:99px;padding:7px 13px;cursor:pointer;font-size:15px;color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all .2s;white-space:nowrap}
 .sport-chip.sel{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,.08)}
 .sport-chip:hover{border-color:var(--golddim);color:var(--text)}
+.sport-chip-empty{opacity:.5;border-style:dashed}
+.sport-chip-empty.sel{opacity:.75}
 /* ─── MISSING DATA FEEDBACK ─── */
 @keyframes fieldShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 @keyframes fieldGlow{0%,100%{border-color:rgba(191,92,124,.3)}50%{border-color:var(--rose);box-shadow:0 0 14px rgba(191,92,124,.2)}}
@@ -874,7 +876,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
         <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
-        <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">✦ 2 GRATIS AL DÍA</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">Descubre la afinidad numérica del enfrentamiento · Elige deporte, competición y partido real</div></div>
+        <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">✦ 2 GRATIS AL DÍA</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">NFL · NBA · Champions League y más — afinidad numérica de tu partido real</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal para cualquier pregunta de hoy.</div></div>
         <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
       </div>
@@ -1297,7 +1299,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="orac-group">
         <div class="orac-label" id="orac-lbl-pred">Sports</div>
         <div class="orac-grid">
-          <div class="game-card" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">2 gratis/día</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">Afinidad numérica de tu partido favorito.</div></div>
+          <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">2 gratis/día</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">NFL · NBA · Champions League y más ligas reales.</div></div>
         </div>
       </div>
     </div>
@@ -1931,20 +1933,23 @@ async function populateLeagues(sport){
   if(leagues.length===0){wrap.classList.add('hidden');renderLeagueEmptyState(T.emptySport);return;}
   wrap.classList.remove('hidden');renderLeagueEmptyState('');
   box.innerHTML='<div class="sport-chip" style="opacity:.6;pointer-events:none">'+T.loading+'</div>';
-  const results=await Promise.all(leagues.map(function(lg){return fetchLeagueMatches(lg.id,sport).then(function(events){return{lg:lg,events:events}})}));
+  const results=await Promise.all(leagues.map(function(lg){return fetchLeagueMatches(lg.id,sport).then(function(events){return{lg:lg,events:events||[]}})}));
   if(STATE.sport!==sport)return; // el usuario ya cambió de deporte mientras cargaba
   box.innerHTML='';
-  const withMatches=results.filter(function(r){return r.events&&r.events.length>0});
-  if(withMatches.length===0){wrap.classList.add('hidden');renderLeagueEmptyState(T.emptySport);return;}
-  withMatches.forEach(function(r,i){
+  // Mostramos SIEMPRE todas las ligas curadas (aunque una esté en receso/sin partidos),
+  // con estilo apagado para las vacías — nunca se ocultan, para que el usuario reconozca
+  // marcas como NFL/NBA/Champions League. Al tocar una vacía, verá el aviso "sin partidos".
+  results.forEach(function(r){
     const l=uiLang();
     const chip=document.createElement('div');
-    chip.className='sport-chip'+(i===0?' sel':'');
+    const hasMatches=r.events.length>0;
+    chip.className='sport-chip'+(hasMatches?'':' sport-chip-empty');
     chip.textContent=l==='en'?r.lg.en:r.lg.es;
-    chip.onclick=function(){selLeague(this,r.events)};
+    chip.onclick=function(){selLeague(chip,r.events)};
     box.appendChild(chip);
   });
-  selLeague(box.children[0],withMatches[0].events);
+  const chosen=results.find(function(r){return r.events.length>0})||results[0];
+  selLeague(box.children[results.indexOf(chosen)],chosen.events);
 }
 function selLeague(el,events){
   document.querySelectorAll('#league-selector .sport-chip').forEach(c=>c.classList.remove('sel'));
@@ -2704,7 +2709,7 @@ const UI_EN=[
 ['.game-card[data-game="destiny"] .gd','They never change. They are yours. Born with you.'],
 ['.game-card[data-game="destiny"] .pro-preview','"Your master number reveals the purpose the cosmos wrote in you before you were born..."'],
 ['.game-card[data-game="sports"] .gl','NUMBERS ORACLE · Sports'],
-['.game-card[data-game="sports"] .gd','Discover the numeric affinity of the matchup · Choose sport, competition and real match'],
+['.game-card[data-game="sports"] .gd','NFL · NBA · Champions League and more — numeric affinity for your real match'],
 ['.numa-game-card .gl','NUMA'],
 ['.numa-game-card .gd','Your personal oracle for any question, today.'],
 ['.game-card[data-game="signals"] .gl','Synchronies'],
@@ -2732,7 +2737,7 @@ const UI_EN=[
 ['#tab-oraculos .game-card[data-game="destiny"] .gd','The number born with you. It never changes.'],
 ['#tab-oraculos .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
 ['#tab-oraculos .game-card[data-game="sports"] .gl','NUMBERS ORACLE · Sports'],
-['#tab-oraculos .game-card[data-game="sports"] .gd','Numeric affinity for your favorite match.'],
+['#tab-oraculos .game-card[data-game="sports"] .gd','NFL · NBA · Champions League and more real leagues.'],
 ['#card-hint','↑ Complete your personal details to reveal your numbers'],
 ['#sport-selector-wrap .duel-fields-intro','⚽ Choose the sport'],
 ['#league-intro','🏆 Choose the competition'],
