@@ -623,6 +623,20 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .sm-hint{color:var(--muted);font-size:.78rem;text-align:left;margin-bottom:1.35rem}
 .btn-sm-rev{width:100%;padding:.9rem 1rem;background:linear-gradient(135deg,var(--gold1),var(--gold2));color:#0d0920;border:none;border-radius:10px;font-family:'Cinzel Decorative',serif;font-size:.92rem;cursor:pointer;font-weight:700;margin-bottom:.65rem;letter-spacing:.03em}
 .btn-sm-close{background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;padding:.25rem .5rem}
+.dream-quick{display:flex;flex-wrap:wrap;gap:.4rem;margin:.65rem 0 .9rem;justify-content:center}
+.dream-chip{background:#1a1436;border:1px solid rgba(212,175,55,.35);border-radius:20px;padding:.4rem .7rem;font-size:.82rem;cursor:pointer;color:#e8dfc8;transition:.15s}
+.dream-chip:hover{border-color:var(--gold2)}
+#dream-input{width:100%;background:#0d0920;border:1.5px solid var(--gold2);border-radius:10px;padding:.85rem 1rem;color:#fff;font-size:1rem;box-sizing:border-box;margin-bottom:.25rem;resize:vertical;font-family:inherit}
+.dream-loading{padding:1.75rem 0}
+.dream-loading-orb{font-size:2.3rem;margin-bottom:.75rem;animation:dreamPulse 2s infinite ease-in-out}
+@keyframes dreamPulse{0%,100%{opacity:.45}50%{opacity:1}}
+.dream-loading-msg{color:var(--muted);font-size:.9rem;font-style:italic}
+.dream-result-emoji{font-size:2.3rem;margin-bottom:.25rem}
+.dream-result-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:3.2rem;font-weight:600;color:#f5e4b0;text-shadow:0 0 26px rgba(201,168,76,.6);line-height:1}
+.dream-result-text{color:#e8dfc8;font-size:.92rem;line-height:1.55;text-align:left;margin:1rem 0}
+.dream-charada{color:var(--muted);font-size:.78rem;font-style:italic;margin-bottom:.75rem;text-align:left}
+.dream-hook{color:var(--gold1);font-size:.85rem;font-style:italic;margin-bottom:1.1rem;text-align:left}
+.dream-upsell-link{color:var(--gold1);font-size:.85rem;cursor:pointer;margin:.5rem 0 .9rem;text-decoration:underline}
 .signal-dominant-sub{font-size:16px;color:var(--muted);font-style:italic}
 #signals-fields{margin-top:.75rem}
 #signals-fields input{font-size:18px;letter-spacing:.05em}
@@ -875,6 +889,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           </div>
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Un número te sigue. No es coincidencia.</div></div>
+        <div class="game-card game-card-full" data-game="dream" onclick="dreamOpen()"><div class="free-badge">✦ GRATIS</div><div class="gi">🌙</div><div class="gl">Números del Sueño</div><div class="gd">¿Qué soñaste? NUMA interpreta el número.</div></div>
         <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div><div class="pro-preview">"Sus caminos de vida crean una firma única. NUMA revela lo que el universo escribió sobre este vínculo..."</div></div>
         <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">✦ 2 GRATIS AL DÍA</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">NFL · NBA · Champions League y más — afinidad numérica de tu partido real</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal para cualquier pregunta de hoy.</div></div>
@@ -1287,6 +1302,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="orac-grid">
           <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
           <div class="game-card" data-game="signals" onclick="smOpen()"><div class="free-badge">Gratis</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Ese número que te persigue, descifrado.</div></div>
+          <div class="game-card" data-game="dream" onclick="dreamOpen()"><div class="free-badge">Gratis</div><div class="gi">🌙</div><div class="gl">Números del Sueño</div><div class="gd">Ese símbolo que soñaste, descifrado.</div></div>
         </div>
       </div>
       <div class="orac-group">
@@ -2710,6 +2726,15 @@ const UI_EN=[
 ['.game-card[data-game="destiny"] .pro-preview','"Your master number reveals the purpose the cosmos wrote in you before you were born..."'],
 ['.game-card[data-game="sports"] .gl','NUMBERS ORACLE · Sports'],
 ['.game-card[data-game="sports"] .gd','NFL · NBA · Champions League and more — numeric affinity for your real match'],
+['.game-card[data-game="dream"] .gl','Dream Numbers'],
+['.game-card[data-game="dream"] .gd','What did you dream? NUMA interprets the number.'],
+['#dream-title','Dream Numbers'],
+['#dream-sub','Tell me what you dreamed. NUMA interprets the number.'],
+['#dream-input','Ex: I dreamed my teeth were falling out...','ph'],
+['#dream-hint','✦ Tap a symbol to autofill, or write your dream in your own words.'],
+['#dream-btn','✦ Interpret ✦'],
+['#dream-share-btn','📤 Share my card'],
+['#dream-upsell-link','Connect this number with your life path number →'],
 ['.numa-game-card .gl','NUMA'],
 ['.numa-game-card .gd','Your personal oracle for any question, today.'],
 ['.game-card[data-game="signals"] .gl','Synchronies'],
@@ -2738,6 +2763,8 @@ const UI_EN=[
 ['#tab-oraculos .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
 ['#tab-oraculos .game-card[data-game="sports"] .gl','NUMBERS ORACLE · Sports'],
 ['#tab-oraculos .game-card[data-game="sports"] .gd','NFL · NBA · Champions League and more real leagues.'],
+['#tab-oraculos .game-card[data-game="dream"] .gl','Dream Numbers'],
+['#tab-oraculos .game-card[data-game="dream"] .gd','That symbol you dreamed, decoded.'],
 ['#card-hint','↑ Complete your personal details to reveal your numbers'],
 ['#sport-selector-wrap .duel-fields-intro','⚽ Choose the sport'],
 ['#league-intro','🏆 Choose the competition'],
@@ -2857,6 +2884,7 @@ const UI_EN=[
 ['.ciclo-tab-row .ciclo-tab-btn:nth-child(2)','Month'],
 ['.ciclo-tab-row .ciclo-tab-btn:nth-child(3)','Year'],
 ['.btn-sm-close','← Back'],
+['#dream-again-btn','↺ Another dream'],
 ['#conv-lbl','Golden Number'],
 ['#compat-label-user','You'],
 ['#fz-title','Your 5 Forces'],
@@ -3411,6 +3439,347 @@ function smReveal(){
   const birth=document.getElementById('inp-birth').value;
   generateSignals(name,birth);
 }
+
+// ===== NÚMEROS DEL SUEÑO — banco ES/EN =====
+const DREAM_BANK=[
+{e:'💀',lbl:'Muerto',num:4,charada:8,kw:['muerto','muerta','difunto','difunta','fallecido','fallecida','abuela muerta','abuelo muerto','murio','murió','velorio','entierro','dead','death','dead person','deceased','someone died','my grandma died','my grandpa died','funeral'],
+ es:'Soñar con un muerto casi nunca habla de muerte: habla de cierre y de raíces. Tu inconsciente está sellando una etapa o pidiéndote honrar de dónde vienes, y por eso resuena con el 4, el número de la estructura, los cimientos y lo que perdura. Si era alguien querido, el sueño suele ser tu mente sosteniendo un vínculo que no se rompe.',
+ en:'Dreaming about someone who died is almost never about death — it\'s about closure and roots. Your mind is sealing a chapter or asking you to honor where you come from, which is why it resonates with the 4, the number of structure, foundations and what endures. If it was someone you loved, the dream is often your mind holding on to a bond that never really breaks.',
+ hookEs:'La lectura profunda cruza este 4 con tu número de vida para ver qué está cerrando y qué está por construirse.',
+ hookEn:'A deep reading pairs this 4 with your life path number to show what\'s closing — and what\'s about to be built.'},
+{e:'💧',lbl:'Agua',num:2,charada:5,kw:['agua','mar','rio','río','lago','nadar','inundacion','inundación','agua clara','agua sucia','olas','water','sea','river','lake','swim','swimming','flood','clear water','muddy water','waves'],
+ es:'El agua es el espejo de tus emociones. Clara habla de calma y claridad; turbia o desbordada, de sentimientos que pedís entender. Resuena con el 2, número de la sensibilidad, los vínculos y la intuición. Cómo estaba el agua es cómo está tu mundo emocional ahora mismo.',
+ en:'Water is the mirror of your emotions. Clear water speaks of calm and clarity; murky or overflowing water, of feelings asking to be understood. It resonates with the 2, the number of sensitivity, connection and intuition — how the water looked is how your emotional world feels right now.',
+ hookEs:'NUMA lee el estado del agua junto a tu número de vida para decirte qué emoción está pidiendo atención.',
+ hookEn:'NUMA reads the state of the water alongside your life path number to tell you which emotion is asking for attention.'},
+{e:'🐍',lbl:'Culebra',num:7,charada:21,kw:['culebra','serpiente','vibora','víbora','mordida de serpiente','muchas culebras','snake','viper','snake bite','many snakes'],
+ es:'La serpiente es transformación y también advertencia: algo en ti (o alguien cerca) está mudando de piel. No es un símbolo de miedo sino de poder que despierta. Resuena con el 7, el número de la sabiduría oculta y la mirada profunda. Si te mordía, tu inconsciente subraya un tema que ya no podés ignorar.',
+ en:'A snake is transformation, and sometimes a warning: something in you — or someone close to you — is shedding its skin. It\'s not a symbol of fear but of power waking up. It resonates with the 7, the number of hidden wisdom and deep insight; if it bit you, your unconscious is underlining something you can no longer ignore.',
+ hookEs:'La lectura profunda revela si la serpiente eres tú transformándote o una señal sobre tu entorno.',
+ hookEn:'A deep reading reveals whether the snake is you transforming, or a sign about someone around you.'},
+{e:'💰',lbl:'Dinero',num:8,charada:10,kw:['dinero','plata','billetes','monedas','encontrar dinero','perder dinero','mucha plata','money','cash','coins','find money','lose money','lost money','lots of money'],
+ es:'Soñar con dinero rara vez es sobre dinero: es sobre tu sentido de valor y abundancia. Encontrarlo habla de recursos internos que estás reconociendo; perderlo, de un miedo a no ser suficiente. Resuena con el 8, número del poder, el equilibrio material y la cosecha. (Interpretamos el símbolo, no prometemos ganancias.)',
+ en:'Dreaming about money is rarely about money — it\'s about your sense of worth and abundance. Finding it speaks of inner resources you\'re recognizing; losing it, of a fear of not being enough. It resonates with the 8, the number of power, material balance and harvest. (We interpret the symbol — we don\'t promise winnings.)',
+ hookEs:'NUMA cruza este 8 con tu número de vida para mostrarte dónde está tu verdadera abundancia.',
+ hookEn:'NUMA pairs this 8 with your life path number to show you where your real abundance lives.'},
+{e:'🤰',lbl:'Embarazo',num:3,kw:['embarazo','embarazada','bebe','bebé','dar a luz','recien nacido','recién nacido','parto','pregnant','pregnancy','baby','newborn','giving birth'],
+ es:'Un embarazo en sueños casi nunca es literal: es algo nuevo gestándose en tu vida —un proyecto, una idea, una versión de ti. Resuena con el 3, número de la creación, la expresión y el crecimiento. Tu inconsciente te avisa que algo tuyo está a punto de nacer.',
+ en:'A pregnancy in a dream is almost never literal — it\'s something new taking shape in your life: a project, an idea, a version of yourself. It resonates with the 3, the number of creation, expression and growth. Your unconscious is telling you something of yours is about to be born.',
+ hookEs:'La lectura profunda te dice qué estás gestando según tu número de vida.',
+ hookEn:'A deep reading shows you exactly what you\'re incubating, according to your life path number.'},
+{e:'🏠',lbl:'Casa',num:6,kw:['casa','hogar','casa nueva','casa vieja','casa de la infancia','mudanza','house','home','new house','old house','childhood home','moving'],
+ es:'La casa eres tú: cada cuarto, una parte de tu vida. Una casa nueva habla de una etapa; la de tu infancia, de raíces o asuntos pendientes con tu pasado. Resuena con el 6, número del hogar, la familia y el cuidado. Cómo estaba la casa refleja cómo te sientes contigo.',
+ en:'The house is you: every room, a piece of your life. A new house speaks of a new stage; the house from your childhood, of roots or unfinished business with your past. It resonates with the 6, the number of home, family and care — how the house looked reflects how you feel about yourself right now.',
+ hookEs:'NUMA lee qué cuarto de tu vida pide atención según tu número de vida.',
+ hookEn:'NUMA reads which room of your life is asking for attention, according to your life path number.'},
+{e:'🐕',lbl:'Perro',num:1,kw:['perro','cachorro','perro que muerde','perro amistoso','muchos perros','dog','puppy','dog bite','friendly dog','many dogs'],
+ es:'El perro es lealtad, amistad y protección. Amistoso habla de vínculos que te sostienen; agresivo, de una lealtad traicionada o un conflicto cercano. Resuena con el 1, número del yo, el liderazgo y la confianza en tu propio instinto.',
+ en:'A dog is loyalty, friendship and protection. A friendly dog speaks of bonds that hold you up; an aggressive one, of a betrayed loyalty or a conflict close by. It resonates with the 1, the number of the self, leadership and trusting your own instinct.',
+ hookEs:'La lectura profunda revela si el perro representa a alguien de tu círculo o tu propia fidelidad a ti mismo.',
+ hookEn:'A deep reading reveals whether the dog represents someone in your circle — or your own loyalty to yourself.'},
+{e:'🔥',lbl:'Fuego',num:9,kw:['fuego','incendio','llamas','quemarse','casa en llamas','fire','burning','flames','house on fire'],
+ es:'El fuego consume y purifica. Habla de una emoción intensa —pasión, ira, un cambio que arrasa lo viejo para dejar espacio a lo nuevo. Resuena con el 9, número de los cierres, la transmutación y lo que se completa. Lo que arde en tu sueño es lo que estás soltando.',
+ en:'Fire consumes and purifies. It speaks of an intense emotion — passion, anger, a change that clears away the old to make room for the new. It resonates with the 9, the number of endings, transmutation and completion. What burns in your dream is what you\'re letting go of.',
+ hookEs:'NUMA lee qué ciclo estás cerrando según tu número de vida.',
+ hookEn:'NUMA reads which cycle you\'re closing, according to your life path number.'},
+{e:'🦷',lbl:'Dientes',num:5,kw:['dientes','se me caen los dientes','diente flojo','perder un diente','teeth','tooth','losing teeth','loose tooth','my teeth fell out'],
+ es:'Uno de los sueños más comunes del mundo. Habla de miedo al cambio, a perder control o a cómo te ven los demás. Resuena con el 5, número del cambio, la libertad y la transición inevitable. No es mal augurio: es tu mente procesando una transformación.',
+ en:'One of the most common dreams in the world. It speaks of a fear of change, of losing control, or of how others see you. It resonates with the 5, the number of change, freedom and inevitable transition. It\'s not a bad sign — it\'s your mind processing a transformation.',
+ hookEs:'La lectura profunda te dice qué cambio estás temiendo —y por qué tu número de vida dice que estás listo.',
+ hookEn:'A deep reading tells you exactly what change you\'re afraid of — and why your life path number says you\'re ready.'},
+{e:'✈️',lbl:'Volar',num:1,kw:['volar','volando','flotar en el aire','caer mientras volaba','fly','flying','floating in the air','falling while flying'],
+ es:'Volar es libertad y perspectiva: tu mente se eleva sobre algo que te tenía atrapado. Habla de ambición y de tomar las riendas. Resuena con el 1, número del impulso, la independencia y el nuevo comienzo. Si caías, algo aún te ata a tierra.',
+ en:'Flying is freedom and perspective — your mind rising above something that had you trapped. It speaks of ambition and taking the reins. It resonates with the 1, the number of momentum, independence and new beginnings. If you were falling, something is still keeping you grounded.',
+ hookEs:'NUMA lee hacia dónde te está impulsando tu número de vida.',
+ hookEn:'NUMA reads exactly where your life path number is pushing you to go.'},
+{e:'🐈',lbl:'Gato',num:7,kw:['gato','gato negro','gato que arana','gato que araña','gatito','cat','black cat','kitten','cat scratched'],
+ es:'El gato es intuición, independencia y lo femenino misterioso. Habla de una parte tuya que se mueve en silencio y sabe más de lo que dice. Resuena con el 7, número de la introspección y lo oculto. Un gato negro no es mala señal: es tu intuición pidiendo ser escuchada.',
+ en:'A cat is intuition, independence and mysterious femininity. It speaks of a part of you that moves quietly and knows more than it says. It resonates with the 7, the number of introspection and hidden knowledge. A black cat isn\'t a bad sign — it\'s your intuition asking to be heard.',
+ hookEs:'La lectura profunda revela qué te está susurrando tu intuición según tu número de vida.',
+ hookEn:'A deep reading reveals exactly what your intuition is whispering, according to your life path number.'},
+{e:'👶',lbl:'Niño',num:3,kw:['nino','niño','nina','niña','nino perdido','niño perdido','jugar con un nino','un hijo','child','kid','lost child','my son','my daughter'],
+ es:'Un niño es tu inocencia, tu potencial o algo que aún cuidás dentro de ti. Habla de una parte vulnerable y creativa que pide juego y atención. Resuena con el 3, número de la alegría, la expresión y lo que crece. Un niño perdido puede ser un talento que dejaste de lado.',
+ en:'A child is your innocence, your potential, or something you still nurture inside you. It speaks of a vulnerable, creative part of you asking for play and attention. It resonates with the 3, the number of joy, expression and growth. A lost child can be a talent you set aside.',
+ hookEs:'NUMA lee qué parte tuya pide cuidado según tu número de vida.',
+ hookEn:'NUMA reads which part of you is asking to be cared for, according to your life path number.'},
+{e:'🌊',lbl:'Mar',num:2,kw:['mar','oceano','océano','olas grandes','marea','tsunami','sea','ocean','big waves','tide'],
+ es:'El mar es tu inconsciente entero: vasto, profundo, con mareas que no controlás. Olas grandes hablan de emociones que te sobrepasan; mar calmo, de paz interior. Resuena con el 2, número de la sensibilidad y el flujo emocional. El estado del mar es el estado de tu alma.',
+ en:'The sea is your entire unconscious: vast, deep, with tides you don\'t control. Big waves speak of emotions overwhelming you; a calm sea, of inner peace. It resonates with the 2, the number of sensitivity and emotional flow — the state of the sea is the state of your soul.',
+ hookEs:'La lectura profunda te ayuda a navegar esa marea según tu número de vida.',
+ hookEn:'A deep reading helps you navigate that tide, according to your life path number.'},
+{e:'🚗',lbl:'Carro',num:5,kw:['carro','auto','coche','manejar','choque','quedarse sin frenos','car','driving','crash','no brakes'],
+ es:'El carro es tu vida en movimiento y quién lleva el volante. Si manejás vos, tenés el control; si otro maneja o fallan los frenos, algo se te escapa de las manos. Resuena con el 5, número del movimiento, la libertad y la dirección de tu camino.',
+ en:'The car is your life in motion, and who\'s holding the wheel. If you\'re driving, you\'re in control; if someone else is driving — or the brakes fail — something is slipping out of your hands. It resonates with the 5, the number of movement, freedom and the direction of your path.',
+ hookEs:'NUMA lee quién debería llevar el volante de tu vida según tu número de vida.',
+ hookEn:'NUMA reads who should be driving your life, according to your life path number.'},
+{e:'🩸',lbl:'Sangre',num:4,kw:['sangre','sangrar','herida que sangra','mucha sangre','blood','bleeding','bloody wound'],
+ es:'La sangre es fuerza vital y también lo que te cuesta energía. Habla de vínculos de familia, de algo que te drena o de una vitalidad que despierta. Resuena con el 4, número del cuerpo, la raíz y lo que te sostiene. No es un símbolo oscuro: es tu energía pidiendo atención.',
+ en:'Blood is life force, and also what costs you energy. It speaks of family bonds, of something draining you, or of a vitality waking up. It resonates with the 4, the number of the body, roots and what holds you up. It\'s not a dark symbol — it\'s your energy asking for attention.',
+ hookEs:'La lectura profunda revela qué te está dando o quitando fuerza según tu número de vida.',
+ hookEn:'A deep reading reveals what\'s giving you strength — or taking it — according to your life path number.'},
+{e:'🕷️',lbl:'Araña',num:8,kw:['arana','araña','telarana','telaraña','arana grande','araña grande','muchas aranas','muchas arañas','spider','spider web','many spiders'],
+ es:'La araña teje: es creación paciente y también la sensación de estar atrapado en una red. Habla de una situación que construiste o de un enredo del que querés salir. Resuena con el 8, número del poder, las estructuras y el karma que se teje. Vos sos quien teje la telaraña de tu vida.',
+ en:'A spider weaves: it\'s patient creation, and also the feeling of being caught in a web. It speaks of a situation you built, or an entanglement you want out of. It resonates with the 8, the number of power, structures and the karma being woven. You\'re the one weaving the web of your life.',
+ hookEs:'NUMA lee qué estás tejiendo —y qué te enreda— según tu número de vida.',
+ hookEn:'NUMA reads what you\'re weaving — and what\'s tangling you — according to your life path number.'},
+{e:'💑',lbl:'Ex pareja',num:6,kw:['ex','ex novio','ex novia','mi ex','volver con el ex','ex boyfriend','ex girlfriend','my ex','getting back with my ex'],
+ es:'Soñar con un ex rara vez es sobre volver: es sobre una lección o una parte de ti que esa relación despertó. Habla de un ciclo emocional que tu mente aún está integrando. Resuena con el 6, número del amor, la responsabilidad afectiva y la sanación de vínculos.',
+ en:'Dreaming about an ex is rarely about getting back together — it\'s about a lesson, or a part of you that relationship woke up. It speaks of an emotional cycle your mind is still integrating. It resonates with the 6, the number of love, emotional responsibility and healing bonds.',
+ hookEs:'La lectura profunda te dice qué está cerrando o pidiendo tu corazón según tu número de vida.',
+ hookEn:'A deep reading tells you what your heart is closing — or asking for — according to your life path number.'},
+{e:'🐎',lbl:'Caballo',num:1,kw:['caballo','montar a caballo','caballo salvaje','caballo blanco','horse','riding a horse','wild horse','white horse'],
+ es:'El caballo es fuerza, libertad y deseo en movimiento. Blanco habla de nobleza y claridad; salvaje, de una energía tuya que pide desatarse. Resuena con el 1, número del empuje, la iniciativa y el poder personal.',
+ en:'A horse is strength, freedom and desire in motion. A white horse speaks of nobility and clarity; a wild one, of an energy in you asking to be set free. It resonates with the 1, the number of drive, initiative and personal power.',
+ hookEs:'NUMA lee hacia dónde galopa tu impulso según tu número de vida.',
+ hookEn:'NUMA reads where your drive is galloping toward, according to your life path number.'},
+{e:'🍼',lbl:'Leche',num:2,kw:['leche','amamantar','dar pecho','leche derramada','milk','breastfeeding','spilled milk','nursing'],
+ es:'La leche es nutrición, cuidado y lo que das o recibís de otros. Habla de un vínculo de crianza y de bondad. Resuena con el 2, número de la conexión, la ternura y el dar. Leche derramada puede ser cuidado que se pierde.',
+ en:'Milk is nourishment, care and what you give or receive from others. It speaks of a caregiving bond — caring or being cared for — and of kindness. It resonates with the 2, the number of connection, tenderness and giving. Spilled milk can be care that\'s being lost.',
+ hookEs:'La lectura profunda revela dónde estás nutriendo (o descuidando) según tu número de vida.',
+ hookEn:'A deep reading reveals where you\'re nourishing — or neglecting — according to your life path number.'},
+{e:'🐦',lbl:'Pájaro',num:3,kw:['pajaro','pájaro','ave','pajaro volando','pájaro volando','pajaro en jaula','pájaro en jaula','pajaro muerto','bird','flying bird','caged bird','dead bird'],
+ es:'El pájaro es tu espíritu y tus mensajes: ideas que quieren volar, libertad que buscás. En jaula habla de un talento contenido; volando, de expansión. Resuena con el 3, número de la comunicación, la creatividad y el alma que se expresa.',
+ en:'A bird is your spirit and your messages: ideas wanting to fly, freedom you\'re seeking. Caged, it speaks of a contained talent; flying, of expansion. It resonates with the 3, the number of communication, creativity and a soul expressing itself.',
+ hookEs:'NUMA lee qué mensaje trae tu pájaro según tu número de vida.',
+ hookEn:'NUMA reads what message your bird is carrying, according to your life path number.'},
+{e:'🌧️',lbl:'Lluvia',num:2,kw:['lluvia','tormenta','aguacero','lloviendo','mojarse','rain','storm','downpour','getting wet in the rain'],
+ es:'La lluvia limpia y renueva: emociones que se liberan, un llanto necesario, un ciclo que se lava para empezar de nuevo. Tormenta habla de un desahogo intenso. Resuena con el 2, número de la emoción que fluye y se deja ir.',
+ en:'Rain cleanses and renews: emotions being released, a necessary cry, a cycle washing itself clean to start over. A storm speaks of an intense release. It resonates with the 2, the number of emotion that flows and lets go.',
+ hookEs:'La lectura profunda te dice qué está limpiando tu lluvia según tu número de vida.',
+ hookEn:'A deep reading tells you what your rain is washing away, according to your life path number.'},
+{e:'👰',lbl:'Boda',num:6,kw:['boda','casarse','matrimonio','vestido de novia','anillo','wedding','getting married','wedding dress','ring'],
+ es:'Una boda es unión, compromiso y dos partes que se integran —a veces con otra persona, a veces dos lados de ti mismo. Habla de una decisión de entrega. Resuena con el 6, número del amor, la armonía y la responsabilidad compartida.',
+ en:'A wedding is union, commitment and two parts merging — sometimes with another person, sometimes two sides of yourself. It speaks of a decision to surrender to something. It resonates with the 6, the number of love, harmony and shared responsibility.',
+ hookEs:'NUMA lee qué unión está pidiendo tu vida según tu número de vida.',
+ hookEn:'NUMA reads what union your life is asking for, according to your life path number.'},
+{e:'🐟',lbl:'Pez',num:7,kw:['pez','pescado','peces','pescar','pecera','fish','fishing','fish tank'],
+ es:'El pez nada en las profundidades del inconsciente: es intuición, ideas que emergen y, en muchas culturas, fertilidad y abundancia espiritual. Resuena con el 7, número de la sabiduría interior y lo que se revela desde lo hondo. Atrapar un pez es capturar una intuición.',
+ en:'A fish swims in the depths of the unconscious: it\'s intuition, emerging ideas, and in many cultures, fertility and spiritual abundance. It resonates with the 7, the number of inner wisdom and what reveals itself from the depths. Catching a fish is catching an intuition.',
+ hookEs:'La lectura profunda revela qué intuición estás por pescar según tu número de vida.',
+ hookEn:'A deep reading reveals which intuition you\'re about to catch, according to your life path number.'},
+{e:'🚪',lbl:'Puerta',num:5,kw:['puerta','puerta cerrada','puerta abierta','muchas puertas','puerta que no abre','door','closed door','open door','many doors'],
+ es:'La puerta es una oportunidad o una transición. Abierta invita a avanzar; cerrada, a una espera o un límite; muchas puertas, a una decisión. Resuena con el 5, número del cambio, las opciones y el paso hacia lo nuevo.',
+ en:'A door is an opportunity or a transition. Open, it invites you forward; closed, it speaks of waiting or a boundary; many doors, of a decision to make. It resonates with the 5, the number of change, options and stepping into the new.',
+ hookEs:'NUMA lee qué puerta te conviene cruzar según tu número de vida.',
+ hookEn:'NUMA reads which door is worth crossing, according to your life path number.'},
+{e:'🐀',lbl:'Ratón',num:4,kw:['raton','ratón','rata','roedor','muchas ratas','mouse','rat','many rats'],
+ es:'El ratón habla de pequeñas preocupaciones que roen, de algo discreto que te consume o de astucia para sobrevivir. Resuena con el 4, número del trabajo, los detalles y lo que hay que ordenar. No es mal presagio: es tu mente señalando lo pequeño que pide atención antes de crecer.',
+ en:'A mouse speaks of small worries gnawing at you, of something quiet draining you, or of cunning needed to survive. It resonates with the 4, the number of work, detail and what needs organizing. It\'s not a bad omen — it\'s your mind flagging something small before it grows.',
+ hookEs:'La lectura profunda revela qué detalle pide orden según tu número de vida.',
+ hookEn:'A deep reading reveals which detail needs order, according to your life path number.'},
+{e:'🌙',lbl:'Luna',num:7,kw:['luna','luna llena','luna roja','noche de luna','moon','full moon','red moon'],
+ es:'La luna es tu mundo interior, tus ciclos y lo femenino intuitivo. Llena habla de plenitud emocional o de algo que llega a su punto máximo. Resuena con el 7, número de la introspección, los misterios y la conexión espiritual.',
+ en:'The moon is your inner world, your cycles and intuitive femininity. Full, it speaks of emotional fullness or something reaching its peak. It resonates with the 7, the number of introspection, mystery and spiritual connection.',
+ hookEs:'NUMA lee en qué fase está tu ciclo interior según tu número de vida.',
+ hookEn:'NUMA reads which phase your inner cycle is in, according to your life path number.'},
+{e:'👽',lbl:'Perseguido',num:5,kw:['me perseguian','me perseguían','huir','correr de alguien','escapar','no poder correr','chased','being chased','running away','couldn\'t run'],
+ es:'Que te persigan es uno de los sueños más comunes: hablás de algo que evitás —una emoción, una responsabilidad, una verdad. No es quién te persigue, es de qué estás huyendo. Resuena con el 5, número del movimiento y de la libertad que buscás al enfrentarlo.',
+ en:'Being chased is one of the most common dreams there is: it speaks of something you\'re avoiding — an emotion, a responsibility, a truth. It\'s not about who\'s chasing you, it\'s about what you\'re running from. It resonates with the 5, the number of movement and the freedom found in facing it.',
+ hookEs:'La lectura profunda te dice de qué estás huyendo —y cómo tu número de vida dice que puedes dejar de correr.',
+ hookEn:'A deep reading tells you what you\'re running from — and how your life path number says you can stop running.'},
+{e:'🕳️',lbl:'Caer',num:8,kw:['caer','caida','caída','caer al vacio','caer al vacío','caer de un edificio','falling','fell','falling into a void','falling from a building'],
+ es:'Caer habla de pérdida de control, de un miedo a fallar o de soltar algo a lo que te aferrás. No predice desgracia: es tu mente procesando inseguridad. Resuena con el 8, número del equilibrio, el poder y aprender a sostenerte. Caer en sueños suele ser el paso antes de recuperar el control.',
+ en:'Falling speaks of losing control, a fear of failing, or letting go of something you\'re gripping too tightly. It doesn\'t predict misfortune — it\'s your mind processing insecurity. It resonates with the 8, the number of balance, power and learning to hold yourself up. Falling in a dream is often the step right before regaining control.',
+ hookEs:'NUMA lee dónde recuperar tu equilibrio según tu número de vida.',
+ hookEn:'NUMA reads where to recover your balance, according to your life path number.'},
+{e:'🐘',lbl:'Animal grande',num:6,kw:['elefante','toro','vaca','animal grande','buey','elephant','bull','cow','big animal','ox'],
+ es:'Un animal grande y noble habla de fuerza estable, memoria, familia y abundancia serena. El elefante trae sabiduría; el toro, fuerza y terquedad; la vaca, nutrición y hogar. Resuenan con el 6, número de la protección, la familia y el cuidado que perdura.',
+ en:'A large, noble animal speaks of steady strength, memory, family and quiet abundance. An elephant brings wisdom; a bull, strength and stubbornness; a cow, nourishment and home. They resonate with the 6, the number of protection, family and care that endures.',
+ hookEs:'La lectura profunda revela qué fuerza tuya pide reconocimiento según tu número de vida.',
+ hookEn:'A deep reading reveals which of your own strengths is asking to be recognized, according to your life path number.'},
+{e:'🌳',lbl:'Árbol',num:4,kw:['arbol','árbol','arbol grande','árbol grande','arbol seco','árbol seco','subir a un arbol','raices','raíces','tree','big tree','dry tree','climbing a tree','roots'],
+ es:'El árbol eres tú en tu totalidad: raíces (tu origen), tronco (tu presente), ramas (tus posibilidades). Frondoso habla de crecimiento; seco, de una parte que pide cuidado. Resuena con el 4, número de las raíces, la solidez y lo que se construye con tiempo.',
+ en:'The tree is all of you: roots (your origin), trunk (your present), branches (your possibilities). Full of leaves, it speaks of growth; dry, of a part asking for care. It resonates with the 4, the number of roots, solidity and what\'s built over time.',
+ hookEs:'NUMA lee qué parte de tu árbol pide agua según tu número de vida.',
+ hookEn:'NUMA reads which part of your tree is asking for water, according to your life path number.'}
+];
+const DREAM_FALLBACK={
+ 1:{es:'El 1 habla de comienzos, de tu propio impulso y de confiar en tu instinto.',en:'The 1 speaks of beginnings, your own drive, and trusting your instinct.'},
+ 2:{es:'El 2 habla de tus emociones y tus vínculos —de lo que sentís y con quién lo compartís.',en:'The 2 speaks of your emotions and your bonds — what you feel, and who you share it with.'},
+ 3:{es:'El 3 habla de algo que está creciendo o queriendo expresarse en vos.',en:'The 3 speaks of something growing, or wanting to express itself, inside you.'},
+ 4:{es:'El 4 habla de tus raíces, de lo que te sostiene y de lo que estás construyendo.',en:'The 4 speaks of your roots, what holds you up, and what you\'re building.'},
+ 5:{es:'El 5 habla de un cambio que ya está en marcha, aunque todavía no lo veas del todo.',en:'The 5 speaks of a change already underway, even if you can\'t fully see it yet.'},
+ 6:{es:'El 6 habla de tu hogar, tus vínculos cercanos y lo que cuidás.',en:'The 6 speaks of your home, your close bonds, and what you care for.'},
+ 7:{es:'El 7 habla de tu mundo interior y de una sabiduría que ya tenés, aunque no la nombres.',en:'The 7 speaks of your inner world, and a wisdom you already carry, even without naming it.'},
+ 8:{es:'El 8 habla de tu poder personal y del equilibrio entre lo que das y lo que recibís.',en:'The 8 speaks of your personal power, and the balance between what you give and what you receive.'},
+ 9:{es:'El 9 habla de un cierre —algo que tu sueño te está ayudando a soltar.',en:'The 9 speaks of an ending — something your dream is helping you release.'}
+};
+function dreamRoot(n){return n===11?2:n===22?4:n===33?6:n}
+function dreamNormalize(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
+function dreamLetterReduce(s){const clean=(s||'').trim();if(!clean)return 1;let sum=0;for(let i=0;i<clean.length;i++){const code=clean.charCodeAt(i);if(code>32)sum+=(code%9)+1}return numReduce(sum||1)}
+function dreamMatch(text){
+  const t=' '+dreamNormalize(text)+' ';
+  const found=[];
+  DREAM_BANK.forEach(entry=>{
+    const hit=entry.kw.some(k=>t.indexOf(dreamNormalize(k))!==-1);
+    if(hit)found.push(entry);
+  });
+  return found.slice(0,3);
+}
+function dreamCompute(text){
+  const matches=dreamMatch(text);
+  if(matches.length===0){
+    const n=dreamLetterReduce(text);
+    const root=dreamRoot(n);
+    const fb=DREAM_FALLBACK[root]||DREAM_FALLBACK[1];
+    return{
+      matched:false,emoji:'🌙',num:n,
+      esRaw:'Ese símbolo todavía no está en nuestro banco, pero todo número tiene un mensaje. Tu sueño reduce al '+n+'. '+fb.es,
+      en:'That symbol isn\'t in our bank yet, but every number carries a message. Your dream reduces to '+n+'. '+fb.en,
+      hookEs:'La lectura profunda conecta este número con tu número de vida.',
+      hookEn:'A deep reading connects this number with your life path number.',
+      charadaLine:null
+    };
+  }
+  const emoji=matches.map(m=>m.e).join(' ');
+  const sum=matches.reduce((a,m)=>a+m.num,0);
+  const num=numReduce(sum);
+  const es=matches.map(m=>m.es).join(' ');
+  const en=matches.map(m=>m.en).join(' ');
+  const hookEs=matches[0].hookEs;
+  const hookEn=matches[0].hookEn;
+  const charadas=matches.filter(m=>m.charada).map(m=>m.charada);
+  let charadaLine=null;
+  if(charadas.length){
+    charadaLine={es:'Tradición popular: se le asocia el número '+charadas.join(', ')+'.',en:'Popular tradition: associated with the number '+charadas.join(', ')+'.'};
+  }
+  return{matched:true,emoji:emoji,num:num,esRaw:es,en:en,hookEs:hookEs,hookEn:hookEn,charadaLine:charadaLine};
+}
+const DREAM_QUICK_LABELS=['Muerto','Agua','Culebra','Dinero','Embarazo','Casa','Fuego','Dientes'];
+const DREAM_QUICK_LABELS_EN=['Dead','Water','Snake','Money','Baby','House','Fire','Teeth'];
+function dreamOpen(){
+  const m=document.getElementById('dream-overlay');
+  m.classList.remove('hidden');
+  document.body.style.overflow='hidden';
+  document.getElementById('dream-screen-1').classList.remove('hidden');
+  document.getElementById('dream-screen-loading').classList.add('hidden');
+  document.getElementById('dream-screen-result').classList.add('hidden');
+  dreamRenderQuick();
+  setTimeout(function(){const i=document.getElementById('dream-input');if(i){i.value='';i.focus();}},150);
+}
+function dreamClose(){
+  document.getElementById('dream-overlay').classList.add('hidden');
+  document.body.style.overflow='';
+}
+function dreamRenderQuick(){
+  const wrap=document.getElementById('dream-quick');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  DREAM_QUICK_LABELS.forEach(function(lbl,i){
+    const entry=DREAM_BANK.find(function(x){return x.lbl===lbl});
+    if(!entry)return;
+    const label=uiLang()==='en'?DREAM_QUICK_LABELS_EN[i]:lbl;
+    const chip=document.createElement('div');
+    chip.className='dream-chip';
+    chip.textContent=entry.e+' '+label;
+    chip.onclick=function(){dreamSymbolTap(label);};
+    wrap.appendChild(chip);
+  });
+}
+function dreamSymbolTap(label){
+  const inp=document.getElementById('dream-input');
+  if(!inp)return;
+  const word=(label||'').toLowerCase();
+  inp.value=(inp.value.trim()?inp.value.trim()+' ':'')+word;
+  inp.focus();
+}
+async function dreamReveal(){
+  const inputEl=document.getElementById('dream-input');
+  const raw=(inputEl.value||'').trim();
+  if(!raw){inputEl.focus();return;}
+  document.getElementById('dream-screen-1').classList.add('hidden');
+  document.getElementById('dream-screen-loading').classList.remove('hidden');
+  const msgs=uiLang()==='en'?['NUMA is interpreting your dream…','Reading the symbols in your sleep…','Finding the number your dream resonates with…']:['NUMA está interpretando tu sueño…','Leyendo los símbolos de tu sueño…','Encontrando el número que resuena con tu sueño…'];
+  let mi=0;const msgEl=document.getElementById('dream-loading-msg');msgEl.textContent=msgs[0];
+  const iv=setInterval(function(){mi++;msgEl.textContent=msgs[mi%msgs.length];},900);
+  await new Promise(function(r){setTimeout(r,1400)});
+  clearInterval(iv);
+  const res=dreamCompute(raw);
+  STATE.lastDream=res;
+  document.getElementById('dream-result-emoji').textContent=res.emoji;
+  document.getElementById('dream-result-num').textContent=res.num;
+  document.getElementById('dream-result-text').textContent=L(res.esRaw||res.zhRaw,res.en);
+  document.getElementById('dream-hook').textContent=L(res.hookEs||res.hookZh,res.hookEn);
+  const charEl=document.getElementById('dream-charada');
+  if(charEl){
+    if(res.charadaLine){charEl.textContent=L(res.charadaLine.es,res.charadaLine.en);charEl.classList.remove('hidden');}
+    else{charEl.classList.add('hidden');charEl.textContent='';}
+  }
+  document.getElementById('dream-screen-loading').classList.add('hidden');
+  document.getElementById('dream-screen-result').classList.remove('hidden');
+  try{posthog.capture('consulta_sueno',{matched:res.matched,num:res.num});}catch(e){}
+}
+function dreamAgain(){
+  document.getElementById('dream-screen-result').classList.add('hidden');
+  document.getElementById('dream-screen-1').classList.remove('hidden');
+  const inp=document.getElementById('dream-input');
+  if(inp){inp.value='';inp.focus();}
+}
+function dreamUpsell(){
+  dreamClose();
+  try{showTab('hoy');}catch(e){}
+  const el=document.querySelector('.game-grid .game-card[data-game="destiny"]')||document.querySelector('.game-grid .game-card[data-game="daily"]');
+  if(el){try{quickLaunch(el);}catch(e){}}
+}
+function dreamFirstSentence(text){if(!text)return'';const m=text.match(/^.*?[.!?。]/);return m?m[0]:text;}
+function dreamWrapCanvasText(ctx,text,x,y,maxWidth,lineHeight){
+  const words=text.split(' ');let line='';let yy=y;
+  for(let i=0;i<words.length;i++){
+    const test=line+words[i]+' ';
+    if(ctx.measureText(test).width>maxWidth&&line){ctx.fillText(line,x,yy);line=words[i]+' ';yy+=lineHeight;}else{line=test;}
+  }
+  ctx.fillText(line,x,yy);
+}
+function dreamDrawCard(){
+  const canvas=document.getElementById('dream-canvas');
+  const w=1080,h=1350;
+  canvas.width=w;canvas.height=h;
+  const ctx=canvas.getContext('2d');
+  const res=STATE.lastDream;
+  ctx.fillStyle='#0b0b10';ctx.fillRect(0,0,w,h);
+  const grad=ctx.createRadialGradient(w/2,h*0.36,10,w/2,h*0.36,w*0.65);
+  grad.addColorStop(0,'rgba(212,175,55,.22)');grad.addColorStop(1,'rgba(212,175,55,0)');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+  if(!res)return canvas;
+  ctx.textAlign='center';
+  ctx.font=Math.round(w*0.11)+'px sans-serif';
+  ctx.fillStyle='#fff';
+  ctx.fillText((res.emoji||'🌙').split(' ')[0],w/2,h*0.28);
+  ctx.fillStyle='#f5e4b0';
+  ctx.font='700 '+Math.round(w*0.30)+'px Georgia, serif';
+  ctx.shadowColor='rgba(212,175,55,.7)';ctx.shadowBlur=40;
+  ctx.fillText(String(res.num),w/2,h*0.46);
+  ctx.shadowBlur=0;
+  ctx.fillStyle='#a99fc4';ctx.font=Math.round(w*0.028)+'px sans-serif';
+  ctx.fillText(uiLang()==='en'?'NUMBER FROM YOUR DREAM':uiLang()==='zh'?'梦里的数字':'NÚMERO DE TU SUEÑO',w/2,h*0.51);
+  const line=dreamFirstSentence(L(res.esRaw||res.zhRaw,res.en));
+  ctx.fillStyle='#e8dfc8';ctx.font=Math.round(w*0.032)+'px Georgia, serif';
+  dreamWrapCanvasText(ctx,line,w/2,h*0.62,w*0.78,Math.round(w*0.042));
+  ctx.fillStyle='#d4af37';ctx.font='700 '+Math.round(w*0.042)+'px Georgia, serif';
+  ctx.fillText('NUMBERS ORACLE',w/2,h*0.90);
+  ctx.fillStyle='#a99fc4';ctx.font=Math.round(w*0.028)+'px sans-serif';
+  ctx.fillText('numbersoracle.com',w/2,h*0.925);
+  return canvas;
+}
+async function dreamShare(){
+  try{
+    const canvas=dreamDrawCard();
+    canvas.toBlob(async function(blob){
+      if(!blob)return;
+      try{
+        const file=new File([blob],'numero-del-sueno.png',{type:'image/png'});
+        if(navigator.canShare&&navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],title:'Numbers Oracle',text:L('Mi número del sueño ✦','My dream number ✦')});
+        }else{throw new Error('no-share')}
+      }catch(e){
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='numero-del-sueno.png';document.body.appendChild(a);a.click();document.body.removeChild(a);
+        setTimeout(function(){URL.revokeObjectURL(url)},2000);
+      }
+      try{posthog.capture('compartir_sueno',{num:(STATE.lastDream&&STATE.lastDream.num)});}catch(e){}
+    },'image/png');
+  }catch(e){console.warn('dreamShare error:',e);}
+}
 </script>
 <!-- Aplicar idioma detectado (en). ES es el predeterminado; zh ya redirigió en <head>. -->
 <script>
@@ -3439,6 +3808,36 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="sm-hint" id="sm-hint">✦ Escribe uno o varios. Sepáralos con espacio o coma.</div>
     <button class="btn-sm-rev" id="sm-btn" onclick="smReveal()">✦ Revelar ✦</button>
     <button class="btn-sm-close" onclick="smClose()">← Volver</button>
+  </div>
+</div>
+<!-- Dream Numbers Quick Modal -->
+<div id="dream-overlay" class="sm-overlay hidden" onclick="if(event.target===this)dreamClose()">
+  <div class="sm-box" id="dream-box">
+    <div id="dream-screen-1">
+      <div class="sm-icon">🌙</div>
+      <div class="sm-title" id="dream-title">Números del Sueño</div>
+      <div class="sm-sub" id="dream-sub">Contame qué soñaste. NUMA interpreta el número.</div>
+      <textarea id="dream-input" rows="3" placeholder="Ej: Soñé que se me caían los dientes..." autocomplete="off"></textarea>
+      <div class="dream-quick" id="dream-quick"></div>
+      <div class="sm-hint" id="dream-hint">✦ Tocá un símbolo para completar, o escribí tu sueño con tus palabras.</div>
+      <button class="btn-sm-rev" id="dream-btn" onclick="dreamReveal()">✦ Interpretar ✦</button>
+      <button class="btn-sm-close" onclick="dreamClose()">← Volver</button>
+    </div>
+    <div id="dream-screen-loading" class="hidden dream-loading">
+      <div class="dream-loading-orb">🌙</div>
+      <div class="dream-loading-msg" id="dream-loading-msg">NUMA está interpretando tu sueño…</div>
+    </div>
+    <div id="dream-screen-result" class="hidden">
+      <div class="dream-result-emoji" id="dream-result-emoji">🌙</div>
+      <div class="dream-result-num" id="dream-result-num">7</div>
+      <div class="dream-result-text" id="dream-result-text"></div>
+      <div class="dream-charada hidden" id="dream-charada"></div>
+      <div class="dream-hook" id="dream-hook"></div>
+      <canvas id="dream-canvas" width="1080" height="1350" style="display:none"></canvas>
+      <button class="btn-sm-rev" id="dream-share-btn" onclick="dreamShare()">📤 Compartir mi carta</button>
+      <div class="dream-upsell-link" id="dream-upsell-link" onclick="dreamUpsell()">Conectá este número con tu número de vida →</div>
+      <button class="btn-sm-close" id="dream-again-btn" onclick="dreamAgain()">↺ Otro sueño</button>
+    </div>
   </div>
 </div>
 <!-- ===== TEATRO DE CONVERGENCIA (Fase 1 rediseño) ===== -->
