@@ -624,6 +624,19 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .sm-hint{color:var(--muted);font-size:.78rem;text-align:left;margin-bottom:1.35rem}
 .btn-sm-rev{width:100%;padding:.9rem 1rem;background:linear-gradient(135deg,var(--gold1),var(--gold2));color:#0d0920;border:none;border-radius:10px;font-family:'Cinzel Decorative',serif;font-size:.92rem;cursor:pointer;font-weight:700;margin-bottom:.65rem;letter-spacing:.03em}
 .btn-sm-close{background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;padding:.25rem .5rem}
+.dream-quick{display:flex;flex-wrap:wrap;gap:.4rem;margin:.65rem 0 .9rem;justify-content:center}
+.dream-chip{background:#1a1436;border:1px solid rgba(212,175,55,.35);border-radius:20px;padding:.4rem .7rem;font-size:.82rem;cursor:pointer;color:#e8dfc8;transition:.15s}
+.dream-chip:hover{border-color:var(--gold2)}
+#dream-input{width:100%;background:#0d0920;border:1.5px solid var(--gold2);border-radius:10px;padding:.85rem 1rem;color:#fff;font-size:1rem;box-sizing:border-box;margin-bottom:.25rem;resize:vertical;font-family:inherit}
+.dream-loading{padding:1.75rem 0}
+.dream-loading-orb{font-size:2.3rem;margin-bottom:.75rem;animation:dreamPulse 2s infinite ease-in-out}
+@keyframes dreamPulse{0%,100%{opacity:.45}50%{opacity:1}}
+.dream-loading-msg{color:var(--muted);font-size:.9rem;font-style:italic}
+.dream-result-emoji{font-size:2.3rem;margin-bottom:.25rem}
+.dream-result-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:3.2rem;font-weight:600;color:#f5e4b0;text-shadow:0 0 26px rgba(201,168,76,.6);line-height:1}
+.dream-result-text{color:#e8dfc8;font-size:.92rem;line-height:1.55;text-align:left;margin:1rem 0}
+.dream-hook{color:var(--gold1);font-size:.85rem;font-style:italic;margin-bottom:1.1rem;text-align:left}
+.dream-upsell-link{color:var(--gold1);font-size:.85rem;cursor:pointer;margin:.5rem 0 .9rem;text-decoration:underline}
 .signal-dominant-sub{font-size:16px;color:var(--muted);font-style:italic}
 #signals-fields{margin-top:.75rem}
 #signals-fields input{font-size:18px;letter-spacing:.05em}
@@ -877,6 +890,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
           </div>
         </div>
         <div class="game-card game-card-full" data-game="signals" onclick="smOpen()"><div class="free-badge">✦ 免费</div><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">一个数字反复出现在你身边——绝非偶然。</div></div>
+        <div class="game-card game-card-full" data-game="dream" onclick="dreamOpen()"><div class="free-badge">✦ 免费</div><div class="gi">🌙</div><div class="gl">梦里的数字</div><div class="gd">你梦见了什么？NUMA 为你解读这个数字。</div></div>
         <div class="game-card game-card-full pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">缘分解读</div><div class="gd">两颗心之间的联结，由宇宙揭示。</div><div class="pro-preview">"你们的生命数字交织成独一无二的印记。NUMA 为你照见宇宙写在这段缘分里的话……"</div></div>
         <div class="game-card game-card-full" data-game="sports" onclick="quickLaunch(this)"><div class="free-badge">✦ 免费</div><div class="gi">⚽</div><div class="gl">体育解读</div><div class="gd">NBA · NFL · 欧冠等真实赛程 · 照见你和对手之间的数字能量</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ 免费</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">只属于你的神谕。今天的一切，都可以问它。</div></div>
@@ -1269,6 +1283,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="orac-grid">
           <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">此刻脉动</div><div class="gd">属于此刻的数字。选 1、2 或 3。</div></div>
           <div class="game-card" data-game="signals" onclick="smOpen()"><div class="free-badge">免费</div><div class="gi">🌌</div><div class="gl">数字共鸣</div><div class="gd">那个反复出现的数字，为你解读。</div></div>
+          <div class="game-card" data-game="dream" onclick="dreamOpen()"><div class="free-badge">免费</div><div class="gi">🌙</div><div class="gl">梦里的数字</div><div class="gd">梦里出现的那个意象，为你解读。</div></div>
         </div>
       </div>
       <div class="orac-group">
@@ -2708,6 +2723,17 @@ const UI_EN=[
 ['.game-card[data-game="destiny"] .pro-preview','"Your master number reveals the purpose the cosmos wrote in you before you were born..."'],
 ['.game-card[data-game="sports"] .gl','体育解读'],
 ['.game-card[data-game="sports"] .gd','NBA · NFL · Champions League and more real matches — numeric affinity with your rival'],
+['.game-card[data-game="dream"] .gl','Dream Numbers'],
+['.game-card[data-game="dream"] .gd','What did you dream? NUMA interprets the number.'],
+['#dream-title','Dream Numbers'],
+['#dream-sub','Tell NUMA what you dreamed, and get the number it reveals.'],
+['#dream-input','Eg: I dreamed my teeth were falling out...','ph'],
+['#dream-hint','✦ Tap a symbol to autofill, or write your dream in your own words.'],
+['#dream-btn','✦ Interpret ✦'],
+['#dream-close-btn','← Back'],
+['#dream-share-btn','📤 Share my card'],
+['#dream-upsell-link','Connect this number with your life path number →'],
+['#dream-again-btn','↺ Another dream'],
 ['.numa-game-card .gl','NUMA'],
 ['.numa-game-card .gd','Your personal oracle. Ask anything about your day.'],
 ['.game-card[data-game="signals"] .gl','Synchronies'],
@@ -2736,6 +2762,8 @@ const UI_EN=[
 ['#tab-oraculos .game-card[data-game="compat"] .gd','The bond between two souls, revealed by the cosmos.'],
 ['#tab-oraculos .game-card[data-game="sports"] .gl','体育解读'],
 ['#tab-oraculos .game-card[data-game="sports"] .gd','NBA · NFL · Champions League and more real leagues.'],
+['#tab-oraculos .game-card[data-game="dream"] .gl','Dream Numbers'],
+['#tab-oraculos .game-card[data-game="dream"] .gd','That symbol you dreamed, decoded.'],
 ['#card-hint','↑ Complete your personal details to reveal your numbers'],
 ['#sport-selector-wrap .duel-fields-intro','⚽ Choose the sport'],
 ['#league-intro','🏆 Choose the competition'],
@@ -3355,6 +3383,341 @@ function smReveal(){
   const birth=document.getElementById('inp-birth').value;
   generateSignals(name,birth);
 }
+
+// ===== 梦里的数字 — banco ZH/EN，solo Capa 1 (sin charada) =====
+const DREAM_BANK=[
+{e:'💀',lbl:'离世的人',num:4,kw:['死人','去世','离世','过世','葬礼','奶奶去世','爷爷去世','已故','亡故'],
+ zh:'梦见离世的人，很少真的与死亡有关——它更多在说"告一段落"，与你的根源。这份牵挂让你安顿一段旧的篇章，也照见你从何处而来，因此与4相应，那是根基、结构与恒久之数。若梦里出现的是你深爱的人，这份梦境往往是心底一份从未真正断开的牵系。',
+ en:'Dreaming about someone who died is almost never about death — it\'s about closure and roots. Your mind is sealing a chapter or asking you to honor where you come from, which is why it resonates with the 4, the number of structure, foundations and what endures. If it was someone you loved, the dream is often your mind holding on to a bond that never really breaks.',
+ hookZh:'深度解读会把这个4与你的生命数字交汇，照见你正在合上哪一页、又在筑起哪一层根基。',
+ hookEn:'A deep reading pairs this 4 with your life path number to show what\'s closing — and what\'s about to be built.'},
+{e:'💧',lbl:'水',num:2,kw:['水','大水','河水','湖水','游泳','发大水','水灾','清水','浑水','波浪'],
+ zh:'水，是情绪的镜子。清澈的水，映出平静与清明；浑浊或漫溢的水，是等待被看见的情绪。它与2相应——敏感、连结与直觉之数，水的样子，就是此刻你内心世界的样子。',
+ en:'Water is the mirror of your emotions. Clear water speaks of calm and clarity; murky or overflowing water, of feelings asking to be understood. It resonates with the 2, the number of sensitivity, connection and intuition — how the water looked is how your emotional world feels right now.',
+ hookZh:'NUMA会把水的状态与你的生命数字放在一起看，照见哪一份情绪正等你留意。',
+ hookEn:'NUMA reads the state of the water alongside your life path number to tell you which emotion is asking for attention.'},
+{e:'🐍',lbl:'蛇',num:7,kw:['蛇','蟒蛇','毒蛇','被蛇咬','好多蛇'],
+ zh:'蛇，是蜕变，有时也是提醒：你的内在（或身边某个人）正在褪去一层旧的皮肤。这不是恐惧的符号，而是一股正在苏醒的力量。它与7相应——深藏智慧与内在觉察之数；若梦里蛇咬了你，那多半是心底在为一件你已无法回避的事作标记。',
+ en:'A snake is transformation, and sometimes a warning: something in you — or someone close to you — is shedding its skin. It\'s not a symbol of fear but of power waking up. It resonates with the 7, the number of hidden wisdom and deep insight; if it bit you, your unconscious is underlining something you can no longer ignore.',
+ hookZh:'深度解读会照见，那条蛇是你自己的蜕变，还是关于你周围的一个信号。',
+ hookEn:'A deep reading reveals whether the snake is you transforming, or a sign about someone around you.'},
+{e:'💰',lbl:'钱',num:8,kw:['钱','钞票','硬币','捡钱','丢钱','好多钱','金钱'],
+ zh:'梦见钱财，往往与钱本身无关，而是关于你对自我价值与丰盛的感受。捡到钱，是在照见你正在认出的内在资源；丢了钱，则是一种"我是否足够"的隐忧。它与8相应——力量、平衡与收获之数。（我们只解读这个符号，从不许诺任何结果。）',
+ en:'Dreaming about money is rarely about money — it\'s about your sense of worth and abundance. Finding it speaks of inner resources you\'re recognizing; losing it, of a fear of not being enough. It resonates with the 8, the number of power, material balance and harvest. (We interpret the symbol — we don\'t promise winnings.)',
+ hookZh:'深度解读会把这个8与你的生命数字交汇，照见你真正的丰盛藏在哪里。',
+ hookEn:'A deep reading pairs this 8 with your life path number to show you where your real abundance lives.'},
+{e:'🤰',lbl:'怀孕',num:3,kw:['怀孕','婴儿','生孩子','新生儿','分娩'],
+ zh:'梦里的怀孕，几乎从不是字面的意思——它是你生命中正在孕育的新事物：一个计划、一个念头、一个正在成形的自己。它与3相应——创造、表达与成长之数，心底正提醒你，有什么属于你的东西，即将诞生。',
+ en:'A pregnancy in a dream is almost never literal — it\'s something new taking shape in your life: a project, an idea, a version of yourself. It resonates with the 3, the number of creation, expression and growth. Your unconscious is telling you something of yours is about to be born.',
+ hookZh:'深度解读会照见，依你的生命数字，你正在孕育的究竟是什么。',
+ hookEn:'A deep reading shows you exactly what you\'re incubating, according to your life path number.'},
+{e:'🏠',lbl:'房子',num:6,kw:['房子','家','新房子','老房子','搬家','老家'],
+ zh:'房子，就是你自己——每一个房间，都是生活的一部分。新房子，说的是一个新阶段；儿时的老房子，则关乎根源，或与过去尚未了结的心事。它与6相应——家庭、和谐与关怀之数，房子的样子，映出你此刻与自己相处的样子。',
+ en:'The house is you: every room, a piece of your life. A new house speaks of a new stage; the house from your childhood, of roots or unfinished business with your past. It resonates with the 6, the number of home, family and care — how the house looked reflects how you feel about yourself right now.',
+ hookZh:'NUMA会照见，依你的生命数字，此刻是哪个房间在等你留意。',
+ hookEn:'NUMA reads which room of your life is asking for attention, according to your life path number.'},
+{e:'🐕',lbl:'狗',num:1,kw:['狗','小狗','狗咬人','好多狗'],
+ zh:'狗，是忠诚、友谊与守护。友善的狗，说的是托住你的情谊；凶猛的狗，则是一份被辜负的忠诚，或身边一场未解的冲突。它与1相应——自我、引领与相信本能之数。',
+ en:'A dog is loyalty, friendship and protection. A friendly dog speaks of bonds that hold you up; an aggressive one, of a betrayed loyalty or a conflict close by. It resonates with the 1, the number of the self, leadership and trusting your own instinct.',
+ hookZh:'深度解读会照见，那只狗是你圈子里的某个人，还是你对自己的那份忠诚。',
+ hookEn:'A deep reading reveals whether the dog represents someone in your circle — or your own loyalty to yourself.'},
+{e:'🔥',lbl:'火',num:9,kw:['火','着火','火灾','烧','房子着火'],
+ zh:'火，既燃烧也净化。它说的是一种强烈的情绪——热情、愤怒，或是一场烧尽旧物、为新事腾出空间的转变。它与9相应——终结、蜕变与圆满之数，梦里燃烧的，正是你此刻正在放下的。',
+ en:'Fire consumes and purifies. It speaks of an intense emotion — passion, anger, a change that clears away the old to make room for the new. It resonates with the 9, the number of endings, transmutation and completion. What burns in your dream is what you\'re letting go of.',
+ hookZh:'NUMA会照见，依你的生命数字，你正在合上哪一个周期。',
+ hookEn:'NUMA reads which cycle you\'re closing, according to your life path number.'},
+{e:'🦷',lbl:'掉牙',num:5,kw:['牙齿','掉牙','牙掉了','松动的牙齿'],
+ zh:'这是世界上最常见的梦之一。它说的是对改变的不安，对失去掌控的担忧，或是对他人眼光的在意。它与5相应——改变、自由与必经之转折的数字。这不是坏兆头，而是你的心在处理一场蜕变。',
+ en:'One of the most common dreams in the world. It speaks of a fear of change, of losing control, or of how others see you. It resonates with the 5, the number of change, freedom and inevitable transition. It\'s not a bad sign — it\'s your mind processing a transformation.',
+ hookZh:'深度解读会照见你究竟在害怕哪一种改变——以及你的生命数字为何说你已经准备好了。',
+ hookEn:'A deep reading tells you exactly what change you\'re afraid of — and why your life path number says you\'re ready.'},
+{e:'✈️',lbl:'飞',num:1,kw:['飞','飞翔','飘在空中','飞着飞着掉下来'],
+ zh:'飞翔，是自由，也是视野——你的心正凌驾于某件曾困住你的事之上。它说的是一份野心，与掌握方向的意愿。它与1相应——冲劲、独立与新起点之数；若飞着飞着坠落，说明仍有什么把你系在地面上。',
+ en:'Flying is freedom and perspective — your mind rising above something that had you trapped. It speaks of ambition and taking the reins. It resonates with the 1, the number of momentum, independence and new beginnings. If you were falling, something is still keeping you grounded.',
+ hookZh:'NUMA会照见，依你的生命数字，此刻正把你推向何方。',
+ hookEn:'NUMA reads exactly where your life path number is pushing you to go.'},
+{e:'🐈',lbl:'猫',num:7,kw:['猫','黑猫','猫抓人','小猫'],
+ zh:'猫，是直觉、独立，也是一份神秘的力量。它说的是你内在一个安静行走、却比表面知道更多的部分。它与7相应——内省与洞察之数；黑猫从来不是坏兆头，那只是你的直觉在请求被听见。',
+ en:'A cat is intuition, independence and mysterious femininity. It speaks of a part of you that moves quietly and knows more than it says. It resonates with the 7, the number of introspection and hidden knowledge. A black cat isn\'t a bad sign — it\'s your intuition asking to be heard.',
+ hookZh:'深度解读会照见，依你的生命数字，你的直觉正在低声说着什么。',
+ hookEn:'A deep reading reveals exactly what your intuition is whispering, according to your life path number.'},
+{e:'👶',lbl:'孩子',num:3,kw:['孩子','小孩','儿子','女儿','走失的孩子'],
+ zh:'一个孩子，是你的纯真、你的潜能，或是你内心仍在守护的一部分。它说的是一份脆弱又富有创造力的自己，正渴望被看见、被陪伴。它与3相应——喜悦、表达与成长之数；一个走失的孩子，也许是一份被你搁置的天赋。',
+ en:'A child is your innocence, your potential, or something you still nurture inside you. It speaks of a vulnerable, creative part of you asking for play and attention. It resonates with the 3, the number of joy, expression and growth. A lost child can be a talent you set aside.',
+ hookZh:'NUMA会照见，依你的生命数字，你的哪一部分正等待被照顾。',
+ hookEn:'NUMA reads which part of you is asking to be cared for, according to your life path number.'},
+{e:'🌊',lbl:'大海',num:2,kw:['大海','海','海浪','涨潮','海啸'],
+ zh:'大海，是你整片的潜意识：辽阔、幽深，涨落不由你掌控。汹涌的浪，说的是漫过你的情绪；平静的海，是内心的安宁。它与2相应——敏感与情绪流动之数，海的状态，就是灵魂此刻的状态。',
+ en:'The sea is your entire unconscious: vast, deep, with tides you don\'t control. Big waves speak of emotions overwhelming you; a calm sea, of inner peace. It resonates with the 2, the number of sensitivity and emotional flow — the state of the sea is the state of your soul.',
+ hookZh:'深度解读会陪你读懂这一片潮水，依你的生命数字。',
+ hookEn:'A deep reading helps you navigate that tide, according to your life path number.'},
+{e:'🚗',lbl:'车',num:5,kw:['车','开车','车祸','刹车失灵','汽车'],
+ zh:'车，是你行进中的人生，也是谁握着方向的问题。你在开车，说明掌控在你手中；若换成别人开车、或刹车失灵，说明有什么正从你手中滑走。它与5相应——移动、自由与人生方向之数。',
+ en:'The car is your life in motion, and who\'s holding the wheel. If you\'re driving, you\'re in control; if someone else is driving — or the brakes fail — something is slipping out of your hands. It resonates with the 5, the number of movement, freedom and the direction of your path.',
+ hookZh:'NUMA会照见，依你的生命数字，此刻该由谁来握这个方向。',
+ hookEn:'NUMA reads who should be driving your life, according to your life path number.'},
+{e:'🩸',lbl:'血',num:4,kw:['血','流血','伤口流血','好多血'],
+ zh:'血，是生命力，也是让你耗费能量之物。它说的是血脉亲情，是某件正在消耗你的事，或是一股正在苏醒的活力。它与4相应——身体、根基与支撑你之数；这不是阴暗的符号，而是你的能量在请求被看见。',
+ en:'Blood is life force, and also what costs you energy. It speaks of family bonds, of something draining you, or of a vitality waking up. It resonates with the 4, the number of the body, roots and what holds you up. It\'s not a dark symbol — it\'s your energy asking for attention.',
+ hookZh:'深度解读会照见，依你的生命数字，是什么在给你力量、又是什么在带走它。',
+ hookEn:'A deep reading reveals what\'s giving you strength — or taking it — according to your life path number.'},
+{e:'🕷️',lbl:'蜘蛛',num:8,kw:['蜘蛛','蜘蛛网','好多蜘蛛','大蜘蛛'],
+ zh:'蜘蛛结网：那是耐心的创造，也是一种被困在网中的感觉。它说的是你亲手搭建的处境，或是一份你想挣脱的纠缠。它与8相应——力量、结构与因果编织之数，织网的人，从来都是你自己。',
+ en:'A spider weaves: it\'s patient creation, and also the feeling of being caught in a web. It speaks of a situation you built, or an entanglement you want out of. It resonates with the 8, the number of power, structures and the karma being woven. You\'re the one weaving the web of your life.',
+ hookZh:'NUMA会照见，依你的生命数字，你正在编织什么，又被什么缠住。',
+ hookEn:'NUMA reads what you\'re weaving — and what\'s tangling you — according to your life path number.'},
+{e:'💑',lbl:'前任',num:6,kw:['前任','前男友','前女友','和前任复合'],
+ zh:'梦见前任，很少是想要复合——它更多是一堂功课，或那段关系曾唤醒的某个自己。它说的是一个情感周期，仍在被你的心整理、消化。它与6相应——爱、情感责任与关系疗愈之数。',
+ en:'Dreaming about an ex is rarely about getting back together — it\'s about a lesson, or a part of you that relationship woke up. It speaks of an emotional cycle your mind is still integrating. It resonates with the 6, the number of love, emotional responsibility and healing bonds.',
+ hookZh:'深度解读会照见，依你的生命数字，你的心正在合上什么、又在渴望什么。',
+ hookEn:'A deep reading tells you what your heart is closing — or asking for — according to your life path number.'},
+{e:'🐎',lbl:'马',num:1,kw:['马','骑马','野马','白马'],
+ zh:'马，是力量、自由，也是正在奔涌的渴望。白马，说的是一份高洁与清明；野马，则是内在一股渴望挣脱的能量。它与1相应——冲劲、主动与个人力量之数。',
+ en:'A horse is strength, freedom and desire in motion. A white horse speaks of nobility and clarity; a wild one, of an energy in you asking to be set free. It resonates with the 1, the number of drive, initiative and personal power.',
+ hookZh:'NUMA会照见，依你的生命数字，你的冲劲正奔向何方。',
+ hookEn:'NUMA reads where your drive is galloping toward, according to your life path number.'},
+{e:'🍼',lbl:'牛奶',num:2,kw:['牛奶','喂奶','哺乳','洒牛奶'],
+ zh:'牛奶，是滋养、照料，是你付出或接收的那份心意。它说的是一段照顾与被照顾的联结，是善意本身。它与2相应——连结、温柔与给予之数；洒落的牛奶，也许是一份正在流失的关怀。',
+ en:'Milk is nourishment, care and what you give or receive from others. It speaks of a caregiving bond — caring or being cared for — and of kindness. It resonates with the 2, the number of connection, tenderness and giving. Spilled milk can be care that\'s being lost.',
+ hookZh:'深度解读会照见，依你的生命数字，你正在滋养——或忽略——哪一处。',
+ hookEn:'A deep reading reveals where you\'re nourishing — or neglecting — according to your life path number.'},
+{e:'🐦',lbl:'鸟',num:3,kw:['鸟','小鸟','鸟笼','死鸟','鸟飞'],
+ zh:'鸟，是你的精神，也是你的讯息：想要飞翔的念头，正在寻找的自由。困在笼中，说的是被压抑的天赋；展翅飞翔，则是一种舒展。它与3相应——沟通、创造与灵魂表达之数。',
+ en:'A bird is your spirit and your messages: ideas wanting to fly, freedom you\'re seeking. Caged, it speaks of a contained talent; flying, of expansion. It resonates with the 3, the number of communication, creativity and a soul expressing itself.',
+ hookZh:'NUMA会照见，依你的生命数字，你的鸟正带来什么讯息。',
+ hookEn:'NUMA reads what message your bird is carrying, according to your life path number.'},
+{e:'🌧️',lbl:'雨',num:2,kw:['雨','下雨','暴雨','淋雨','雷雨'],
+ zh:'雨，洗涤也更新：是被释放的情绪，一场必要的落泪，一个洗净重来的周期。暴雨，说的是一次强烈的宣泄。它与2相应——情绪流动与释放之数。',
+ en:'Rain cleanses and renews: emotions being released, a necessary cry, a cycle washing itself clean to start over. A storm speaks of an intense release. It resonates with the 2, the number of emotion that flows and lets go.',
+ hookZh:'深度解读会照见，依你的生命数字，这场雨正在为你洗去什么。',
+ hookEn:'A deep reading tells you what your rain is washing away, according to your life path number.'},
+{e:'👰',lbl:'婚礼',num:6,kw:['婚礼','结婚','婚纱','戒指','嫁人'],
+ zh:'婚礼，是结合、承诺，是两个部分的融合——有时是与另一个人，有时是你内在两面的整合。它说的是一份托付的决定。它与6相应——爱、和谐与共担责任之数。',
+ en:'A wedding is union, commitment and two parts merging — sometimes with another person, sometimes two sides of yourself. It speaks of a decision to surrender to something. It resonates with the 6, the number of love, harmony and shared responsibility.',
+ hookZh:'NUMA会照见，依你的生命数字，此刻你的人生正在呼唤哪一种结合。',
+ hookEn:'NUMA reads what union your life is asking for, according to your life path number.'},
+{e:'🐟',lbl:'鱼',num:7,kw:['鱼','钓鱼','鱼缸','好多鱼'],
+ zh:'鱼，游在潜意识的深处：是直觉，是正在浮现的灵感，在许多文化里，也象征生育与灵性的丰盛。它与7相应——内在智慧与从深处显现之物的数字；捕到一条鱼，就是捕捉到一份直觉。',
+ en:'A fish swims in the depths of the unconscious: it\'s intuition, emerging ideas, and in many cultures, fertility and spiritual abundance. It resonates with the 7, the number of inner wisdom and what reveals itself from the depths. Catching a fish is catching an intuition.',
+ hookZh:'深度解读会照见，依你的生命数字，你正要捕捉到的那份直觉是什么。',
+ hookEn:'A deep reading reveals which intuition you\'re about to catch, according to your life path number.'},
+{e:'🚪',lbl:'门',num:5,kw:['门','开着的门','关着的门','好多门','打不开的门'],
+ zh:'门，是一个机会，或一场过渡。敞开的门，邀你向前；紧闭的门，说的是等待或界限；很多扇门，是一个待定的抉择。它与5相应——改变、选择与迈向新阶段之数。',
+ en:'A door is an opportunity or a transition. Open, it invites you forward; closed, it speaks of waiting or a boundary; many doors, of a decision to make. It resonates with the 5, the number of change, options and stepping into the new.',
+ hookZh:'NUMA会照见，依你的生命数字，哪一扇门值得你跨过。',
+ hookEn:'NUMA reads which door is worth crossing, according to your life path number.'},
+{e:'🐀',lbl:'老鼠',num:4,kw:['老鼠','耗子','好多老鼠'],
+ zh:'老鼠，说的是一些啃噬着你的小忧虑，一件安静却消耗你的事，或是求生的机敏。它与4相应——细节、秩序与踏实劳作之数，这不是坏预兆，而是心在提醒你，一件小事正等着被留意，才不会越长越大。',
+ en:'A mouse speaks of small worries gnawing at you, of something quiet draining you, or of cunning needed to survive. It resonates with the 4, the number of work, detail and what needs organizing. It\'s not a bad omen — it\'s your mind flagging something small before it grows.',
+ hookZh:'深度解读会照见，依你的生命数字，哪一处细节正等着被整理。',
+ hookEn:'A deep reading reveals which detail needs order, according to your life path number.'},
+{e:'🌙',lbl:'月亮',num:7,kw:['月亮','满月','红月亮','月夜'],
+ zh:'月亮，是你的内在世界，你的周期，也是一份直觉的力量。满月，说的是情感的圆满，或某事正抵达它的顶点。它与7相应——内省、神秘与灵性连结之数。',
+ en:'The moon is your inner world, your cycles and intuitive femininity. Full, it speaks of emotional fullness or something reaching its peak. It resonates with the 7, the number of introspection, mystery and spiritual connection.',
+ hookZh:'NUMA会照见，依你的生命数字，你内在的周期正走到哪一相。',
+ hookEn:'NUMA reads which phase your inner cycle is in, according to your life path number.'},
+{e:'👽',lbl:'被追',num:5,kw:['被追','追赶','逃跑','被人追','跑不动'],
+ zh:'被追赶，是最常见的梦之一：它说的是你正在回避的某件事——一种情绪，一份责任，一个真相。重要的从来不是谁在追你，而是你正在逃避什么。它与5相应——移动，以及直面之后才找到的自由之数。',
+ en:'Being chased is one of the most common dreams there is: it speaks of something you\'re avoiding — an emotion, a responsibility, a truth. It\'s not about who\'s chasing you, it\'s about what you\'re running from. It resonates with the 5, the number of movement and the freedom found in facing it.',
+ hookZh:'深度解读会照见你正在逃避什么——以及依你的生命数字，你要如何才能停下奔跑。',
+ hookEn:'A deep reading tells you what you\'re running from — and how your life path number says you can stop running.'},
+{e:'🕳️',lbl:'坠落',num:8,kw:['坠落','掉下去','从楼上掉下来','坠机'],
+ zh:'坠落，说的是失去掌控，一份对失败的担忧，或是对某件你紧抓不放之事的松手。它并非预示不幸，而是心在处理内心的不安。它与8相应——平衡、力量，以及重新托住自己之数；梦里的坠落，往往正是重获掌控之前的一步。',
+ en:'Falling speaks of losing control, a fear of failing, or letting go of something you\'re gripping too tightly. It doesn\'t predict misfortune — it\'s your mind processing insecurity. It resonates with the 8, the number of balance, power and learning to hold yourself up. Falling in a dream is often the step right before regaining control.',
+ hookZh:'NUMA会照见，依你的生命数字，你该在哪里重新找回平衡。',
+ hookEn:'NUMA reads where to recover your balance, according to your life path number.'},
+{e:'🐘',lbl:'大型动物',num:6,kw:['大象','牛','公牛','母牛','大型动物'],
+ zh:'一只温和而高大的动物，说的是稳固的力量、记忆、家庭与安然的丰盛。大象带来智慧；公牛带来力量与执着；母牛带来滋养与家的气息。它们都与6相应——守护、家庭与恒久关怀之数。',
+ en:'A large, noble animal speaks of steady strength, memory, family and quiet abundance. An elephant brings wisdom; a bull, strength and stubbornness; a cow, nourishment and home. They resonate with the 6, the number of protection, family and care that endures.',
+ hookZh:'深度解读会照见，依你的生命数字，你身上哪一份力量正等待被认出。',
+ hookEn:'A deep reading reveals which of your own strengths is asking to be recognized, according to your life path number.'},
+{e:'🌳',lbl:'树',num:4,kw:['树','大树','枯树','爬树','树根'],
+ zh:'树，就是完整的你：根（你的来处）、干（你的当下）、枝（你的可能）。枝繁叶茂，说的是成长；枯干，则是一处等待被照料的自己。它与4相应——根基、稳固与随时间筑成之数。',
+ en:'The tree is all of you: roots (your origin), trunk (your present), branches (your possibilities). Full of leaves, it speaks of growth; dry, of a part asking for care. It resonates with the 4, the number of roots, solidity and what\'s built over time.',
+ hookZh:'NUMA会照见，依你的生命数字，你这棵树的哪一部分正渴望一场雨水。',
+ hookEn:'NUMA reads which part of your tree is asking for water, according to your life path number.'}
+];
+const DREAM_FALLBACK={
+ 1:{zh:'1 关乎起点、你的冲劲，以及信任自己的直觉。',en:'The 1 speaks of beginnings, your own drive, and trusting your instinct.'},
+ 2:{zh:'2 关乎你的情绪与连结——你的感受，以及与谁分享。',en:'The 2 speaks of your emotions and your bonds — what you feel, and who you share it with.'},
+ 3:{zh:'3 关乎某样正在你心中生长、渴望被表达之物。',en:'The 3 speaks of something growing, or wanting to express itself, inside you.'},
+ 4:{zh:'4 关乎你的根基、支撑着你的事物，以及你正在筑起的一切。',en:'The 4 speaks of your roots, what holds you up, and what you\'re building.'},
+ 5:{zh:'5 关乎一场已经在发生的改变，即使你还未完全看清。',en:'The 5 speaks of a change already underway, even if you can\'t fully see it yet.'},
+ 6:{zh:'6 关乎你的家、你亲近的关系，以及你所守护的一切。',en:'The 6 speaks of your home, your close bonds, and what you care for.'},
+ 7:{zh:'7 关乎你的内在世界，以及一份你早已拥有、只是尚未说出口的智慧。',en:'The 7 speaks of your inner world, and a wisdom you already carry, even without naming it.'},
+ 8:{zh:'8 关乎你的内在力量，以及付出与获得之间的平衡。',en:'The 8 speaks of your personal power, and the balance between what you give and what you receive.'},
+ 9:{zh:'9 关乎一场结束——你的梦正在帮你放下的某样东西。',en:'The 9 speaks of an ending — something your dream is helping you release.'}
+};
+function dreamRoot(n){return n===11?2:n===22?4:n===33?6:n}
+function dreamNormalize(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
+function dreamLetterReduce(s){const clean=(s||'').trim();if(!clean)return 1;let sum=0;for(let i=0;i<clean.length;i++){const code=clean.charCodeAt(i);if(code>32)sum+=(code%9)+1}return numReduce(sum||1)}
+function dreamMatch(text){
+  const t=' '+dreamNormalize(text)+' ';
+  const found=[];
+  DREAM_BANK.forEach(entry=>{
+    const hit=entry.kw.some(k=>t.indexOf(dreamNormalize(k))!==-1);
+    if(hit)found.push(entry);
+  });
+  return found.slice(0,3);
+}
+function dreamCompute(text){
+  const matches=dreamMatch(text);
+  if(matches.length===0){
+    const n=dreamLetterReduce(text);
+    const root=dreamRoot(n);
+    const fb=DREAM_FALLBACK[root]||DREAM_FALLBACK[1];
+    return{
+      matched:false,emoji:'🌙',num:n,
+      zhRaw:'这个意象还不在我们的解读库里，但每个数字都有它的讯息。你的梦境所对应的数字是'+n+'。'+fb.zh,
+      en:'That symbol isn\'t in our bank yet, but every number carries a message. Your dream reduces to '+n+'. '+fb.en,
+      hookZh:'深度解读会把这个数字与你的生命数字交汇在一起。',
+      hookEn:'A deep reading connects this number with your life path number.'
+    };
+  }
+  const emoji=matches.map(m=>m.e).join(' ');
+  const sum=matches.reduce((a,m)=>a+m.num,0);
+  const num=numReduce(sum);
+  const zh=matches.map(m=>m.zh).join(' ');
+  const en=matches.map(m=>m.en).join(' ');
+  const hookZh=matches[0].hookZh;
+  const hookEn=matches[0].hookEn;
+  return{matched:true,emoji:emoji,num:num,zhRaw:zh,en:en,hookZh:hookZh,hookEn:hookEn};
+}
+const DREAM_QUICK_LABELS=['离世的人','水','蛇','钱','怀孕','房子','火','掉牙'];
+const DREAM_QUICK_LABELS_EN=['Dead','Water','Snake','Money','Baby','House','Fire','Teeth'];
+function dreamOpen(){
+  const m=document.getElementById('dream-overlay');
+  m.classList.remove('hidden');
+  document.body.style.overflow='hidden';
+  document.getElementById('dream-screen-1').classList.remove('hidden');
+  document.getElementById('dream-screen-loading').classList.add('hidden');
+  document.getElementById('dream-screen-result').classList.add('hidden');
+  dreamRenderQuick();
+  setTimeout(function(){const i=document.getElementById('dream-input');if(i){i.value='';i.focus();}},150);
+}
+function dreamClose(){
+  document.getElementById('dream-overlay').classList.add('hidden');
+  document.body.style.overflow='';
+}
+function dreamRenderQuick(){
+  const wrap=document.getElementById('dream-quick');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  DREAM_QUICK_LABELS.forEach(function(lbl,i){
+    const entry=DREAM_BANK.find(function(x){return x.lbl===lbl});
+    if(!entry)return;
+    const label=uiLang()==='en'?DREAM_QUICK_LABELS_EN[i]:lbl;
+    const chip=document.createElement('div');
+    chip.className='dream-chip';
+    chip.textContent=entry.e+' '+label;
+    chip.onclick=function(){dreamSymbolTap(label);};
+    wrap.appendChild(chip);
+  });
+}
+function dreamSymbolTap(label){
+  const inp=document.getElementById('dream-input');
+  if(!inp)return;
+  const word=(label||'').toLowerCase();
+  inp.value=(inp.value.trim()?inp.value.trim()+' ':'')+word;
+  inp.focus();
+}
+async function dreamReveal(){
+  const inputEl=document.getElementById('dream-input');
+  const raw=(inputEl.value||'').trim();
+  if(!raw){inputEl.focus();return;}
+  document.getElementById('dream-screen-1').classList.add('hidden');
+  document.getElementById('dream-screen-loading').classList.remove('hidden');
+  const msgs=uiLang()==='en'?['NUMA is interpreting your dream…','Reading the symbols in your sleep…','Finding the number your dream resonates with…']:['NUMA 正在为你解读这个梦…','照见梦里的意象…','找到与你的梦相应的数字…'];
+  let mi=0;const msgEl=document.getElementById('dream-loading-msg');msgEl.textContent=msgs[0];
+  const iv=setInterval(function(){mi++;msgEl.textContent=msgs[mi%msgs.length];},900);
+  await new Promise(function(r){setTimeout(r,1400)});
+  clearInterval(iv);
+  const res=dreamCompute(raw);
+  STATE.lastDream=res;
+  document.getElementById('dream-result-emoji').textContent=res.emoji;
+  document.getElementById('dream-result-num').textContent=res.num;
+  document.getElementById('dream-result-text').textContent=L(res.esRaw||res.zhRaw,res.en);
+  document.getElementById('dream-hook').textContent=L(res.hookEs||res.hookZh,res.hookEn);
+  const charEl=document.getElementById('dream-charada');
+  if(charEl){
+    if(res.charadaLine){charEl.textContent=L(res.charadaLine.es,res.charadaLine.en);charEl.classList.remove('hidden');}
+    else{charEl.classList.add('hidden');charEl.textContent='';}
+  }
+  document.getElementById('dream-screen-loading').classList.add('hidden');
+  document.getElementById('dream-screen-result').classList.remove('hidden');
+  try{posthog.capture('consulta_sueno',{matched:res.matched,num:res.num});}catch(e){}
+}
+function dreamAgain(){
+  document.getElementById('dream-screen-result').classList.add('hidden');
+  document.getElementById('dream-screen-1').classList.remove('hidden');
+  const inp=document.getElementById('dream-input');
+  if(inp){inp.value='';inp.focus();}
+}
+function dreamUpsell(){
+  dreamClose();
+  try{showTab('hoy');}catch(e){}
+  const el=document.querySelector('.game-grid .game-card[data-game="destiny"]')||document.querySelector('.game-grid .game-card[data-game="daily"]');
+  if(el){try{quickLaunch(el);}catch(e){}}
+}
+function dreamFirstSentence(text){if(!text)return'';const m=text.match(/^.*?[.!?。]/);return m?m[0]:text;}
+function dreamWrapCanvasText(ctx,text,x,y,maxWidth,lineHeight){
+  const words=text.split(' ');let line='';let yy=y;
+  for(let i=0;i<words.length;i++){
+    const test=line+words[i]+' ';
+    if(ctx.measureText(test).width>maxWidth&&line){ctx.fillText(line,x,yy);line=words[i]+' ';yy+=lineHeight;}else{line=test;}
+  }
+  ctx.fillText(line,x,yy);
+}
+function dreamDrawCard(){
+  const canvas=document.getElementById('dream-canvas');
+  const w=1080,h=1350;
+  canvas.width=w;canvas.height=h;
+  const ctx=canvas.getContext('2d');
+  const res=STATE.lastDream;
+  ctx.fillStyle='#0b0b10';ctx.fillRect(0,0,w,h);
+  const grad=ctx.createRadialGradient(w/2,h*0.36,10,w/2,h*0.36,w*0.65);
+  grad.addColorStop(0,'rgba(212,175,55,.22)');grad.addColorStop(1,'rgba(212,175,55,0)');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+  if(!res)return canvas;
+  ctx.textAlign='center';
+  ctx.font=Math.round(w*0.11)+'px sans-serif';
+  ctx.fillStyle='#fff';
+  ctx.fillText((res.emoji||'🌙').split(' ')[0],w/2,h*0.28);
+  ctx.fillStyle='#f5e4b0';
+  ctx.font='700 '+Math.round(w*0.30)+'px Georgia, serif';
+  ctx.shadowColor='rgba(212,175,55,.7)';ctx.shadowBlur=40;
+  ctx.fillText(String(res.num),w/2,h*0.46);
+  ctx.shadowBlur=0;
+  ctx.fillStyle='#a99fc4';ctx.font=Math.round(w*0.028)+'px sans-serif';
+  ctx.fillText(uiLang()==='en'?'NUMBER FROM YOUR DREAM':uiLang()==='zh'?'梦里的数字':'NÚMERO DE TU SUEÑO',w/2,h*0.51);
+  const line=dreamFirstSentence(L(res.esRaw||res.zhRaw,res.en));
+  ctx.fillStyle='#e8dfc8';ctx.font=Math.round(w*0.032)+'px Georgia, serif';
+  dreamWrapCanvasText(ctx,line,w/2,h*0.62,w*0.78,Math.round(w*0.042));
+  ctx.fillStyle='#d4af37';ctx.font='700 '+Math.round(w*0.042)+'px Georgia, serif';
+  ctx.fillText('NUMBERS ORACLE',w/2,h*0.90);
+  ctx.fillStyle='#a99fc4';ctx.font=Math.round(w*0.028)+'px sans-serif';
+  ctx.fillText('numbersoracle.com',w/2,h*0.925);
+  return canvas;
+}
+async function dreamShare(){
+  try{
+    const canvas=dreamDrawCard();
+    canvas.toBlob(async function(blob){
+      if(!blob)return;
+      try{
+        const file=new File([blob],'numero-del-sueno.png',{type:'image/png'});
+        if(navigator.canShare&&navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],title:'Numbers Oracle',text:L('我的梦境数字 ✦','My dream number ✦')});
+        }else{throw new Error('no-share')}
+      }catch(e){
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='numero-del-sueno.png';document.body.appendChild(a);a.click();document.body.removeChild(a);
+        setTimeout(function(){URL.revokeObjectURL(url)},2000);
+      }
+      try{posthog.capture('compartir_sueno',{num:(STATE.lastDream&&STATE.lastDream.num)});}catch(e){}
+    },'image/png');
+  }catch(e){console.warn('dreamShare error:',e);}
+}
 </script>
 <!-- Aplicar idioma detectado (en). ES es el predeterminado; zh ya redirigió en <head>. -->
 <script>
@@ -3383,6 +3746,35 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="sm-hint" id="sm-hint">✦ 写下一个或多个数字。多个时用空格或逗号分隔。</div>
     <button class="btn-sm-rev" id="sm-btn" onclick="smReveal()">✦ 揭示 ✦</button>
     <button class="btn-sm-close" onclick="smClose()">← 返回</button>
+  </div>
+</div>
+<!-- Dream Numbers Quick Modal -->
+<div id="dream-overlay" class="sm-overlay hidden" onclick="if(event.target===this)dreamClose()">
+  <div class="sm-box" id="dream-box">
+    <div id="dream-screen-1">
+      <div class="sm-icon">🌙</div>
+      <div class="sm-title" id="dream-title">梦里的数字</div>
+      <div class="sm-sub" id="dream-sub">告诉 NUMA 你梦见了什么，为你解读这个数字。</div>
+      <textarea id="dream-input" rows="3" placeholder="例如：我梦见牙齿掉了..." autocomplete="off"></textarea>
+      <div class="dream-quick" id="dream-quick"></div>
+      <div class="sm-hint" id="dream-hint">✦ 点一个意象自动填入，或用你自己的话写下这个梦。</div>
+      <button class="btn-sm-rev" id="dream-btn" onclick="dreamReveal()">✦ 解读 ✦</button>
+      <button class="btn-sm-close" id="dream-close-btn" onclick="dreamClose()">← 返回</button>
+    </div>
+    <div id="dream-screen-loading" class="hidden dream-loading">
+      <div class="dream-loading-orb">🌙</div>
+      <div class="dream-loading-msg" id="dream-loading-msg">NUMA 正在为你解读这个梦…</div>
+    </div>
+    <div id="dream-screen-result" class="hidden">
+      <div class="dream-result-emoji" id="dream-result-emoji">🌙</div>
+      <div class="dream-result-num" id="dream-result-num">7</div>
+      <div class="dream-result-text" id="dream-result-text"></div>
+      <div class="dream-hook" id="dream-hook"></div>
+      <canvas id="dream-canvas" width="1080" height="1350" style="display:none"></canvas>
+      <button class="btn-sm-rev" id="dream-share-btn" onclick="dreamShare()">📤 分享我的卡片</button>
+      <div class="dream-upsell-link" id="dream-upsell-link" onclick="dreamUpsell()">把这个数字与你的生命数字交汇 →</div>
+      <button class="btn-sm-close" id="dream-again-btn" onclick="dreamAgain()">↺ 换一个梦</button>
+    </div>
   </div>
 </div>
 <!-- ===== TEATRO DE CONVERGENCIA (Fase 1 rediseño) ===== -->
