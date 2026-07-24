@@ -399,6 +399,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-oraculos .game-card .free-badge{top:10px;right:11px;font-size:9px;color:var(--teal);background:none;border:.5px solid rgba(61,191,168,.35);padding:2px 8px;letter-spacing:.06em}
 #tab-oraculos .game-card.pro-locked{opacity:.92}
 #tab-oraculos .game-card.pro-locked::after{content:'Pro';font-size:9px;top:10px;right:11px;background:none;border:.5px solid rgba(201,168,76,.35);color:var(--gold);padding:2px 8px;letter-spacing:.06em}
+#tab-oraculos .game-card.pro-locked.pro-hide-seal::after{display:none}
 /* ─── Fase 4.5 — formulario limpio: consulta seleccionada única ─── */
 #tab-form .game-grid{display:block}
 #tab-form .game-grid > .game-card{display:none}
@@ -505,6 +506,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 /* ─── PRO LOCK en tarjetas ─── */
 .game-card.pro-locked{position:relative;opacity:.75}
 .game-card.pro-locked::after{content:'🔒 Pro';position:absolute;top:6px;right:7px;font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--gold2);background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.3);border-radius:99px;padding:2px 7px;letter-spacing:.04em}
+.game-card.pro-locked.pro-hide-seal::after{display:none}
 .game-card.pro-locked:hover{opacity:1;border-color:rgba(201,168,76,.4)}
 .pro-preview{font-family:'Cormorant Garamond',serif;font-size:10.5px;font-style:italic;color:var(--muted);line-height:1.5;margin-top:8px;padding-top:7px;border-top:.5px solid rgba(201,168,76,.15);filter:blur(2.5px);user-select:none;pointer-events:none;opacity:.8}
 .game-card.pro-locked:hover .pro-preview{filter:blur(1px);opacity:1;transition:filter .3s}
@@ -613,6 +615,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .signal-dominant-num{font-family:'JetBrains Mono',monospace;font-size:42px;color:var(--gold2);margin-bottom:.25rem}
 .sm-overlay{position:fixed;inset:0;background:rgba(4,2,16,.9);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.25rem;backdrop-filter:blur(6px)}
 .sm-overlay.hidden{display:none}
+#dream-overlay{align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(1.25rem + env(safe-area-inset-top));padding-bottom:calc(1.25rem + env(safe-area-inset-bottom))}
+#dream-overlay .sm-box{margin:auto 0}
 .sm-box{background:#120d26;border:1px solid var(--gold2);border-radius:18px;padding:2rem 1.5rem;max-width:380px;width:100%;text-align:center;box-shadow:0 0 50px rgba(212,175,55,.2)}
 .sm-icon{font-size:2.25rem;margin-bottom:.4rem}
 .sm-title{font-family:'Cinzel Decorative',serif;color:var(--gold2);font-size:1.15rem;margin-bottom:.3rem}
@@ -2403,7 +2407,7 @@ async function afterLogin(user){
 }
 function showLandingLoggedIn(){document.getElementById('landing-btns-guest').style.display='none';document.getElementById('landing-btns-user').style.display='block';}
 async function enterApp(){if(!STATE.user)return;await afterLogin(STATE.user);}
-async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
+async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing');applyProBadges()}
 async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30),5000,{data:[]});STATE.history=res?.data||[]}
 async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
 async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
@@ -2644,6 +2648,16 @@ function stopSparkles(){
 }
 function goBackToForm(){showTab('form');history.pushState({tab:'form'},'','');}
 window.addEventListener('popstate',function(e){
+  // Números del Sueño: si el overlay está abierto, el back del dispositivo lo cierra
+  // y NO sigue navegando (evita salir de la app). El navegador ya movió el historial solo;
+  // aquí solo limpiamos el DOM, sin tocar history de nuevo.
+  const dreamOv=document.getElementById('dream-overlay');
+  if(dreamOv&&!dreamOv.classList.contains('hidden')){
+    __dreamHistoryPushed=false;
+    dreamOv.classList.add('hidden');
+    document.body.style.overflow='';
+    return;
+  }
   if(e.state&&e.state.screen==='landing'){goTo('screen-landing');return;}
   const onMain=document.getElementById('screen-main').classList.contains('active');
   const activeResult=document.getElementById('tab-result')&&!document.getElementById('tab-result').classList.contains('hidden');
@@ -3305,7 +3319,14 @@ async function submitNotify(){
   }
 }
 
-function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials}
+function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials;applyProBadges()}
+// Oculta "Gratis"/"X gratis/día" y el sello Pro de tarjetas bloqueadas cuando el usuario YA es Pro.
+// No toca el HTML (los usuarios free siguen viéndolos) ni desbloquea nada: un Pro ya tiene acceso vía isPro().
+function applyProBadges(){
+  const pro=isPro();
+  document.querySelectorAll('.free-badge').forEach(function(b){b.style.display=pro?'none':'';});
+  document.querySelectorAll('.game-card.pro-locked').forEach(function(c){c.classList.toggle('pro-hide-seal',pro);});
+}
 function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||L('Usuario','User');document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?L('Plan Pro · Ilimitadas','Pro Plan · Unlimited'):L('Plan Freemium · 1 consulta/día','Freemium Plan · 1 reading/day');document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:15px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">'+L('Sin consultas aún','No readings yet')+'</div>';return}const games=I18N_NEW[uiLang()].games;el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{
   // Detectar si el usuario viene desde un enlace de recuperación de contraseña
@@ -3321,7 +3342,7 @@ function renderProfile(){if(!STATE.profile)return;document.getElementById('profi
   sb.auth.onAuthStateChange(async(event,session)=>{
     if(event==='PASSWORD_RECOVERY'){goTo('screen-resetpw');return;}
     if(event==='SIGNED_IN'&&session?.user&&!STATE.user){STATE.user=session.user;showLandingLoggedIn()}
-    if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing')}
+    if(event==='SIGNED_OUT'){STATE.user=null;STATE.profile=null;document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing');applyProBadges()}
   })
 })();
 
@@ -3697,9 +3718,12 @@ function dreamCompute(text){
 }
 const DREAM_QUICK_LABELS=['Muerto','Agua','Culebra','Dinero','Embarazo','Casa','Fuego','Dientes'];
 const DREAM_QUICK_LABELS_EN=['Dead','Water','Snake','Money','Baby','House','Fire','Teeth'];
+let __dreamHistoryPushed=false;
+let __dreamPrevState=null;
 function dreamOpen(){
   const m=document.getElementById('dream-overlay');
   m.classList.remove('hidden');
+  m.scrollTop=0;
   document.body.style.overflow='hidden';
   document.getElementById('dream-screen-1').classList.remove('hidden');
   document.getElementById('dream-screen-loading').classList.add('hidden');
@@ -3708,10 +3732,21 @@ function dreamOpen(){
   if(lm){lm.classList.add('hidden');lm.textContent='';}
   dreamRenderQuick();
   setTimeout(function(){const i=document.getElementById('dream-input');if(i){i.value='';i.focus();}},150);
+  // Empuja un estado al historial para que el back del dispositivo cierre el overlay
+  // en vez de sacar de la app (ver popstate). Si ya había uno empujado, no duplicar.
+  if(!__dreamHistoryPushed){
+    try{__dreamPrevState=history.state;history.pushState({overlay:'dream'},'','');__dreamHistoryPushed=true;}catch(e){}
+  }
 }
 function dreamClose(){
   document.getElementById('dream-overlay').classList.add('hidden');
   document.body.style.overflow='';
+  // Cierre manual (botón X / fuera del modal): no navegamos, solo "deshacemos" el estado
+  // que habíamos empujado con replaceState (no dispara popstate, cero riesgo de bucle).
+  if(__dreamHistoryPushed){
+    __dreamHistoryPushed=false;
+    try{history.replaceState(__dreamPrevState,'','');}catch(e){}
+  }
 }
 function dreamRenderQuick(){
   const wrap=document.getElementById('dream-quick');
