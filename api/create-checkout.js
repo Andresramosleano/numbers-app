@@ -27,7 +27,7 @@ const ALLOWED_PRODUCTS = {
   sea_annual: 'pdt_0NiyX9NQWlNQ3W8KLqP9U',        // SEA — Suscripción Anual — $39.99
   // Pase Semanal (16 jul 2026): pago único, 7 días de acceso, sin renovación. Sin China.
   latam_weekly: 'pdt_0NjKTZyyja2WigEq4GxNP',      // Latam/Europa Del Este — Pase Semanal — $1.99
-  usa_weekly: 'pdt_0NjKUI5fYy87vAseMZRhh',        // USA/Europa Occ. — Pase Semanal — $2.99
+  usa_weekly: 'pdt_0NjKU15fYy87vAseMZRhh',        // USA/Europa Occ. — Pase Semanal — $2.99
   sea_weekly: 'pdt_0NjKUIQEI14v9Zz6rXIGr',        // SEA — Pase Semanal — $1.79
 };
 
