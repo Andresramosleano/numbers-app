@@ -3888,6 +3888,50 @@ document.addEventListener('DOMContentLoaded',function(){
       history.replaceState({},'',window.location.pathname);
     }
   }catch(e){}
+  // Deep-link ?sueno=[slug] desde las páginas SEO de /suenos/ — abre la tarjeta de Números
+  // del Sueño con el símbolo pre-cargado. Todo en try/catch: un slug malo nunca rompe la home.
+  try{
+    var qpSueno=new URLSearchParams(window.location.search);
+    var suenoSlug=qpSueno.get('sueno');
+    if(suenoSlug){
+      var DREAM_SLUG_MAP={
+        'sonar-con-un-muerto':'Muerto',
+        'sonar-con-agua':'Agua',
+        'sonar-con-culebras':'Culebra',
+        'sonar-con-dinero':'Dinero',
+        'sonar-con-embarazo':'Embarazo',
+        'sonar-que-se-caen-los-dientes':'Dientes',
+        'sonar-con-perros':'Perro',
+        'sonar-con-tu-ex':'Ex pareja',
+        'sonar-que-te-persiguen':'Perseguido',
+        'sonar-con-una-casa':'Casa'
+      };
+      var DREAM_SLUG_PHRASE={
+        'sonar-con-un-muerto':'Soñé con un muerto',
+        'sonar-con-agua':'Soñé con agua',
+        'sonar-con-culebras':'Soñé con culebras',
+        'sonar-con-dinero':'Soñé con dinero',
+        'sonar-con-embarazo':'Soñé con un embarazo',
+        'sonar-que-se-caen-los-dientes':'Soñé que se me caían los dientes',
+        'sonar-con-perros':'Soñé con perros',
+        'sonar-con-tu-ex':'Soñé con mi ex',
+        'sonar-que-te-persiguen':'Soñé que me perseguían',
+        'sonar-con-una-casa':'Soñé con una casa'
+      };
+      var suenoLbl=DREAM_SLUG_MAP[suenoSlug];
+      if(suenoLbl&&typeof dreamOpen==='function'){
+        dreamOpen();
+        setTimeout(function(){
+          try{
+            var inp=document.getElementById('dream-input');
+            if(inp){inp.value=DREAM_SLUG_PHRASE[suenoSlug]||suenoLbl;}
+            if(typeof dreamReveal==='function')dreamReveal();
+          }catch(e){}
+        },300);
+      }
+      history.replaceState({},'',window.location.pathname);
+    }
+  }catch(e){}
 });
 </script>
 <!-- Signals Quick Modal -->
