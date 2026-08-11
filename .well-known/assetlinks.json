@@ -3,6 +3,9 @@
   "target": {
     "namespace": "android_app",
     "package_name": "com.numbersoracle.twa",
-    "sha256_cert_fingerprints": ["19:8A:41:75:73:EB:76:BF:FA:BD:0F:86:1C:48:0F:07:CB:9C:F9:74:9C:D5:CF:AD:0E:43:2E:2F:55:EA:CA:B2"]
+    "sha256_cert_fingerprints": [
+      "7F:2A:F4:01:DF:5D:2D:59:48:F7:D0:CC:93:96:48:F5:FE:FC:68:10:7A:32:7A:62:08:65:EA:14:07:34:E9:82",
+      "19:8A:41:75:73:EB:76:BF:FA:BD:0F:86:1C:48:0F:07:CB:9C:F9:74:9C:D5:CF:AD:0E:43:2E:2F:55:EA:CA:B2"
+    ]
   }
 }]
