@@ -17,7 +17,7 @@
       else t='es';
     }
     if(t==='zh'){ location.replace('zh.html'); }
-    else { window.__noLang=t; }
+    else { window.__noLang=t; if(t==='en'){ document.documentElement.classList.add('lang-en'); } }
   }catch(e){}
 })();
 </script>
@@ -2969,7 +2969,8 @@ const UI_EN=[
 ['#fz-sub','How your Golden Number is born'],
 ['#fz-hint','Each force added its part to your number.'],
 ['#numa-status-line','● Reads your numbers · Answers your questions'],
-['#numa-chips-label','✦ TAP A QUESTION']
+['#numa-chips-label','✦ TAP A QUESTION'],
+['.acc-body .game-card[data-game="sports"] .free-badge','✦ 2 FREE A DAY']
 ];
 const CHIP_ES={football:'⚽ Fútbol',basketball:'🏀 Básquet',tennis:'🎾 Tenis',baseball:'⚾ Béisbol',americanfootball:'🏈 F. Americano'};
 const CHIP_EN={football:'⚽ Soccer',basketball:'🏀 Basketball',tennis:'🎾 Tennis',baseball:'⚾ Baseball',americanfootball:'🏈 Am. Football'};
@@ -2980,6 +2981,7 @@ function applyStaticLang(l){
   if(l==='zh')return;
   if(!__uiES)captureStaticES();
   UI_EN.forEach(e=>{const sel=e[0],en=e[1],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{const v=l==='en'?en:__uiES[sel+'|'+i];if(v==null)return;if(kind==='ph')el.placeholder=v;else if(kind==='html')el.innerHTML=v;else el.textContent=v})}catch(err){}});
+  try{document.documentElement.classList.toggle('lang-en',l==='en')}catch(e){}
   applyChipLang(l);
   try{applyShareI18n()}catch(e){}
   try{if(typeof populateLeagues==='function'&&STATE.game==='sports')populateLeagues(STATE.sport)}catch(e){}
@@ -4044,6 +4046,7 @@ if ('serviceWorker' in navigator) {
 .seo-footer-links a{display:inline-block;font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;color:var(--muted);text-decoration:none;border:1px solid rgba(201,168,76,.3);border-radius:999px;padding:7px 16px;transition:color .2s,border-color .2s}
 .seo-footer-links a:hover{color:var(--gold);border-color:var(--gold)}
 .seo-footer-hub{margin:24px 0 0}
+html.lang-en #seo-suenos-footer{display:none!important}
 .seo-footer-hub a{font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.45);padding-bottom:2px}
 </style>
 <footer class="seo-footer" id="seo-suenos-footer">
