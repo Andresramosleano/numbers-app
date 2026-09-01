@@ -213,6 +213,10 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .golden-divider::before,.golden-divider::after{content:'';height:.5px;width:50px;background:linear-gradient(90deg,transparent,var(--border2))}
 .golden-divider::after{background:linear-gradient(90deg,var(--border2),transparent)}
 .golden-divider span{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--faint);letter-spacing:.15em;text-transform:uppercase}
+.btn-reveal-combo{display:block;width:100%;max-width:360px;margin:1.6rem auto .8rem;padding:16px 22px;background:transparent;border:1.5px solid var(--gold);border-radius:var(--r);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;letter-spacing:.03em;color:var(--gold2);transition:all .25s}
+.btn-reveal-combo:hover,.btn-reveal-combo:active{background:rgba(201,168,76,.14);border-color:var(--gold2);color:var(--gold3)}
+.combo-reveal-wrap[hidden]{display:none}
+/* Fin bloque .btn-reveal-combo / .combo-reveal-wrap -- anadido 1sep2026 (Cambio D: combinacion tras boton) */
 .combo-title-wrap{text-align:center;margin:1.8rem 0 .6rem}
 .combo-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(20px,5vw,26px);color:var(--gold2);letter-spacing:.02em;text-shadow:0 0 30px rgba(201,168,76,.25)}
 .nball.is-golden{border:2px solid var(--gold2);color:#fff7e0;background:radial-gradient(circle at 38% 32%,rgba(245,228,176,.35),rgba(201,168,76,.18),var(--bg2));box-shadow:0 0 26px rgba(201,168,76,.4),inset 0 1px 0 rgba(255,247,224,.15)}
@@ -980,8 +984,8 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="result-user" id="result-user"></div>
       </div>
       <div class="golden-section" id="golden-section">
-        <div class="golden-label" id="golden-label">✦ 今日黄金数字 ✦</div>
-        <div class="golden-sublabel" id="golden-sublabel">（与你的生命数字不同 · 每天焕新）</div>
+        <div class="golden-label" id="golden-label">✦ 你的黄金数字 ✦</div>
+        <div class="golden-sublabel" id="golden-sublabel">由你的姓名与五种力量共同计算 · 每日清晨焕新</div>
         <div class="golden-orb-wrap">
           <div class="orbit-ring r1"></div>
           <div class="orbit-ring r2"></div>
@@ -995,6 +999,8 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="golden-inplay" id="golden-inplay">✓ 已融入你今日的解读</div>
         <div class="renew-countdown" id="renew-countdown"></div>
       </div>
+      <button type="button" class="btn-reveal-combo" id="btn-reveal-combo" onclick="toggleComboReveal()">查看我的组合 →</button>
+      <div class="combo-reveal-wrap" id="combo-reveal-wrap" hidden>
       <div class="combo-title-wrap" id="combo-title-wrap-top"><div class="combo-title" id="golden-div-text-top">✦ 你的完整组合 ✦</div></div>
       <div class="numbers-row" id="numbers-display"></div>
       <div class="wc-nums-hint" id="wc-nums-hint" style="display:none"></div>
@@ -1002,6 +1008,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       <div class="power-seal">
         <div class="power-seal-line"><span class="power-seal-text" id="seal-text">组合已封印</span></div>
         <div class="power-seal-sub" id="seal-sub">五种古老智慧在你的数字中交汇</div>
+      </div>
       </div>
       <div id="duel-result-section" class="hidden">
         <div class="duel-match-info" id="duel-match-info" style="display:none"></div>
@@ -1369,7 +1376,7 @@ const STATE={lang:'zh',user:null,profile:null,game:'daily',sport:'football',spor
 function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
 function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
 function birthNum(d){return numReduce(d.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0))}
-function lifePath(n,b){return numReduce(nameNum(n)+birthNum(b))}
+function lifePath(n,b){return numReduce(birthNum(b))} // 1sep2026: el nombre (n) ya NO entra aqui -- el Numero de Vida sale solo de la fecha de nacimiento (estandar, verificable). El nombre ahora es ingrediente del Numero de Oro (ver goldenRaw). Se conserva el parametro n sin usar para no tocar todas las llamadas.
 const ZODIAC=[{sign:'Capricornio',dates:[[1,1],[1,19]],planet:'Saturno',num:8,element:'Tierra'},{sign:'Acuario',dates:[[1,20],[2,18]],planet:'Urano',num:4,element:'Aire'},{sign:'Piscis',dates:[[2,19],[3,20]],planet:'Neptuno',num:7,element:'Agua'},{sign:'Aries',dates:[[3,21],[4,19]],planet:'Marte',num:9,element:'Fuego'},{sign:'Tauro',dates:[[4,20],[5,20]],planet:'Venus',num:6,element:'Tierra'},{sign:'Géminis',dates:[[5,21],[6,20]],planet:'Mercurio',num:5,element:'Aire'},{sign:'Cáncer',dates:[[6,21],[7,22]],planet:'Luna',num:2,element:'Agua'},{sign:'Leo',dates:[[7,23],[8,22]],planet:'Sol',num:1,element:'Fuego'},{sign:'Virgo',dates:[[8,23],[9,22]],planet:'Mercurio',num:5,element:'Tierra'},{sign:'Libra',dates:[[9,23],[10,22]],planet:'Venus',num:6,element:'Aire'},{sign:'Escorpio',dates:[[10,23],[11,21]],planet:'Plutón',num:9,element:'Agua'},{sign:'Sagitario',dates:[[11,22],[12,21]],planet:'Júpiter',num:3,element:'Fuego'},{sign:'Capricornio',dates:[[12,22],[12,31]],planet:'Saturno',num:8,element:'Tierra'}];
 function getZodiac(d){const p=d.split('-'),m=+p[1],day=+p[2];for(const z of ZODIAC){if((m===z.dates[0][0]&&day>=z.dates[0][1])||(m===z.dates[1][0]&&day<=z.dates[1][1]))return z}return ZODIAC[0]}
 const CHINESE=[{animal:'Rata',num:1},{animal:'Buey',num:2},{animal:'Tigre',num:3},{animal:'Conejo',num:4},{animal:'Dragón',num:5},{animal:'Serpiente',num:6},{animal:'Caballo',num:7},{animal:'Cabra',num:8},{animal:'Mono',num:9},{animal:'Gallo',num:1},{animal:'Perro',num:2},{animal:'Cerdo',num:3}];
@@ -1569,7 +1576,7 @@ function computeNumbers(name,birth,cityB,cityN,game,lang,today){
   const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=wantCount)break}
   nums.sort((a,b)=>a-b);
   // NÚMERO DE ORO: fusión de los 5 motores + día, reducido a dígito maestro
-  const goldenRaw=lp+astV+chiV+moon.day+geo+tn;
+  const goldenRaw=lp+astV+chiV+moon.day+geo+tn+nameNum(name); // 1sep2026: se suma el nombre aqui porque el Numero de Vida (lp) ya no lo incluye -- sin esto, dos personas nacidas el mismo dia con las mismas ciudades tendrian el mismo Numero de Oro toda su vida.
   const golden=numReduce(goldenRaw);
   // ¿El número de oro entra en el rango de la lectura?
   const goldenFits=golden>=(cfg.max===9?0:1)&&golden<=cfg.max&&!rules.blocked.includes(golden);
@@ -2537,6 +2544,8 @@ function buildOrbit(r){
 }
 function renderResult(r,name){
   resetCompatView();
+  // 1sep2026 Cambio D: al renderizar un resultado nuevo, la combinacion vuelve a quedar oculta tras el boton
+  (function(){const w=document.getElementById('combo-reveal-wrap');const b=document.getElementById('btn-reveal-combo');if(w)w.hidden=true;if(b)b.textContent=L('查看我的组合 →','See my combination →');})();
   (function(){const tr=document.getElementById('tab-result');if(tr){tr.classList.remove('signals-mode');}const sr=document.getElementById('signals-result');if(sr){sr.classList.add('hidden');sr.innerHTML='';}})();
   (function(){const mp=document.getElementById('motor-panel');if(mp){mp.classList.add('hidden');mp.dataset.key='';}})();
   // Mostrar/ocultar CTA Pro según plan
@@ -2552,8 +2561,8 @@ function renderResult(r,name){
   (function(){const g=document.getElementById('golden-name');if(g&&window.__wcDefGoldName)g.textContent=window.__wcDefGoldName;})();
   (function(){const h=document.getElementById('wc-nums-hint');if(h)h.style.display='none';})();
   // Restaurar labels del golden section
-  document.getElementById('golden-label').textContent=L('✦ 今日黄金数字 ✦','✦ Golden Number of the Day ✦');
-  document.getElementById('golden-sublabel').textContent=L('（与你的生命数字不同 · 每天焕新）','(different from your life number · changes every day)');
+  document.getElementById('golden-label').textContent=L('✦ 你的黄金数字 ✦','✦ Your Golden Number ✦');
+  document.getElementById('golden-sublabel').textContent=L('由你的姓名与五种力量共同计算 · 每日清晨焕新','Calculated from your name and your five forces · changes every morning');
   const cfg=GAME_CFG[STATE.game];const games=I18N_NEW[uiLang()].games;
   document.getElementById('result-game').textContent=games[STATE.game];document.getElementById('result-user').textContent=name;
   // NÚMERO DE ORO
@@ -2569,13 +2578,13 @@ function renderResult(r,name){
   (function(){const ch=document.getElementById('chance-hint');if(!ch)return;ch.style.display='none';document.getElementById('seal-sub').textContent=L('五种古老智慧在你的数字中交汇','Five cosmic forces converge in your numbers');})();
   // EXPLICACIÓN DE MOTORES
   const motorData=uiLang()==='en'?[
-    {icon:'☿',label:'Numerology',val:r.lp,text:`Your personal vibration. Born from the reduction of your full name and date of birth. It is your unique energetic signature in this universe — the number that defines you.`},
+    {icon:'☿',label:'Numerology',val:r.lp,text:`This is <strong>your Life Number</strong>. Born from the reduction of your date of birth. It is your unique energetic signature in this universe — the number that defines you.`},
     {icon:'♈',label:'Astrology',val:r.engines.ast,text:`Today's position of the stars, combined with your sign <strong>${tEN(SIGN_EN,r.zodiac.sign)}</strong> and the planet <strong>${tEN(PLANET_EN,r.zodiac.planet)}</strong>. The heavens imprint this frequency on every decision you make today.`},
     {icon:'🌙',label:'Moon',val:r.moon.day+'d',text:`We are on day <strong>${r.moon.day}</strong> of the lunar cycle — <strong>${tEN(MOON_EN,r.moon.name)}</strong> moon. Since the beginning of time the moon has guided human intuition. Today its pulse merges with yours.`},
     {icon:'🐉',label:'Chinese Cal.',val:r.engines.chi,text:`The millennial Chinese calendar assigns the <strong>${r.engines.chi}</strong> to this moment. Five thousand years of observing the cosmos converge in this sacred number.`},
     {icon:'🌎',label:'Geoenergy',val:r.geo,text:`The geomagnetic energy of <strong>where you were born</strong> and <strong>where you live today</strong> generates the <strong>${r.geo}</strong>. The place we inhabit shapes part of our destiny.`}
   ]:[
-    {icon:'☿',label:'命理',val:r.lp,text:`你的个人振动。由你的全名与出生日期归约而来，是你在这宇宙中独一无二的能量印记——定义你的那个数字。`},
+    {icon:'☿',label:'命理',val:r.lp,text:`这是<strong>你的生命数字</strong>。由你的出生日期归约而来，是你在这宇宙中独一无二的能量印记——定义你的那个数字。`},
     {icon:'♈',label:'星象',val:r.engines.ast,text:`今日星辰的位置，与你的星座<strong>${tZH(SIGN_ZH,r.zodiac.sign)}</strong>及主宰行星<strong>${tZH(PLANET_ZH,r.zodiac.planet)}</strong>交织。苍穹把这一频率，印刻在你今日的每个抉择里。`},
     {icon:'🌙',label:'月相',val:r.moon.day+'d',text:`此刻是月相周期的第<strong>${r.moon.day}</strong>天——<strong>${tZH(MOON_ZH,r.moon.name)}</strong>。自太初以来，月亮便指引着人的直觉。今日，它的脉动与你相融。`},
     {icon:'🐉',label:'中国历法',val:r.engines.chi,text:`千年的中国历法，为此刻赋予<strong>${r.engines.chi}</strong>。五千年仰观宇宙的智慧，汇聚于这个神圣的数字。`},
@@ -2589,8 +2598,8 @@ function renderResult(r,name){
   // NARRATIVA DE PODER EXPANDIDA
   const firstName=name.split(' ')[0];
   document.getElementById('interp-text').innerHTML=uiLang()==='en'
-    ?`${firstName}, your <strong>life number is ${r.lp}</strong> — permanent, born from your name and date of birth. <strong>Today's Golden Number is ${r.golden}</strong>, a different one: it emerges from fusing your ${r.lp} with the four forces of today's universe. This number resonates with <strong>${tEN(PLANET_EN,r.zodiac.planet)}</strong>, the ruling planet of <strong>${tEN(SIGN_EN,r.zodiac.sign)}</strong>, whose <strong>${tEN(ELEM_EN,r.zodiac.element)}</strong> element energy governs your chart. Today, the <strong>${tEN(MOON_EN,r.moon.name)} moon</strong> is on day ${r.moon.day} of its cycle, amplifying your personal magnetic field with a force that will not repeat the same way tomorrow. The <strong>${tEN(ANIMAL_EN,r.chinese.animal)}</strong> of your Chinese year brings its sacred number, and the fused geoenergy of your cities vibrates in <strong>resonance ${r.geo}</strong>. When these five forces align in a single seed, these numbers emerge — and only these.`
-    :`${firstName}，你的<strong>生命数字是 ${r.lp}</strong>——恒定不变，源自你的姓名与生日。而<strong>今日的黄金数字是 ${r.golden}</strong>，与之不同：它由你的 ${r.lp} 与今日宇宙的四种力量交融而来。这个数字与<strong>${tZH(PLANET_ZH,r.zodiac.planet)}</strong>共振——它是<strong>${tZH(SIGN_ZH,r.zodiac.sign)}</strong>的主宰行星，其<strong>${tZH(ELEM_ZH,r.zodiac.element)}</strong>元素的能量主导着你的星盘。今日，<strong>${tZH(MOON_ZH,r.moon.name)}</strong>正处于周期的第 ${r.moon.day} 天，放大你个人的磁场，而这股力量明日不会再以同样的方式浮现。你生肖<strong>${tZH(ANIMAL_ZH,r.chinese.animal)}</strong>之年带来它神圣的数字，你双城交融的地能在<strong>共振 ${r.geo}</strong>中震动。当这五种力量在同一颗种子里对齐，便浮现出这些数字——且仅有这些。`;
+    ?`${firstName}, your <strong>life number is ${r.lp}</strong> — permanent, born from your date of birth. <strong>Today's Golden Number is ${r.golden}</strong>, a different one: it emerges from fusing your ${r.lp} with the four forces of today's universe. This number resonates with <strong>${tEN(PLANET_EN,r.zodiac.planet)}</strong>, the ruling planet of <strong>${tEN(SIGN_EN,r.zodiac.sign)}</strong>, whose <strong>${tEN(ELEM_EN,r.zodiac.element)}</strong> element energy governs your chart. Today, the <strong>${tEN(MOON_EN,r.moon.name)} moon</strong> is on day ${r.moon.day} of its cycle, amplifying your personal magnetic field with a force that will not repeat the same way tomorrow. The <strong>${tEN(ANIMAL_EN,r.chinese.animal)}</strong> of your Chinese year brings its sacred number, and the fused geoenergy of your cities vibrates in <strong>resonance ${r.geo}</strong>. When these five forces align in a single seed, these numbers emerge — and only these.`
+    :`${firstName}，你的<strong>生命数字是 ${r.lp}</strong>——恒定不变，源自你的出生日期。而<strong>今日的黄金数字是 ${r.golden}</strong>，与之不同：它由你的 ${r.lp} 与今日宇宙的四种力量交融而来。这个数字与<strong>${tZH(PLANET_ZH,r.zodiac.planet)}</strong>共振——它是<strong>${tZH(SIGN_ZH,r.zodiac.sign)}</strong>的主宰行星，其<strong>${tZH(ELEM_ZH,r.zodiac.element)}</strong>元素的能量主导着你的星盘。今日，<strong>${tZH(MOON_ZH,r.moon.name)}</strong>正处于周期的第 ${r.moon.day} 天，放大你个人的磁场，而这股力量明日不会再以同样的方式浮现。你生肖<strong>${tZH(ANIMAL_ZH,r.chinese.animal)}</strong>之年带来它神圣的数字，你双城交融的地能在<strong>共振 ${r.geo}</strong>中震动。当这五种力量在同一颗种子里对齐，便浮现出这些数字——且仅有这些。`;
   document.getElementById('interp-closer').innerHTML=L('世上再没有任何人拥有今天这组一模一样的数字。它属于你，是宇宙为这一天为你封印的。','No other being in the world shares this exact combination today. It is yours, sealed by the cosmos for this day.');
   // SELLO según juego
   const seals=uiLang()==='en'?{daily:'VIBRATION SEALED',lottery:'VIBRATION SEALED',chance:'DIGITS REVEALED',destiny:'SEQUENCE REVEALED',casino:'SEQUENCE REVEALED',sports:'SPORTS ENERGY'}:{daily:'振动已封印',lottery:'振动已封印',chance:'数字已揭示',destiny:'序列已揭示',casino:'序列已揭示',sports:'体育能量'};
@@ -2599,15 +2608,23 @@ function renderResult(r,name){
     var _en=uiLang()==='en',_lp=r.lp;
     var _q4=(STATE.lang==='zh'?NUMA_ZH.q4:(NUMA_DATA.q4[_en?'en':'es']))||{};var _dm=_q4[_lp]||_q4[1]||{k:'',t:''};
     var _go=document.getElementById('golden-orb');if(_go){_go.textContent=_lp;_go.style.fontSize='';}
-    var _gl=document.getElementById('golden-label');if(_gl)_gl.textContent=_en?'✦ Your Destiny Number ✦':'✦ 你的命运数字 ✦';
+    var _gl=document.getElementById('golden-label');if(_gl)_gl.textContent=_en?'✦ Your Life Number ✦':'✦ 你的生命数字 ✦'; // 1sep2026: antes decia "命运数字" -- unificado con el nombre real del numero permanente
     var _gs=document.getElementById('golden-sublabel');if(_gs)_gs.textContent=_en?'The number you were born with · it never changes':'你与生俱来的数字 · 永远不变';
     var _gp=document.getElementById('golden-phi');
     if(_gp)_gp.innerHTML=_en
-      ?('Your destiny number is <strong>'+_lp+'</strong> — <strong>'+_dm.k+'</strong>. Unlike your daily number, this one <strong>never changes</strong>: it is the vibration you were born with, distilled from your full name and date of birth — the core of who you are. '+_dm.t)
-      :('你的命运数字是 <strong>'+_lp+'</strong> ——<strong>'+_dm.k+'</strong>。与你的每日数字不同，这个数字<strong>永远不变</strong>：它是你与生俱来的振动，从你的全名与出生日期中提炼而来——是你之所以为你的核心。'+_dm.t);
+      ?('Your life number is <strong>'+_lp+'</strong> — <strong>'+_dm.k+'</strong>. Unlike your daily Golden Number, this one <strong>never changes</strong>: it is the vibration you were born with, distilled from your date of birth — the core of who you are. '+_dm.t)
+      :('你的生命数字是 <strong>'+_lp+'</strong> ——<strong>'+_dm.k+'</strong>。与你的每日黄金数字不同，这个数字<strong>永远不变</strong>：它是你与生俱来的振动，从你的出生日期中提炼而来——是你之所以为你的核心。'+_dm.t);
     var _ip=document.getElementById('golden-inplay');if(_ip)_ip.style.display='none';
     var _rc=document.getElementById('renew-countdown');if(_rc)_rc.style.display='none';
   }
+}
+function toggleComboReveal(){
+  // 1sep2026 Cambio D: la secuencia de numeros (.nball) queda oculta tras este boton hasta que el usuario la pide
+  const w=document.getElementById('combo-reveal-wrap');const b=document.getElementById('btn-reveal-combo');
+  if(!w||!b)return;
+  const willShow=!!w.hidden;
+  w.hidden=!willShow;
+  b.textContent=willShow?L('隐藏','Hide'):L('查看我的组合 →','See my combination →');
 }
 function newConsult(){goBackToForm()}
 function toggleAccordion(id){const body=document.getElementById(id);const btn=body.previousElementSibling;const arrow=btn.querySelector('.acc-arrow');const isOpen=body.classList.contains('open');body.classList.toggle('open');arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)'}
@@ -2858,8 +2875,9 @@ const UI_EN=[
 ['#seal-sub','Five cosmic forces converge in your numbers'],
 ['.duel-score-label','Cosmic Energy'],
 ['.duel-winner-label','✦ The Cosmos Favors ✦'],
-['#golden-label','✦ Golden Number of the Day ✦'],
-['#golden-sublabel','(different from your life number · changes every day)'],
+['#golden-label','✦ Your Golden Number ✦'],
+['#btn-reveal-combo','See my combination →'],
+['#golden-sublabel','Calculated from your name and your five forces · changes every morning'],
 ['#golden-name','Your number in divine proportion'],
 ['#golden-inplay','✓ In your reading today'],
 ['.pct-urgency','Your combination changes tomorrow.<br>Save it · Access Destiny &amp; Sports · No daily limit.','html'],
