@@ -217,7 +217,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-reveal-combo{display:block;width:100%;max-width:360px;margin:1.6rem auto .8rem;padding:16px 22px;background:transparent;border:1.5px solid var(--gold);border-radius:var(--r);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;letter-spacing:.03em;color:var(--gold2);transition:all .25s}
 .btn-reveal-combo:hover,.btn-reveal-combo:active{background:rgba(201,168,76,.14);border-color:var(--gold2);color:var(--gold3)}
 .combo-reveal-wrap[hidden]{display:none}
-[data-game="sports"][hidden],.wc-ribbon[hidden]{display:none!important} /* 1sep2026 Cambio E: refuerzo -- hay reglas con display explicito que si no, ganarian sobre [hidden] */
+.game-card[hidden],.orac-label[hidden],.wc-ribbon[hidden]{display:none!important} /* 1sep2026: refuerzo OBLIGATORIO -- reglas como "#tab-oraculos .game-card{display:flex}" y "#tab-form .game-grid>.game-card" ganan sobre el [hidden] del navegador. Sin esto, ocultar una tarjeta con hidden NO la oculta. */
 /* Fin bloque .btn-reveal-combo / .combo-reveal-wrap — anadido 1sep2026 (Cambio D: combinacion tras boton) */
 .combo-title-wrap{text-align:center;margin:1.8rem 0 .6rem}
 .combo-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(20px,5vw,26px);color:var(--gold2);letter-spacing:.02em;text-shadow:0 0 30px rgba(201,168,76,.25)}
@@ -374,6 +374,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .stat-box{background:var(--bg3);border-radius:var(--r);padding:.85rem;text-align:center}
 .stat-val{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--gold)}
 .stat-label{font-size:15px;color:var(--muted);margin-top:3px}
+/* 1sep2026 Cambio 8: Numero de Vida visible y gratis en el perfil. Revertir: borrar este bloque y el HTML/JS en #profile-lifenum-box / renderProfile(). */
+.profile-lifenum-box{background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(201,168,76,.03));border:1px solid var(--gold);border-radius:var(--r);padding:1rem 1.1rem;text-align:center;margin-bottom:1rem}
+.profile-lifenum-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.85}
+.profile-lifenum-val{font-family:'Cinzel Decorative',serif;font-size:32px;color:var(--gold2);margin:.35rem 0}
+.profile-lifenum-sub{font-size:14px;color:var(--text)}
 .history-title{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
 .history-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid var(--border)}
 .history-item:last-child{border-bottom:none}
@@ -407,6 +412,11 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-oraculos .game-card.pro-locked{opacity:.92}
 #tab-oraculos .game-card.pro-locked::after{content:'Pro';font-size:9px;top:10px;right:11px;background:none;border:.5px solid rgba(201,168,76,.35);color:var(--gold);padding:2px 8px;letter-spacing:.06em}
 #tab-oraculos .game-card.pro-locked.pro-hide-seal::after{display:none}
+/* 1sep2026 Cambio 5: estilo de la tarjeta NUMA (borde dorado, sin animacion wcGlow, alto contraste). Revertir: borrar estas 4 reglas. */
+.game-card.orac-numa-card{border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(124,92,191,.08));padding:18px 20px}
+.game-card.orac-numa-card .gi{font-size:38px}
+.game-card.orac-numa-card .gl{font-size:19px;color:var(--gold2);letter-spacing:.04em;font-weight:700;font-family:'Cormorant Garamond',Georgia,serif}
+.game-card.orac-numa-card .gd{font-size:14.5px;color:var(--text);margin-top:4px}
 /* ─── Fase 4.5 — formulario limpio: consulta seleccionada única ─── */
 #tab-form .game-grid{display:block}
 #tab-form .game-grid > .game-card{display:none}
@@ -906,8 +916,9 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="acc-body">
       <div class="consulta-sel" id="consulta-sel"></div>
       <div class="game-grid">
-        <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía para hoy. Cambian mañana.</div></div>
-        <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
+        <div class="game-card sel" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Tu combinación de hoy</div><div class="gd">Tus 6 números guía. Cambian cada mañana.</div></div>
+        <!-- chance oculto 1sep2026: da los mismos numeros que las otras consultas (misma semilla en computeNumbers). Quitar el hidden para reactivar. -->
+          <div class="game-card" data-game="chance" hidden onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
         <div id="chance-fields" class="hidden">
           <div class="duel-fields-intro" id="chance-intro">✦ Elige cuántos números quieres revelar</div>
           <div class="chance-seg" id="chance-seg">
@@ -922,7 +933,8 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <!-- Sports aparcado 1 sep 2026 (política de pagos: prohibidas las predicciones). Quitar el hidden para reactivar. -->
         <div class="game-card game-card-full" data-game="sports" hidden onclick="quickLaunch(this)"><div class="free-badge">✦ 2 GRATIS AL DÍA</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">NFL · NBA · Champions League y más — afinidad numérica de tu partido real</div></div>
         <div class="game-card game-card-full numa-game-card" onclick="showTab('numa')"><div class="free-badge">✦ GRATIS</div><div class="gi">🔮</div><div class="gl">NUMA</div><div class="gd">Tu oráculo personal para cualquier pregunta de hoy.</div></div>
-        <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
+        <!-- destiny oculto 1sep2026: da los mismos numeros que las otras consultas (misma semilla en computeNumbers). Quitar el hidden para reactivar. -->
+          <div class="game-card pro-locked" data-game="destiny" hidden onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">No cambian. Son tuyos. Nacieron contigo.</div><div class="pro-preview">"Tu número maestro revela el propósito que el cosmos escribió en ti antes de nacer..."</div></div>
       </div>
       <div class="card-hint" id="card-hint">↑ Completa tus datos personales para revelar tus números</div>
       <div id="compat-fields" class="hidden">
@@ -1131,6 +1143,11 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="profile-name" id="profile-name">Usuario</div>
         <div class="profile-email" id="profile-email">—</div>
         <div class="profile-plan plan-free" id="profile-plan">Plan Freemium · 1 consulta/día</div>
+        <div class="profile-lifenum-box hidden" id="profile-lifenum-box">
+          <div class="profile-lifenum-label" id="profile-lifenum-label">Tu Número de Vida</div>
+          <div class="profile-lifenum-val" id="profile-lifenum-val">—</div>
+          <div class="profile-lifenum-sub" id="profile-lifenum-sub">Sale solo de tu fecha de nacimiento. No cambia nunca.</div>
+        </div>
         <div class="profile-stats">
           <div class="stat-box"><div class="stat-val" id="stat-consults">0</div><div class="stat-label">Consultas hoy</div></div>
           <div class="stat-box"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total historial</div></div>
@@ -1320,33 +1337,42 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
 
     <!-- ORÁCULOS TAB -->
     <div id="tab-oraculos" class="hidden">
+      <!-- 1sep2026 Cambio 5: NUMA como puerta principal, antes de todo. No es un GAME_CFG (es solo un enlace a la pestana NUMA, no un juego); showTab('numa') ya invoca numaOpen() internamente -- ver funcion showTab: "if(t==='numa')numaOpen()". Revertir: borrar este div. -->
+      <div class="game-card game-card-full orac-numa-card" data-game="numa-oraculo" onclick="showTab('numa')"><div class="gi">🌟</div><div class="gl">Pregúntale a NUMA</div><div class="gd">Las preguntas que de verdad te haces. Tu Número de Vida y tu Número de Oro responden.</div></div>
       <div class="oraculos-header">
         <div class="oraculos-title">Oráculos</div>
-        <div class="oraculos-sub">Siete lecturas, cada una con su propósito.</div>
+        <div class="oraculos-sub">El oráculo responde. Las demás son herramientas.</div>
       </div>
       <div class="orac-group">
-        <div class="orac-label" id="orac-lbl-hoy">Hoy</div>
+        <!-- 1sep2026 Cambio 4: label de seccion oculto (4 tarjetas ya no necesitan secciones). Verificado: .orac-label no tiene 'display' propio en CSS, [hidden] del navegador basta sin necesitar refuerzo !important. Revertir quitando 'hidden'. -->
+        <div class="orac-label" id="orac-lbl-hoy" hidden>Hoy</div>
         <div class="orac-grid">
-          <div class="game-card oc-full" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Números del Día</div><div class="gd">Tus 6 números guía de hoy. Cambian mañana.</div></div>
+          <!-- 1sep2026 Cambio 6: deja de presentarse como oraculo, pasa a ser la herramienta que es. No se toco data-game="daily" ni el calculo. -->
+          <div class="game-card oc-full" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Tu combinación de hoy</div><div class="gd">Tus 6 números guía. Cambian cada mañana.</div></div>
         </div>
       </div>
       <div class="orac-group">
-        <div class="orac-label" id="orac-lbl-ahora">Ahora</div>
+        <!-- 1sep2026 Cambio 4: label de seccion oculto (ver comentario junto a orac-lbl-hoy). Revertir quitando 'hidden'. -->
+        <div class="orac-label" id="orac-lbl-ahora" hidden>Ahora</div>
         <div class="orac-grid">
-          <div class="game-card" data-game="chance" onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
+          <!-- 1sep2026 Cambio 2: oculto -- misma semilla que otras consultas (computeNumbers no incluye el juego en la semilla), los 3 numeros de Pulso siempre caen dentro de los 5 de Destino. Comprobado en telefono. NO se borro GAME_CFG.chance ni su logica (selector 1-3 reutilizable). Revertir quitando 'hidden'. -->
+          <div class="game-card" data-game="chance" hidden onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
           <div class="game-card" data-game="signals" onclick="smOpen()"><div class="free-badge">Gratis</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Ese número que te persigue, descifrado.</div></div>
           <div class="game-card game-card-full" data-game="dream" onclick="dreamOpen()"><div class="free-badge">1 gratis/día</div><div class="game-moon-medal"><span class="gmm-ic">🌙</span></div><div class="gl">Números del Sueño</div><div class="gd">NUMA te ayuda a interpretar tus sueños.</div></div>
         </div>
       </div>
       <div class="orac-group">
-        <div class="orac-label" id="orac-lbl-siempre">Para siempre</div>
+        <!-- 1sep2026 Cambio 4: label de seccion oculto (ver comentario junto a orac-lbl-hoy). Revertir quitando 'hidden'. -->
+        <div class="orac-label" id="orac-lbl-siempre" hidden>Para siempre</div>
         <div class="orac-grid">
-          <div class="game-card pro-locked" data-game="destiny" onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">El número que nació contigo. No cambia.</div></div>
+          <!-- 1sep2026 Cambio 3: oculto -- este numero ES el Numero de Vida, que ahora sale solo de la fecha de nacimiento y esta visible gratis en el perfil (ver #profile-lifenum-box). Tenerlo tambien aqui como consulta Pro con otro nombre era la duplicacion exacta que confundia. NO se borro GAME_CFG.destiny ni el modo destiny. Revertir quitando 'hidden'. -->
+          <div class="game-card pro-locked" data-game="destiny" hidden onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">El número que nació contigo. No cambia.</div></div>
           <div class="game-card pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div></div>
         </div>
       </div>
       <div class="orac-group">
-        <div class="orac-label" id="orac-lbl-pred">Sports</div>
+        <!-- 1sep2026 Cambio 1: bug -- este encabezado quedaba visible aunque su tarjeta Sports ya estaba oculta (Cambio E, 1sep2026). Se oculta igual que la tarjeta. Verificado: .orac-label no tiene 'display' propio en CSS, [hidden] del navegador basta (no hizo falta refuerzo !important como con game-card). Revertir quitando 'hidden'. -->
+        <div class="orac-label" id="orac-lbl-pred" hidden>Sports</div>
         <div class="orac-grid">
           <!-- Sports aparcado 1 sep 2026 (política de pagos: prohibidas las predicciones). Quitar el hidden para reactivar. -->
           <div class="game-card game-card-full" data-game="sports" hidden onclick="quickLaunch(this)"><div class="free-badge">2 gratis/día</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">NFL · NBA · Champions League y más ligas reales.</div></div>
@@ -1382,7 +1408,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
 
     <div class="bottom-nav">
       <button class="nav-btn active" onclick="openHoy()" id="nav-hoy"><div class="nav-icon">☀️</div><div class="nav-label">Hoy</div></button>
-      <button class="nav-btn" onclick="showTab('oraculos')" id="nav-oraculos"><div class="nav-icon">🔮</div><div class="nav-label">Oráculos</div></button>
+      <button class="nav-btn" onclick="showTab('oraculos')" id="nav-oraculos"><div class="nav-icon">🔮</div><div class="nav-label">Consultas</div></button>
       <button class="nav-btn" onclick="showTab('ciclos')" id="nav-ciclos"><div class="nav-icon">∞</div><div class="nav-label">Ciclos</div></button>
       <button class="nav-btn" onclick="showTab('numa')" id="nav-numa"><div class="nav-icon">🌟</div><div class="nav-label">NUMA</div></button>
       <button class="nav-btn" onclick="showTab('profile')" id="nav-profile"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></button>
@@ -2878,8 +2904,8 @@ const UI_EN=[
 ['.field:has(#inp-cityn) label','Current city'],
 ['#inp-cityn','City, Country — e.g. Madrid, Spain','ph'],
 ['.field:has(#inp-cityn) .field-hint','✦ Type and pick your city from the list (or type it freely if it doesn\'t appear). Sets your present energy field from where you are today'],
-['.game-card[data-game="daily"] .gl','Numbers of the Day'],
-['.game-card[data-game="daily"] .gd','Your 6 guiding numbers for today. They change tomorrow.'],
+['.game-card[data-game="daily"] .gl','Your combination today'],
+['.game-card[data-game="daily"] .gd','Your 6 guiding numbers. They change every morning.'],
 ['.game-card[data-game="chance"] .gl','Pulse of the Moment'],
 ['.game-card[data-game="chance"] .gd','Your number for this instant. Pick 1, 2 or 3.'],
 ['#chance-intro','✦ Choose how many numbers you want to reveal'],
@@ -2911,14 +2937,16 @@ const UI_EN=[
 ['#sm-hint','✦ Write one or more. Separate them with a space or comma.'],
 ['#sm-btn','✦ Reveal ✦'],
 ['.oraculos-title','Oracles'],
-['.oraculos-sub','Seven readings, each with its purpose.'],
+['.oraculos-sub','The oracle answers. The rest are tools.'],
+['.orac-numa-card .gl','Ask NUMA'],
+['.orac-numa-card .gd','The questions you really ask yourself. Your Life Number and your Golden Number answer.'],
 ['#orac-lbl-hoy','Today'],
 ['#orac-lbl-ahora','Now'],
 ['#orac-lbl-siempre','Forever'],
 ['#orac-lbl-pred','Sports'],
 ['.game-card[data-game="compat"] .gl','Compatibility'],
 ['#tab-oraculos .free-badge','Free'],
-['#tab-oraculos .game-card[data-game="daily"] .gd','Your 6 guiding numbers for today. They change tomorrow.'],
+['#tab-oraculos .game-card[data-game="daily"] .gd','Your 6 guiding numbers. They change every morning.'],
 ['#tab-oraculos .game-card[data-game="chance"] .gd','Your number for this instant. Pick 1, 2 or 3.'],
 ['#tab-oraculos .game-card[data-game="signals"] .gd','That number that follows you, decoded.'],
 ['#tab-oraculos .game-card[data-game="destiny"] .gd','The number born with you. It never changes.'],
@@ -2963,6 +2991,8 @@ const UI_EN=[
 ['.pro-perks','Unlimited readings · 30-day history · All games · from $3.99 USD/mo'],
 ['.btn-pro','See Pro plan →'],
 ['#profile-plan','Freemium plan · 1 reading/day'],
+['#profile-lifenum-label','Your Life Number'],
+['#profile-lifenum-sub','It comes only from your date of birth. It never changes.'],
 ['.profile-stats .stat-box:nth-child(1) .stat-label','Readings today'],
 ['.profile-stats .stat-box:nth-child(2) .stat-label','History total'],
 ['#tab-profile .btn-primary','⬆ Activate Pro — from $3.99 USD/mo'],
@@ -3018,7 +3048,7 @@ const UI_EN=[
 ['#notify-submit-btn','Notify me when it\'s ready →'],
 ['button.notify-close-link','Close'],
 ['#nav-hoy .nav-label','Today'],
-['#nav-oraculos .nav-label','Oracles'],
+['#nav-oraculos .nav-label','Readings'],
 ['#nav-ciclos .nav-label','Cycles'],
 ['#nav-numa .nav-label','NUMA'],
 ['#nav-profile .nav-label','Profile'],
@@ -3438,7 +3468,7 @@ function applyConsumptionOnly(){
   const rp=document.getElementById('region-pricing');
   if(rp) rp.innerHTML='<p style="text-align:center;color:var(--muted);font-size:15px;line-height:1.6;padding:.3rem 0;margin:0">'+L('Para cambiar de plan, entra a numbersoracle.com desde tu navegador.','To change your plan, visit numbersoracle.com in your browser.')+'</p>';
 }
-function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||L('Usuario','User');document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?L('Plan Pro · Ilimitadas','Pro Plan · Unlimited'):L('Plan Freemium · 1 consulta/día','Freemium Plan · 1 reading/day');document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:15px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">'+L('Sin consultas aún','No readings yet')+'</div>';return}const games=I18N_NEW[uiLang()].games;el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
+function renderProfile(){if(!STATE.profile)return;document.getElementById('profile-name').textContent=STATE.profile.full_name||L('Usuario','User');document.getElementById('profile-email').textContent=STATE.profile.email;const isPro=STATE.profile.plan==='pro';document.getElementById('profile-plan').textContent=isPro?L('Plan Pro · Ilimitadas','Pro Plan · Unlimited'):L('Plan Freemium · 1 consulta/día','Freemium Plan · 1 reading/day');document.getElementById('profile-plan').className='profile-plan '+(isPro?'plan-pro':'plan-free');(function(){var lb=document.getElementById('profile-lifenum-box');if(!lb)return;var p=STATE.profile;if(p&&p.full_name&&p.birth_date){try{var ln=lifePath(p.full_name,p.birth_date);document.getElementById('profile-lifenum-val').textContent=ln;lb.classList.remove('hidden')}catch(e){lb.classList.add('hidden')}}else{lb.classList.add('hidden')}})();document.getElementById('stat-consults').textContent=STATE.consultsToday;document.getElementById('stat-total').textContent=STATE.history.length;const el=document.getElementById('history-list');if(!STATE.history.length){el.innerHTML='<div style="font-size:15px;color:var(--faint);text-align:center;padding:1rem;font-style:italic;">'+L('Sin consultas aún','No readings yet')+'</div>';return}const games=I18N_NEW[uiLang()].games;el.innerHTML=STATE.history.slice(0,10).map(h=>{const d=new Date(h.created_at).toISOString().split('T')[0];return `<div class="history-item"><div class="history-date">${d}</div><div class="history-game">${games[h.game_type]||h.game_type}</div><div class="history-nums">${h.numbers.join(' · ')}</div></div>`}).join('')}
 (async()=>{
   // Detectar si el usuario viene desde un enlace de recuperación de contraseña
   const hash=new URLSearchParams(window.location.hash.replace('#',''));
@@ -3922,7 +3952,7 @@ function dreamAgain(){
 function dreamUpsell(){
   dreamClose();
   try{showTab('hoy');}catch(e){}
-  const el=document.querySelector('.game-grid .game-card[data-game="destiny"]')||document.querySelector('.game-grid .game-card[data-game="daily"]');
+  const el=document.querySelector('.game-grid .game-card[data-game="daily"]'); // 1sep2026: antes buscaba destiny, que ahora esta oculto (querySelector lo encontraria igual y se clicaria algo invisible)
   if(el){try{quickLaunch(el);}catch(e){}}
 }
 function dreamFirstSentence(text){if(!text)return'';const m=text.match(/^.*?[.!?。]/);return m?m[0]:text;}
