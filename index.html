@@ -660,6 +660,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .dream-result-text{color:#e8dfc8;font-size:1.02rem;line-height:1.65;text-align:left;margin:1rem 0}
 .dream-charada{color:var(--gold3);font-size:.82rem;font-style:italic;margin-bottom:.75rem;text-align:left;opacity:.85}
 .dream-hook{color:var(--gold2);font-size:.92rem;font-style:italic;margin-bottom:1.1rem;text-align:left}
+.dream-seo-link{display:block;text-align:center;margin:.85rem 0 .2rem;color:var(--gold2);font-size:1.02rem;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.dream-seo-link.hidden{display:none}
 .dream-upsell-link{color:var(--gold2);font-size:.9rem;cursor:pointer;margin:.5rem 0 .9rem;text-decoration:underline}
 /* ─── Medallón lunar premium (tarjetas + modal) ─── */
 .game-moon-medal{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(201,168,76,.32);background:radial-gradient(circle at 38% 32%,rgba(201,168,76,.16),rgba(201,168,76,.03) 65%,transparent);box-shadow:0 0 18px rgba(201,168,76,.10)}
@@ -3854,8 +3856,11 @@ function dreamCompute(text){
   if(charadas.length){
     charadaLine={es:'Tradición popular: se le asocia el número '+charadas.join(', ')+'.',en:'Popular tradition: associated with the number '+charadas.join(', ')+'.'};
   }
-  return{matched:true,emoji:emoji,num:num,esRaw:es,en:en,hookEs:hookEs,hookEn:hookEn,charadaLine:charadaLine};
+  return{matched:true,emoji:emoji,num:num,esRaw:es,en:en,hookEs:hookEs,hookEn:hookEn,charadaLine:charadaLine,lbl:matches[0].lbl};
 }
+/* 1sep2026: puente app -> paginas SEO. Solo estas 10 tienen pagina en /suenos/.
+   Las paginas existen SOLO en espanol, asi que el enlace se oculta en EN (regla de i18n del proyecto). */
+const DREAM_SLUGS={'Muerto':'sonar-con-un-muerto','Agua':'sonar-con-agua','Culebra':'sonar-con-culebras','Dinero':'sonar-con-dinero','Embarazo':'sonar-con-embarazo','Casa':'sonar-con-una-casa','Perro':'sonar-con-perros','Dientes':'sonar-que-se-caen-los-dientes','Ex pareja':'sonar-con-tu-ex','Perseguido':'sonar-que-te-persiguen'};
 const DREAM_QUICK_LABELS=['Muerto','Agua','Culebra','Dinero','Embarazo','Casa','Fuego','Dientes'];
 const DREAM_QUICK_LABELS_EN=['Dead','Water','Snake','Money','Baby','House','Fire','Teeth'];
 let __dreamHistoryPushed=false;
@@ -3932,6 +3937,13 @@ async function dreamReveal(){
   document.getElementById('dream-result-num').textContent=res.num;
   document.getElementById('dream-result-text').textContent=L(res.esRaw||res.zhRaw,res.en);
   document.getElementById('dream-hook').textContent=L(res.hookEs||res.hookZh,res.hookEn);
+  /* 1sep2026: puente hacia la lectura larga de /suenos/. Solo en espanol y solo si ese sueno tiene pagina. */
+  const seoEl=document.getElementById('dream-seo-link');
+  if(seoEl){
+    const slug=(res.matched&&(STATE.lang||'es')==='es')?DREAM_SLUGS[res.lbl]:null;
+    if(slug){seoEl.href='https://www.numbersoracle.com/suenos/'+slug;seoEl.classList.remove('hidden');}
+    else{seoEl.classList.add('hidden');}
+  }
   const charEl=document.getElementById('dream-charada');
   if(charEl){
     if(res.charadaLine){charEl.textContent=L(res.charadaLine.es,res.charadaLine.en);charEl.classList.remove('hidden');}
@@ -4111,6 +4123,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="dream-result-text" id="dream-result-text"></div>
       <div class="dream-charada hidden" id="dream-charada"></div>
       <div class="dream-hook" id="dream-hook"></div>
+      <a class="dream-seo-link hidden" id="dream-seo-link" href="#" rel="noopener">Lee la interpretación completa de este sueño →</a>
       <canvas id="dream-canvas" width="1080" height="1350" style="display:none"></canvas>
       <button class="btn-sm-rev" id="dream-share-btn" onclick="dreamShare()">📤 Compartir mi carta</button>
       <div class="dream-upsell-link" id="dream-upsell-link" onclick="dreamUpsell()">Conecta este número con tu número de vida →</div>
