@@ -393,8 +393,9 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nav-btn.active .nav-label{color:var(--gold);font-weight:700;opacity:1}
 /* ─── ORÁCULOS TAB ─── */
 .oraculos-header{text-align:center;padding:1.8rem 1rem .8rem}
-.oraculos-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:29px;color:var(--gold3);letter-spacing:.01em;margin-bottom:.3rem}
-.oraculos-sub{font-size:14.5px;color:var(--muted);line-height:1.5;font-style:italic}
+/* 1sep2026 Cambio 11: selector extendido con .numa-screen-title para que el titulo de pantalla de NUMA comparta exactamente el mismo estilo (alta legibilidad) sin duplicar la regla ni compartir clase (evita colision en la tabla de traduccion UI_EN, que aplica el mismo texto a todos los elementos que matchean un selector). Revertir: quitar ',.numa-screen-title'. */
+.oraculos-title,.numa-screen-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:29px;color:var(--gold3);letter-spacing:.01em;margin-bottom:.3rem}
+.oraculos-sub,.numa-screen-sub{font-size:14.5px;color:var(--muted);line-height:1.5;font-style:italic}
 /* ─── ORÁCULOS v2 (Fase 3) — agrupado por horizonte, premium ─── */
 #tab-oraculos{overflow-y:auto;flex:1;padding:0 1rem calc(80px + env(safe-area-inset-bottom))}
 #tab-oraculos .oraculos-header{padding:1.3rem 1rem .3rem}
@@ -1319,6 +1320,11 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
 
     <!-- NUMA — Oráculo Guiado -->
     <div id="tab-numa" class="hidden">
+      <!-- 1sep2026 Cambio 12: titulo de pantalla para que NUMA se sienta el oraculo (antes solo estaba el header compacto de chat de abajo, con back-button y avatar, sin un titulo grande). Reutiliza el estilo de .oraculos-title/.oraculos-sub (ver CSS: selectores extendidos con .numa-screen-title/.numa-screen-sub) para alta legibilidad y consistencia visual. Revertir: borrar este div. -->
+      <div class="oraculos-header">
+        <div class="numa-screen-title">NUMA</div>
+        <div class="numa-screen-sub">Tu oráculo. Pregunta lo que de verdad te importa.</div>
+      </div>
       <div class="numa-header">
         <button class="numa-back" onclick="numaClose()" aria-label="Volver">←</button>
         <div class="numa-avatar">🔮</div>
@@ -1337,46 +1343,35 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
 
     <!-- ORÁCULOS TAB -->
     <div id="tab-oraculos" class="hidden">
-      <!-- 1sep2026 Cambio 5: NUMA como puerta principal, antes de todo. No es un GAME_CFG (es solo un enlace a la pestana NUMA, no un juego); showTab('numa') ya invoca numaOpen() internamente -- ver funcion showTab: "if(t==='numa')numaOpen()". Revertir: borrar este div. -->
-      <div class="game-card game-card-full orac-numa-card" data-game="numa-oraculo" onclick="showTab('numa')"><div class="gi">🌟</div><div class="gl">Pregúntale a NUMA</div><div class="gd">Las preguntas que de verdad te haces. Tu Número de Vida y tu Número de Oro responden.</div></div>
+      <!-- 1sep2026 Cambio 7: titulo de pantalla (oraculos-header) movido arriba del todo, antes de la tarjeta NUMA -- quedaba debajo de ella y parecia que NUMA estaba fuera de la pantalla. Texto cambiado de "Oráculos" a "Consultas" (el nav ya dice Consultas; el oraculo real es NUMA, no esta pantalla). Revertir: mover el header de vuelta debajo de la tarjeta NUMA y el texto a "Oráculos" (ver tambien UI_EN mas abajo). -->
       <div class="oraculos-header">
-        <div class="oraculos-title">Oráculos</div>
+        <div class="oraculos-title">Consultas</div>
         <div class="oraculos-sub">El oráculo responde. Las demás son herramientas.</div>
       </div>
-      <div class="orac-group">
-        <!-- 1sep2026 Cambio 4: label de seccion oculto (4 tarjetas ya no necesitan secciones). Verificado: .orac-label no tiene 'display' propio en CSS, [hidden] del navegador basta sin necesitar refuerzo !important. Revertir quitando 'hidden'. -->
-        <div class="orac-label" id="orac-lbl-hoy" hidden>Hoy</div>
-        <div class="orac-grid">
-          <!-- 1sep2026 Cambio 6: deja de presentarse como oraculo, pasa a ser la herramienta que es. No se toco data-game="daily" ni el calculo. -->
-          <div class="game-card oc-full" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Tu combinación de hoy</div><div class="gd">Tus 6 números guía. Cambian cada mañana.</div></div>
-        </div>
-      </div>
-      <div class="orac-group">
-        <!-- 1sep2026 Cambio 4: label de seccion oculto (ver comentario junto a orac-lbl-hoy). Revertir quitando 'hidden'. -->
-        <div class="orac-label" id="orac-lbl-ahora" hidden>Ahora</div>
-        <div class="orac-grid">
-          <!-- 1sep2026 Cambio 2: oculto -- misma semilla que otras consultas (computeNumbers no incluye el juego en la semilla), los 3 numeros de Pulso siempre caen dentro de los 5 de Destino. Comprobado en telefono. NO se borro GAME_CFG.chance ni su logica (selector 1-3 reutilizable). Revertir quitando 'hidden'. -->
-          <div class="game-card" data-game="chance" hidden onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
-          <div class="game-card" data-game="signals" onclick="smOpen()"><div class="free-badge">Gratis</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Ese número que te persigue, descifrado.</div></div>
-          <div class="game-card game-card-full" data-game="dream" onclick="dreamOpen()"><div class="free-badge">1 gratis/día</div><div class="game-moon-medal"><span class="gmm-ic">🌙</span></div><div class="gl">Números del Sueño</div><div class="gd">NUMA te ayuda a interpretar tus sueños.</div></div>
-        </div>
-      </div>
-      <div class="orac-group">
-        <!-- 1sep2026 Cambio 4: label de seccion oculto (ver comentario junto a orac-lbl-hoy). Revertir quitando 'hidden'. -->
-        <div class="orac-label" id="orac-lbl-siempre" hidden>Para siempre</div>
-        <div class="orac-grid">
-          <!-- 1sep2026 Cambio 3: oculto -- este numero ES el Numero de Vida, que ahora sale solo de la fecha de nacimiento y esta visible gratis en el perfil (ver #profile-lifenum-box). Tenerlo tambien aqui como consulta Pro con otro nombre era la duplicacion exacta que confundia. NO se borro GAME_CFG.destiny ni el modo destiny. Revertir quitando 'hidden'. -->
-          <div class="game-card pro-locked" data-game="destiny" hidden onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">El número que nació contigo. No cambia.</div></div>
-          <div class="game-card pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div></div>
-        </div>
-      </div>
-      <div class="orac-group">
-        <!-- 1sep2026 Cambio 1: bug -- este encabezado quedaba visible aunque su tarjeta Sports ya estaba oculta (Cambio E, 1sep2026). Se oculta igual que la tarjeta. Verificado: .orac-label no tiene 'display' propio en CSS, [hidden] del navegador basta (no hizo falta refuerzo !important como con game-card). Revertir quitando 'hidden'. -->
-        <div class="orac-label" id="orac-lbl-pred" hidden>Sports</div>
-        <div class="orac-grid">
-          <!-- Sports aparcado 1 sep 2026 (política de pagos: prohibidas las predicciones). Quitar el hidden para reactivar. -->
-          <div class="game-card game-card-full" data-game="sports" hidden onclick="quickLaunch(this)"><div class="free-badge">2 gratis/día</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">NFL · NBA · Champions League y más ligas reales.</div></div>
-        </div>
+      <!-- 1sep2026 Cambio 5: NUMA como puerta principal, antes de todo. No es un GAME_CFG (es solo un enlace a la pestana NUMA, no un juego); showTab('numa') ya invoca numaOpen() internamente -- ver funcion showTab: "if(t==='numa')numaOpen()". Revertir: borrar este div. -->
+      <!-- 1sep2026 Cambio 8: titulo de la tarjeta cambia de "Pregúntale a NUMA" a "NUMA · Tu oráculo" para que se sienta el oraculo, no una pregunta mas (ver tambien UI_EN mas abajo). -->
+      <div class="game-card game-card-full orac-numa-card" data-game="numa-oraculo" onclick="showTab('numa')"><div class="gi">🌟</div><div class="gl">NUMA · Tu oráculo</div><div class="gd">Las preguntas que de verdad te haces. Tu Número de Vida y tu Número de Oro responden.</div></div>
+      <!-- 1sep2026 Cambio 9: las 4 rejillas .orac-grid (una por seccion) se fusionan en una sola -- con los 4 orac-label ya ocultos (Cambios 1 y 4), cada seccion habia dejado de tener razon de existir por separado, y al ocultarse chance/destiny, signals y compat quedaban solas en su rejilla con un hueco vacio al lado. Los orac-label se conservan aqui, ocultos, para no perder el marcado. Revertir: separar de nuevo en los 4 orac-group originales (ver backup preNav). -->
+      <div class="orac-label" id="orac-lbl-hoy" hidden>Hoy</div>
+      <div class="orac-label" id="orac-lbl-ahora" hidden>Ahora</div>
+      <div class="orac-label" id="orac-lbl-siempre" hidden>Para siempre</div>
+      <div class="orac-label" id="orac-lbl-pred" hidden>Sports</div>
+      <div class="orac-grid">
+        <div class="game-card game-card-full" data-game="dream" onclick="dreamOpen()"><div class="free-badge">1 gratis/día</div><div class="game-moon-medal"><span class="gmm-ic">🌙</span></div><div class="gl">Números del Sueño</div><div class="gd">NUMA te ayuda a interpretar tus sueños.</div></div>
+        <!-- 1sep2026 Cambio 9: pasa a fila entera (clase oc-full) para que Compatibilidad y la nueva tarjeta de Ciclos queden emparejadas debajo, sin dejar ninguna media tarjeta sola. -->
+        <div class="game-card oc-full" data-game="signals" onclick="smOpen()"><div class="free-badge">Gratis</div><div class="gi">🌌</div><div class="gl">Sincronías</div><div class="gd">Ese número que te persigue, descifrado.</div></div>
+        <div class="game-card pro-locked" data-game="compat" onclick="proLaunch(this)"><div class="gi">💑</div><div class="gl">Compatibilidad</div><div class="gd">El lazo entre dos almas, revelado por el cosmos.</div></div>
+        <!-- 1sep2026 Cambio 10: tarjeta nueva -- Ciclos perdio su boton propio en el nav de abajo (el Año Personal ahora alimenta a NUMA), se enlaza desde aqui. Sin data-game: no es un juego de GAME_CFG, el onclick va directo a la pestana. #tab-ciclos y renderCiclos siguen intactos. Revertir: borrar esta tarjeta. -->
+        <div class="game-card" id="orac-card-ciclos" onclick="showTab('ciclos')"><div class="gi">∞</div><div class="gl">Tus Ciclos</div><div class="gd">Tu año, tu mes y tu día personal.</div></div>
+        <!-- 1sep2026 Cambio 6: deja de presentarse como oraculo, pasa a ser la herramienta que es. No se toco data-game="daily" ni el calculo. Va al final de la rejilla: es la herramienta, no la respuesta. -->
+        <div class="game-card oc-full" data-game="daily" onclick="quickLaunch(this)"><div class="gi">🌟</div><div class="gl">Tu combinación de hoy</div><div class="gd">Tus 6 números guía. Cambian cada mañana.</div></div>
+        <!-- ocultas, sin cambios de logica ni de posicion relativa entre ellas: ver cada comentario original para el motivo de por que estan ocultas -->
+        <!-- 1sep2026 Cambio 2: oculto -- misma semilla que otras consultas (computeNumbers no incluye el juego en la semilla), los 3 numeros de Pulso siempre caen dentro de los 5 de Destino. Comprobado en telefono. NO se borro GAME_CFG.chance ni su logica (selector 1-3 reutilizable). Revertir quitando 'hidden'. -->
+        <div class="game-card" data-game="chance" hidden onclick="quickLaunch(this)"><div class="gi">✨</div><div class="gl">Pulso del Momento</div><div class="gd">Tu número para este instante. Elige 1, 2 o 3.</div></div>
+        <!-- 1sep2026 Cambio 3: oculto -- este numero ES el Numero de Vida, que ahora sale solo de la fecha de nacimiento y esta visible gratis en el perfil (ver #profile-lifenum-box). Tenerlo tambien aqui como consulta Pro con otro nombre era la duplicacion exacta que confundia. NO se borro GAME_CFG.destiny ni el modo destiny. Revertir quitando 'hidden'. -->
+        <div class="game-card pro-locked" data-game="destiny" hidden onclick="proLaunch(this)"><div class="gi">🔮</div><div class="gl">Números del Destino</div><div class="gd">El número que nació contigo. No cambia.</div></div>
+        <!-- Sports aparcado 1 sep 2026 (política de pagos: prohibidas las predicciones). Quitar el hidden para reactivar. -->
+        <div class="game-card game-card-full" data-game="sports" hidden onclick="quickLaunch(this)"><div class="free-badge">2 gratis/día</div><div class="gi">⚽</div><div class="gl">NUMBERS ORACLE · Sports</div><div class="gd">NFL · NBA · Champions League y más ligas reales.</div></div>
       </div>
     </div>
 
@@ -1406,11 +1401,12 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
     <!-- hidden canvas for WhatsApp image generation -->
     <canvas id="wa-canvas" width="800" height="420"></canvas>
 
+    <!-- 1sep2026 Cambio 13: reordenado (Hoy/Oraculo/Suenos/Consultas/Perfil) y nav-ciclos sale del menu (su contenido, el Ano Personal, ahora alimenta a NUMA; #tab-ciclos y renderCiclos siguen intactos, solo accesibles desde la tarjeta #orac-card-ciclos en Consultas). nav-numa pasa a icono 🔮 y etiqueta "Oraculo" (antes 🌟/"NUMA"); nav-oraculos conserva su onclick y etiqueta "Consultas" pero pasa a icono ✦ (el 🔮 se lo lleva NUMA). nav-suenos es nuevo: llama a dreamOpen() directo (verificado: dreamOpen() solo manipula el overlay #dream-overlay, fijo e independiente de la pestana activa -- no requiere que #tab-oraculos este visible). Revertir: restaurar el bloque anterior (ver backup preNav). -->
     <div class="bottom-nav">
       <button class="nav-btn active" onclick="openHoy()" id="nav-hoy"><div class="nav-icon">☀️</div><div class="nav-label">Hoy</div></button>
-      <button class="nav-btn" onclick="showTab('oraculos')" id="nav-oraculos"><div class="nav-icon">🔮</div><div class="nav-label">Consultas</div></button>
-      <button class="nav-btn" onclick="showTab('ciclos')" id="nav-ciclos"><div class="nav-icon">∞</div><div class="nav-label">Ciclos</div></button>
-      <button class="nav-btn" onclick="showTab('numa')" id="nav-numa"><div class="nav-icon">🌟</div><div class="nav-label">NUMA</div></button>
+      <button class="nav-btn" onclick="showTab('numa')" id="nav-numa"><div class="nav-icon">🔮</div><div class="nav-label">Oráculo</div></button>
+      <button class="nav-btn" onclick="dreamOpen()" id="nav-suenos"><div class="nav-icon">🌙</div><div class="nav-label">Sueños</div></button>
+      <button class="nav-btn" onclick="showTab('oraculos')" id="nav-oraculos"><div class="nav-icon">✦</div><div class="nav-label">Consultas</div></button>
       <button class="nav-btn" onclick="showTab('profile')" id="nav-profile"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></button>
     </div>
   </div>
@@ -1698,7 +1694,7 @@ function renderCiclos(tipo){
   body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
 }
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos','fuerzas'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos',fuerzas:'nav-hoy'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos','fuerzas'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-oraculos'/* 1sep2026: Ciclos ya no tiene boton propio; se entra desde la tarjeta en Consultas, asi que se ilumina ese */,fuerzas:'nav-hoy'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
 // ─── ONBOARDING: cada dato enciende un motor (nombre→Numerología; nacimiento→Astro+Luna+Chino; ciudades→Geo) ───
 const MCHIP_COLORS=['#7bd0ff','#ff9ec7','#cdd6ff','#ffcaa6','#7bf0b0'];
 function chargeMotors(){
@@ -2936,10 +2932,13 @@ const UI_EN=[
 ['#inp-sm','Eg: 7  ·  1111  ·  3 14 22','ph'],
 ['#sm-hint','✦ Write one or more. Separate them with a space or comma.'],
 ['#sm-btn','✦ Reveal ✦'],
-['.oraculos-title','Oracles'],
+['.oraculos-title','Readings'],
 ['.oraculos-sub','The oracle answers. The rest are tools.'],
-['.orac-numa-card .gl','Ask NUMA'],
+['.orac-numa-card .gl','NUMA · Your oracle'],
 ['.orac-numa-card .gd','The questions you really ask yourself. Your Life Number and your Golden Number answer.'],
+['.numa-screen-sub','Your oracle. Ask what really matters to you.'],
+['#orac-card-ciclos .gl','Your Cycles'],
+['#orac-card-ciclos .gd','Your personal year, month and day.'],
 ['#orac-lbl-hoy','Today'],
 ['#orac-lbl-ahora','Now'],
 ['#orac-lbl-siempre','Forever'],
@@ -3049,8 +3048,8 @@ const UI_EN=[
 ['button.notify-close-link','Close'],
 ['#nav-hoy .nav-label','Today'],
 ['#nav-oraculos .nav-label','Readings'],
-['#nav-ciclos .nav-label','Cycles'],
-['#nav-numa .nav-label','NUMA'],
+['#nav-suenos .nav-label','Dreams'],
+['#nav-numa .nav-label','Oracle'],
 ['#nav-profile .nav-label','Profile'],
 ['.game-card[data-game="signals"] .free-badge','✦ FREE'],
 ['.numa-game-card .free-badge','✦ FREE'],
