@@ -697,7 +697,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .nbfn{background:var(--bg2);border:.5px solid var(--border);border-top-left-radius:4px;align-self:flex-start}
 .nbfu{background:linear-gradient(135deg,#c9a84c,#a87618);color:#1a1306;border-top-right-radius:4px;align-self:flex-end;font-weight:600}
 .numa-score{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.4px;color:var(--muted);border:.5px solid var(--border);border-radius:20px;padding:3px 10px;font-family:'JetBrains Mono',monospace}
-.numa-chips-wrap{flex-shrink:0;padding:.7rem 1rem calc(.6rem + env(safe-area-inset-bottom));border-top:.5px solid var(--border);background:var(--bg2)}
+.numa-chips-wrap{flex-shrink:1;min-height:0;padding:.7rem 1rem calc(110px + env(safe-area-inset-bottom));border-top:.5px solid var(--border);background:var(--bg2);overflow-y:auto;overscroll-behavior:contain}.numa-chat{min-height:110px}.numa-chip:last-child:nth-child(odd){grid-column:1/-1}@media (max-height:800px){#tab-numa .oraculos-header{display:none}}
 .numa-chips-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:.55rem;text-transform:uppercase}
 .numa-chips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .numa-chip{background:var(--bg);border:.5px solid var(--border2);border-radius:14px;padding:14px 10px;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.45;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;text-align:center}
