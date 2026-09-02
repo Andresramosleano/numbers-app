@@ -3,15 +3,20 @@
 """
 Genera tools/numa_oracle_data.js a partir de los 4 .md de contenido de NUMA
 (~/mnt/documentos/). No transcribe nada a mano: parsea por encabezados
-markdown. Ver PASO 2 del prompt de la tarea para las reglas completas.
+markdown.
+
+v2 (2 sep 2026): el veredicto ya no es por territorio (72) sino por PREGUNTA
+(42 preguntas x 12 Años Personales = 504). Fuente: NUMA_504_Veredictos_por_Pregunta.md.
+Clave en el JS: veredicto[idPregunta][añoPersonal], ej. veredicto["vida-3"]["9"].
+El archivo viejo NUMA_54_Veredictos_AnoPersonal.md queda como histórico y ya no se lee.
 """
 import json
 import os
 import re
 import sys
 
-DOCS_DIR = os.path.expanduser("~/mnt/documentos")
-OUT_PATH = os.path.expanduser("~/mnt/numbers-app/tools/numa_oracle_data.js")
+DOCS_DIR = os.environ.get("NUMA_DOCS_DIR") or os.path.expanduser("~/mnt/documentos")
+OUT_PATH = os.environ.get("NUMA_OUT_PATH") or os.path.expanduser("~/mnt/numbers-app/tools/numa_oracle_data.js")
 
 TERR_SLUG = {
     "VIDA": "vida",
@@ -56,11 +61,13 @@ def split_territorio_sections(text):
     return out
 
 
-def blocks(text, header_regex):
-    """Itera '### <header>' y devuelve (header_groups, body_text) hasta el
-    siguiente heading de nivel 2/3 o '---'."""
+def blocks(text, header_regex, level=3):
+    """Itera '### <header>' (o '####' con level=4) y devuelve
+    (header_groups, body_text) hasta el siguiente heading de nivel <= level o '---'."""
+    hashes = '#' * level
+    stop = r'(?=\n#{2,%d}\s|\n---|\Z)' % level
     pattern = re.compile(
-        r'^###\s+' + header_regex + r'\n(?P<body>[\s\S]*?)(?=\n#{2,3}\s|\n---|\Z)',
+        r'^' + hashes + r'\s+' + header_regex + r'\n(?P<body>[\s\S]*?)' + stop,
         re.M,
     )
     out = []
@@ -90,28 +97,24 @@ def parse_preguntas():
     return preguntas
 
 
-# ── 2) Veredictos (Año Personal) ────────────────────────────────────────
+# ── 2) Veredictos por PREGUNTA (Año Personal) ───────────────────────────
 def parse_veredictos():
-    text = read("NUMA_54_Veredictos_AnoPersonal.md")
+    """veredicto[idPregunta][año] con idPregunta = 'vida-1' … 'hoy-7'.
+    Devuelve también {idPregunta: textoPregunta} para cotejar con el archivo de preguntas."""
+    text = read("NUMA_504_Veredictos_por_Pregunta.md")
     text = text.split("## Cómo se usa esto")[0]
     sections = split_territorio_sections(text)
-    veredicto = {t: {} for t in TERR_ORDER}
-
+    veredicto = {}
+    qtexts = {}
     for terr_name, terr_slug in TERR_SLUG.items():
         sec = sections.get(terr_name, "")
-        items = blocks(sec, r'Año Personal (\d+) — .+')
-        for (num,), body in items:
-            veredicto[terr_slug][num] = body
-
-    m = re.search(r'^##\s+Números maestros.*$', text, re.M)
-    if m:
-        maestros_text = text[m.end():]
-        items = blocks(maestros_text, r'Territorio (\w+) · Año Personal (\d+) — .+')
-        for (terr_name, num), body in items:
-            terr_slug = TERR_SLUG.get(terr_name)
-            if terr_slug:
-                veredicto[terr_slug][num] = body
-    return veredicto
+        for (num, qtext), qbody in blocks(sec, r'Pregunta (\d+):\s*(.+)', level=3):
+            qid = f"{terr_slug}-{num}"
+            qtexts[qid] = qtext.strip()
+            veredicto[qid] = {}
+            for (anio,), body in blocks(qbody, r'Año Personal (\d+) — .+', level=4):
+                veredicto[qid][anio] = body
+    return veredicto, qtexts
 
 
 # ── 3) Rasgos de carácter (Número de Vida) ──────────────────────────────
@@ -138,9 +141,14 @@ def parse_timing():
     return timing
 
 
+def die(msg):
+    print("ERROR: " + msg, file=sys.stderr)
+    sys.exit(1)
+
+
 def main():
     preguntas = parse_preguntas()
-    veredicto = parse_veredictos()
+    veredicto, qtexts = parse_veredictos()
     rasgo = parse_rasgos()
     timing = parse_timing()
 
@@ -154,39 +162,42 @@ def main():
 
     print(f"territorios: {n_terr}")
     print(f"preguntas:   {n_preg}")
-    print(f"veredictos:  {n_ver}")
+    print(f"veredictos:  {n_ver}  ({len(veredicto)} preguntas x 12 años)")
     print(f"rasgos:      {n_ras}")
     print(f"timing:      {n_tim}")
 
-    ok = (n_terr == 6 and n_preg == 42 and n_ver == 72 and n_ras == 72 and n_tim == 12)
+    ok = (n_terr == 6 and n_preg == 42 and n_ver == 504 and n_ras == 72 and n_tim == 12)
     if not ok:
         for t in TERR_ORDER:
-            print(f"  [{t}] preguntas={len(preguntas.get(t, []))} "
-                  f"veredicto={len(veredicto.get(t, {}))} "
+            nv = sum(len(veredicto.get(f"{t}-{i}", {})) for i in range(1, 8))
+            print(f"  [{t}] preguntas={len(preguntas.get(t, []))} veredicto={nv} "
                   f"rasgo={len(rasgo.get(t, {}))}")
-        print("CONTEOS NO CUADRAN — revisa el parser.", file=sys.stderr)
-        sys.exit(1)
+        die("CONTEOS NO CUADRAN — revisa el parser.")
 
     for t in TERR_ORDER:
         if len(preguntas[t]) != 7:
-            print(f"ERROR: territorio {t} tiene {len(preguntas[t])} preguntas, se esperaban 7", file=sys.stderr)
-            sys.exit(1)
-        for k in NUM_KEYS[:9]:
-            if k not in veredicto[t]:
-                print(f"ERROR: falta veredicto[{t}][{k}]", file=sys.stderr)
-                sys.exit(1)
-        for k in ["11", "22", "33"]:
-            if k not in veredicto[t]:
-                print(f"ERROR: falta veredicto maestro [{t}][{k}]", file=sys.stderr)
-                sys.exit(1)
+            die(f"territorio {t} tiene {len(preguntas[t])} preguntas, se esperaban 7")
+        for p in preguntas[t]:
+            qid = p["id"]
+            if qid not in veredicto:
+                die(f"falta veredicto para la pregunta {qid}")
+            if qtexts.get(qid) != p["q"]:
+                die(f"el texto de {qid} no coincide entre archivos:\n  preguntas: {p['q']}\n  veredictos: {qtexts.get(qid)}")
+            for k in NUM_KEYS:
+                if k not in veredicto[qid]:
+                    die(f"falta veredicto[{qid}][{k}]")
+                if not veredicto[qid][k] or "\n" in veredicto[qid][k]:
+                    die(f"veredicto[{qid}][{k}] vacío o con más de un párrafo")
         for k in NUM_KEYS:
             if k not in rasgo[t]:
-                print(f"ERROR: falta rasgo[{t}][{k}]", file=sys.stderr)
-                sys.exit(1)
+                die(f"falta rasgo[{t}][{k}]")
     for k in NUM_KEYS:
         if k not in timing:
-            print(f"ERROR: falta timing[{k}]", file=sys.stderr)
-            sys.exit(1)
+            die(f"falta timing[{k}]")
+
+    all_v = [veredicto[q][k] for q in veredicto for k in NUM_KEYS]
+    if len(set(all_v)) != len(all_v):
+        die("hay veredictos duplicados")
 
     obj = {
         "territorios": territorios,
