@@ -71,10 +71,12 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 @keyframes twinkle{0%{opacity:.7}100%{opacity:1}}
 /* OPCIÓN 1 — columna ancha centrada, responsive */
 #app{position:relative;z-index:1;max-width:640px;margin:0 auto;height:100dvh;display:flex;flex-direction:column}
+#app:has(#screen-landing.active),#app:has(#screen-auth.active){height:auto;min-height:100dvh}
+#screen-landing.active,#screen-auth.active{flex:0 0 auto}
 .screen{display:none;flex-direction:column;flex:1;min-height:0;animation:fadeUp .4s ease both}
 .screen.active{display:flex}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.landing{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100dvh;padding:1.5rem 1.5rem 3rem;text-align:center}
+.landing{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:1.5rem 1.5rem 3rem;text-align:center}
 .landing-eyebrow{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
 .landing-logo{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,8vw,3.3rem);font-weight:700;color:var(--gold2);letter-spacing:.14em;line-height:1;margin-bottom:.6rem;animation:fadeUp .6s .2s both;text-shadow:0 0 80px rgba(201,168,76,.25)}
 .landing-tagline{font-size:clamp(15px,3.5vw,19px);color:var(--muted);font-style:italic;letter-spacing:.03em;margin:1rem 0;animation:fadeUp .6s .3s both}
@@ -216,6 +218,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 .btn-reveal-combo{display:block;width:100%;max-width:360px;margin:1.6rem auto .8rem;padding:16px 22px;background:transparent;border:1.5px solid var(--gold);border-radius:var(--r);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;letter-spacing:.03em;color:var(--gold2);transition:all .25s}
 .btn-reveal-combo:hover,.btn-reveal-combo:active{background:rgba(201,168,76,.14);border-color:var(--gold2);color:var(--gold3)}
 .combo-reveal-wrap[hidden]{display:none}
+.game-card[hidden],.orac-label[hidden],.wc-ribbon[hidden],.numa-terrs[hidden]{display:none!important}
 /* Fin bloque .btn-reveal-combo / .combo-reveal-wrap -- anadido 1sep2026 (Cambio D: combinacion tras boton) */
 .combo-title-wrap{text-align:center;margin:1.8rem 0 .6rem}
 .combo-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(20px,5vw,26px);color:var(--gold2);letter-spacing:.02em;text-shadow:0 0 30px rgba(201,168,76,.25)}
@@ -1644,7 +1647,7 @@ function renderCiclos(tipo){
   body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
 }
 function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
-function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos','fuerzas'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos',fuerzas:'nav-hoy'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
+function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos','fuerzas'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'/* 3sep2026: en zh.html el boton #nav-ciclos SI existe en la bottom-nav (a diferencia de index.html, donde salio del menu el 1 sep). Apuntar a nav-oraculos aqui iluminaria un boton distinto del pulsado. NO cambiar sin reestructurar antes el menu chino. */,fuerzas:'nav-hoy'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
 // ─── ONBOARDING: cada dato enciende un motor (nombre→Numerología; nacimiento→Astro+Luna+Chino; ciudades→Geo) ───
 const MCHIP_COLORS=['#7bd0ff','#ff9ec7','#cdd6ff','#ffcaa6','#7bf0b0'];
 function chargeMotors(){
@@ -2108,7 +2111,7 @@ function renderDuelResult(duel,name){
   const L=wcLang();const T=WC_I18N[L];
   const sportNames=L==='zh'
     ?{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',americanfootball:'🏈 美式足球'}
-    :{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',americanfootball:'🏈 Fútbol Americano'};
+    :{football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',americanfootball:'🏈 美式足球'};
   const gameLabel=sportNames[STATE.sport]||'⚽ 体育';
   document.getElementById('result-game').textContent=gameLabel;
   document.getElementById('result-user').textContent=name;
@@ -2309,7 +2312,7 @@ function accInit(){try{accLockProfile()}catch(e){}accOpenStep(accFirstEmpty(),fa
 function editProfileData(){for(let i=1;i<=4;i++){const el=document.getElementById('acc-'+i);if(el)el.classList.remove('profile-locked');}showTab('form');accOpenStep(1,true);}
 function wcRibbonGo(){
   showTab('form');accOpenStep(5,false);
-  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="sports"]');if(el)quickLaunch(el)},200);
+  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="sports"]');if(el&&!el.hidden)quickLaunch(el)},200); // 1sep2026: no autolanzar Sports mientras la tarjeta esta oculta (Cambio E)
 }
 (function(){
   for(let i=1;i<=4;i++){(function(n){
@@ -2975,6 +2978,7 @@ function applyStaticLang(l){
   if(l==='zh')return;
   if(!__uiES)captureStaticES();
   UI_EN.forEach(e=>{const sel=e[0],en=e[1],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{const v=l==='en'?en:__uiES[sel+'|'+i];if(v==null)return;if(kind==='ph')el.placeholder=v;else if(kind==='html')el.innerHTML=v;else el.textContent=v})}catch(err){}});
+  try{document.documentElement.classList.toggle('lang-en',l==='en')}catch(e){}
   applyChipLang(l);
   try{applyShareI18n()}catch(e){}
   try{if(typeof populateLeagues==='function'&&STATE.game==='sports')populateLeagues(STATE.sport)}catch(e){}
@@ -3788,7 +3792,7 @@ function dreamAgain(){
 function dreamUpsell(){
   dreamClose();
   try{showTab('hoy');}catch(e){}
-  const el=document.querySelector('.game-grid .game-card[data-game="destiny"]')||document.querySelector('.game-grid .game-card[data-game="daily"]');
+  const el=document.querySelector('.game-grid .game-card[data-game="daily"]'); // 1sep2026: antes buscaba destiny, que ahora esta oculto (querySelector lo encontraria igual y se clicaria algo invisible)
   if(el){try{quickLaunch(el);}catch(e){}}
 }
 function dreamFirstSentence(text){if(!text)return'';const m=text.match(/^.*?[.!?。]/);return m?m[0]:text;}
@@ -3945,3 +3949,5 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+</body>
+</html>
