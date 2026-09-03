@@ -731,39 +731,35 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
   </div>
 </div>
 
+<script src="shared.js"></script>
 <script>
 const SUPABASE_URL='https://thtuzvhzwcoifgdyzrsz.supabase.co';
 const SUPABASE_KEY='sb_publishable_oTbjnp0Rp3GDgt66EBxhWA_DWTDWNKo';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 // Envoltura con timeout: si Supabase no responde (ej. Edge bloquea storage), continúa igual
-function withTimeout(promise,ms,fallback){
-  return Promise.race([
-    Promise.resolve(promise).catch(e=>{console.warn('Supabase call failed:',e);return fallback}),
-    new Promise(resolve=>setTimeout(()=>{console.warn('Supabase call timed out after',ms,'ms');resolve(fallback)},ms))
-  ]);
-}
+
 const STATE={lang:'zh',user:null,profile:null,game:'daily',sport:'football',sportMatch:null,lastResult:null,history:[],consultsToday:0,authMode:'register',chanceCount:3};
 
-function numReduce(n){if(n===11||n===22||n===33)return n;while(n>9){n=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(n===11||n===22||n===33)return n}return n}
-function nameNum(name){const m={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};return numReduce(name.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z]/g,'').split('').reduce((a,c)=>a+(m[c]||0),0))}
-function birthNum(d){return numReduce(d.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0))}
-function lifePath(n,b){return numReduce(birthNum(b))} // 1sep2026: el nombre (n) ya NO entra aqui -- el Numero de Vida sale solo de la fecha de nacimiento (estandar, verificable). El nombre ahora es ingrediente del Numero de Oro (ver goldenRaw). Se conserva el parametro n sin usar para no tocar todas las llamadas.
+
+
+
+ // 1sep2026: el nombre (n) ya NO entra aqui -- el Numero de Vida sale solo de la fecha de nacimiento (estandar, verificable). El nombre ahora es ingrediente del Numero de Oro (ver goldenRaw). Se conserva el parametro n sin usar para no tocar todas las llamadas.
 const ZODIAC=[{sign:'Capricornio',dates:[[1,1],[1,19]],planet:'Saturno',num:8,element:'Tierra'},{sign:'Acuario',dates:[[1,20],[2,18]],planet:'Urano',num:4,element:'Aire'},{sign:'Piscis',dates:[[2,19],[3,20]],planet:'Neptuno',num:7,element:'Agua'},{sign:'Aries',dates:[[3,21],[4,19]],planet:'Marte',num:9,element:'Fuego'},{sign:'Tauro',dates:[[4,20],[5,20]],planet:'Venus',num:6,element:'Tierra'},{sign:'Géminis',dates:[[5,21],[6,20]],planet:'Mercurio',num:5,element:'Aire'},{sign:'Cáncer',dates:[[6,21],[7,22]],planet:'Luna',num:2,element:'Agua'},{sign:'Leo',dates:[[7,23],[8,22]],planet:'Sol',num:1,element:'Fuego'},{sign:'Virgo',dates:[[8,23],[9,22]],planet:'Mercurio',num:5,element:'Tierra'},{sign:'Libra',dates:[[9,23],[10,22]],planet:'Venus',num:6,element:'Aire'},{sign:'Escorpio',dates:[[10,23],[11,21]],planet:'Plutón',num:9,element:'Agua'},{sign:'Sagitario',dates:[[11,22],[12,21]],planet:'Júpiter',num:3,element:'Fuego'},{sign:'Capricornio',dates:[[12,22],[12,31]],planet:'Saturno',num:8,element:'Tierra'}];
-function getZodiac(d){const p=d.split('-'),m=+p[1],day=+p[2];for(const z of ZODIAC){if((m===z.dates[0][0]&&day>=z.dates[0][1])||(m===z.dates[1][0]&&day<=z.dates[1][1]))return z}return ZODIAC[0]}
+
 const CHINESE=[{animal:'Rata',num:1},{animal:'Buey',num:2},{animal:'Tigre',num:3},{animal:'Conejo',num:4},{animal:'Dragón',num:5},{animal:'Serpiente',num:6},{animal:'Caballo',num:7},{animal:'Cabra',num:8},{animal:'Mono',num:9},{animal:'Gallo',num:1},{animal:'Perro',num:2},{animal:'Cerdo',num:3}];
-function getChinese(y){return CHINESE[(y-1900)%12]}
+
 const CNY_DATES={1920:'2-20',1921:'2-8',1922:'1-28',1923:'2-16',1924:'2-5',1925:'1-25',1926:'2-13',1927:'2-2',1928:'1-23',1929:'2-10',1930:'1-30',1931:'2-17',1932:'2-6',1933:'1-26',1934:'2-14',1935:'2-4',1936:'1-24',1937:'2-11',1938:'1-31',1939:'2-19',1940:'2-8',1941:'1-27',1942:'2-15',1943:'2-5',1944:'1-25',1945:'2-13',1946:'2-2',1947:'1-22',1948:'2-10',1949:'1-29',1950:'2-17',1951:'2-6',1952:'1-27',1953:'2-14',1954:'2-3',1955:'1-24',1956:'2-12',1957:'1-31',1958:'2-18',1959:'2-8',1960:'1-28',1961:'2-15',1962:'2-5',1963:'1-25',1964:'2-13',1965:'2-2',1966:'1-21',1967:'2-9',1968:'1-30',1969:'2-17',1970:'2-6',1971:'1-27',1972:'2-15',1973:'2-3',1974:'1-23',1975:'2-11',1976:'1-31',1977:'2-18',1978:'2-7',1979:'1-28',1980:'2-16',1981:'2-5',1982:'1-25',1983:'2-13',1984:'2-2',1985:'2-20',1986:'2-9',1987:'1-29',1988:'2-17',1989:'2-6',1990:'1-27',1991:'2-15',1992:'2-4',1993:'1-23',1994:'2-10',1995:'1-31',1996:'2-19',1997:'2-7',1998:'1-28',1999:'2-16',2000:'2-5',2001:'1-24',2002:'2-12',2003:'2-1',2004:'1-22',2005:'2-9',2006:'1-29',2007:'2-18',2008:'2-7',2009:'1-26',2010:'2-14',2011:'2-3',2012:'1-23',2013:'2-10',2014:'1-31',2015:'2-19',2016:'2-8',2017:'1-28',2018:'2-16',2019:'2-5',2020:'1-25',2021:'2-12',2022:'2-1',2023:'1-22',2024:'2-10',2025:'1-29',2026:'2-17',2027:'2-6',2028:'1-26',2029:'2-13',2030:'2-3'};
-function getChineseFromDate(dateStr){const p=String(dateStr).split('-'),y=+p[0],m=+p[1],day=+p[2],cny=CNY_DATES[y];let effY=y;if(cny){const cp=cny.split('-'),cm=+cp[0],cd=+cp[1];if(m<cm||(m===cm&&day<cd))effY=y-1}return CHINESE[((effY-1900)%12+12)%12]}
-function getMoon(d){const k=new Date('2000-01-06'),dt=new Date(d),p=(((dt-k)/(1000*60*60*24))%29.5306+29.5306)%29.5306,day=Math.round(p);let name,mult;if(p<1.85){name='Nueva';mult=.8}else if(p<7.38){name='Creciente';mult=1.0}else if(p<11.08){name='Cuarto creciente';mult=1.2}else if(p<14.77){name='Gibosa creciente';mult=1.3}else if(p<18.46){name='Llena';mult=1.5}else if(p<22.15){name='Gibosa menguante';mult=1.3}else if(p<25.85){name='Cuarto menguante';mult=1.1}else{name='Menguante';mult=.9}return{name,day,mult}}
-function cityEnergy(c){let h=0;for(let i=0;i<c.length;i++)h=((h<<5)-h+c.charCodeAt(i))|0;return numReduce(Math.abs(h%90)+1)}
+
+
+
 /* ─── CIUDADES (autocompletar + geoenergía real por coordenadas) ─── */
-function geoFromCoords(lat,lon){const h=Math.round(Math.abs(lat*1000))+Math.round(Math.abs(lon*1000));return numReduce(h%90+1)}
+
 const CITY_GEO={cityb:null,cityn:null};
 const CITY_LAST_MATCHES={cityb:[],cityn:[]};
 let CITY_DATA=null,CITY_DATA_LOADING=null;
-function loadCityData(){if(CITY_DATA)return Promise.resolve(CITY_DATA);if(CITY_DATA_LOADING)return CITY_DATA_LOADING;CITY_DATA_LOADING=fetch('cities.json').then(r=>r.json()).then(d=>{CITY_DATA=d;return d}).catch(()=>null);return CITY_DATA_LOADING}
-function normCity(s){return(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim()}
-function cityGeoVal(field,text){const g=CITY_GEO[field];if(g)return geoFromCoords(g.lat,g.lon);return cityEnergy(text||'')}
+
+
+
 function citySearch(field,val){
   CITY_GEO[field]=null;
   const box=document.getElementById('citysug-'+field);
@@ -795,8 +791,8 @@ function citySelect(field,i){
   const box=document.getElementById('citysug-'+field);if(box)box.classList.remove('show');
   try{chargeMotors()}catch(e){}
 }
-function citySuggestHide(field){const box=document.getElementById('citysug-'+field);if(box)box.classList.remove('show')}
-function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
+
+
 const GAME_CFG={daily:{count:6,max:45},lottery:{count:6,max:45},chance:{count:3,max:36,pick:true},destiny:{count:5,max:36},casino:{count:5,max:36},sports:{count:2,max:9,duel:true},signals:{signals:true},compat:{compat:true}};
 // ═══ SPORTS: ligas curadas verificadas en vivo contra TheSportsDB (21 jul 2026) ═══
 // El usuario nunca escribe texto libre: deporte → competición real → partido real.
@@ -810,12 +806,7 @@ const SPORTS_LEAGUES={
   baseball:[{id:4424,es:'MLB',en:'MLB',zh:'MLB'}],
   tennis:[]
 };
-function sportsSeasonStr(sport,d){
-  const y=d.getFullYear();
-  if(sport==='football'){const m=d.getMonth()+1;return m>=7?(y+'-'+(y+1)):((y-1)+'-'+y);}
-  if(sport==='americanfootball')return String(d.getMonth()+1<=2?y-1:y);
-  return String(y); // basketball (NBA) y baseball (MLB): temporada = año en curso
-}
+
 const WC_I18N={
 es:{matchLabel:'📅 官方赛程 — FIFA 日程',matchHint:'✦ 比赛的日期与场地，将激活五种力量',tbd:'equipos por definir, escríbelos tú',free:'✍️ Otro partido (escribir equipos libremente)',rankLine:'Balanza terrenal — Ranking FIFA: {a} #{ra} · {b} #{rb}',fieldLabel:'CAMPO ENERGÉTICO',favorLabel:'✦ 宇宙眷顾 ✦',drawLabel:'✦ Las Energías se Entrelazan ✦',drawName:'EMPATE CÓSMICO',sealT:'ENERGÍA DEPORTIVA',sealS:'Los cinco motores midieron el campo energético del partido',goldT:'✦ Energía del Favorecido ✦',goldTD:'✦ Equilibrio Energético ✦',goldName:'La resonancia dominante del encuentro',goldS:'Porción del campo energético que domina hoy',goldSD:'Las vibraciones se neutralizan en este encuentro',
 phi:'La raíz pitagórica del nombre de <strong>{win}</strong> entra en conjugación armónica con el número de la fecha del encuentro y la geoenergía de la sede, bajo la <strong>luna {moon}</strong> (día {day}). Esa resonancia le entrega el <strong>{wp}%</strong> del campo energético del partido.',
@@ -841,13 +832,13 @@ interpD:'{n}，五种力量为这一日期与场地融合了两队的数字，�
 rankTail:' — FIFA排名（第{rw}位 对 第{rl}位）这一人间印记也印证了数字的低语',
 closer:'本解读反映今日宇宙能量 — 足球如人生，总有惊喜。Numbers 是娱乐与灵感。',
 confDraw:'⚡ 振动几乎相同 — 平局是非常可能的结果',confKO:'⚡ 能量如双生 — 将由最微小的细节决定',confLeve:'⚡ 宇宙优势轻微 — 势均力敌，胜负难料',confMod:'⚡ 优势适中 — 能量倾斜天平',confClara:'⚡ 宇宙优势明显 — 五种力量指向同一方向'}};
-function wcLang(){try{if(typeof uiLang==='function')return uiLang()}catch(e){}return(typeof STATE!=='undefined'&&STATE.lang==='zh')?'zh':'es'}
-function wcLi(){const l=wcLang();return l==='en'?1:l==='zh'?2:0}
-function wcFmtDate(d){const l=wcLang();const p=d.split('-');const m=+p[1],day=+p[2];if(l==='zh')return m+'月'+day+'日';const mes=l==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return l==='en'?(mes[m-1]+' '+day):(day+' '+mes[m-1])}
-function wcRed9(n){n=numReduce(n);if(n>9)n=(n%9)||9;return n}
+
+
+
+
 // ═══ LOS 5 ORÁCULOS: regentes planetarios del día + año chino en curso + paneles por motor ═══
 const DAY_RULERS=[{p:'el Sol',en:'the Sun',zh:'太阳',n:1},{p:'la Luna',en:'the Moon',zh:'月亮',n:2},{p:'Marte',en:'Mars',zh:'火星',n:9},{p:'Mercurio',en:'Mercury',zh:'水星',n:5},{p:'Júpiter',en:'Jupiter',zh:'木星',n:3},{p:'Venus',en:'Venus',zh:'金星',n:6},{p:'Saturno',en:'Saturn',zh:'土星',n:8}];
-function getDayRuler(d){return DAY_RULERS[new Date(d+'T12:00:00').getDay()]}
+
 const MOTOR_I18N={
 es:{lock:'✦ Este oráculo está sellado — su número aguarda en el plano Pro ✦',lockBtn:'用 Pro 解锁 →',
 num:{t:'☿ Oráculo de la Numerología',x:'Tu esencia numerológica vibra en el <strong>{ev}</strong>. Fundida con el número del día, hoy te entrega el <strong>{dn}</strong>. Úsalo en decisiones personales y nuevos comienzos.'},
@@ -867,95 +858,11 @@ ast:{t:'♈ 星辰神谕',x:'你的星座<strong>{sign}</strong>今日与主宰�
 moon:{t:'🌙 月亮神谕',x:'<strong>{moonName}</strong>正行至周期第{ev}天。它的脉动与今日交汇，为你送上<strong>{dn}</strong>。直觉之数：相信你的感觉。'},
 chi:{t:'🐉 东方神谕',x:'你属<strong>{animal}</strong>，今年是<strong>{yearAnimal}</strong>年。两者相遇，诞生你的<strong>{dn}</strong>。机遇与盟约之数。'},
 geo:{t:'🌎 大地神谕',x:'你双城的能量振动于<strong>{ev}</strong>。与今日交汇后，为你送上<strong>{dn}</strong>。出行之数：旅程、地点、变化。'}}};
-function openMotorPanel(key){
-  const lr=STATE.lastResult;if(!lr)return;
-  const r=lr.result||lr.duel;if(!r||!r.engines)return;
-  const panel=document.getElementById('motor-panel');if(!panel)return;
-  if(panel.dataset.key===key&&!panel.classList.contains('hidden')){panel.classList.add('hidden');panel.dataset.key='';return;}
-  const L=wcLang();const M=MOTOR_I18N[L];
-  const free=key==='num'||key==='moon';
-  if(!free&&!isPro()){
-    panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-locked">'+M.lock+'</div><button class="btn-pct" style="margin-top:.85rem" onclick="showTab(\'upgrade\')">'+M.lockBtn+'</button>';
-    panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});return;
-  }
-  const today=new Date().toISOString().split('T')[0];
-  const tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
-  const ev=key==='moon'?r.moon.day:r.engines[key];
-  let dn=numReduce((key==='moon'?numReduce(r.moon.day):ev)+tn);
-  if(dn>9)dn=(dn%9)||9;
-  if(L==='zh'&&dn===4)dn=5;
-  const ruler=getDayRuler(today);
-  const rulerName=L==='en'?ruler.en:L==='zh'?ruler.zh:ruler.p;
-  const moonName=(L==='zh'&&typeof tMoon==='function')?tMoon(r.moon.name):L==='en'?(MOON_EN[r.moon.name]||r.moon.name):r.moon.name;
-  const sign=(L==='zh'&&typeof tZodiac==='function')?tZodiac(r.zodiac.sign):L==='en'?(SIGN_EN[r.zodiac.sign]||r.zodiac.sign):r.zodiac.sign;
-  const yAni=getChineseFromDate(today);
-  const yan=(L==='zh'&&typeof tAnimal==='function')?tAnimal(yAni.animal):L==='en'?(ANIMAL_EN[yAni.animal]||yAni.animal):yAni.animal;
-  const ani=(L==='zh'&&typeof tAnimal==='function')?tAnimal(r.chinese.animal):L==='en'?(ANIMAL_EN[r.chinese.animal]||r.chinese.animal):r.chinese.animal;
-  const planetName=L==='en'?(PLANET_EN[r.zodiac.planet]||r.zodiac.planet):r.zodiac.planet;
-  const txt=M[key].x.replace('{ev}',ev).replace(/\{dn\}/g,dn).replace('{sign}',sign).replace('{planet}',planetName).replace('{ruler}',rulerName).replace('{moonName}',moonName).replace('{animal}',ani).replace('{yearAnimal}',yan);
-  panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-orb">'+dn+'</div><div class="mp-text">'+txt+'</div>';
-  panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});
-}
-function computeDuel(teamA,teamB,name,birth,cityB,cityN,today,match){
-  // Campo energético en %: numerología + astro + luna + chino + geo de los dos rivales. Sin sesgo de ranking externo.
-  const effDate=(match&&match.d)?match.d:today;
-  const lp=lifePath(name,birth),moon=getMoon(effDate),geoB=cityGeoVal('cityb',cityB),geoN=cityGeoVal('cityn',cityN);
-  const venueGeo=(match&&match.venueText)?cityEnergy(match.venueText):0;
-  const geo=numReduce(geoB+geoN+venueGeo);
-  const todayN=numReduce(effDate.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
-  const zodiac=getZodiac(birth),chinese=getChineseFromDate(birth);
-  const astV=numReduce(zodiac.num+getDayRuler(effDate).n),chiV=numReduce(chinese.num+getChineseFromDate(effDate).num);
-  function cosmicScore(teamName){
-    const tn=nameNum(teamName);
-    const seed=Math.abs((tn*137+lp*53+todayN*97+moon.day*31+geo*71+venueGeo*43)&0x7fffffff);
-    const rand=seededRand(seed);
-    let raw=tn+todayN+Math.round(moon.mult*2)+Math.floor(rand()*3);
-    return Math.max(1,wcRed9(raw));
-  }
-  const sA=cosmicScore(teamA),sB=cosmicScore(teamB);
-  let pctA=Math.round(100*sA*sA/(sA*sA+sB*sB));
-  if(wcLang()==='zh'){if(pctA===44)pctA=45;else if(pctA===56)pctA=57;else if(pctA===4)pctA=5;else if(pctA===96)pctA=97;}
-  if(pctA<3)pctA=3;if(pctA>97)pctA=97;
-  const pctB=100-pctA;
-  const diff=Math.abs(pctA-pctB);
-  const sportNoDraw=(typeof STATE!=='undefined'&&STATE.game==='sports'&&['tennis','basketball','americanfootball','volleyball','baseball'].indexOf(STATE.sport)>=0);
-  const isDraw=!sportNoDraw&&diff<=8;
-  let winner,loser;
-  if(pctA>pctB){winner=teamA;loser=teamB;}
-  else if(pctB>pctA){winner=teamB;loser=teamA;}
-  else{winner=nameNum(teamA)>=nameNum(teamB)?teamA:teamB;loser=winner===teamA?teamB:teamA;}
-  const TC=WC_I18N[wcLang()];
-  let confidence;
-  if(isDraw)confidence=TC.confDraw;
-  else if(diff<=8)confidence=TC.confKO;
-  else if(diff<=16)confidence=TC.confLeve;
-  else if(diff<=30)confidence=TC.confMod;
-  else confidence=TC.confClara;
-  return{teamA,teamB,pctA,pctB,scoreA:pctA,scoreB:pctB,isDraw,winner,loser,confidence,match:match||null,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo},moon,lp,zodiac,chinese,geo};
-}
-function getCulturalRules(lang){if(lang==='zh')return{blocked:[4,14,24,44],boost:[8,6,9,2],reduce:[]};if(lang==='en')return{blocked:[13],boost:[7,3,11],reduce:[]};return{blocked:[],boost:[7,3,11,22],reduce:[13]}}
-function computeNumbers(name,birth,cityB,cityN,game,lang,today){
-  const lp=lifePath(name,birth),zodiac=getZodiac(birth),chinese=getChineseFromDate(birth),moon=getMoon(today),eB=cityGeoVal('cityb',cityB),eN=cityGeoVal('cityn',cityN),geo=numReduce(eB+eN),tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
-  const astV=numReduce(zodiac.num+getDayRuler(today).n),chiV=numReduce(chinese.num+getChineseFromDate(today).num);
-  const seed=Math.abs(lp*137+astV*29+chiV*53+Math.round(moon.mult*100)*17+geo*41+tn*73+nameNum(name)*61+eB*19+eN*31);
-  const rules=getCulturalRules(lang),cfg=GAME_CFG[game],rand=seededRand(seed),pool=[];
-  const userPicks=!!cfg.pick;
-  // El usuario puede elegir cuántos números quiere (1-3); por defecto 3
-  const wantCount=userPicks?Math.min(3,Math.max(1,(STATE.chanceCount||3))):cfg.count;
-  for(let i=(cfg.max===9?0:1);i<=cfg.max;i++){if(rules.blocked.includes(i))continue;const w=rules.boost.includes(i)?3:rules.reduce.includes(i)?0:1;for(let j=0;j<w;j++)pool.push(i)}
-  for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
-  const seen=new Set(),nums=[];for(const n of pool){if(!seen.has(n)){seen.add(n);nums.push(n)}if(nums.length>=wantCount)break}
-  nums.sort((a,b)=>a-b);
-  // NÚMERO DE ORO: fusión de los 5 motores + día, reducido a dígito maestro
-  const goldenRaw=lp+astV+chiV+moon.day+geo+tn+nameNum(name); // 1sep2026: se suma el nombre aqui porque el Numero de Vida (lp) ya no lo incluye -- sin esto, dos personas nacidas el mismo dia con las mismas ciudades tendrian el mismo Numero de Oro toda su vida.
-  const golden=numReduce(goldenRaw);
-  // ¿El número de oro entra en el rango de la lectura?
-  const goldenFits=golden>=(cfg.max===9?0:1)&&golden<=cfg.max&&!rules.blocked.includes(golden);
-  // El número de oro se muestra arriba en su propio círculo — NO se incluye en la secuencia
-  let goldenInPlay=goldenFits;
-  return{nums,lp,zodiac,chinese,moon,geo,golden,goldenInPlay,engines:{num:lp,ast:astV,moon:moon.day,chi:chiV,geo}};
-}
-function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+
+
+
+
+
 /* ─── CICLOS PERSONALES ─── */
 const CICLO_LABELS={
   es:{dia:'Número Personal del Día',mes:'Número Personal del Mes',ano:'Año Personal',dia_sub:'Tu energía de las próximas 24 horas',mes_sub:'El tono de este mes para ti',ano_sub:'Tu vibración durante todo este año'},
@@ -993,12 +900,12 @@ const CICLO_INTERP={
     33:{label:'Master of Love',narr:'Vibration of elevated service and creativity. Your presence has the power to inspire others. Use it with awareness and generosity.'}
   }
 };
-function cicloReduce(n){while(n>9&&n!==11&&n!==22&&n!==33){n=String(n).split('').map(Number).reduce((a,b)=>a+b,0);}return n;}
-function getPersonalYear(birth,year){if(!birth)return null;const p=birth.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);const yDigits=String(year).split('').map(Number).reduce((a,b)=>a+b,0);return cicloReduce(d+m+yDigits);}
-function getPersonalMonth(birth,month,year){const py=getPersonalYear(birth,year);if(py===null)return null;return cicloReduce(py+month);}
-function getPersonalDay(birth,day,month,year){const pm=getPersonalMonth(birth,month,year);if(pm===null)return null;return cicloReduce(pm+day);}
+
+
+
+
 STATE.cicloActivo='dia';
-function switchCiclo(tipo,btn){STATE.cicloActivo=tipo;document.querySelectorAll('.ciclo-tab-btn').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');renderCiclos(tipo);}
+
 function renderCiclos(tipo){
   const l=uiLang();
   const body=document.getElementById('ciclo-body');
@@ -1014,7 +921,7 @@ function renderCiclos(tipo){
   const interp=(CICLO_INTERP[l]||CICLO_INTERP.es)[num]||(CICLO_INTERP.es)[num]||{label:'',narr:''};
   body.innerHTML='<div class="ciclo-card"><div class="ciclo-num-row"><div class="ciclo-orb">'+num+'</div><div class="ciclo-info"><div class="ciclo-name">'+lbl+'</div><div class="ciclo-label">'+interp.label+'</div></div></div><div class="ciclo-narr">'+interp.narr+'</div></div><p style="text-align:center;font-size:13px;color:var(--muted);padding:0 1rem 6rem">'+sub+'</p>';
 }
-function maybeAskPush(){try{if(localStorage.getItem('push_asked'))return;localStorage.setItem('push_asked','1');if(window.OneSignalDeferred){OneSignalDeferred.push(function(OS){OS.Slidedown.promptPush();});}}catch(e){}}
+
 function showTab(t){if(t!=='numa')STATE.prevTab=t;['hoy','form','loading','result','profile','upgrade','numa','oraculos','ciclos','fuerzas'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.classList.add('hidden')});const tg=document.getElementById('tab-'+t);if(tg)tg.classList.remove('hidden');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const m={hoy:'nav-hoy',form:'nav-hoy',result:'nav-hoy',loading:'nav-hoy',profile:'nav-profile',upgrade:'nav-profile',numa:'nav-numa',oraculos:'nav-oraculos',ciclos:'nav-ciclos'/* 3sep2026: en zh.html el boton #nav-ciclos SI existe en la bottom-nav (a diferencia de index.html, donde salio del menu el 1 sep). Apuntar a nav-oraculos aqui iluminaria un boton distinto del pulsado. NO cambiar sin reestructurar antes el menu chino. */,fuerzas:'nav-hoy'};if(m[t]){const nb=document.getElementById(m[t]);if(nb)nb.classList.add('active');}if(t==='profile')renderProfile();if(t==='upgrade')detectRegionPricing();if(t==='result'){applyShareI18n();applyInterpLock();(function(){var lr=STATE.lastResult;if(lr){var r=lr.result||lr.duel;if(r&&r.engines&&r.moon){try{updateEngines(r.engines,r.moon)}catch(e){}}}})();setTimeout(maybeShowInstallPrompt,6000);setTimeout(maybeAskPush,5000)}if(t==='form'){try{accInit()}catch(e){}try{chargeMotors()}catch(e){}}if(t==='numa')numaOpen();if(t==='ciclos')renderCiclos(STATE.cicloActivo||'dia');const es=document.querySelector('.engines-strip');if(es)es.style.display='none';const wcr=document.getElementById('wc-ribbon');if(wcr)wcr.style.display=(t==='hoy'||t==='result')?'none':'';}
 // ─── ONBOARDING: cada dato enciende un motor (nombre→Numerología; nacimiento→Astro+Luna+Chino; ciudades→Geo) ───
 const MCHIP_COLORS=['#7bd0ff','#ff9ec7','#cdd6ff','#ffcaa6','#7bf0b0'];
@@ -1035,21 +942,7 @@ function chargeMotors(){
   try{if((document.getElementById('consulta-sel')||{}).dataset&&document.getElementById('consulta-sel').dataset.g!==(STATE.game||'daily'))renderConsultaSel();}catch(e){}
 }
 // ─── HOY: muestra el 每日黄金数字 (orbital) en modo solo-lectura, sin gastar la consulta diaria ───
-function openHoy(){
-  const nameEl=document.getElementById('inp-name'),birthEl=document.getElementById('inp-birth');
-  const name=nameEl?nameEl.value.trim():'',birth=birthEl?birthEl.value:'';
-  if(!name||!birth){showTab('form');return;}
-  try{
-    const cityB=(document.getElementById('inp-cityb')||{value:''}).value.trim();
-    const cityN=(document.getElementById('inp-cityn')||{value:''}).value.trim();
-    const today=new Date().toISOString().split('T')[0];
-    STATE.game='daily';
-    const r=computeNumbers(name,birth,cityB,cityN,'daily',STATE.lang,today);
-    STATE.lastResult={result:r,name:name,game:'daily'};
-    renderHoyView(r,name);
-    showTab('hoy');
-  }catch(e){console.warn('openHoy fallback:',e);showTab('form');}
-}
+
 // ─── HOY v2 — render de la pantalla limpia (fiel al prototipo) ───
 const HOY_MOTORS=[
   ['num','☿','#7bd0ff','命理','命理把你的姓名与生日凝练为 {v}。这是你的根基力量——宇宙借以认出你的振动。','Numerology','Numerology distills your name and date into the {v}. It is your base engine — the vibration the cosmos recognizes you by.'],
@@ -1058,7 +951,7 @@ const HOY_MOTORS=[
   ['chi','🐉','#ffcaa6','中国历法','中国历法为今日印上 {v}：关于你的耐心与时机的千年智慧。','Chinese Cal.','The Chinese calendar imprints the {v} today: ancient wisdom about your patience and timing.'],
   ['geo','🌎','#7bf0b0','地能','你双城的能量在 {v} 中震动：你所栖居之地的场，塑造你的一天。','Geoenergy','The energy of your cities vibrates in the {v}: the field of the place you inhabit shapes your day.']
 ];
-function hoyMotorVals(r){return {num:r.engines.num,ast:r.engines.ast,moon:r.moon.day+'d',chi:r.engines.chi,geo:r.engines.geo};}
+
 function renderHoyView(r,name){
   const gEl=document.getElementById('hoy-golden');if(gEl)gEl.textContent=r.golden;
   const cfg=(typeof GAME_CFG!=='undefined')?GAME_CFG.daily:null;
@@ -1073,18 +966,7 @@ function renderHoyView(r,name){
   goldRemember(r.golden);renderStreak();
 }
 // ─── FASE 4 — Racha diaria + memoria del Número de Oro ───
-function streakTouch(){
-  try{
-    const today=new Date().toISOString().split('T')[0];
-    let s={n:0,last:''};
-    try{s=JSON.parse(localStorage.getItem('no_streak'))||s}catch(e){}
-    if(s.last===today)return{n:s.n,fresh:false};
-    const y=new Date(Date.now()-864e5).toISOString().split('T')[0];
-    s.n=(s.last===y)?(s.n+1):1;s.last=today;
-    localStorage.setItem('no_streak',JSON.stringify(s));
-    return{n:s.n,fresh:true};
-  }catch(e){return{n:0,fresh:false};}
-}
+
 function renderStreak(){
   const el=document.getElementById('hoy-streak');if(!el)return;
   const st=streakTouch();if(!st.n){el.textContent='';return;}
@@ -1097,36 +979,9 @@ function renderStreak(){
   el.classList.remove('milestone');
   if(st.fresh&&(n===3||n===7||n===21)){void el.offsetWidth;el.classList.add('milestone');}
 }
-function goldRemember(g){
-  try{
-    const today=new Date().toISOString().split('T')[0];
-    let m={};try{m=JSON.parse(localStorage.getItem('no_gold'))||{}}catch(e){}
-    if(m.date!==today){m.prevDate=m.date;m.prevNum=m.num;}
-    m.date=today;m.num=g;
-    localStorage.setItem('no_gold',JSON.stringify(m));
-  }catch(e){}
-}
-function goldYesterday(){
-  try{
-    const m=JSON.parse(localStorage.getItem('no_gold'))||{};
-    const y=new Date(Date.now()-864e5).toISOString().split('T')[0];
-    return(m.prevDate===y&&m.prevNum!=null)?m.prevNum:null;
-  }catch(e){return null;}
-}
-function placeHoyMotors(r){
-  const o=document.getElementById('hoy-orbit');if(!o)return;
-  o.querySelectorAll('.hoy-mini').forEach(m=>m.remove());
-  const vals=hoyMotorVals(r), R=112, c=142;
-  HOY_MOTORS.forEach((m,i)=>{
-    const a=(i/HOY_MOTORS.length)*2*Math.PI - Math.PI/2;
-    const x=c+R*Math.cos(a), y=c+R*Math.sin(a);
-    const d=document.createElement('div');d.className='hoy-mini';
-    d.style.left=x+'px';d.style.top=y+'px';d.style.color=m[2];d.style.borderColor=m[2]+'66';d.style.boxShadow='0 0 10px '+m[2]+'44';
-    d.innerHTML=m[1]+'<b style="color:'+m[2]+'">'+vals[m[0]]+'</b>';
-    d.onclick=()=>openHoySheet(i);
-    o.appendChild(d);
-  });
-}
+
+
+
 function openHoySheet(i){
   const m=HOY_MOTORS[i];const r=(STATE.lastResult&&STATE.lastResult.result)||null;const v=r?hoyMotorVals(r)[m[0]]:'';
   const en=(typeof uiLang==='function'&&uiLang()==='en');
@@ -1134,7 +989,7 @@ function openHoySheet(i){
   document.getElementById('hoy-sheet').innerHTML='<div class="hs-ic" style="color:'+m[2]+'">'+m[1]+'</div><div class="hs-horizon">'+L('力量','Engine')+' · '+label+'</div><h2>'+L('今日带来了 ','Today it added the ')+v+'</h2><p>'+txt+'</p><button class="btn-outline-hoy" onclick="closeHoySheet()">'+L('明白了 ✦','Got it ✦')+'</button>';
   document.getElementById('hoy-sheet-bg').classList.add('show');
 }
-function closeHoySheet(){const bg=document.getElementById('hoy-sheet-bg');if(bg)bg.classList.remove('show');}
+
 function showFuerzas(){
   var lr=STATE.lastResult,r=lr&&lr.result,en=(typeof uiLang==='function'&&uiLang()==='en');
   var setT=function(id,zh,e2){var el=document.getElementById(id);if(el)el.textContent=en?e2:zh;};
@@ -1272,10 +1127,10 @@ NUMA_DATA.extra={
   semana:{es:['La semana trae movimiento, {nombre}. Tu energía ({personal}) sube hacia el {poder}: úsala para empezar algo que venías posponiendo. Los primeros días marcan el tono — no los dejes pasar sin intención. Lo que siembres ahora, lo cosechas pronto.','Semana de siembra, {nombre}. Lo que pongas en marcha ahora con intención dará fruto en los próximos días. No necesitas resultados inmediatos, solo consistencia. Confía en el proceso más que en la velocidad.','Esta semana pide foco más que actividad, {nombre}. Tu {personal} te invita a elegir menos cosas pero hacerlas mejor. Los días intermedios pueden sentirse lentos — es parte del proceso, no una señal de que algo va mal. Hacia el final, la energía se acomoda a tu favor.'],
           en:['The week brings movement, {nombre}. Your energy ({personal}) rises toward {poder}: use it to start something you\'ve been postponing. The first days set the tone — don\'t let them pass without intention. What you plant now, you\'ll harvest soon.','A week for sowing, {nombre}. What you set in motion now with intention will bear fruit in the coming days. You don\'t need immediate results, just consistency. Trust the process more than the speed.','This week calls for focus more than activity, {nombre}. Your {personal} invites you to choose fewer things and do them better. The middle days may feel slow — that\'s part of the process, not a sign something\'s wrong. By the end, the energy settles in your favor.']}
 };
-function numaGetDayNum(){const t=new Date(),s=`${t.getFullYear()}${t.getMonth()+1}${t.getDate()}`;return numReduce([...s].reduce((a,c)=>a+parseInt(c),0));}
-function numaHarmony(lp,dn){const s=numReduce(lp+dn);const m={1:82,2:58,3:36,4:42,5:88,6:65,7:72,8:92,9:60,11:91,22:96,33:88};const b=m[s]||65,v=((new Date().getDate()+new Date().getMonth())%7)*2-6;return Math.min(98,Math.max(18,b+v));}
-function numaFill(tpl,vars){return tpl.replace(/\{(\w+)\}/g,(_,k)=>vars[k]??'?')}
-function numaRand(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
+
+
+
 function numaVars(){
   const lr=STATE.lastResult,r=lr?.result,p=STATE.profile,lang=STATE.lang||'es';
   let lp=r?.lp;if(!lp&&p?.full_name&&p?.birth_date){try{lp=lifePath(p.full_name,p.birth_date)}catch(e){}}lp=lp||5;
@@ -1305,7 +1160,7 @@ function numaGreet(){
     numaAddBubble(numaFill(numaRand(g),vars),false,900);
   }else{numaAddBubble(numaFill(numaRand(g),vars),false);}
 }
-function numaClose(){showTab(STATE.prevTab||'form');}
+
 function numaAsk(q){
   try{
     const lang=STATE.lang||'es',vars=numaVars();
@@ -1326,8 +1181,8 @@ function numaAsk(q){
 }
 function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='es'||l==='en'){try{localStorage.setItem('no_lang',l)}catch(e){}location.href='index.html';return}if(l==='zh'){return}STATE.lang=l;document.title=l==='en'?'NUMBERS ORACLE ✦ — Your Golden Number for Today':'NUMBERS ORACLE ✦ — Tu Número de Oro del Día';document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.lang-btn[data-lang="'+l+'"]').forEach(x=>x.classList.add('active'));try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{applyConsumptionOnly()}catch(e){}try{accUpdate()}catch(e){}try{const tabR=document.getElementById('tab-result');if(tabR&&!tabR.classList.contains('hidden')&&STATE.lastResult){const r=STATE.lastResult.result;const games=I18N_NEW[l==='en'?'en':'es'].games;const rg=document.getElementById('result-game');if(rg&&STATE.game)rg.textContent=games[STATE.game]||STATE.game;const phi=document.getElementById('golden-phi');if(phi&&r){phi.innerHTML=l==='en'?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`:`这个数字<strong>不是你的生命数字</strong>——它不同，也更有力量：它诞生于<strong>你五种力量与今日能量的交融</strong>。你的生命数字（${r.lp}）恒定不变，而黄金数字每天都随月相、中国历法与当日的能量流转。正是从这场交融中，浮现出<strong>${r.golden}</strong>——此刻与你最契合的数字。`}}}catch(e){}}
 function goAuth(mode){STATE.authMode=mode;goTo('screen-auth');const t=mode==='register';document.getElementById('auth-name-field').style.display=t?'block':'none';document.getElementById('auth-btn-main').textContent=t?L('创建账号','Create account'):L('登录','Log in');document.getElementById('auth-toggle').innerHTML=t?L('已有账号？<span onclick="toggleAuth()">登录</span>','Already have an account? <span onclick="toggleAuth()">Log in</span>'):L('还没有账号？<span onclick="toggleAuth()">注册</span>','No account yet? <span onclick="toggleAuth()">Sign up</span>');document.getElementById('auth-sub').textContent=t?L('为你，写一份只属于你的神谕。','Create your personal oracle'):L('欢迎回来，数字一直记得你。','Welcome back');document.getElementById('auth-forgot-link').classList.toggle('hidden',t);}
-function showForgotPw(){goTo('screen-forgot');}
-function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
+
+
 // ===== 体育：运动 → 真实赛事 → 真实赛程（TheSportsDB 公共 key 123）=====
 // 懒加载：只有点击某个运动/赛事时才请求 API。缓存：只保存已筛选的未来约15场比赛
 // （不是整个赛季原始数据），按赛事和当天存于 localStorage。用户永远不手动输入文字——
@@ -1337,7 +1192,7 @@ zh:{leagueIntro:'🏆 选择赛事',matchLabel:'📅 选择比赛',hint:'✦ 比
 en:{leagueIntro:'🏆 Choose the competition',matchLabel:'📅 Choose the match',hint:'✦ Match date and venue feed your 5 forces',loading:'Loading matches...',empty:'No upcoming matches in this competition — try another',emptySport:'No competitions with upcoming matches in this sport right now. Check back soon.'}};
 function sptI18n(){return SPORT_MATCH_I18N[uiLang()==='en'?'en':'zh']}
 let SPORT_EVENTS=[];
-function sportLeagueCacheKey(leagueId){return 'no_sports_league_'+leagueId+'_'+new Date().toISOString().split('T')[0]}
+
 async function fetchLeagueMatches(leagueId,sport){
   const ck=sportLeagueCacheKey(leagueId);
   try{const c=localStorage.getItem(ck);if(c){const p=JSON.parse(c);return p.err?null:p.events;}}catch(e){}
@@ -1355,10 +1210,7 @@ async function fetchLeagueMatches(leagueId,sport){
     return null;
   }
 }
-function renderLeagueEmptyState(msg){
-  const es=document.getElementById('league-empty-state');if(!es)return;
-  es.textContent=msg||'';es.classList.toggle('hidden',!msg);
-}
+
 async function populateLeagues(sport){
   const wrap=document.getElementById('league-selector-wrap'),box=document.getElementById('league-selector');
   const mwrap=document.getElementById('sport-match-wrap');
@@ -1389,48 +1241,9 @@ async function populateLeagues(sport){
   const chosen=results.find(function(r){return r.events.length>0})||results[0];
   selLeague(box.children[results.indexOf(chosen)],chosen.events);
 }
-function selLeague(el,events){
-  document.querySelectorAll('#league-selector .sport-chip').forEach(c=>c.classList.remove('sel'));
-  if(el)el.classList.add('sel');
-  SPORT_EVENTS=events||[];
-  const mwrap=document.getElementById('sport-match-wrap'),sel=document.getElementById('sport-match-select');
-  const T=sptI18n();
-  if(!mwrap||!sel)return;
-  if(SPORT_EVENTS.length===0){mwrap.classList.add('hidden');renderLeagueEmptyState(T.empty);STATE.sportMatch=null;updateTeamPreview();return;}
-  renderLeagueEmptyState('');
-  mwrap.classList.remove('hidden');
-  document.getElementById('sport-match-label').textContent=T.matchLabel;
-  document.getElementById('sport-match-hint').textContent=T.hint;
-  sel.innerHTML='';
-  SPORT_EVENTS.forEach(function(e,i){
-    const o=document.createElement('option');o.value='m'+i;
-    const time=e.strTimeLocal?e.strTimeLocal.slice(0,5):(e.strTime?e.strTime.slice(0,5):'');
-    o.textContent=wcFmtDate(e.dateEvent)+' · '+e.strHomeTeam+' vs '+e.strAwayTeam+(time?(' · '+time):'');
-    sel.appendChild(o);
-  });
-  selSportMatch();
-}
-function selSportMatch(){
-  const sel=document.getElementById('sport-match-select');if(!sel)return;
-  const v=sel.value;
-  if(v&&v.charAt(0)==='m'&&SPORT_EVENTS[parseInt(v.slice(1))]){
-    const e=SPORT_EVENTS[parseInt(v.slice(1))];
-    const venueText=[e.strVenue,e.strCity,e.strCountry].filter(Boolean).join(', ');
-    STATE.sportMatch={d:e.dateEvent,venueText:venueText,teamA:e.strHomeTeam,teamB:e.strAwayTeam};
-  }else{
-    STATE.sportMatch=null;
-  }
-  updateTeamPreview();
-}
-function updateTeamPreview(){
-  const prev=document.getElementById('duel-team-preview'),a=document.getElementById('inp-team-a'),b=document.getElementById('inp-team-b');
-  if(!prev||!a||!b)return;
-  if(STATE.sportMatch&&STATE.sportMatch.teamA&&STATE.sportMatch.teamB){
-    a.value=STATE.sportMatch.teamA;b.value=STATE.sportMatch.teamB;prev.classList.remove('hidden');
-  }else{
-    a.value='';b.value='';prev.classList.add('hidden');
-  }
-}
+
+
+
 function selSport(el){
   document.querySelectorAll('#sport-selector .sport-chip').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
@@ -1441,23 +1254,8 @@ function selSport(el){
   updateTeamPreview();
   populateLeagues(STATE.sport);
 }
-function selectChance(n){STATE.chanceCount=n;document.querySelectorAll('#chance-seg span').forEach(s=>s.classList.toggle('on',+s.dataset.n===n));}
-function selGame(el){
-  document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');STATE.game=el.dataset.game;
-  const isSports=STATE.game==='sports';
-  const isCompat=STATE.game==='compat';
-  document.getElementById('duel-fields').classList.toggle('hidden',!isSports);
-  document.getElementById('compat-fields').classList.toggle('hidden',!isCompat);
-  document.getElementById('chance-fields').classList.toggle('hidden',STATE.game!=='chance');
-  document.getElementById('signals-fields').classList.toggle('hidden',STATE.game!=='signals');
-  if(isSports){populateLeagues(STATE.sport);}else{STATE.sportMatch=null;}
-  // Hide hint when a card is selected
-  document.getElementById('card-hint').classList.remove('show');
-  try{updateFreemiumBar()}catch(e){}
-  try{accUpdate()}catch(e){}
-  try{renderConsultaSel()}catch(e){}
-}
+
+
 // ─── Fase 4.5 — tarjeta única de consulta seleccionada en el formulario ───
 function renderConsultaSel(){
   const box=document.getElementById('consulta-sel');if(!box)return;
@@ -1520,28 +1318,13 @@ function renderDuelResult(duel,name){
   document.getElementById('interp-text').innerHTML=fill(duel.isDraw?T.interpD:T.interp).replace('{rk}','');
   document.getElementById('interp-closer').innerHTML=T.closer;
 }
-function isPro(){return STATE.profile?.plan==='pro'}
-function dreamQuotaKey(){return 'no_dream_'+new Date().toISOString().split('T')[0]}
-function dreamQuotaToday(){try{return parseInt(localStorage.getItem(dreamQuotaKey())||'0',10)}catch(e){return 0}}
-function incrementDreamQuota(){try{localStorage.setItem(dreamQuotaKey(),String(dreamQuotaToday()+1))}catch(e){}}
-function proLaunch(el){
-  if(isPro()){quickLaunch(el);return;}
-  showTab('upgrade');
-  setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
-}
-function compatLaunch(el){
-  if(isPro()){selGame(el);setTimeout(()=>{const f=document.getElementById('inp-compat-name');if(f)f.focus()},200);return;}
-  showTab('upgrade');
-  setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
-}
-function calculateLP(dateStr){
-  if(!dateStr)return{lp:1,base:1};
-  const digits=dateStr.replace(/-/g,'').split('').map(Number);
-  let s=digits.reduce((a,b)=>a+b,0);
-  while(s>9&&s!==11&&s!==22&&s!==33){s=String(s).split('').map(Number).reduce((a,b)=>a+b,0);}
-  const base=s===11?2:s===22?4:s===33?6:s;
-  return{lp:s,base};
-}
+
+
+
+
+
+
+
 const COMPAT_DATA={
 "1_1":{score:3,theme:{es:"Batalla de voluntades",en:"Battle of wills",zh:"意志碰撞"},es:"Dos vidas gobernadas por el 1: liderazgo, voluntad, independencia. Habrá admiración y choque a partes iguales. Ninguno cede fácilmente, porque ambos están acostumbrados a marcar el rumbo. El secreto es decidir quién lidera en cada terreno. Cuando lo logren, se vuelven imparables.",en:"Two 1s: equal ambition, equal will. You'll admire and clash in equal measure. Neither yields easily — both are used to leading. The secret is dividing leadership by domain. When you align toward a common goal, you become unstoppable.",zh:"两个1号相遇——意志与领导力的碰撞。双方都习惯掌舵，摩擦在所难免，但相互尊重后，可成就非凡。"},
 "1_2":{score:5,theme:{es:"Complemento perfecto",en:"Perfect complement",zh:"完美互补"},es:"Tu 1 necesita avanzar; el 2 de {n} necesita conectar. Se complementan de un modo casi perfecto: tú abres caminos, ellos los llenan de sentido. Cuidado con que tu velocidad abrume su necesidad de calma. Si aprenden ese ritmo, la profundidad y durabilidad de este vínculo son poco comunes.",en:"Your 1 moves forward; {n}'s 2 connects deeply. A near-perfect complement: you open paths, they fill them with meaning. Watch that your pace doesn't overwhelm their need for calm. Master that rhythm and this bond becomes rare in its depth.",zh:"1号开路，2号{n}赋意。ta的温柔为你的前进注入深度。节奏不同，却恰好互补——你推动世界，ta让它有意义。"},
@@ -1634,11 +1417,11 @@ function generateCompat(){
 /* ─── Acordeón ritual ─── */
 const ACC_FIELDS={1:'inp-name',2:'inp-birth',3:'inp-cityb',4:'inp-cityn'};
 let ACC_OPEN=1;
-function accVal(n){const f=ACC_FIELDS[n];if(!f)return'';const el=document.getElementById(f);return el?el.value.trim():''}
-function accFmtDate(v){if(!v)return'';const p=v.split('-');return p.length===3?p[2]+' · '+p[1]+' · '+p[0]:v}
-function accFirstEmpty(){for(let i=1;i<=4;i++){if(!accVal(i))return i}return 5}
-function accOpenStep(n,focus){ACC_OPEN=n;accUpdate();const st=document.getElementById('acc-'+n);if(st&&focus)setTimeout(()=>{st.scrollIntoView({behavior:'smooth',block:'center'});const f=ACC_FIELDS[n];if(f){const el=document.getElementById(f);if(el)el.focus()}},150)}
-function accToggle(n){const st=document.getElementById('acc-'+n);if(st&&st.classList.contains('profile-locked'))return;if(ACC_OPEN!==n)accOpenStep(n,true)}
+
+
+
+
+
 function accLockProfile(){
   const p=STATE.profile;
   if(!STATE.user||!p||!p.full_name||!p.birth_date||!p.birth_city||!p.current_city)return;
@@ -1657,31 +1440,11 @@ function accLockProfile(){
     s5.appendChild(d);
   }
 }
-function accNext(n){
-  if(n<5&&!accVal(n)){const f=document.getElementById(ACC_FIELDS[n]);if(f){f.closest('.field')?.classList.add('field-missing');setTimeout(()=>f.closest('.field')?.classList.remove('field-missing'),2500);f.focus()}return}
-  accOpenStep(n>=5?5:Math.min(accFirstEmpty(),n+1),true)
-}
-function accUpdate(){
-  for(let i=1;i<=5;i++){
-    const st=document.getElementById('acc-'+i);if(!st)continue;
-    const done=i<5&&!!accVal(i);
-    st.classList.toggle('open',ACC_OPEN===i);
-    st.classList.toggle('done',done&&ACC_OPEN!==i);
-    st.classList.toggle('locked',ACC_OPEN!==i&&!done);
-    const sum=document.getElementById('acc-sum-'+i);
-    if(sum){
-      if(ACC_OPEN===i){sum.textContent=''}
-      else if(i===5){let g='';try{g=I18N_NEW[uiLang()].games[STATE.game]||''}catch(e){}sum.textContent=g}
-      else{sum.textContent=i===2?accFmtDate(document.getElementById('inp-birth').value):accVal(i)}
-    }
-  }
-}
-function accInit(){try{accLockProfile()}catch(e){}accOpenStep(accFirstEmpty(),false)}
-function editProfileData(){for(let i=1;i<=4;i++){const el=document.getElementById('acc-'+i);if(el)el.classList.remove('profile-locked');}showTab('form');accOpenStep(1,true);}
-function wcRibbonGo(){
-  showTab('form');accOpenStep(5,false);
-  setTimeout(function(){const el=document.querySelector('.game-grid .game-card[data-game="sports"]');if(el&&!el.hidden)quickLaunch(el)},200); // 1sep2026: no autolanzar Sports mientras la tarjeta esta oculta (Cambio E)
-}
+
+
+
+
+
 (function(){
   for(let i=1;i<=4;i++){(function(n){
     const el=document.getElementById(ACC_FIELDS[n]);if(!el)return;
@@ -1689,39 +1452,9 @@ function wcRibbonGo(){
     el.addEventListener('change',function(){if(accVal(n)&&ACC_OPEN===n)accNext(n)});
   })(i)}
 })();
-function quickLaunch(el){
-  selGame(el);
-  if(document.getElementById('tab-form')?.classList.contains('hidden'))showTab('form');
-  // Siempre: solo seleccionar la tarjeta y hacer pulsar el botón Revelar.
-  // El usuario elige libremente y presiona Revelar cuando quiera.
-  const isDuel=GAME_CFG[STATE.game]?.duel;
-  const name=document.getElementById('inp-name').value.trim();
-  const birth=document.getElementById('inp-birth').value;
-  const cityB=document.getElementById('inp-cityb').value.trim();
-  const cityN=document.getElementById('inp-cityn').value.trim();
-  const btnGen=document.getElementById('btn-gen');
-  btnGen.classList.remove('btn-pulse');
-  btnGen.classList.add('btn-ready');
-  startSparkles();
-  btnGen.scrollIntoView({behavior:'smooth',block:'center'});
-  // Si faltan datos personales, abrir el primer paso vacío y resaltar
-  if(!name||!birth||!cityB||!cityN){
-    try{accOpenStep(accFirstEmpty(),true)}catch(e){}
-    const fields=[
-      {id:'inp-name',val:name},{id:'inp-birth',val:birth},
-      {id:'inp-cityb',val:cityB},{id:'inp-cityn',val:cityN}
-    ];
-    fields.forEach(f=>{
-      if(!f.val){
-        const el=document.getElementById(f.id);
-        el.closest('.field')?.classList.add('field-missing');
-        setTimeout(()=>el.closest('.field')?.classList.remove('field-missing'),3200);
-      }
-    });
-  }else{try{accOpenStep(5,false)}catch(e){}}
-}
-function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
-function showSuccess(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000)}
+
+
+
 
 async function doForgotPw(){
   const email=document.getElementById('forgot-email').value.trim();
@@ -1774,7 +1507,7 @@ async function afterLogin(user){
   if(profile?.full_name)document.getElementById('inp-name').value=profile.full_name;if(profile?.birth_date)document.getElementById('inp-birth').value=profile.birth_date;if(profile?.birth_city)document.getElementById('inp-cityb').value=profile.birth_city;if(profile?.current_city)document.getElementById('inp-cityn').value=profile.current_city;try{accLockProfile()}catch(e){}try{chargeMotors()}catch(e){}try{posthog.identify(user.id,{email:user.email});}catch(e){}
   await loadHistory();await loadQuota();goTo('screen-main');openHoy();updateUI();history.replaceState({screen:'landing'},'','');history.pushState({screen:'main',tab:'form'},'','');
 }
-function showLandingLoggedIn(){document.getElementById('landing-btns-guest').style.display='none';document.getElementById('landing-btns-user').style.display='block';}
+
 async function enterApp(){if(!STATE.user)return;await afterLogin(STATE.user);}
 async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing');applyProBadges();applyConsumptionOnly()}
 async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30),5000,{data:[]});STATE.history=res?.data||[]}
@@ -1846,7 +1579,7 @@ async function generate(){
     showTab('form');showError('error-toast',L('生成时出现问题，请重试。','There was a problem generating. Try again.'));
   }
 }
-function updateEngines(e,m){document.getElementById('ev-num').textContent=e.num;document.getElementById('ev-ast').textContent=e.ast;document.getElementById('ev-moon').textContent=m.day+'d';document.getElementById('ev-chi').textContent=e.chi;document.getElementById('ev-geo').textContent=e.geo;document.querySelectorAll('.eng-item').forEach(x=>x.classList.add('lit'));document.getElementById('mv-num').textContent=e.num;document.getElementById('mv-ast').textContent=e.ast;document.getElementById('mv-moon').textContent=m.day+'d';document.getElementById('mv-chi').textContent=e.chi;document.getElementById('mv-geo').textContent=e.geo}
+
 
 // ===== TEATRO DE CONVERGENCIA (Fase 1 rediseño) — solo index.html (ES/EN); zh.html no lo usa =====
 function playConvergence(e,m,golden){
@@ -1882,37 +1615,10 @@ function playConvergence(e,m,golden){
     setTimeout(resolve,tc+1300);
   });
 }
-function hideConvergence(){const ov=document.getElementById('conv-overlay');if(!ov)return;ov.classList.add('fade');setTimeout(()=>{ov.style.display='none';ov.classList.remove('fade');},650);}
 
-function resetCompatView(){
-  const show=['golden-section','combo-title-wrap-top','numbers-display','power-seal','motors-row'];
-  show.forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='';el.classList.remove('hidden');}});
-  const cs=document.getElementById('compat-result-section');if(cs)cs.classList.add('hidden');
-}
-function buildOrbit(r){
-  const tr=document.getElementById('tab-result');if(tr)tr.classList.add('orbit-mode');
-  const host=document.getElementById('golden-satellites');if(!host||!r||!r.engines)return;
-  const sats=[
-    ['num','☿','#7bd0ff',r.engines.num],
-    ['ast','♈','#ff9ec7',r.engines.ast],
-    ['moon','🌙','#cdd6ff',(r.moon?r.moon.day:'')+'d'],
-    ['chi','🐉','#ffcaa6',r.engines.chi],
-    ['geo','🌎','#7bf0b0',r.engines.geo]
-  ];
-  const R=90,c=105;
-  host.innerHTML='';
-  host.style.animation='none';void host.offsetWidth;host.style.animation='';
-  sats.forEach((s,i)=>{
-    const a=(i/sats.length)*2*Math.PI - Math.PI/2;
-    const x=c+R*Math.cos(a), y=c+R*Math.sin(a);
-    const d=document.createElement('div');d.className='gsat';
-    d.style.left=x+'px';d.style.top=y+'px';d.style.color=s[2];
-    d.style.borderColor=s[2]+'66';d.style.boxShadow='0 0 10px '+s[2]+'44';
-    d.innerHTML=s[1]+'<b style="color:'+s[2]+'">'+s[3]+'</b>';
-    d.setAttribute('onclick',"openMotorPanel('"+s[0]+"')");
-    host.appendChild(d);
-  });
-}
+
+
+
 function renderResult(r,name){
   resetCompatView();
   // 1sep2026 Cambio D: al renderizar un resultado nuevo, la combinacion vuelve a quedar oculta tras el boton
@@ -1997,32 +1703,11 @@ function toggleComboReveal(){
   w.hidden=!willShow;
   b.textContent=willShow?L('隐藏','Hide'):L('查看我的组合 →','See my combination →');
 }
-function newConsult(){goBackToForm()}
-function toggleAccordion(id){const body=document.getElementById(id);const btn=body.previousElementSibling;const arrow=btn.querySelector('.acc-arrow');const isOpen=body.classList.contains('open');body.classList.toggle('open');arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)'}
-function startSparkles(){
-  stopSparkles();
-  const wrap=document.getElementById('btn-gen-wrap');
-  // Partículas
-  const pts=[
-    {bottom:'calc(100% + 6px)',left:'8%',dur:'1.4s',delay:'0s'},
-    {bottom:'calc(100% + 6px)',left:'25%',dur:'1.8s',delay:'0.25s'},
-    {bottom:'calc(100% + 6px)',left:'48%',dur:'1.5s',delay:'0.5s'},
-    {bottom:'calc(100% + 6px)',left:'68%',dur:'1.7s',delay:'0.75s'},
-    {bottom:'calc(100% + 6px)',left:'85%',dur:'1.6s',delay:'1s'},
-    {bottom:'calc(100% + 6px)',left:'35%',dur:'1.9s',delay:'1.3s'},
-  ];
-  pts.forEach(p=>{
-    const s=document.createElement('span');
-    s.className='btn-sparkle';s.textContent='✦';
-    s.style.cssText=`bottom:${p.bottom};left:${p.left};--dur:${p.dur};--delay:${p.delay}`;
-    wrap.appendChild(s);
-  });
-}
-function stopSparkles(){
-  const wrap=document.getElementById('btn-gen-wrap');
-  wrap.querySelectorAll('.btn-sparkle,.btn-ring').forEach(el=>el.remove());
-}
-function goBackToForm(){showTab('form');history.pushState({tab:'form'},'','');}
+
+
+
+
+
 window.addEventListener('popstate',function(e){
   // 梦里的数字: si el overlay está abierto, el back del dispositivo lo cierra
   // y NO sigue navegando (evita salir de la app). El navegador ya movió el historial solo;
@@ -2047,49 +1732,23 @@ window.addEventListener('popstate',function(e){
 // ═══ PWA INSTALL PROMPT ═══
 let deferredInstall=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;});
-function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}
+
 // TWA de Google Play (com.numbersoracle.twa): NO usar isStandalone() para esto — también da true
 // en la PWA instalada desde el navegador, que sí puede vender. El referrer android-app:// solo
 // llega en la primera carga, por eso se persiste en localStorage.
-function isTWA(){
-  try{
-    if(document.referrer && document.referrer.indexOf('android-app://')===0){
-      localStorage.setItem('no_twa','1');
-      return true;
-    }
-    return localStorage.getItem('no_twa')==='1';
-  }catch(e){ return false; }
-}
-function maybeShowInstallPrompt(){
-  try{
-    if(isStandalone()||window.__pwaShown)return;
-    if(Date.now()-(+localStorage.getItem('pwaPromptLast')||0)<7*24*3600*1000)return;
-    const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-    if(!ios&&!deferredInstall)return;
-    const T=I18N_NEW[uiLang()];
-    document.querySelector('#pwa-banner .pwa-title').textContent=T.pwaTitle;
-    document.getElementById('pwa-sub').innerHTML=ios?T.pwaIos:T.pwaSub;
-    document.getElementById('pwa-install-btn').textContent=T.pwaBtn;
-    if(ios){document.getElementById('pwa-install-btn').style.display='none';}
-    document.getElementById('pwa-banner').classList.remove('hidden');
-    window.__pwaShown=true;
-  }catch(e){console.warn('PWA prompt:',e);}
-}
-function dismissPwaBanner(){document.getElementById('pwa-banner').classList.add('hidden');try{localStorage.setItem('pwaPromptLast',String(Date.now()))}catch(e){}}
-function installPwa(){
-  if(!deferredInstall){dismissPwaBanner();return;}
-  deferredInstall.prompt();
-  deferredInstall.userChoice.finally(()=>{deferredInstall=null;dismissPwaBanner();});
-}
-function uiLang(){return STATE.lang==='en'?'en':STATE.lang==='zh'?'zh':'es'}
+
+
+
+
+
 // ═══ STATIC UI TRANSLATION — EN/ES (commit #67) ═══
-function L(es,en){return uiLang()==='en'?en:es}
+
 const SIGN_EN={'Capricornio':'Capricorn','Acuario':'Aquarius','Piscis':'Pisces','Aries':'Aries','Tauro':'Taurus','Géminis':'Gemini','Cáncer':'Cancer','Leo':'Leo','Virgo':'Virgo','Libra':'Libra','Escorpio':'Scorpio','Sagitario':'Sagittarius'};
 const PLANET_EN={'Saturno':'Saturn','Urano':'Uranus','Neptuno':'Neptune','Marte':'Mars','Venus':'Venus','Mercurio':'Mercury','Luna':'Moon','Sol':'Sun','Plutón':'Pluto','Júpiter':'Jupiter'};
 const ELEM_EN={'Tierra':'Earth','Aire':'Air','Agua':'Water','Fuego':'Fire'};
 const ANIMAL_EN={'Rata':'Rat','Buey':'Ox','Tigre':'Tiger','Conejo':'Rabbit','Dragón':'Dragon','Serpiente':'Snake','Caballo':'Horse','Cabra':'Goat','Mono':'Monkey','Gallo':'Rooster','Perro':'Dog','Cerdo':'Pig'};
 const MOON_EN={'Nueva':'New','Creciente':'Waxing','Cuarto creciente':'First quarter','Gibosa creciente':'Waxing gibbous','Llena':'Full','Gibosa menguante':'Waning gibbous','Cuarto menguante':'Last quarter','Menguante':'Waning'};
-function tEN(map,v){return uiLang()==='en'?(map[v]||v):v}
+
 const SIGN_ZH={'Capricornio':'摩羯座','Acuario':'水瓶座','Piscis':'双鱼座','Aries':'白羊座','Tauro':'金牛座','Géminis':'双子座','Cáncer':'巨蟹座','Leo':'狮子座','Virgo':'处女座','Libra':'天秤座','Escorpio':'天蝎座','Sagitario':'射手座'};
 const PLANET_ZH={'Saturno':'土星','Urano':'天王星','Neptuno':'海王星','Marte':'火星','Venus':'金星','Mercurio':'水星','Luna':'月亮','Sol':'太阳','Plutón':'冥王星','Júpiter':'木星'};
 const ELEM_ZH={'Tierra':'土','Aire':'风','Agua':'水','Fuego':'火'};
@@ -2339,196 +1998,23 @@ const UI_EN=[
 ];
 const CHIP_ES={football:'⚽ 足球',basketball:'🏀 篮球',tennis:'🎾 网球',baseball:'⚾ 棒球',americanfootball:'🏈 美式足球'};
 const CHIP_EN={football:'⚽ Soccer',basketball:'🏀 Basketball',tennis:'🎾 Tennis',baseball:'⚾ Baseball',americanfootball:'🏈 Am. Football'};
-function applyChipLang(l){const T=l==='en'?CHIP_EN:CHIP_ES;document.querySelectorAll('#sport-selector .sport-chip').forEach(ch=>{const t=T[ch.dataset.sport];if(!t)return;ch.textContent=t;});}
+
 let __uiES=null;
-function captureStaticES(){__uiES={};UI_EN.forEach(e=>{const sel=e[0],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{__uiES[sel+'|'+i]=kind==='ph'?el.placeholder:(kind==='html'?el.innerHTML:el.textContent)})}catch(err){}});}
-function applyStaticLang(l){
-  if(l==='zh')return;
-  if(!__uiES)captureStaticES();
-  UI_EN.forEach(e=>{const sel=e[0],en=e[1],kind=e[2];try{document.querySelectorAll(sel).forEach((el,i)=>{const v=l==='en'?en:__uiES[sel+'|'+i];if(v==null)return;if(kind==='ph')el.placeholder=v;else if(kind==='html')el.innerHTML=v;else el.textContent=v})}catch(err){}});
-  try{document.documentElement.classList.toggle('lang-en',l==='en')}catch(e){}
-  applyChipLang(l);
-  try{applyShareI18n()}catch(e){}
-  try{if(typeof populateLeagues==='function'&&STATE.game==='sports')populateLeagues(STATE.sport)}catch(e){}
-}
+
+
 const I18N_NEW={
 es:{unlockT:'\u2726 El final de tu lectura est\u00e1 sellado \u2726',unlockBtn:'Desbloquear con Pro \u2192',renew:'\u2726 El cosmos renueva tus n\u00fameros en {h}h {m}m \u2726',shareBtn:'\u2726 Compartir mis n\u00fameros \u2726',shareHint:'Comparte tu energ\u00eda del d\u00eda con alguien especial \u2726',pwaTitle:'\u2726 Lleva tu or\u00e1culo contigo \u2726',pwaSub:'Instala NUMBERS en tu pantalla de inicio. Gratis, sin tiendas.',pwaIos:'Toca <strong>Compartir</strong> abajo en Safari y luego <strong>\u00abA\u00f1adir a pantalla de inicio\u00bb</strong>',pwaBtn:'Instalar',shTitle:'Mi combinaci\u00f3n c\u00f3smica \u2014 NUMBERS',shGold:'NUMBERS revel\u00f3 mi N\u00famero de Oro',shCombo:'Mi combinaci\u00f3n de',shCta:'Descubre la tuya gratis',waLine:'Cinco fuerzas se alinearon solo para m\u00ed hoy, en proporci\u00f3n \u00e1urea.',cvHdr:'NUMBERS  \u2726  OR\u00c1CULO NUM\u00c9RICO',cvGold:'N\u00daMERO DE ORO',cvTag:'Cinco fuerzas c\u00f3smicas convergieron para revelar esta combinaci\u00f3n  \u2726  numbersoracle.com',cvFoot:'Entretenimiento \u00b7 Inspiraci\u00f3n personal \u00b7 Autoconocimiento',games:{daily:'N\u00fameros del D\u00eda',lottery:'N\u00fameros del D\u00eda',chance:'Pulso del Momento',destiny:'N\u00fameros del Destino',casino:'N\u00fameros del Destino',sports:'N\u00fameros Deportivos',signals:'Sincron\u00edas',compat:'\ud83d\udc91 Compatibilidad'}},
 en:{unlockT:'\u2726 The end of your reading is sealed \u2726',unlockBtn:'Unlock with Pro \u2192',renew:'\u2726 The cosmos renews your numbers in {h}h {m}m \u2726',shareBtn:'\u2726 Share my numbers \u2726',shareHint:'Share your energy of the day with someone special \u2726',pwaTitle:'\u2726 Take your oracle with you \u2726',pwaSub:'Install NUMBERS on your home screen. Free, no app stores.',pwaIos:'Tap <strong>Share</strong> in Safari, then <strong>\u201cAdd to Home Screen\u201d</strong>',pwaBtn:'Install',shTitle:'My cosmic combination \u2014 NUMBERS',shGold:'NUMBERS revealed my Golden Number',shCombo:'My combination for',shCta:'Discover yours for free',waLine:'Five forces aligned just for me today, in golden ratio.',cvHdr:'NUMBERS  \u2726  NUMERIC ORACLE',cvGold:'GOLDEN NUMBER',cvTag:'Five cosmic forces converged to reveal this combination  \u2726  numbersoracle.com',cvFoot:'Entertainment \u00b7 Personal inspiration \u00b7 Self-knowledge',games:{daily:'Numbers of the Day',lottery:'Numbers of the Day',chance:'Pulse of the Moment',destiny:'Destiny Numbers',casino:'Destiny Numbers',sports:'Sports Numbers',signals:'Synchronies',compat:'💑 Compatibility'}},
 zh:{unlockT:'\u2726 \u4f60\u7684\u89e3\u8bfb\u7ed3\u5c3e\u5df2\u88ab\u5c01\u5370 \u2726',unlockBtn:'\u7528 Pro \u89e3\u9501 \u2192',renew:'\u2726 \u5b87\u5b99\u5c06\u5728{h}\u5c0f\u65f6{m}\u5206\u540e\u66f4\u65b0\u4f60\u7684\u6570\u5b57 \u2726',shareBtn:'\u2726 \u5206\u4eab\u6211\u7684\u6570\u5b57 \u2726',shareHint:'\u5206\u4eab\u7ed9\u4eca\u5929\u9700\u8981\u4e00\u70b9\u80fd\u91cf\u7684\u4eba \ud83c\udf40',pwaTitle:'\u2726 \u968f\u8eab\u643a\u5e26\u4f60\u7684\u795e\u8c15 \u2726',pwaSub:'\u5c06 NUMBERS \u5b89\u88c5\u5230\u4e3b\u5c4f\u5e55\u3002\u514d\u8d39\uff0c\u65e0\u9700\u5e94\u7528\u5546\u5e97\u3002',pwaIos:'\u70b9\u6309 Safari \u5e95\u90e8\u7684<strong>\u5206\u4eab</strong>\uff0c\u7136\u540e\u9009\u62e9<strong>\u300c\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\u300d</strong>',pwaBtn:'\u5b89\u88c5',shTitle:'\u6211\u7684\u5b87\u5b99\u7ec4\u5408 \u2014 \u6570\u5b57\u795e\u8c15',shGold:'\u6570\u5b57\u795e\u8c15\u63ed\u793a\u4e86\u6211\u7684\u9ec4\u91d1\u6570\u5b57',shCombo:'\u6211\u7684\u7ec4\u5408\uff1a',shCta:'\u514d\u8d39\u83b7\u53d6\u4f60\u7684\u4e13\u5c5e\u6570\u5b57',waLine:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u4eca\u5929\u53ea\u4e3a\u6211\u5bf9\u9f50\u3002',cvHdr:'NUMBERS  \u2726  \u6570\u5b57\u795e\u8c15',cvGold:'\u9ec4\u91d1\u6570\u5b57',cvTag:'\u4e94\u5927\u5b87\u5b99\u529b\u91cf\u6c47\u805a\u63ed\u793a\u6b64\u7ec4\u5408  \u2726  numbersoracle.com',cvFoot:'\u5a31\u4e50 \u00b7 \u4e2a\u4eba\u7075\u611f \u00b7 \u81ea\u6211\u8ba4\u77e5',games:{daily:'\u4eca\u65e5\u6570\u5b57',lottery:'\u4eca\u65e5\u6570\u5b57',chance:'\u6b64\u523b\u8109\u52a8',destiny:'\u547d\u8fd0\u6570\u5b57',casino:'\u547d\u8fd0\u6570\u5b57',sports:'\u4f53\u80b2\u6570\u5b57',signals:'\u6570\u5b57\u5171\u9e23',compat:'\ud83d\udc91 \u7f18\u5206\u89e3\u8bfb'}}};
-function applyShareI18n(){const t=I18N_NEW[uiLang()];const b=document.getElementById('btn-share-main');if(b)b.textContent=t.shareBtn;const h=document.getElementById('share-hint');if(h)h.textContent=t.shareHint;updateRenewCountdown();}
-function updateRenewCountdown(){
-  const el=document.getElementById('renew-countdown');if(!el)return;
-  if(typeof STATE!=='undefined'&&STATE.game==='destiny'){el.style.display='none';return;}
-  el.style.display='';
-  const now=new Date();const mid=new Date(now);mid.setHours(24,0,0,0);
-  const diff=mid-now;const h=Math.floor(diff/3600000);const m=Math.floor(diff%3600000/60000);
-  el.textContent=I18N_NEW[uiLang()].renew.replace('{h}',h).replace('{m}',m);
-}
+
+
 setInterval(updateRenewCountdown,60000);
-function applyInterpLock(){
-  const ip=document.getElementById('interp-text');if(!ip)return;
-  const box=ip.closest('.interpretation');if(!box)return;
-  box.classList.toggle('interp-locked',!isPro());
-  const T=I18N_NEW[uiLang()];
-  const t=document.getElementById('interp-unlock-t');if(t)t.textContent=T.unlockT;
-  const bb=document.getElementById('interp-unlock-btn');if(bb)bb.textContent=T.unlockBtn;
-}
+
 const SHARE_URL='https://numbersoracle.com/?utm_source=share&utm_medium=social';
 const SHARE_URL_WA='https://numbersoracle.com/?utm_source=share&utm_medium=whatsapp';
-function shareWA(){
-  if(!STATE.lastResult) return;
-  const{result,name,game}=STATE.lastResult;
-  const T=I18N_NEW[uiLang()];
-  const games=T.games;
-  const gameName=games[game]||game;
 
-  try{
-    const canvas=document.getElementById('wa-canvas');
-    const ctx=canvas.getContext('2d');
-    const W=800,H=420;
-    canvas.width=W;canvas.height=H;
 
-    // Background gradient — dark mystic
-    const bg=ctx.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,'#080510');bg.addColorStop(.5,'#0f0a1e');bg.addColorStop(1,'#080510');
-    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
 
-    // Star particles
-    ctx.fillStyle='rgba(245,228,176,0.6)';
-    [[60,40],[180,25],[340,18],[520,30],[700,20],[90,85],[260,90],[450,80],[650,88],[780,55],[30,200],[150,220],[420,210],[700,205],[780,230],[50,340],[200,360],[500,350],[720,345],[380,400]].forEach(([x,y])=>{
-      ctx.beginPath();ctx.arc(x,y,1.2,0,Math.PI*2);ctx.fill();
-    });
-
-    // Decorative top border line
-    const line=ctx.createLinearGradient(0,0,W,0);
-    line.addColorStop(0,'transparent');line.addColorStop(.5,'#c9a84c');line.addColorStop(1,'transparent');
-    ctx.strokeStyle=line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,1);ctx.lineTo(W,1);ctx.stroke();
-
-    // NUMBERS logo top left
-    ctx.font='bold 13px Arial';ctx.fillStyle='#e8c97a';ctx.letterSpacing='3px';
-    ctx.fillText(T.cvHdr,40,38);
-
-    // Divider
-    ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
-    ctx.beginPath();ctx.moveTo(40,50);ctx.lineTo(W-40,50);ctx.stroke();
-
-    // Golden number (big hero)
-    const goldenX=130,goldenY=220;
-    const goldenGrad=ctx.createRadialGradient(goldenX,goldenY,10,goldenX,goldenY,70);
-    goldenGrad.addColorStop(0,'rgba(245,228,176,0.25)');
-    goldenGrad.addColorStop(.6,'rgba(201,168,76,0.12)');
-    goldenGrad.addColorStop(1,'rgba(201,168,76,0)');
-    ctx.fillStyle=goldenGrad;ctx.beginPath();ctx.arc(goldenX,goldenY,70,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.arc(goldenX,goldenY,62,0,Math.PI*2);ctx.stroke();
-    ctx.strokeStyle='rgba(201,168,76,0.25)';ctx.lineWidth=.5;
-    ctx.beginPath();ctx.arc(goldenX,goldenY,74,0,Math.PI*2);ctx.stroke();
-    ctx.font='bold 48px Georgia';ctx.fillStyle='#fff7e0';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(String(result.golden),goldenX,goldenY);
-    ctx.font='10px Arial';ctx.fillStyle='#c9a84c';ctx.letterSpacing='2px';
-    ctx.fillText(T.cvGold,goldenX,goldenY+82);
-    ctx.textAlign='left';ctx.textBaseline='alphabetic';
-
-    // User name + game
-    ctx.font='italic 15px Georgia';ctx.fillStyle='#b8a888';
-    ctx.fillText(name.split(' ')[0]+' — '+gameName,240,90);
-
-    // Numbers display
-    const numStartX=240,numY=185;const ballR=34;const gap=82;
-    result.nums.forEach((n,i)=>{
-      const cx=numStartX+(i*gap);const cy=numY;
-      const isGolden=(n===result.golden&&result.goldenInPlay);
-      if(isGolden){
-        const g=ctx.createRadialGradient(cx,cy,5,cx,cy,ballR);
-        g.addColorStop(0,'rgba(245,228,176,0.35)');g.addColorStop(1,'rgba(201,168,76,0.1)');
-        ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,ballR,0,Math.PI*2);ctx.fill();
-        ctx.strokeStyle='#e8c97a';ctx.lineWidth=2;
-      }else{
-        ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=1;
-      }
-      ctx.beginPath();ctx.arc(cx,cy,ballR,0,Math.PI*2);ctx.stroke();
-      ctx.font=`bold ${n<10?22:20}px Georgia`;
-      ctx.fillStyle=isGolden?'#fff7e0':'#e8c97a';
-      ctx.textAlign='center';ctx.textBaseline='middle';
-      const label=n<10&&result.nums.some(x=>x>=10)?'0'+n:String(n);
-      ctx.fillText(label,cx,cy);
-    });
-    ctx.textAlign='left';ctx.textBaseline='alphabetic';
-
-    // Motors row
-    const engines=[
-      {icon:'☿',val:result.engines.num,name:'Num.'},
-      {icon:'♈',val:result.engines.ast,name:'Astro.'},
-      {icon:'🌙',val:result.moon?result.moon.day+'d':result.engines.moon+'d',name:'Luna'},
-      {icon:'🐉',val:result.engines.chi,name:'Chino'},
-      {icon:'🌎',val:result.engines.geo,name:'Geo.'},
-    ];
-    engines.forEach((e,i)=>{
-      const ex=240+(i*100),ey=270;
-      ctx.font='12px Arial';ctx.fillStyle='rgba(201,168,76,0.5)';
-      ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
-      ctx.strokeRect(ex,ey,88,44);
-      ctx.font='18px serif';ctx.textAlign='center';
-      ctx.fillText(e.icon,ex+20,ey+24);
-      ctx.font='bold 12px Arial';ctx.fillStyle='#c9a84c';
-      ctx.fillText(String(e.val),ex+52,ey+18);
-      ctx.font='9px Arial';ctx.fillStyle='#7a6a54';
-      ctx.fillText(e.name,ex+52,ey+32);
-    });
-    ctx.textAlign='left';
-
-    // Interpretation snippet
-    ctx.font='italic 12px Georgia';ctx.fillStyle='#8a7a60';
-    const snippet=`Vida ${result.lp} · ${result.zodiac.sign} · Luna ${result.moon?result.moon.name:'llena'} · ${result.chinese.animal}`;
-    ctx.fillText(snippet,240,335);
-
-    // Bottom tagline
-    ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=.5;
-    ctx.beginPath();ctx.moveTo(40,370);ctx.lineTo(W-40,370);ctx.stroke();
-    ctx.font='11px Arial';ctx.fillStyle='rgba(201,168,76,0.6)';ctx.textAlign='center';
-    ctx.fillText(T.cvTag,W/2,392);
-    ctx.font='9px Arial';ctx.fillStyle='rgba(138,122,96,0.6)';
-    ctx.fillText(T.cvFoot,W/2,410);
-    ctx.textAlign='left';
-
-    // Share
-    canvas.toBlob(blob=>{
-      if(!blob){shareWAFallback(name,gameName,result);return;}
-      const file=new File([blob],'numbers-combinacion.png',{type:'image/png'});
-      if(navigator.canShare&&navigator.canShare({files:[file]})){
-        navigator.share({
-          title:T.shTitle,
-          text:`✦ ${T.shGold}: ${result.golden}
-
-${T.shCombo} ${gameName}: ${result.nums.join(' · ')}
-
-${T.shCta} → ${SHARE_URL}`,
-          files:[file]
-        }).catch(()=>shareWAFallback(name,gameName,result));
-      }else{
-        const url=URL.createObjectURL(blob);
-        const a=document.createElement('a');a.href=url;a.download='numbers-combinacion.png';a.click();
-        setTimeout(()=>URL.revokeObjectURL(url),3000);
-        shareWAFallback(name,gameName,result);
-      }
-    },'image/png');
-  }catch(e){
-    console.warn('Canvas share error:',e);
-    shareWAFallback(name,gameName||game,result);
-  }
-}
-
-function shareWAFallback(name,gameName,result){
-  const T=I18N_NEW[uiLang()];
-  const text=`✦ ${T.shGold}: ${result.golden} 🌟
-
-${T.shCombo} ${gameName}: ${result.nums.join(' · ')}
-
-${T.waLine}
-
-✦ ${T.shCta} → ${SHARE_URL_WA}`;
-  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
-}
 
 // ═══════════════════════════════════════
 // REGION PRICING DETECTION
@@ -2643,9 +2129,7 @@ function showNotifyModal(){
   btn.disabled=false;
   document.getElementById('notify-modal').classList.remove('hidden');
 }
-function closeModal(){
-  document.getElementById('notify-modal').classList.add('hidden');
-}
+
 async function submitNotify(){
   const inputEmail=document.getElementById('notify-email-input');
   const email=((inputEmail&&!inputEmail.closest('.hidden'))?inputEmail.value.trim():STATE.profile?.email||'').toLowerCase();
@@ -2665,14 +2149,10 @@ async function submitNotify(){
   }
 }
 
-function updateUI(){if(!STATE.profile)return;const initials=STATE.profile.full_name?STATE.profile.full_name.split(' ').map(w=>w[0]?.toUpperCase()).join('').slice(0,2):STATE.profile.email[0].toUpperCase();document.getElementById('user-avatar').textContent=initials;document.getElementById('profile-avatar').textContent=initials;applyProBadges();applyConsumptionOnly()}
+
 // Oculta insignias "gratis" y el sello Pro de tarjetas bloqueadas cuando el usuario YA es Pro.
 // No toca el HTML (usuarios free siguen viéndolos) ni desbloquea nada: un Pro ya tiene acceso vía isPro().
-function applyProBadges(){
-  const pro=isPro();
-  document.querySelectorAll('.free-badge').forEach(function(b){b.style.display=pro?'none':'';});
-  document.querySelectorAll('.game-card.pro-locked').forEach(function(c){c.classList.toggle('pro-hide-seal',pro);});
-}
+
 // Google Play exige consumption-only dentro del TWA: cero botones/precios de compra.
 // Ver documentos/Prompt_Sonnet_TWA_ConsumptionOnly_API36.md. Compuerta única: si no es TWA, no hace nada.
 function applyConsumptionOnly(){
@@ -2760,25 +2240,7 @@ en:{
   9:{text:'The 999 announces the closing of a major cycle. It may hurt, it may feel like loss — but 9 always precedes 1. What closes, opens something greater.'}
 }};
 
-function getSignalInterp(n,lang){
-  const db=SIGNALS_DB[lang]||SIGNALS_DB.es;
-  const str=String(n);
-  // Repeating sequence: 3+ digits all the same (111, 222, 333, 444, 555, 666, 777, 888, 999, 1111...)
-  if(str.length>=3&&str.split('').every(function(d){return d===str[0];})){
-    const digit=parseInt(str[0],10);
-    const seqDb=SIGNALS_SEQ[lang]||SIGNALS_SEQ.es;
-    if(seqDb[digit]){
-      const base=db[digit]||db[1];
-      return{isSeq:true,seqText:seqDb[digit].text,name:base.name,energy:base.energy,area:base.area};
-    }
-  }
-  // Master numbers: return as-is
-  if(n===11||n===22||n===33){return Object.assign({},db[n]||db[1]);}
-  // Any other number: reduce to single digit
-  const reduced=numReduce(n);
-  const base=db[reduced]||db[1];
-  return Object.assign({},base,{originalN:(n!==reduced?n:null),reducedTo:reduced});
-}
+
 
 function buildSignalCard(n,interp,idx,lang){
   const delay=(idx*0.12).toFixed(2);
@@ -2846,25 +2308,9 @@ function generateSignals(name,birth){
   showTab('result');
   history.pushState({tab:'result'},'','');
 }
-function smOpen(){
-  const m=document.getElementById('sm');
-  m.classList.remove('hidden');
-  document.body.style.overflow='hidden';
-  setTimeout(function(){const i=document.getElementById('inp-sm');if(i){i.value='';i.focus();}},150);
-}
-function smClose(){
-  document.getElementById('sm').classList.add('hidden');
-  document.body.style.overflow='';
-}
-function smReveal(){
-  const raw=(document.getElementById('inp-sm').value||'').trim();
-  if(!raw){document.getElementById('inp-sm').focus();return;}
-  document.getElementById('inp-signals').value=raw;
-  smClose();
-  const name=document.getElementById('inp-name').value.trim();
-  const birth=document.getElementById('inp-birth').value;
-  generateSignals(name,birth);
-}
+
+
+
 
 // ===== 梦里的数字 — banco ZH/EN，solo Capa 1 (sin charada) =====
 const DREAM_BANK=[
@@ -3030,18 +2476,10 @@ const DREAM_FALLBACK={
  8:{zh:'8 关乎你的内在力量，以及付出与获得之间的平衡。',en:'The 8 speaks of your personal power, and the balance between what you give and what you receive.'},
  9:{zh:'9 关乎一场结束——你的梦正在帮你放下的某样东西。',en:'The 9 speaks of an ending — something your dream is helping you release.'}
 };
-function dreamRoot(n){return n===11?2:n===22?4:n===33?6:n}
-function dreamNormalize(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
-function dreamLetterReduce(s){const clean=(s||'').trim();if(!clean)return 1;let sum=0;for(let i=0;i<clean.length;i++){const code=clean.charCodeAt(i);if(code>32)sum+=(code%9)+1}return numReduce(sum||1)}
-function dreamMatch(text){
-  const t=' '+dreamNormalize(text)+' ';
-  const found=[];
-  DREAM_BANK.forEach(entry=>{
-    const hit=entry.kw.some(k=>t.indexOf(dreamNormalize(k))!==-1);
-    if(hit)found.push(entry);
-  });
-  return found.slice(0,3);
-}
+
+
+
+
 function dreamCompute(text){
   const matches=dreamMatch(text);
   if(matches.length===0){
@@ -3069,56 +2507,10 @@ const DREAM_QUICK_LABELS=['离世的人','水','蛇','钱','怀孕','房子','�
 const DREAM_QUICK_LABELS_EN=['Dead','Water','Snake','Money','Baby','House','Fire','Teeth'];
 let __dreamHistoryPushed=false;
 let __dreamPrevState=null;
-function dreamOpen(){
-  const m=document.getElementById('dream-overlay');
-  m.classList.remove('hidden');
-  m.scrollTop=0;
-  document.body.style.overflow='hidden';
-  document.getElementById('dream-screen-1').classList.remove('hidden');
-  document.getElementById('dream-screen-loading').classList.add('hidden');
-  document.getElementById('dream-screen-result').classList.add('hidden');
-  const lm=document.getElementById('dream-limit-msg');
-  if(lm){lm.classList.add('hidden');lm.textContent='';}
-  dreamRenderQuick();
-  setTimeout(function(){const i=document.getElementById('dream-input');if(i){i.value='';i.focus();}},150);
-  // Empuja un estado al historial para que el back del dispositivo cierre el overlay
-  // en vez de sacar de la app (ver popstate). Si ya había uno empujado, no duplicar.
-  if(!__dreamHistoryPushed){
-    try{__dreamPrevState=history.state;history.pushState({overlay:'dream'},'','');__dreamHistoryPushed=true;}catch(e){}
-  }
-}
-function dreamClose(){
-  document.getElementById('dream-overlay').classList.add('hidden');
-  document.body.style.overflow='';
-  // Cierre manual (botón X / fuera del modal): no navegamos, solo "deshacemos" el estado
-  // que habíamos empujado con replaceState (no dispara popstate, cero riesgo de bucle).
-  if(__dreamHistoryPushed){
-    __dreamHistoryPushed=false;
-    try{history.replaceState(__dreamPrevState,'','');}catch(e){}
-  }
-}
-function dreamRenderQuick(){
-  const wrap=document.getElementById('dream-quick');
-  if(!wrap)return;
-  wrap.innerHTML='';
-  DREAM_QUICK_LABELS.forEach(function(lbl,i){
-    const entry=DREAM_BANK.find(function(x){return x.lbl===lbl});
-    if(!entry)return;
-    const label=uiLang()==='en'?DREAM_QUICK_LABELS_EN[i]:lbl;
-    const chip=document.createElement('div');
-    chip.className='dream-chip';
-    chip.textContent=entry.e+' '+label;
-    chip.onclick=function(){dreamSymbolTap(label);};
-    wrap.appendChild(chip);
-  });
-}
-function dreamSymbolTap(label){
-  const inp=document.getElementById('dream-input');
-  if(!inp)return;
-  const word=(label||'').toLowerCase();
-  inp.value=(inp.value.trim()?inp.value.trim()+' ':'')+word;
-  inp.focus();
-}
+
+
+
+
 async function dreamReveal(){
   const inputEl=document.getElementById('dream-input');
   const raw=(inputEl.value||'').trim();
@@ -3151,58 +2543,11 @@ async function dreamReveal(){
   if(!isPro())incrementDreamQuota();
   try{posthog.capture('consulta_sueno',{matched:res.matched,num:res.num});}catch(e){}
 }
-function dreamAgain(){
-  document.getElementById('dream-screen-result').classList.add('hidden');
-  document.getElementById('dream-screen-1').classList.remove('hidden');
-  const inp=document.getElementById('dream-input');
-  if(inp){inp.value='';inp.focus();}
-}
-function dreamUpsell(){
-  dreamClose();
-  try{showTab('hoy');}catch(e){}
-  const el=document.querySelector('.game-grid .game-card[data-game="daily"]'); // 1sep2026: antes buscaba destiny, que ahora esta oculto (querySelector lo encontraria igual y se clicaria algo invisible)
-  if(el){try{quickLaunch(el);}catch(e){}}
-}
-function dreamFirstSentence(text){if(!text)return'';const m=text.match(/^.*?[.!?。]/);return m?m[0]:text;}
-function dreamWrapCanvasText(ctx,text,x,y,maxWidth,lineHeight){
-  const words=text.split(' ');let line='';let yy=y;
-  for(let i=0;i<words.length;i++){
-    const test=line+words[i]+' ';
-    if(ctx.measureText(test).width>maxWidth&&line){ctx.fillText(line,x,yy);line=words[i]+' ';yy+=lineHeight;}else{line=test;}
-  }
-  ctx.fillText(line,x,yy);
-}
-function dreamDrawCard(){
-  const canvas=document.getElementById('dream-canvas');
-  const w=1080,h=1350;
-  canvas.width=w;canvas.height=h;
-  const ctx=canvas.getContext('2d');
-  const res=STATE.lastDream;
-  ctx.fillStyle='#0b0b10';ctx.fillRect(0,0,w,h);
-  const grad=ctx.createRadialGradient(w/2,h*0.36,10,w/2,h*0.36,w*0.65);
-  grad.addColorStop(0,'rgba(212,175,55,.22)');grad.addColorStop(1,'rgba(212,175,55,0)');
-  ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
-  if(!res)return canvas;
-  ctx.textAlign='center';
-  ctx.font=Math.round(w*0.11)+'px sans-serif';
-  ctx.fillStyle='#fff';
-  ctx.fillText((res.emoji||'🌙').split(' ')[0],w/2,h*0.28);
-  ctx.fillStyle='#f5e4b0';
-  ctx.font='700 '+Math.round(w*0.30)+'px Georgia, serif';
-  ctx.shadowColor='rgba(212,175,55,.7)';ctx.shadowBlur=40;
-  ctx.fillText(String(res.num),w/2,h*0.46);
-  ctx.shadowBlur=0;
-  ctx.fillStyle='#a99fc4';ctx.font=Math.round(w*0.028)+'px sans-serif';
-  ctx.fillText(uiLang()==='en'?'NUMBER FROM YOUR DREAM':uiLang()==='zh'?'梦里的数字':'NÚMERO DE TU SUEÑO',w/2,h*0.51);
-  const line=dreamFirstSentence(L(res.esRaw||res.zhRaw,res.en));
-  ctx.fillStyle='#e8dfc8';ctx.font=Math.round(w*0.032)+'px Georgia, serif';
-  dreamWrapCanvasText(ctx,line,w/2,h*0.62,w*0.78,Math.round(w*0.042));
-  ctx.fillStyle='#d4af37';ctx.font='700 '+Math.round(w*0.042)+'px Georgia, serif';
-  ctx.fillText('NUMBERS ORACLE',w/2,h*0.90);
-  ctx.fillStyle='#a99fc4';ctx.font=Math.round(w*0.028)+'px sans-serif';
-  ctx.fillText('numbersoracle.com',w/2,h*0.925);
-  return canvas;
-}
+
+
+
+
+
 async function dreamShare(){
   try{
     const canvas=dreamDrawCard();
