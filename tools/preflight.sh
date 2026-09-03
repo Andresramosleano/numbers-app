@@ -70,6 +70,18 @@ else
   echo "  !! falta alguno de los dos scripts."
 fi
 
+# ---- 5b. Deriva entre index.html y zh.html --------------------------------
+# zh.html nacio como copia a mano. TODOS los bugs del 3 sep estaban en las
+# partes que NO eran identicas: arreglos hechos en espanol que nunca llegaron al
+# chino. Compartir codigo protege lo que ya estaba igual; esto vigila lo otro.
+echo "--- deriva entre idiomas:"
+if [ -f tools/comparar_idiomas.py ]; then
+  python3 tools/comparar_idiomas.py --breve 2>&1 | sed 's/^/  /'
+  [ ${PIPESTATUS[0]:-0} -ne 0 ] && echo "  -> hay deriva SIN justificar. Detalle: python3 tools/comparar_idiomas.py"
+else
+  echo "  !! falta tools/comparar_idiomas.py"
+fi
+
 # ---- 6. Recordatorio del paso en curso -------------------------------------
 echo "--- donde estamos:"
 [ -f ../documentos/PASO_ACTUAL.txt ] && cat ../documentos/PASO_ACTUAL.txt || echo "  (sin documentos/PASO_ACTUAL.txt)"

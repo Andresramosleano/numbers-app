@@ -779,3 +779,29 @@ function dreamDrawCard(){
   ctx.fillText('numbersoracle.com',w/2,h*0.925);
   return canvas;
 }
+
+/* --- anadidas el 3 sep 2026: async function que la primera extraccion
+   se salto porque su regex no aceptaba el prefijo `async`. --- */
+async function fetchLeagueMatches(leagueId,sport){
+  const ck=sportLeagueCacheKey(leagueId);
+  try{const c=localStorage.getItem(ck);if(c){const p=JSON.parse(c);return p.err?null:p.events;}}catch(e){}
+  try{
+    const season=sportsSeasonStr(sport,new Date());
+    const r=await fetch('https://www.thesportsdb.com/api/v1/json/123/eventsseason.php?id='+leagueId+'&s='+encodeURIComponent(season));
+    const j=await r.json();
+    const today=new Date().toISOString().split('T')[0];
+    const events=(j.events||[]).filter(e=>e.dateEvent>=today&&e.strStatus==='NS'&&e.strHomeTeam&&e.strAwayTeam).sort((a,b)=>(a.dateEvent+(a.strTime||'')).localeCompare(b.dateEvent+(b.strTime||''))).slice(0,15);
+    try{localStorage.setItem(ck,JSON.stringify({events:events}));}catch(e){}
+    return events;
+  }catch(e){
+    console.warn('[fetchLeagueMatches]',e);
+    try{localStorage.setItem(ck,JSON.stringify({err:true}));}catch(e2){}
+    return null;
+  }
+}
+async function enterApp(){if(!STATE.user)return;await afterLogin(STATE.user);}
+async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing');applyProBadges();applyConsumptionOnly()}
+async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30),5000,{data:[]});STATE.history=res?.data||[]}
+async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
+async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
+async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}

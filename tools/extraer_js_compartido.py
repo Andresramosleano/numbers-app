@@ -25,7 +25,7 @@ def funciones_top(js: str):
     en columna 0 (nivel superior). Cuenta llaves respetando cadenas, plantillas,
     comentarios y regex sencillos."""
     out=[]
-    for m in re.finditer(r'(?m)^function\s+([A-Za-z_$][\w$]*)\s*\(', js):
+    for m in re.finditer(r'(?m)^(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(', js):  # 3sep2026: sin (?:async\s+)? se saltaba las 18 'async function' de nivel superior
         i=js.index('{', m.end()-1)
         prof=0; j=i; n=len(js)
         en=None  # None | "'" | '"' | '`' | '//' | '/*'
@@ -50,6 +50,13 @@ def funciones_top(js: str):
     return out
 
 def norm(s): return re.sub(r'\s+',' ',s).strip()
+
+import os
+if os.path.exists('shared.js'):
+    sys.exit('ABORTADO: shared.js ya existe. Este script lo escribe DESDE CERO y las\n'
+             'funciones ya extraidas no estan en los HTML: volver a correrlo dejaria\n'
+             'shared.js con solo lo nuevo y borraria el resto. Usa una extraccion\n'
+             'incremental (ver tools/anadir_async_a_shared.py).')
 
 idx=open('index.html','rb').read(); zh=open('zh.html','rb').read()
 mi, mz = bloque_script_grande(idx), bloque_script_grande(zh)
