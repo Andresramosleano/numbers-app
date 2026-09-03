@@ -53,16 +53,23 @@ const EXEC='/opt/pw-browsers/chromium';
 // arreglos del 2 sep. Si alguno de los dos anclajes deja de existir, falla
 // ruidosamente aqui en vez de dar un 0 silencioso.
 (function generarRegresion(){
+  // 3sep2026, tanda 1b: la regla de altura de #app se mudo a shared.css (ahora
+  // la comparten los dos idiomas), mientras que .seo-footer sigue inline en
+  // index.html (zh.html no tiene footer SEO). Asi que la copia con la regresion
+  // necesita tocar LOS DOS archivos, y el HTML de regresion apunta a su propia
+  // copia del CSS para no ensuciar el shared.css que se esta auditando.
   const src=fs.readFileSync('/tmp/audit/index.html','utf8');
+  const css=fs.readFileSync('/tmp/audit/shared.css','utf8');
   const R1='#app:has(#screen-landing.active),#app:has(#screen-auth.active){height:auto;min-height:100dvh}';
-  const R2='margin-top:20px}';
-  if(src.split(R1).length-1!==1) throw new Error('generarRegresion: no encontre (o encontre repetida) la regla de altura de #app. index.html cambio de forma.');
-  if(src.indexOf('.seo-footer{')<0||src.split('.seo-footer{')[1].split('}')[0].indexOf('margin-top:20px')<0) throw new Error('generarRegresion: .seo-footer ya no lleva margin-top:20px. index.html cambio de forma.');
-  let out=src.replace(R1,'');
+  if(css.split(R1).length-1!==1) throw new Error('generarRegresion: la regla de altura de #app no esta (o esta repetida) en shared.css. El CSS cambio de forma.');
+  if(src.indexOf('.seo-footer{')<0||src.split('.seo-footer{')[1].split('}')[0].indexOf('margin-top:20px')<0) throw new Error('generarRegresion: .seo-footer ya no lleva margin-top:20px en index.html. El archivo cambio de forma.');
+  fs.writeFileSync('/tmp/audit/shared_regresion.css', css.replace(R1,''));
+  let out=src.replace('href="shared.css"','href="shared_regresion.css"');
+  if(out===src) throw new Error('generarRegresion: index.html ya no enlaza shared.css.');
   const i=out.indexOf('.seo-footer{'), j=out.indexOf('}',i);
   out=out.slice(0,i)+out.slice(i,j).replace('margin-top:20px','margin-top:0')+out.slice(j);
   fs.writeFileSync('/tmp/audit/index_regresion.html',out);
-  console.log('[setup] index_regresion.html generado desde index.html (arreglos del 2 sep deshechos: regla de altura de #app y margin-top del footer).');
+  console.log('[setup] index_regresion.html + shared_regresion.css generados (arreglos del 2 sep deshechos).');
 })();
 
 // helper: abre una pagina nueva de index.html (o el archivo que se pida),
