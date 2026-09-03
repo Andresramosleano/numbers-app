@@ -9,6 +9,14 @@ v2 (2 sep 2026): el veredicto ya no es por territorio (72) sino por PREGUNTA
 (42 preguntas x 12 Años Personales = 504). Fuente: NUMA_504_Veredictos_por_Pregunta.md.
 Clave en el JS: veredicto[idPregunta][añoPersonal], ej. veredicto["vida-3"]["9"].
 El archivo viejo NUMA_54_Veredictos_AnoPersonal.md queda como histórico y ya no se lee.
+
+v3 (2 sep 2026, tarde): el RASGO tampoco es por territorio (72) sino por PREGUNTA
+(42 preguntas x 12 Números de Vida = 504). Fuente: NUMA_504_Rasgos_por_Pregunta.md.
+Clave en el JS: rasgo[idPregunta][númeroDeVida], ej. rasgo["vida-3"]["6"].
+Motivo: con 72 rasgos, los bloques 3 y 4 eran idénticos entre las 7 preguntas de un
+territorio y el 49% de cada respuesta se repetía. El archivo viejo
+NUMA_72_Rasgos_Caracter.md queda como histórico y ya no se lee.
+El TIMING sigue siendo por Número de Oro (12) a propósito: habla del día, no de la pregunta.
 """
 import json
 import os
@@ -117,17 +125,23 @@ def parse_veredictos():
     return veredicto, qtexts
 
 
-# ── 3) Rasgos de carácter (Número de Vida) ──────────────────────────────
+# ── 3) Rasgos de carácter por PREGUNTA (Número de Vida) ─────────────────
 def parse_rasgos():
-    text = read("NUMA_72_Rasgos_Caracter.md")
+    """rasgo[idPregunta][númeroDeVida] con idPregunta = 'vida-1' … 'hoy-7'.
+    Devuelve también {idPregunta: textoPregunta} para cotejar con el archivo de preguntas."""
+    text = read("NUMA_504_Rasgos_por_Pregunta.md")
     sections = split_territorio_sections(text)
-    rasgo = {t: {} for t in TERR_ORDER}
+    rasgo = {}
+    qtexts = {}
     for terr_name, terr_slug in TERR_SLUG.items():
         sec = sections.get(terr_name, "")
-        items = blocks(sec, r'Número de Vida (\d+) — .+')
-        for (num,), body in items:
-            rasgo[terr_slug][num] = body
-    return rasgo
+        for (num, qtext), qbody in blocks(sec, r'Pregunta (\d+):\s*(.+)', level=3):
+            qid = f"{terr_slug}-{num}"
+            qtexts[qid] = qtext.strip()
+            rasgo[qid] = {}
+            for (nv,), body in blocks(qbody, r'Número de Vida (\d+) — .+', level=4):
+                rasgo[qid][nv] = body
+    return rasgo, qtexts
 
 
 # ── 4) Timing (Número de Oro) ───────────────────────────────────────────
@@ -149,7 +163,7 @@ def die(msg):
 def main():
     preguntas = parse_preguntas()
     veredicto, qtexts = parse_veredictos()
-    rasgo = parse_rasgos()
+    rasgo, rqtexts = parse_rasgos()
     timing = parse_timing()
 
     territorios = [{"id": t, "label": TERR_LABEL[t]} for t in TERR_ORDER]
@@ -163,15 +177,15 @@ def main():
     print(f"territorios: {n_terr}")
     print(f"preguntas:   {n_preg}")
     print(f"veredictos:  {n_ver}  ({len(veredicto)} preguntas x 12 años)")
-    print(f"rasgos:      {n_ras}")
+    print(f"rasgos:      {n_ras}  ({len(rasgo)} preguntas x 12 números de vida)")
     print(f"timing:      {n_tim}")
 
-    ok = (n_terr == 6 and n_preg == 42 and n_ver == 504 and n_ras == 72 and n_tim == 12)
+    ok = (n_terr == 6 and n_preg == 42 and n_ver == 504 and n_ras == 504 and n_tim == 12)
     if not ok:
         for t in TERR_ORDER:
             nv = sum(len(veredicto.get(f"{t}-{i}", {})) for i in range(1, 8))
-            print(f"  [{t}] preguntas={len(preguntas.get(t, []))} veredicto={nv} "
-                  f"rasgo={len(rasgo.get(t, {}))}")
+            nr = sum(len(rasgo.get(f"{t}-{i}", {})) for i in range(1, 8))
+            print(f"  [{t}] preguntas={len(preguntas.get(t, []))} veredicto={nv} rasgo={nr}")
         die("CONTEOS NO CUADRAN — revisa el parser.")
 
     for t in TERR_ORDER:
@@ -183,14 +197,19 @@ def main():
                 die(f"falta veredicto para la pregunta {qid}")
             if qtexts.get(qid) != p["q"]:
                 die(f"el texto de {qid} no coincide entre archivos:\n  preguntas: {p['q']}\n  veredictos: {qtexts.get(qid)}")
+            if rqtexts.get(qid) != p["q"]:
+                die(f"el texto de {qid} no coincide entre archivos:\n  preguntas: {p['q']}\n  rasgos:    {rqtexts.get(qid)}")
+            if qid not in rasgo:
+                die(f"falta rasgo para la pregunta {qid}")
             for k in NUM_KEYS:
                 if k not in veredicto[qid]:
                     die(f"falta veredicto[{qid}][{k}]")
                 if not veredicto[qid][k] or "\n" in veredicto[qid][k]:
                     die(f"veredicto[{qid}][{k}] vacío o con más de un párrafo")
-        for k in NUM_KEYS:
-            if k not in rasgo[t]:
-                die(f"falta rasgo[{t}][{k}]")
+                if k not in rasgo[qid]:
+                    die(f"falta rasgo[{qid}][{k}]")
+                if not rasgo[qid][k] or "\n" in rasgo[qid][k]:
+                    die(f"rasgo[{qid}][{k}] vacío o con más de un párrafo")
     for k in NUM_KEYS:
         if k not in timing:
             die(f"falta timing[{k}]")
@@ -198,6 +217,10 @@ def main():
     all_v = [veredicto[q][k] for q in veredicto for k in NUM_KEYS]
     if len(set(all_v)) != len(all_v):
         die("hay veredictos duplicados")
+
+    all_r = [rasgo[q][k] for q in rasgo for k in NUM_KEYS]
+    if len(set(all_r)) != len(all_r):
+        die("hay rasgos duplicados")
 
     obj = {
         "territorios": territorios,
