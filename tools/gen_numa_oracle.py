@@ -24,7 +24,7 @@ import re
 import sys
 
 DOCS_DIR = os.environ.get("NUMA_DOCS_DIR") or os.path.expanduser("~/mnt/documentos")
-OUT_PATH = os.environ.get("NUMA_OUT_PATH") or os.path.expanduser("~/mnt/numbers-app/tools/numa_oracle_data.js")
+OUT_PATH = os.environ.get("NUMA_OUT_PATH") or os.path.expanduser("~/mnt/numbers-app/numa_data.js")
 
 TERR_SLUG = {
     "VIDA": "vida",
@@ -231,7 +231,9 @@ def main():
     }
 
     js_obj = json.dumps(obj, ensure_ascii=False)
-    js_content = "const NUMA_ORACLE=" + js_obj + ";\n"
+    CABECERA = "/* \u2500\u2500 NUMA_ORACLE \u00b7 generado por tools/gen_numa_oracle.py \u2014 no editar a mano \u2500\u2500 */\n"
+    PIE = "/* \u2500\u2500 fin NUMA_ORACLE \u2500\u2500 */\n"
+    js_content = CABECERA + "const NUMA_ORACLE=" + js_obj + ";\n" + PIE
 
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
