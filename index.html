@@ -1189,17 +1189,18 @@ function numaPersonalYear(){const p=STATE.profile;if(!p||!p.birth_date)return nu
 function numaNumeroVida(){const p=STATE.profile;if(!p||!p.full_name||!p.birth_date)return null;try{return lifePath(p.full_name,p.birth_date)}catch(e){return null}}
 function numaNumeroOro(){const r=STATE.lastResult&&STATE.lastResult.result;if(r&&r.golden)return r.golden;return numaVars().poder}
 function numaPick(obj,n){if(!obj)return'';if(obj[n]!=null)return obj[n];const master={11:2,22:4,33:6};if(master[n]!=null&&obj[master[n]]!=null)return obj[master[n]];return obj[1]}
+function numaOraculo(){return ((STATE.lang||'es')==='en'&&typeof NUMA_ORACLE_EN!=='undefined')?NUMA_ORACLE_EN:NUMA_ORACLE;}
 function numaRenderTerritorios(){
   const wrap=document.getElementById('numa-terrs');if(!wrap)return;
   const activo=numaTerritorioActivo();
-  wrap.innerHTML=NUMA_ORACLE.territorios.map(t=>`<button class="numa-terr${t.id===activo?' on':''}" data-terr="${t.id}">${t.label}</button>`).join('');
+  wrap.innerHTML=numaOraculo().territorios.map(t=>`<button class="numa-terr${t.id===activo?' on':''}" data-terr="${t.id}">${t.label}</button>`).join('');
   wrap.querySelectorAll('[data-terr]').forEach(btn=>{
     btn.addEventListener('click',function(){STATE.numaTerr=this.dataset.terr;numaModoLectura(false);numaRenderTerritorios();numaRenderChipsTerritorio();});
   });
 }
 function numaRenderChipsTerritorio(){
   const chipsEl=document.getElementById('numa-chips');if(!chipsEl)return;
-  const terr=numaTerritorioActivo(),qs=NUMA_ORACLE.preguntas[terr]||[];
+  const terr=numaTerritorioActivo(),qs=numaOraculo().preguntas[terr]||[];
   chipsEl.innerHTML=qs.map(q=>`<button class="numa-chip" data-qid="${q.id}">${q.q}</button>`).join('');
   chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{
     let _touched=false;
@@ -1242,15 +1243,9 @@ function numaOpen(){
   const terrsEl=document.getElementById('numa-terrs');
   if(statusEl)statusEl.textContent=lang==='en'?'● Reads your numbers · Answers your questions':'● Lee tus números · Responde tus preguntas';
   if(lbl)lbl.textContent=lang==='en'?'✦ TAP A QUESTION':'✦ TOCA UNA PREGUNTA';
-  if(lang==='es'){
-    /* Oráculo de 4 capas: territorios + sus 7 preguntas, todo en la misma pantalla (sin navegación anidada) */
-    if(terrsEl){terrsEl.hidden=false;numaRenderTerritorios();}
-    numaRenderChipsTerritorio();
-  }else{
-    /* Sistema viejo (EN): 12 chips fijos, sin fila de territorios — las 240 piezas nuevas son solo-español */
-    if(terrsEl)terrsEl.hidden=true;
-    if(chipsEl){const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es;chipsEl.innerHTML=qs.map(q=>q.locked?`<button class="numa-chip locked" disabled>${q.label}</button>`:`<button class="numa-chip" data-qid="${q.id}">${q.label}</button>`).join('');chipsEl.querySelectorAll('[data-qid]').forEach(btn=>{let _touched=false;btn.addEventListener('touchend',function(e){e.preventDefault();_touched=true;numaAsk(this.dataset.qid);setTimeout(()=>{_touched=false},500);});btn.addEventListener('click',function(){if(!_touched)numaAsk(this.dataset.qid);});})}
-  }
+  /* Oráculo de 4 capas en ES y EN (encendido del inglés, 17 sep 2026) */
+  if(terrsEl){terrsEl.hidden=false;numaRenderTerritorios();}
+  numaRenderChipsTerritorio();
   const chat=document.getElementById('numa-chat');
   if(chat&&chat.children.length===0)numaGreet();
 }
@@ -1267,43 +1262,25 @@ function numaGreet(){
 function numaAsk(q){
   const lang=STATE.lang||'es';
   try{
-    if(lang==='es'){
-      /* ── Motor nuevo: oráculo de 4 capas (entrada · veredicto · rasgo · timing), solo español ── */
-      const terr=numaTerritorioActivo();
-      const preguntas=NUMA_ORACLE.preguntas[terr]||[];
-      const preg=preguntas.find(x=>x.id===q);
-      if(!preg)return;
-      numaAddBubble(preg.q,true);
-      const p=STATE.profile;
-      if(!p||!p.full_name||!p.birth_date){
-        numaAddBubble('✦ Completa tus datos personales (paso 2) para que NUMA pueda leer tus números.',false,700);
-        return;
-      }
-      numaModoLectura(true);
-      const vars=numaVars();
-      const anio=numaPersonalYear(),nv=numaNumeroVida(),oro=numaNumeroOro();
-      const b1=numaFill(preg.entrada,vars);
-      const b2=numaFill(numaPick(NUMA_ORACLE.veredicto[preg.id],anio),vars);
-      const b3=numaFill(numaPick(NUMA_ORACLE.rasgo[preg.id],nv),vars);
-      const b4=numaFill(numaPick(NUMA_ORACLE.timing,oro),vars);
-      numaAddBubble([b1,b2,b3,b4].join('<br><br>'),false,700);
+    const OR=numaOraculo();
+    const terr=numaTerritorioActivo();
+    const preguntas=OR.preguntas[terr]||[];
+    const preg=preguntas.find(x=>x.id===q);
+    if(!preg)return;
+    numaAddBubble(preg.q,true);
+    const p=STATE.profile;
+    if(!p||!p.full_name||!p.birth_date){
+      numaAddBubble(lang==='en'?'✦ Complete your personal details (step 2) so NUMA can read your numbers.':'✦ Completa tus datos personales (paso 2) para que NUMA pueda leer tus números.',false,700);
       return;
     }
-    /* ── Motor viejo: 12 chips con frases al azar (EN — el ES ya no llega aquí, ver arriba) ── */
-    const vars=numaVars();
-    const qs=NUMA_DATA.questions[lang]||NUMA_DATA.questions.es,chip=qs.find(x=>x.id===q);
-    if(!chip||chip.locked)return;
-    numaAddBubble(chip.label,true);
     numaModoLectura(true);
-    const scoreLabel=lang==='en'?'Day harmony':'Armonía del día';
-    let resp='';
-    if(q==='buen-dia'){const tier=vars.score>=70?'yes':vars.score>=40?'mid':'no';const d=(NUMA_DATA.q1[lang]||NUMA_DATA.q1.es)[tier];resp=numaFill(numaRand(d),vars)+`<br><span class="numa-score">${scoreLabel} · ${vars.score}/100</span>`;}
-    else if(q==='numero'){const d=NUMA_DATA.q2[lang]||NUMA_DATA.q2.es;resp=numaFill(numaRand(d),vars);}
-    else if(q==='arriesgar'){const tier=vars.score>=70?'yes':'no';const d=(NUMA_DATA.q3[lang]||NUMA_DATA.q3.es)[tier];resp=numaFill(numaRand(d),vars);}
-    else if(q==='energia'){const q4L=NUMA_DATA.q4[lang]||NUMA_DATA.q4.es;const d=q4L[vars.dayNum]||q4L[1];resp=lang==='en'?`<strong style="color:var(--gold)">Today you vibrate in ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`:`<strong style="color:var(--gold)">Hoy vibras en ${vars.dayNum}: ${d.k}.</strong><br>${d.t}`;}
-    else if(NUMA_DATA.extra&&NUMA_DATA.extra[q]){const d=NUMA_DATA.extra[q][lang]||NUMA_DATA.extra[q].es;resp=numaFill(numaRand(d),vars);}
-    if(resp)numaAddBubble(resp,false,700);
-    else numaAddBubble(lang==='en'?'✦ The energy is processing your question...':'✦ La energía está procesando tu pregunta...',false,700);
+    const vars=numaVars();
+    const anio=numaPersonalYear(),nv=numaNumeroVida(),oro=numaNumeroOro();
+    const b1=numaFill(preg.entrada,vars);
+    const b2=numaFill(numaPick(OR.veredicto[preg.id],anio),vars);
+    const b3=numaFill(numaPick(OR.rasgo[preg.id],nv),vars);
+    const b4=numaFill(numaPick(OR.timing,oro),vars);
+    numaAddBubble([b1,b2,b3,b4].join('<br><br>'),false,700);
   }catch(e){console.error('[NUMA]',e);numaAddBubble(lang==='en'?'✦ The stars are aligning... try again.':'✦ Los astros se están alineando... intenta de nuevo.',false,400);}
 }
 function setLang(l,b){try{localStorage.setItem('no_lang',l)}catch(e){}if(l==='zh'){location.href='zh.html';return}STATE.lang=l;document.title=l==='en'?'NUMBERS ORACLE ✦ — Your Golden Number for Today':'NUMBERS ORACLE ✦ — Tu Número de Oro del Día';document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.lang-btn[data-lang="'+l+'"]').forEach(x=>x.classList.add('active'));try{applyStaticLang(l)}catch(e){console.warn('applyStaticLang:',e)}try{applyConsumptionOnly()}catch(e){}try{accUpdate()}catch(e){}try{const tf=document.getElementById('tab-form');if(tf&&!tf.classList.contains('hidden'))chargeMotors();}catch(e){}try{const tn=document.getElementById('tab-numa');if(tn&&!tn.classList.contains('hidden')){const nc=document.getElementById('numa-chat');if(nc)nc.innerHTML='';numaOpen();}}catch(e){}try{const tcy=document.getElementById('tab-ciclos');if(tcy&&!tcy.classList.contains('hidden'))renderCiclos(STATE.cicloActivo||'dia');}catch(e){}try{const tabR=document.getElementById('tab-result');if(tabR&&!tabR.classList.contains('hidden')&&STATE.lastResult){const r=STATE.lastResult.result;const games=I18N_NEW[l==='en'?'en':'es'].games;const rg=document.getElementById('result-game');if(rg&&STATE.game)rg.textContent=games[STATE.game]||STATE.game;const phi=document.getElementById('golden-phi');if(phi&&r){phi.innerHTML=l==='en'?`This number <strong>is not your life number</strong> — it is different and more powerful: it is born from the <strong>fusion of your five forces with today's energy</strong>. Your life number (${r.lp}) is permanent. The Golden Number changes every day according to the lunar phase, the Chinese calendar and the energy of the day. From that fusion emerges the <strong>${r.golden}</strong>, the number most aligned with you at this exact moment.`:`Este número <strong>no es tu número de vida</strong> — es distinto y más poderoso: nace de la <strong>fusión de tus cinco fuerzas con la energía de hoy</strong>. Tu número de vida (${r.lp}) es permanente. El Número de Oro cambia cada día según la fase lunar, el calendario chino y la energía del día. De esa fusión emerge el <strong>${r.golden}</strong>, el número más alineado contigo en este momento exacto.`}}}catch(e){}}
@@ -2949,5 +2926,6 @@ html.lang-en #seo-numeros-footer{display:none!important}
 </div>
 </footer>
 <script src="numa_data.js" defer></script>
+<script src="numa_data_en.js" defer></script>
 </body>
 </html>

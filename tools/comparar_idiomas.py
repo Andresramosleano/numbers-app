@@ -66,6 +66,7 @@ SOLO_EN_UNO = {
  'numaTerritorioActivo':'Oraculo NUMA de 4 capas: solo index. Portarlo al chino es contenido nuevo (frente aparte).',
  'numaPersonalYear':'Idem oraculo NUMA de 4 capas.', 'numaNumeroVida':'Idem oraculo NUMA de 4 capas.',
  'numaNumeroOro':'Idem oraculo NUMA de 4 capas.', 'numaPick':'Idem oraculo NUMA de 4 capas.',
+ 'numaOraculo':'Selector ES/EN del oraculo (17 sep 2026). zh sigue con el motor viejo: portar NUMA al chino exige revisar los 504 veredictos contra la ley china.',
  'numaRenderTerritorios':'Idem oraculo NUMA de 4 capas.', 'numaRenderChipsTerritorio':'Idem oraculo NUMA de 4 capas.',
  'numaModoLectura':'Modo lectura de NUMA: solo index (va con el oraculo de 4 capas).',
  'numaVolverPreguntas':'Idem modo lectura de NUMA.',
