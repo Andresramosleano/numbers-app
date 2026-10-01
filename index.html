@@ -1387,7 +1387,7 @@ function nlRender(scroll){
 function nlAskNuma(){
   try{localStorage.setItem('no_after_auth','numa')}catch(e){}
   try{posthog.capture('landing_numa_click')}catch(e){}
-  goAuth('register');if(NL_LAST)nlSet('auth-name',NL_LAST.name);
+  goAuth('register');if(NL_LAST)nlSet('auth-name',NL_LAST.name);try{window.scrollTo(0,0)}catch(e){} /* 1oct2026: sin esto el registro se abria a media pagina (visto por Andres en el movil) */
 }
 /* Tras crear la cuenta: si el perfil aún no tiene datos, se llenan con los de la portada (no se escriben dos veces). */
 function nlApplyToApp(user,profile){
