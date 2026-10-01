@@ -34,6 +34,7 @@ IDENT_JUSTIFICADOS = {
 }
 
 JUSTIFICADAS = {
+ 'afterLogin':      'Solo index: la nueva portada (1 oct, REGISTRO 1.23/1.24) rellena el perfil con los datos de la portada y aterriza en NUMA (no_after_auth). zh conserva su portada: tanda china aparte.',
  # --- distintas a proposito (medido el 3 sep) ---
  'showFuerzas':     'Unica diferencia MEDIDA: el parametro local de una funcion interna se llama es en index y zh en zh.html (var setT=function(id,es,e2) vs (id,zh,e2)), usado igual en los dos lados. Cosmetico, sin efecto. No se toca produccion por un nombre de variable.',
  'populateLeagues': 'zh tiene un fallback DE MAS que index no necesita: chip.textContent = l===en ? r.lg.en : (r.lg.zh||r.lg.es). El chino esta por delante aqui, no por detras.',
@@ -63,6 +64,14 @@ JUSTIFICADAS = {
 # Funciones que existen en UN SOLO archivo, a proposito.
 # ---------------------------------------------------------------------------
 SOLO_EN_UNO = {
+ 'nlConsult':'Nueva portada (1 oct, REGISTRO 1.23-1.33): solo index; zh tendra su version de bienestar en tanda aparte.',
+ 'nlRender':'Idem nueva portada.',
+ 'nlAskNuma':'Idem nueva portada.',
+ 'nlApplyToApp':'Idem nueva portada.',
+ 'nlInit':'Idem nueva portada.',
+ 'nlData':'Idem nueva portada.',
+ 'nlPendingNuma':'Idem nueva portada.',
+ 'nlSet':'Idem nueva portada.',
  'numaTerritorioActivo':'Oraculo NUMA de 4 capas: solo index. Portarlo al chino es contenido nuevo (frente aparte).',
  'numaPersonalYear':'Idem oraculo NUMA de 4 capas.', 'numaNumeroVida':'Idem oraculo NUMA de 4 capas.',
  'numaNumeroOro':'Idem oraculo NUMA de 4 capas.', 'numaPick':'Idem oraculo NUMA de 4 capas.',

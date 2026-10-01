@@ -22,7 +22,10 @@ function geoFromCoords(lat,lon){const h=Math.round(Math.abs(lat*1000))+Math.roun
 function loadCityData(){if(CITY_DATA)return Promise.resolve(CITY_DATA);if(CITY_DATA_LOADING)return CITY_DATA_LOADING;CITY_DATA_LOADING=fetch('cities.json').then(r=>r.json()).then(d=>{CITY_DATA=d;return d}).catch(()=>null);return CITY_DATA_LOADING}
 function normCity(s){return(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim()}
 function cityGeoVal(field,text){const g=CITY_GEO[field];if(g)return geoFromCoords(g.lat,g.lon);return cityEnergy(text||'')}
-function citySuggestHide(field){const box=document.getElementById('citysug-'+field);if(box)box.classList.remove('show')}
+function citySuggestHide(field,pre){const box=document.getElementById('citysug-'+(pre&&pre!=='inp-'?pre:'')+field);if(box)box.classList.remove('show')}
+/* 1oct2026: el "hoy" de la app es el dia LOCAL de la persona. Antes era toISOString (UTC) y en Bogota el dia cambiaba a las 7 pm. */
+function dayISO(d){const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
+function todayISO(){return dayISO(new Date())}
 function seededRand(s){let x=s>>>0;return()=>{x^=x<<13;x^=x>>17;x^=x<<5;return(x>>>0)/0xFFFFFFFF}}
 function sportsSeasonStr(sport,d){
   const y=d.getFullYear();
@@ -46,7 +49,7 @@ function openMotorPanel(key){
     panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-locked">'+M.lock+'</div><button class="btn-pct" style="margin-top:.85rem" onclick="showTab(\'upgrade\')">'+M.lockBtn+'</button>';
     panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});return;
   }
-  const today=new Date().toISOString().split('T')[0];
+  const today=todayISO();
   const tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
   const ev=key==='moon'?r.moon.day:r.engines[key];
   let dn=numReduce((key==='moon'?numReduce(r.moon.day):ev)+tn);
@@ -137,7 +140,7 @@ function openHoy(){
   try{
     const cityB=(document.getElementById('inp-cityb')||{value:''}).value.trim();
     const cityN=(document.getElementById('inp-cityn')||{value:''}).value.trim();
-    const today=new Date().toISOString().split('T')[0];
+    const today=todayISO();
     STATE.game='daily';
     const r=computeNumbers(name,birth,cityB,cityN,'daily',STATE.lang,today);
     STATE.lastResult={result:r,name:name,game:'daily'};
@@ -148,11 +151,11 @@ function openHoy(){
 function hoyMotorVals(r){return {num:r.engines.num,ast:r.engines.ast,moon:r.moon.day+'d',chi:r.engines.chi,geo:r.engines.geo};}
 function streakTouch(){
   try{
-    const today=new Date().toISOString().split('T')[0];
+    const today=todayISO();
     let s={n:0,last:''};
     try{s=JSON.parse(localStorage.getItem('no_streak'))||s}catch(e){}
     if(s.last===today)return{n:s.n,fresh:false};
-    const y=new Date(Date.now()-864e5).toISOString().split('T')[0];
+    const y=dayISO(new Date(Date.now()-864e5));
     s.n=(s.last===y)?(s.n+1):1;s.last=today;
     localStorage.setItem('no_streak',JSON.stringify(s));
     return{n:s.n,fresh:true};
@@ -160,7 +163,7 @@ function streakTouch(){
 }
 function goldRemember(g){
   try{
-    const today=new Date().toISOString().split('T')[0];
+    const today=todayISO();
     let m={};try{m=JSON.parse(localStorage.getItem('no_gold'))||{}}catch(e){}
     if(m.date!==today){m.prevDate=m.date;m.prevNum=m.num;}
     m.date=today;m.num=g;
@@ -170,7 +173,7 @@ function goldRemember(g){
 function goldYesterday(){
   try{
     const m=JSON.parse(localStorage.getItem('no_gold'))||{};
-    const y=new Date(Date.now()-864e5).toISOString().split('T')[0];
+    const y=dayISO(new Date(Date.now()-864e5));
     return(m.prevDate===y&&m.prevNum!=null)?m.prevNum:null;
   }catch(e){return null;}
 }
@@ -196,7 +199,7 @@ function numaRand(arr){return arr[Math.floor(Math.random()*arr.length)]}
 function numaClose(){showTab(STATE.prevTab||'form');}
 function showForgotPw(){goTo('screen-forgot');}
 function toggleAuth(){goAuth(STATE.authMode==='register'?'login':'register')}
-function sportLeagueCacheKey(leagueId){return 'no_sports_league_'+leagueId+'_'+new Date().toISOString().split('T')[0]}
+function sportLeagueCacheKey(leagueId){return 'no_sports_league_'+leagueId+'_'+todayISO()}
 function renderLeagueEmptyState(msg){
   const es=document.getElementById('league-empty-state');if(!es)return;
   es.textContent=msg||'';es.classList.toggle('hidden',!msg);
@@ -261,7 +264,7 @@ function selGame(el){
   try{renderConsultaSel()}catch(e){}
 }
 function isPro(){return STATE.profile?.plan==='pro'}
-function dreamQuotaKey(){return 'no_dream_'+new Date().toISOString().split('T')[0]}
+function dreamQuotaKey(){return 'no_dream_'+todayISO()}
 function dreamQuotaToday(){try{return parseInt(localStorage.getItem(dreamQuotaKey())||'0',10)}catch(e){return 0}}
 function incrementDreamQuota(){try{localStorage.setItem(dreamQuotaKey(),String(dreamQuotaToday()+1))}catch(e){}}
 function proLaunch(el){
@@ -789,7 +792,7 @@ async function fetchLeagueMatches(leagueId,sport){
     const season=sportsSeasonStr(sport,new Date());
     const r=await fetch('https://www.thesportsdb.com/api/v1/json/123/eventsseason.php?id='+leagueId+'&s='+encodeURIComponent(season));
     const j=await r.json();
-    const today=new Date().toISOString().split('T')[0];
+    const today=todayISO();
     const events=(j.events||[]).filter(e=>e.dateEvent>=today&&e.strStatus==='NS'&&e.strHomeTeam&&e.strAwayTeam).sort((a,b)=>(a.dateEvent+(a.strTime||'')).localeCompare(b.dateEvent+(b.strTime||''))).slice(0,15);
     try{localStorage.setItem(ck,JSON.stringify({events:events}));}catch(e){}
     return events;
@@ -802,6 +805,6 @@ async function fetchLeagueMatches(leagueId,sport){
 async function enterApp(){if(!STATE.user)return;await afterLogin(STATE.user);}
 async function logout(){await sb.auth.signOut();STATE.user=null;STATE.profile=null;STATE.history=[];document.getElementById('landing-btns-guest').style.display='';document.getElementById('landing-btns-user').style.display='none';goTo('screen-landing');applyProBadges();applyConsumptionOnly()}
 async function loadHistory(){if(!STATE.user)return;const res=await withTimeout(sb.from('consultations').select('*').eq('user_id',STATE.user.id).order('created_at',{ascending:false}).limit(30),5000,{data:[]});STATE.history=res?.data||[]}
-async function loadQuota(){if(!STATE.user)return;const today=new Date().toISOString().split('T')[0];const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
-async function incrementQuota(){const today=new Date().toISOString().split('T')[0];await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
+async function loadQuota(){if(!STATE.user)return;const today=todayISO();const res=await withTimeout(sb.from('daily_quota').select('count').eq('user_id',STATE.user.id).eq('quota_date',today).single(),5000,{data:null});STATE.consultsToday=res?.data?.count||0;updateFreemiumBar()}
+async function incrementQuota(){const today=todayISO();await withTimeout(sb.from('daily_quota').upsert({user_id:STATE.user.id,quota_date:today,count:STATE.consultsToday+1}),5000,null);STATE.consultsToday++}
 async function saveConsultation(result,name){await withTimeout(sb.from('consultations').insert({user_id:STATE.user.id,game_type:STATE.game,numbers:result.nums,life_path:result.lp,zodiac_sign:result.zodiac.sign,moon_phase:result.moon.name,chinese_animal:result.chinese.animal,geo_resonance:result.geo,market:STATE.lang}),5000,null);await withTimeout(sb.from('profiles').update({full_name:name,birth_date:document.getElementById('inp-birth').value,birth_city:document.getElementById('inp-cityb').value,current_city:document.getElementById('inp-cityn').value,language:STATE.lang}).eq('id',STATE.user.id),5000,null)}

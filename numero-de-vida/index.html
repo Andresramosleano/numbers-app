@@ -28,7 +28,7 @@
 }
 </script>
 <style>
-:root{--bg:#080510;--bg2:#0f0a1e;--gold:#c9a84c;--gold2:#e8c97a;--gold3:#f5e4b0;--text:#f5efe0;--muted:#e7ddc4;--border:rgba(201,168,76,0.18)}
+:root{--bg:#13111a;--bg2:#1d1a25;--gold:#c9a84c;--gold2:#e8c97a;--gold3:#f5e4b0;--text:#f5efe0;--muted:#e7ddc4;--border:rgba(201,168,76,0.18)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:17px;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;line-height:1.65;min-height:100dvh}
@@ -37,7 +37,7 @@ header{padding:22px 0 8px;text-align:center}
 .wordmark{display:inline-block;font-family:'Cinzel Decorative',serif;font-size:1.15rem;letter-spacing:.06em;color:var(--gold2);text-decoration:none}
 .wordmark span{color:var(--gold3)}
 main{padding-top:18px}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.84rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
 h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:2.05rem;line-height:1.25;color:var(--text);margin-bottom:18px}
 .lead{font-size:1.2rem;color:var(--gold3);font-style:italic;margin-bottom:28px;padding:18px 20px;border-left:2px solid var(--gold);background:rgba(201,168,76,.05);border-radius:0 8px 8px 0}
 h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.5rem;color:var(--gold2);margin:32px 0 14px}
@@ -67,14 +67,17 @@ ul.f li{font-size:1.08rem;color:var(--muted);margin-bottom:10px;padding-left:16p
 .cta-box p{color:var(--gold3);font-size:1.15rem;margin-bottom:18px}
 .btn-cta{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;text-decoration:none;padding:14px 34px;border-radius:999px}
 .otros{margin-top:36px;padding-top:24px;border-top:1px solid var(--border)}
-.otros-title{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.otros-title{font-family:'JetBrains Mono',monospace;font-size:.84rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .grid{display:flex;flex-wrap:wrap;gap:9px}
 .grid a{color:var(--gold2);text-decoration:none;border:1px solid rgba(201,168,76,.3);border-radius:999px;padding:6px 15px;font-size:1rem}
 .grid a:hover{border-color:var(--gold)}
 .hub-link{display:block;text-align:center;margin-top:24px;font-size:1rem}
 .hub-link a{color:var(--gold2);text-decoration:none;border-bottom:1px solid var(--border)}
 .nota{font-size:.98rem;color:#cfc0a0;font-style:italic;margin-top:10px}
-footer{text-align:center;padding:28px 0 10px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);opacity:.6}
+footer{text-align:center;padding:28px 0 10px;font-family:'JetBrains Mono',monospace;font-size:.84rem;color:var(--muted);opacity:.6}
+/* 1oct2026 REGISTRO 1.31 (numeros arabigos claros) + 1.33 (legibilidad) */
+body{font-variant-numeric:lining-nums}
+.calc-out a.mine{display:inline-block;margin-top:6px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;font-weight:600;font-size:1.15rem;padding:12px 26px;border-radius:999px;border:0}
 </style>
 </head>
 <body>
@@ -165,11 +168,16 @@ footer{text-align:center;padding:28px 0 10px;font-family:'JetBrains Mono',monosp
     if(y<1900||y>2030){ err.textContent='Revisa el año de nacimiento.'; err.className='calc-err on'; return; }
     var s=v.replace(/-/g,'').split('').map(Number).reduce(function(a,b){return a+b},0);
     var n=reduce(s);
+    try{localStorage.setItem('no_birth',v)}catch(e){}
+    var P=(location.pathname.match(/numero-de-vida\/(\d+)/)||[])[1];P=P?+P:null;
     document.getElementById('outn').textContent=n;
-    document.getElementById('outt').textContent='Tu número de vida es el '+n+': '+(TITULOS[n]||'');
-    var a=document.getElementById('outa'); a.href='/numero-de-vida/'+n; a.textContent='Ver qué significa el '+n+' \u2192';
+    var a=document.getElementById('outa'); a.href='/numero-de-vida/'+n; a.className='mine';
+    /* 1oct2026 REGISTRO 1.27: la fecha se pide una sola vez; cada pagina responde con el numero de la persona. */
+    if(P===n){ document.getElementById('outt').textContent='Este es tu número.'; a.style.display='none'; }
+    else{ document.getElementById('outt').textContent=P?('Esta página describe a quienes tienen el '+P+'. El tuyo es el '+n+': '+(TITULOS[n]||'')+'.'):('Tu número de vida es el '+n+': '+(TITULOS[n]||'')+'.'); a.style.display=''; a.textContent='Ver el mío \u2192'; }
     out.className='calc-out on';
   };
+  try{var b0=localStorage.getItem('no_birth');var i0=document.getElementById('nac');if(b0&&i0&&/^\d{4}-\d{2}-\d{2}$/.test(b0)){i0.value=b0;window.noCalc();}}catch(e){}
 })();
 </script>
 </body>
