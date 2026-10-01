@@ -54,6 +54,11 @@ posthog.init('phc_BZgnA2o5pngoJDb7WzKuNGwNdzHZqEC8oR6ZmWv9zM72',{api_host:'https
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style id="nl-css">
+/* 1oct2026 REGISTRO 1.32: puertas = una invitacion de una linea al final de cada respuesta. */
+.door{display:block;margin:22px auto 8px;max-width:340px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:22px;line-height:1.3;color:#e3c27a;cursor:pointer;padding:10px 6px;border-bottom:1px solid rgba(227,194,122,.4)}
+.door[hidden]{display:none}
+#door-numa{display:none}#tab-numa.numa-leyendo #door-numa{display:block}
+#door-signals{display:none}#tab-result.signals-mode #door-signals{display:block}#tab-result.signals-mode #door-result{display:none}
 /* 1oct2026 Nueva primera pantalla (REGISTRO 1.23-1.33). Tokens de legibilidad 1.33, solo en la portada y su tarjeta. */
 #screen-landing{background:#13111a}
 .nl{--nb:#13111a;--ns:#1d1a25;--nl:#3b3646;--nf:#f8f3e9;--nm:#ddd3c1;--ng:#e3c27a;--ngs:#a88a52;--nink:#1a1408;--nfb:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;--nfd:'Cormorant Garamond',Georgia,serif;--nfm:'JetBrains Mono',ui-monospace,Menlo,monospace;max-width:460px;width:100%;margin:0 auto;gap:26px;color:var(--nf);font-family:var(--nfb);font-size:17px;line-height:1.55;font-variant-numeric:lining-nums}
@@ -449,6 +454,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
 
     <div class="result-screen hidden" id="tab-result">
       <div id="signals-result" class="signals-result hidden"></div>
+      <div class="door" id="door-signals" onclick="proLaunch(document.querySelector('.game-card[data-game=compat]'))">¿Y con otra persona? →</div>
       <div class="result-header">
         <div class="result-for">Tu combinación para</div>
         <div class="result-game" id="result-game"></div>
@@ -567,6 +573,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
       </div>
       <button class="btn-share-main" id="btn-share-main" onclick="shareWA()">✦ Compartir mis números ✦</button>
       <div class="share-hint" id="share-hint">Comparte tu energía del día con alguien especial ✦</div>
+      <div class="door" id="door-result" hidden onclick="smOpen()">¿Un número te persigue? →</div>
       <div class="disclaimer-text">ℹ️ Numbers es entretenimiento e inspiración personal.</div>
       <div class="pro-banner" id="pro-banner-bottom" style="display:none">
         <div class="pro-title">✦ NUMBERS PRO ✦</div>
@@ -789,6 +796,7 @@ if(/(^|\.)numbersoracle\.com$/.test(location.hostname)){
         <div class="numa-terrs" id="numa-terrs" hidden></div>
         <div class="numa-chips" id="numa-chips"></div>
       </div>
+      <div class="door" id="door-numa" onclick="dreamOpen()">¿Soñaste algo anoche? →</div>
       <button class="numa-volver" id="numa-volver" onclick="numaVolverPreguntas()">← Otra pregunta</button>
     </div>
 
@@ -1388,13 +1396,14 @@ function nlRender(scroll){
 function nlAskNuma(){
   try{localStorage.setItem('no_after_auth','numa')}catch(e){}
   try{posthog.capture('landing_numa_click')}catch(e){}
-  goAuth('register');if(NL_LAST)nlSet('auth-name',NL_LAST.name);try{window.scrollTo(0,0)}catch(e){} /* 1oct2026: sin esto el registro se abria a media pagina (visto por Andres en el movil) */
+  goAuth('register');if(NL_LAST)nlSet('auth-name',NL_LAST.name);{const as=document.getElementById('auth-sub');if(as)as.textContent=L('Crea tu cuenta gratis y NUMA te responde','Create your free account and NUMA will answer you');}try{window.scrollTo(0,0)}catch(e){} /* 1oct2026: sin esto el registro se abria a media pagina (visto por Andres en el movil) */
 }
 /* Tras crear la cuenta: si el perfil aún no tiene datos, se llenan con los de la portada (no se escriben dos veces). */
 function nlApplyToApp(user,profile){
   const d=nlData();if(!d||!d.name||!d.birth||(profile&&profile.birth_date))return;
   nlSet('inp-name',d.name);nlSet('inp-birth',d.birth);nlSet('inp-cityb',d.cityb);nlSet('inp-cityn',d.cityn);
   if(d.geo){if(d.geo.cityb)CITY_GEO.cityb=d.geo.cityb;if(d.geo.cityn)CITY_GEO.cityn=d.geo.cityn;}
+  if(profile){if(!profile.full_name)profile.full_name=d.name;profile.birth_date=d.birth;profile.birth_city=d.cityb;profile.current_city=d.cityn;} /* NUMA lee STATE.profile.birth_date: sin esto pedia 'completa tus datos' */
   try{withTimeout(sb.from('profiles').update({full_name:d.name,birth_date:d.birth,birth_city:d.cityb,current_city:d.cityn}).eq('id',user.id),5000,null)}catch(e){}
 }
 function nlInit(){
@@ -1838,7 +1847,7 @@ function playConvergence(e,m,golden){
 
 
 
-function renderResult(r,name){
+function renderResult(r,name){{const dr=document.getElementById('door-result');if(dr)dr.hidden=STATE.game!=='daily';}
   resetCompatView();
   // 1sep2026 Cambio D: al renderizar un resultado nuevo, la combinacion vuelve a quedar oculta tras el boton
   (function(){const w=document.getElementById('combo-reveal-wrap');const b=document.getElementById('btn-reveal-combo');if(w)w.hidden=true;if(b)b.textContent=L('Ver mi combinación →','See my combination →');})();
@@ -1969,6 +1978,10 @@ const MOON_EN={'Nueva':'New','Creciente':'Waxing','Cuarto creciente':'First quar
 
 const UI_EN=[
 ['#nl-login','I already have an account'],
+['#door-numa','Did you dream something last night? →'],
+['#door-dream','Need to pick numbers today? →'],
+['#door-result','Is a number following you? →'],
+['#door-signals','What about with someone else? →'],
 ['#nl-h1','Your numbers mark your path.'],
 ['#nl-h2','Today they tell you what to do.'],
 ['#nl-intro','Five cosmic forces converge today into a single number: yours.'],
@@ -2963,6 +2976,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <a class="dream-seo-link hidden" id="dream-seo-link" href="#" rel="noopener">Lee la interpretación completa de este sueño →</a>
       <canvas id="dream-canvas" width="1080" height="1350" style="display:none"></canvas>
       <button class="btn-sm-rev" id="dream-share-btn" onclick="dreamShare()">📤 Compartir mi carta</button>
+      <div class="door" id="door-dream" onclick="dreamClose();quickLaunch(document.querySelector('.game-card[data-game=daily]'))">¿Necesitas elegir números hoy? →</div>
       <div class="dream-upsell-link" id="dream-upsell-link" onclick="dreamUpsell()">Conecta este número con tu número de vida →</div>
       <button class="btn-sm-close" id="dream-again-btn" onclick="dreamAgain()">↺ Otro sueño</button>
     </div>

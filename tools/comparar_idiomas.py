@@ -43,7 +43,7 @@ JUSTIFICADAS = {
  'setLang':         'Cada archivo redirige AL OTRO; por definicion no pueden ser la misma funcion.',
  'detectRegionPricing':'index cubre Latam/USA/SEA; zh solo necesita el precio de China. Fusionar meteria logica muerta en zh.',
  'generate':        'A zh le falta la rama de cuota de Sports; Sports es lo mas parecido a una prediccion, justo lo que China prohibe.',
- 'renderResult':    'zh usa tZH/tMoon/tZodiac/tAnimal (solo existen alli) para traducir signo, luna y animal.',
+ 'renderResult':    'zh usa tZH/tMoon/tZodiac/tAnimal (solo existen alli) para traducir signo, luna y animal. Desde el 1 oct, index ademas muestra la puerta door-result (REGISTRO 1.32); zh no lleva puertas (Combinacion = numeros, choca con la regla China = bienestar).',
  'dreamCompute':    'zh NO incluye la funcion "charada" (numero de loteria folclorico): es exactamente el lenguaje que la ley china prohibe.',
  'dreamReveal':     'A zh le falta el puente hacia /suenos/, y esta bien: esas paginas solo existen en espanol (regla firme de i18n).',
  # --- el motor viejo de NUMA en zh: frente aparte, decidido el 3 sep ---
