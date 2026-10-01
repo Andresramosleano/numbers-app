@@ -194,7 +194,13 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-hoy .hoy-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:104px;font-weight:600;font-feature-settings:'lnum' 1;color:var(--gold3);text-shadow:0 0 34px rgba(201,168,76,.55);line-height:1;animation:goldpulse 2.8s infinite}
 #tab-hoy .hoy-goldlbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:5px}
 #tab-hoy .hoy-mini{position:absolute;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px;line-height:1;cursor:pointer;transition:transform .15s}
-#tab-hoy .hoy-mini:active{transform:scale(.9)}
+#tab-hoy .hoy-mini:active{transform:scale(1.1)}
+/* 1oct2026 Andres: que se note que cada circulo es un boton. Late 3 veces, uno tras otro, y se detiene. */
+.hoy-mini::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid currentColor;opacity:0;pointer-events:none;animation:hoyTap 1.6s ease-out 3 both;animation-delay:calc(var(--i,0)*.3s + .6s)}
+@keyframes hoyTap{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.45);opacity:0}}
+@media (hover:hover){.hoy-mini:hover{transform:scale(1.08)}}
+@media (prefers-reduced-motion:reduce){.hoy-mini::after{animation:none}}
+.hoy-taphint{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--muted);text-align:center;margin:2px auto 10px}
 #tab-hoy .hoy-mini b{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;margin-top:2px}
 #tab-hoy .hoy-combo{display:flex;justify-content:center;gap:9px;margin:0 0 4px;flex-wrap:wrap}
 #tab-hoy .hoy-combo b{font-family:'JetBrains Mono',monospace;width:40px;height:40px;border-radius:10px;background:var(--bg2);border:1px solid rgba(201,168,76,.38);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--gold2);font-weight:500}
@@ -208,7 +214,7 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Geo
 #tab-hoy .hoy-numa-who{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase}
 #tab-hoy .hoy-numa p{font-size:16px;line-height:1.55;color:var(--text)}
 .btn-outline-hoy{margin-top:12px;width:100%;background:transparent;color:var(--gold);border:1px solid var(--border);border-radius:12px;padding:12px;font-family:'Cinzel Decorative',serif;font-size:13.5px;cursor:pointer}
-#tab-hoy .hoy-disc{color:var(--faint);font-size:12px;margin-top:16px;opacity:.85}
+#tab-hoy .hoy-disc{color:var(--faint);font-size:12px;margin-top:16px;margin-bottom:24px;opacity:.85}
 .hoy-sheet-bg{position:fixed;inset:0;z-index:400;background:rgba(4,2,10,.72);display:none;align-items:flex-end;justify-content:center}
 .hoy-sheet-bg.show{display:flex}
 .hoy-sheet{width:100%;max-width:640px;background:var(--bg2);border-top:1px solid var(--gold);border-radius:22px 22px 0 0;padding:24px 22px calc(30px + env(safe-area-inset-bottom));text-align:center;animation:sheetUp .3s ease}

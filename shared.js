@@ -184,7 +184,7 @@ function placeHoyMotors(r){
   HOY_MOTORS.forEach((m,i)=>{
     const a=(i/HOY_MOTORS.length)*2*Math.PI - Math.PI/2;
     const x=c+R*Math.cos(a), y=c+R*Math.sin(a);
-    const d=document.createElement('div');d.className='hoy-mini';
+    const d=document.createElement('div');d.className='hoy-mini';d.style.setProperty('--i',i);
     d.style.left=x+'px';d.style.top=y+'px';d.style.color=m[2];d.style.borderColor=m[2]+'66';d.style.boxShadow='0 0 10px '+m[2]+'44';
     d.innerHTML=m[1]+'<b style="color:'+m[2]+'">'+vals[m[0]]+'</b>';
     d.onclick=()=>openHoySheet(i);
