@@ -18,17 +18,11 @@ const ALLOWED_PRODUCTS = {
   china_unlimited: 'pdt_0NitCW6L6XHHBTyNR3ouS',   // China — Ilimitado Mensual — ¥48 pago único
   china_pack5: 'pdt_0NitGsFkXcwTKnL6U3iqJ',       // China — Pack 5 Créditos — ¥38 pago único
   china_pack3: 'pdt_0NitJ7IrkmwULtMD1qPeU',       // China — Pack 3 Créditos — ¥28 pago único
-  // Fase 3 (11 jul 2026): consulta única + suscripción anual por zona (China no aplica, ya cubierta arriba)
-  latam_consult: 'pdt_0NiyTolZ79ZdYsExsEf2z',     // Latam/Europa Del Este — Pago Por Consulta — $1.29
+  // Fase 3 (11 jul 2026): suscripcion anual por zona (China no aplica, ya cubierta arriba)
+  // REGISTRO 1.36 (2 oct 2026): consulta suelta y pase semanal RETIRADOS de la app (productos archivados en Dodo).
   latam_annual: 'pdt_0NiyVbTwaJtXxl0QpoUf1',      // Latam/Europa Del Este — Suscripción Anual — $29.99
-  usa_consult: 'pdt_0NiyVuDtY9bmSZPA91CXM',       // USA/Europa Occ. — Pago Por Consulta — $1.99
   usa_annual: 'pdt_0NiyWHrKEgr8ArEOAlr4q',        // USA/Europa Occ. — Suscripción Anual — $59.99
-  sea_consult: 'pdt_0NiyWj1UPOlZMw3bw9P1V',       // SEA — Pago Por Consulta — $1.49
   sea_annual: 'pdt_0NiyX9NQWlNQ3W8KLqP9U',        // SEA — Suscripción Anual — $39.99
-  // Pase Semanal (16 jul 2026): pago único, 7 días de acceso, sin renovación. Sin China.
-  latam_weekly: 'pdt_0NjKTZyyja2WigEq4GxNP',      // Latam/Europa Del Este — Pase Semanal — $1.99
-  usa_weekly: 'pdt_0NjKU15fYy87vAseMZRhh',        // USA/Europa Occ. — Pase Semanal — $2.99
-  sea_weekly: 'pdt_0NjKUIQEI14v9Zz6rXIGr',        // SEA — Pase Semanal — $1.79
 };
 
 export const config = { api: { bodyParser: true } };

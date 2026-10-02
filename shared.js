@@ -44,11 +44,6 @@ function openMotorPanel(key){
   const panel=document.getElementById('motor-panel');if(!panel)return;
   if(panel.dataset.key===key&&!panel.classList.contains('hidden')){panel.classList.add('hidden');panel.dataset.key='';return;}
   const L=wcLang();const M=MOTOR_I18N[L];
-  const free=key==='num'||key==='moon';
-  if(!free&&!isPro()){
-    panel.innerHTML='<div class="mp-title">'+M[key].t+'</div><div class="mp-locked">'+M.lock+'</div><button class="btn-pct" style="margin-top:.85rem" onclick="showTab(\'upgrade\')">'+M.lockBtn+'</button>';
-    panel.dataset.key=key;panel.classList.remove('hidden');panel.scrollIntoView({behavior:'smooth',block:'center'});return;
-  }
   const today=todayISO();
   const tn=numReduce(today.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0));
   const ev=key==='moon'?r.moon.day:r.engines[key];
@@ -267,15 +262,19 @@ function isPro(){return STATE.profile?.plan==='pro'}
 function dreamQuotaKey(){return 'no_dream_'+todayISO()}
 function dreamQuotaToday(){try{return parseInt(localStorage.getItem(dreamQuotaKey())||'0',10)}catch(e){return 0}}
 function incrementDreamQuota(){try{localStorage.setItem(dreamQuotaKey(),String(dreamQuotaToday()+1))}catch(e){}}
+/* 2oct2026 REGISTRO 1.35/1.37: usos gratis contados en el navegador. Clave sin fecha = de por vida (Suenos, Sincronias); con todayISO() = por dia (NUMA). */
+function freeUsed(k){try{return parseInt(localStorage.getItem('no_free_'+k)||'0',10)>0}catch(e){return false}}
+function freeMark(k){try{localStorage.setItem('no_free_'+k,'1')}catch(e){}}
+function freeLimitGo(es,en){showError('error-toast',L(es,en));showTab('upgrade');}
 function proLaunch(el){
   if(isPro()){quickLaunch(el);return;}
   showTab('upgrade');
-  setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
+  setTimeout(()=>{const u=document.getElementById('region-pricing');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
 }
 function compatLaunch(el){
   if(isPro()){selGame(el);setTimeout(()=>{const f=document.getElementById('inp-compat-name');if(f)f.focus()},200);return;}
   showTab('upgrade');
-  setTimeout(()=>{const u=document.querySelector('.upgrade-notify');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
+  setTimeout(()=>{const u=document.getElementById('region-pricing');if(u)u.scrollIntoView({behavior:'smooth',block:'center'})},300);
 }
 function calculateLP(dateStr){
   if(!dateStr)return{lp:1,base:1};
@@ -459,14 +458,6 @@ function updateRenewCountdown(){
   const now=new Date();const mid=new Date(now);mid.setHours(24,0,0,0);
   const diff=mid-now;const h=Math.floor(diff/3600000);const m=Math.floor(diff%3600000/60000);
   el.textContent=I18N_NEW[uiLang()].renew.replace('{h}',h).replace('{m}',m);
-}
-function applyInterpLock(){
-  const ip=document.getElementById('interp-text');if(!ip)return;
-  const box=ip.closest('.interpretation');if(!box)return;
-  box.classList.toggle('interp-locked',!isPro());
-  const T=I18N_NEW[uiLang()];
-  const t=document.getElementById('interp-unlock-t');if(t)t.textContent=T.unlockT;
-  const bb=document.getElementById('interp-unlock-btn');if(bb)bb.textContent=T.unlockBtn;
 }
 function shareWA(){
   if(!STATE.lastResult) return;

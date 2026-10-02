@@ -45,7 +45,8 @@ JUSTIFICADAS = {
  'generate':        'A zh le falta la rama de cuota de Sports; Sports es lo mas parecido a una prediccion, justo lo que China prohibe.',
  'renderResult':    'zh usa tZH/tMoon/tZodiac/tAnimal (solo existen alli) para traducir signo, luna y animal. Desde el 1 oct, index ademas muestra la puerta door-result (REGISTRO 1.32); zh no lleva puertas (Combinacion = numeros, choca con la regla China = bienestar).',
  'dreamCompute':    'zh NO incluye la funcion "charada" (numero de loteria folclorico): es exactamente el lenguaje que la ley china prohibe.',
- 'dreamReveal':     'A zh le falta el puente hacia /suenos/, y esta bien: esas paginas solo existen en espanol (regla firme de i18n).',
+ 'dreamReveal':     'A zh le falta el puente hacia /suenos/, y esta bien: esas paginas solo existen en espanol (regla firme de i18n). Desde el 2 oct index cuenta el sueno gratis DE POR VIDA (freeUsed, REGISTRO 1.37); zh sigue con 1 al dia hasta la tanda China.',
+ 'generateSignals': 'Desde el 2 oct (REGISTRO 1.37) index da gratis SOLO la primera Sincronia (freeUsed/freeMark); zh sigue sin limite hasta la tanda China (sus pagos son packs, no Pro mensual).',
  # --- el motor viejo de NUMA en zh: frente aparte, decidido el 3 sep ---
  'numaOpen':        'zh sigue con el motor NUMA de 12 preguntas; portar el oraculo de 4 capas es contenido nuevo en chino (frente aparte).',
  'numaAsk':         'Idem numaOpen.',
