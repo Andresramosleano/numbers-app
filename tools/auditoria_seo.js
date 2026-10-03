@@ -41,16 +41,19 @@ const stub=()=>{const mk=()=>new Proxy(function(){},{get:()=>mk(),apply:()=>mk()
    ----------------------------------------------------------------------------- */
 const suenosFiles=fs.readdirSync('/tmp/audit/suenos').filter(f=>f.endsWith('.html')).sort();
 const numeroFiles=fs.readdirSync('/tmp/audit/numero-de-vida').filter(f=>f.endsWith('.html')).sort();
+// 2oct2026 REGISTRO 1.40: paginas publicas en ingles (/en/life-path/N)
+const enLpFiles=fs.existsSync('/tmp/audit/en/life-path')?fs.readdirSync('/tmp/audit/en/life-path').filter(f=>f.endsWith('.html')).sort():[];
 
 const PAGINAS=[
   ...suenosFiles.map(f=>({file:'suenos/'+f, ruta: f==='index.html'?'/suenos':'/suenos/'+f.replace(/\.html$/,'')})),
   ...numeroFiles.map(f=>({file:'numero-de-vida/'+f, ruta: f==='index.html'?'/numero-de-vida':'/numero-de-vida/'+f.replace(/\.html$/,'')})),
+  ...enLpFiles.map(f=>({file:'en/life-path/'+f, ruta:'/en/life-path/'+f.replace(/\.html$/,'')})),
   {file:'mundial.html', ruta:'/mundial.html'},
   {file:'privacy.html', ruta:'/privacy.html'},
   {file:'terms.html', ruta:'/terms.html'},
   {file:'delete-account.html', ruta:'/delete-account.html'},
 ];
-if(PAGINAS.length!==28) throw new Error('Se esperaban 28 paginas, se encontraron '+PAGINAS.length+' — revisar los directorios');
+if(PAGINAS.length!==29) throw new Error('Se esperaban 29 paginas, se encontraron '+PAGINAS.length+' — revisar los directorios');
 
 const TAMANOS=[[390,844,'iPhone'],[412,915,'Android'],[360,740,'movil-chico'],[570,640,'PC-chica'],[1280,900,'PC-grande']];
 
@@ -195,7 +198,7 @@ for(const pg of PAGINAS){
     try{
       R=await p.evaluate(()=>{
         const ambitos=[{root:document.body, etiqueta:'(pagina)'}];
-        return window.__probe(ambitos,'es','(pagina-seo)');
+        return window.__probe(ambitos,((document.documentElement.lang||'es').slice(0,2)==='en'?'en':'es'),'(pagina-seo)'); // 2oct2026: idioma esperado = el que declara la pagina (antes fijo 'es')
       });
     }catch(evalErr){
       fallos.push(clave+' | fallo evaluate(): '+String(evalErr).split('\n')[0].slice(0,160));
@@ -283,7 +286,7 @@ if(titulosDuplicados.length){
   console.log('  ninguno: los 28 title son unicos');
 }
 
-console.log('\n===== PAGINAS CON PROBLEMAS DE title/description/canonical/h1/errJS ('+problemasSEO.length+' de 28) =====');
+console.log('\n===== PAGINAS CON PROBLEMAS DE title/description/canonical/h1/errJS ('+problemasSEO.length+' de '+PAGINAS.length+') =====');
 if(problemasSEO.length){
   problemasSEO.forEach(p=>console.log('  '+p.archivo+': '+p.problemas.join(' | ')));
 } else {
