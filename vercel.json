@@ -1,7 +1,45 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/mundial.html", "destination": "/", "permanent": true },
-    { "source": "/mundial", "destination": "/", "permanent": true }
+    {
+      "source": "/mundial.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/mundial",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "cookie",
+          "key": "no_lang",
+          "value": "en"
+        }
+      ],
+      "destination": "/en",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "no_lang"
+        }
+      ],
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "(?!(?:es|pt|ca|gl|eu|zh|ES|PT|CA|GL|EU|ZH))[a-zA-Z].*"
+        }
+      ],
+      "destination": "/en",
+      "permanent": false
+    }
   ]
 }

@@ -33,6 +33,7 @@ export async function POST(request) {
     const email = (body?.email || '').trim();
     const userId = (body?.user_id || '').trim();
     const plan = body?.plan || 'usa_monthly';
+    const returnPath = String(plan).startsWith('china_') ? 'zh' : (body?.lang === 'en' ? 'en' : '');
 
     if (!email || !userId) {
       return Response.json({ error: 'Falta email o user_id' }, { status: 400 });
@@ -56,7 +57,8 @@ export async function POST(request) {
     const session = await client.checkoutSessions.create({
       product_cart: [{ product_id: productId, quantity: 1 }],
       customer: { email },
-      return_url: 'https://numbersoracle.com/?pro=success',
+      // REGISTRO 1.38: cada idioma vuelve a su direccion (/ , /en , /zh).
+      return_url: 'https://www.numbersoracle.com/' + returnPath + '?pro=success',
       // metadata viaja tal cual al webhook: así sabemos a qué usuario de Supabase
       // marcar como "pro" cuando llegue el pago, sin depender solo del email.
       metadata: { supabase_user_id: userId },

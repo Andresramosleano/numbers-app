@@ -24,7 +24,7 @@ const stub=()=>{const mk=()=>new Proxy(function(){},{get:()=>mk(),apply:()=>mk()
 
 const CASOS=[
  {file:'index.html',lang:'es'},
- {file:'index.html',lang:'en'},
+ {file:'en.html',lang:'en'},
  {file:'zh.html',lang:'zh'},
 ];
 const TAMANOS=[[390,844,'iPhone'],[412,915,'Android'],[360,740,'movil-chico'],[570,640,'PC-chica'],[1280,900,'PC-grande']];
@@ -391,7 +391,7 @@ for(const c of CASOS){
     p.on('pageerror',e=>errores.push(String(e).split('\n')[0].slice(0,110)));
     await p.addInitScript(stub);
     await p.addInitScript(l=>{try{localStorage.setItem('no_lang',l)}catch(e){}},c.lang);
-    await p.route('**',r=>{const u=r.request().url();if(u.startsWith('file://'))r.continue();else r.abort();});
+    await p.route('**',r=>{const u=r.request().url();if(u.startsWith('file:///tmp/audit/'))r.continue();else if(u.startsWith('file:///'))r.fulfill({path:'/tmp/audit/'+u.slice(8).split(/[?#]/)[0]}).catch(()=>r.abort());else r.abort();}); // en.html usa rutas absolutas (/shared.css): se sirven desde /tmp/audit
     await p.goto('file:///tmp/audit/'+c.file,{waitUntil:'domcontentloaded'});
     await p.waitForTimeout(1400);
 

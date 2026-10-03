@@ -74,6 +74,9 @@ fi
 # zh.html nacio como copia a mano. TODOS los bugs del 3 sep estaban en las
 # partes que NO eran identicas: arreglos hechos en espanol que nunca llegaron al
 # chino. Compartir codigo protege lo que ya estaba igual; esto vigila lo otro.
+echo "--- en.html (portada inglesa, /en) generado desde index.html:"
+python3 tools/gen_en.py --check 2>&1 | sed 's/^/  /'
+[ ${PIPESTATUS[0]:-0} -ne 0 ] && echo "  -> correr: python3 tools/gen_en.py  (en.html NUNCA se edita a mano)"
 echo "--- deriva entre idiomas:"
 if [ -f tools/comparar_idiomas.py ]; then
   python3 tools/comparar_idiomas.py --breve 2>&1 | sed 's/^/  /'
